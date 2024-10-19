@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import ui.theme.Gray200
+import ui.theme.Gray400
 
 @Preview
 @Composable
@@ -29,7 +30,7 @@ fun Sidebar() {
                 Brush.linearGradient(
                     start = Offset(0f, Float.POSITIVE_INFINITY),
                     end = Offset(280f, 0f),
-                    colors = listOf(Gray200, Color.White, Color.White, Gray200)
+                    colors = listOf(Gray400, Gray200, Color.White, Gray200, Gray400)
                 )
             )
             .drawBehind {
@@ -44,11 +45,11 @@ fun Sidebar() {
 
         var totalAmount by remember { mutableStateOf("R$ 2.125,00") }
         SidebarHeader(totalAmount)
-
         Divider()
+
         SidebarMain(Modifier.weight(1f))
-        Divider()
 
+        Divider()
         SidebarFooter()
 
     }

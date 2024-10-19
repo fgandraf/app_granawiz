@@ -8,4 +8,5 @@ val LightColorScheme = lightColors(
     primary = Gray700, // textNormal and iconNormal
     primaryVariant = Gray400,  // dividerNormal and buttonSilverBackground
     secondary = Color.Black, // textStrong and dividerStrong
+    onPrimary = Indigo900 // selected item
 )
