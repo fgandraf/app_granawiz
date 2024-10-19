@@ -1,11 +1,16 @@
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
-import ui.home.HomeScreen
+import ui.dashboard.DashboardScreen
+import ui.sidebar.Sidebar
 import ui.theme.LightColorScheme
 import java.awt.Toolkit
 
@@ -21,7 +26,12 @@ fun main() = application {
         title = "Money Map"
     ) {
         MaterialTheme(colors = LightColorScheme) {
-            HomeScreen()
+
+            Row(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.background)) {
+                Sidebar()
+                DashboardScreen()
+            }
+
         }
     }
 }

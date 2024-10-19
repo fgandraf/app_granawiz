@@ -10,10 +10,3 @@ val Lime700 = Color(0xFFAFB42B) // text green and icon green
 val Red200 = Color(0xFFEF9A9A) //button red background
 val Red400 = Color(0xFFEF5350) //text red
 val Blue500 = Color(0xFF2196F3) //button add background
-
-val SidebarColors = listOf(
-    Gray200,
-    Color.White,
-    Color.White,
-    Gray200
-)
