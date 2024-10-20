@@ -9,75 +9,76 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.PointerIcon
+import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import ui.sidebar.enums.SidebarFooterItem
+
 
 @Composable
 fun SidebarFooter() {
-    Row(modifier = Modifier
-        .fillMaxWidth()
-        .height(70.dp),
-        horizontalArrangement = Arrangement.Center
-    )
-    {
 
-        val unselected = MaterialTheme.colors.primary
-        val selected = MaterialTheme.colors.onPrimary
+    Row(modifier = Modifier.fillMaxWidth().height(70.dp), horizontalArrangement = Arrangement.Center) {
 
+        var selectedItem by remember { mutableStateOf(SidebarFooterItem.WALLET) }
 
+        SidebarFooterIcon(
+            modifier = Modifier.weight(1f),
+            iconResource = "icons/wallet.svg",
+            isSelected = selectedItem == SidebarFooterItem.WALLET,
+            onClick = { selectedItem = SidebarFooterItem.WALLET }
+        )
 
-        Row(horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxHeight().fillMaxWidth(0.33f)
-        ) {
+        SidebarFooterIcon(
+            modifier = Modifier.weight(1f),
+            iconResource = "icons/calendar.svg",
+            isSelected = selectedItem == SidebarFooterItem.CALENDAR,
+            onClick = { selectedItem = SidebarFooterItem.CALENDAR }
+        )
 
-            Box(modifier = Modifier.fillMaxSize()) {
-
-                Icon(
-                    painter = painterResource("icons/wallet.svg"),
-                    contentDescription = null,
-                    tint = selected,
-                    modifier = Modifier.size(30.dp).align(Alignment.Center).clickable { /*TO DO()*/ },
-                )
-
-                Spacer(Modifier.fillMaxWidth().height(6.dp).background(selected).align(Alignment.BottomCenter))
-            }
-        }
-
+        SidebarFooterIcon(
+            modifier = Modifier.weight(1f),
+            iconResource = "icons/report.svg",
+            isSelected = selectedItem == SidebarFooterItem.REPORT,
+            onClick = { selectedItem = SidebarFooterItem.REPORT }
+        )
+    }
+}
 
 
-        Row(horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxHeight().fillMaxWidth(0.5f)
-        ) {
-            Box(modifier = Modifier.fillMaxSize()) {
+@Composable
+fun SidebarFooterIcon(
+    iconResource: String,
+    isSelected: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val inactiveColor = MaterialTheme.colors.primary
+    val activeColor = MaterialTheme.colors.onPrimary
 
-                Icon(
-                    painter = painterResource("icons/calendar.svg"),
-                    contentDescription = null,
-                    tint = unselected,
-                    modifier = Modifier.size(30.dp).align(Alignment.Center).clickable { /*TO DO()*/ },
-                )
+    val iconColor = if (isSelected) activeColor else inactiveColor
+    val barColor = if (isSelected) activeColor else Color.Transparent
 
-                Spacer(Modifier.fillMaxWidth().height(6.dp).background(Color.Transparent).align(Alignment.BottomCenter))
-            }
-        }
-
-
-
-        Row(horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxHeight().fillMaxWidth(1f)
-        ) {
-            Box(modifier = Modifier.fillMaxSize()) {
-
-                Icon(
-                    painter = painterResource("icons/report.svg"),
-                    contentDescription = null,
-                    tint = unselected,
-                    modifier = Modifier.size(30.dp).align(Alignment.Center).clickable { /*TO DO()*/ },
-                )
-
-                Spacer(Modifier.fillMaxWidth().height(6.dp).background(Color.Transparent).align(Alignment.BottomCenter))
-            }
-        }
-
+    Box(
+        modifier = modifier
+            .fillMaxHeight()
+            .pointerHoverIcon(PointerIcon.Hand)
+            .clickable(onClick = onClick),
+        contentAlignment = Alignment.Center
+    ) {
+        Icon(
+            painter = painterResource(iconResource),
+            contentDescription = null,
+            tint = iconColor,
+            modifier = Modifier.size(30.dp)
+        )
+        Spacer(
+            Modifier
+                .fillMaxWidth()
+                .height(6.dp)
+                .background(barColor)
+                .align(Alignment.BottomCenter)
+        )
     }
 }

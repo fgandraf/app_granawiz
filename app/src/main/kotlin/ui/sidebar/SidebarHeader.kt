@@ -8,6 +8,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.PointerIcon
+import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -32,7 +34,7 @@ fun SidebarHeader(totalAmount: String) {
                 painter = painterResource("icons/settings.svg"),
                 contentDescription = null,
                 tint = primary,
-                modifier = Modifier.size(25.dp).clickable { /*TO DO()*/ },
+                modifier = Modifier.pointerHoverIcon(PointerIcon.Hand).size(25.dp).clickable { /*TO DO()*/ },
             )
         }
 
