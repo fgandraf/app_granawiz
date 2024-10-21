@@ -14,7 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ui.theme.Inter
+import ui.theme.AppFont
 
 @Composable
 fun SidebarHeader(totalAmount: String) {
@@ -22,13 +22,12 @@ fun SidebarHeader(totalAmount: String) {
     val primary = MaterialTheme.colors.primary
     val secondary = MaterialTheme.colors.secondary
 
-    Row(modifier = Modifier.fillMaxWidth().height(70.dp)) {
+    Box(modifier = Modifier.fillMaxWidth().height(70.dp)) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center,
             modifier = Modifier
-                .fillMaxHeight()
-                .padding(start = 15.dp),
+                .padding(start = 15.dp)
+                .align(Alignment.CenterStart)
         ) {
             Icon(
                 painter = painterResource("icons/settings.svg"),
@@ -38,7 +37,7 @@ fun SidebarHeader(totalAmount: String) {
             )
         }
 
-        Column(modifier = Modifier.padding(start = 0.dp, top = 15.dp, end = 10.dp, bottom = 15.dp)) {
+        Column(modifier = Modifier.padding(vertical = 15.dp)) {
             Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally,) {
                 Text(
                     text = totalAmount,
@@ -46,7 +45,7 @@ fun SidebarHeader(totalAmount: String) {
                     color = secondary,
                     fontWeight = FontWeight.SemiBold,
                     lineHeight = 32.sp,
-                    fontFamily = Inter
+                    fontFamily = AppFont
                 )
             }
             Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally,) {
@@ -56,7 +55,7 @@ fun SidebarHeader(totalAmount: String) {
                     color = primary,
                     fontWeight = FontWeight.Normal,
                     lineHeight = 0.sp,
-                    fontFamily = Inter
+                    fontFamily = AppFont
                 )
             }
         }

@@ -5,16 +5,21 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.platform.Font
 
-val Inter = FontFamily(
+val AppFont = FontFamily(
     fonts = listOf(
         Font(
-            resource = "fonts/inter-semibold.ttf",
-            weight = FontWeight.SemiBold,
+            resource = "fonts/poppins-regular.ttf",
+            weight = FontWeight.Normal,
             style = FontStyle.Normal
         ),
         Font(
-            resource = "fonts/inter-regular.ttf",
-            weight = FontWeight.Normal,
+            resource = "fonts/poppins-medium.ttf",
+            weight = FontWeight.Medium,
+            style = FontStyle.Normal
+        ),
+        Font(
+            resource = "fonts/poppins-semibold.ttf",
+            weight = FontWeight.SemiBold,
             style = FontStyle.Normal
         )
     )
