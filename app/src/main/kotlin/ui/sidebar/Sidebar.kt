@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -43,13 +42,12 @@ fun Sidebar() {
             }
     ) {
 
-        var totalAmount by remember { mutableStateOf("R$ 2.125,00") }
+        val totalAmount by remember { mutableStateOf("R$ 2.125,00") }
         SidebarHeader(totalAmount)
-        Divider()
 
         SidebarMain(Modifier.weight(1f))
 
-        Divider()
+
         SidebarFooter()
 
     }

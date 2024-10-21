@@ -1,13 +1,13 @@
 package ui.sidebar
 
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.res.painterResource
@@ -29,12 +29,21 @@ fun SidebarHeader(totalAmount: String) {
                 .padding(start = 15.dp)
                 .align(Alignment.CenterStart)
         ) {
-            Icon(
-                painter = painterResource("icons/settings.svg"),
-                contentDescription = null,
-                tint = primary,
-                modifier = Modifier.pointerHoverIcon(PointerIcon.Hand).size(25.dp).clickable { /*TO DO()*/ },
-            )
+            OutlinedButton(
+                colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
+                border = BorderStroke(0.dp, color = Color.Transparent),
+                modifier = Modifier.pointerHoverIcon(PointerIcon.Hand).size(25.dp),
+                contentPadding = PaddingValues(0.dp),
+                shape = CircleShape,
+                onClick = { }
+            ) {
+                Icon(
+                    painter = painterResource("icons/settings.svg"),
+                    contentDescription = null,
+                    tint = primary,
+                    modifier = Modifier.size(25.dp),
+                )
+            }
         }
 
         Column(modifier = Modifier.padding(vertical = 15.dp)) {
@@ -60,4 +69,6 @@ fun SidebarHeader(totalAmount: String) {
             }
         }
     }
+
+    Divider()
 }

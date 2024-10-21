@@ -38,7 +38,7 @@ fun FooterItem(
             painter = painterResource(iconResource),
             contentDescription = null,
             tint = iconColor,
-            modifier = Modifier.size(30.dp)
+            modifier = Modifier.size(25.dp)
         )
         Spacer(
             Modifier
