@@ -1,6 +1,5 @@
 package ui.sidebar.components
 
-import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,34 +22,34 @@ import ui.theme.Lime700
 import ui.theme.Red400
 import ui.theme.Ubuntu
 
-@Preview
 @Composable
-fun GroupMenuItem(
+fun AccountMenuItem(
+    iconResource: String,
     label: String,
     value: Float,
     onClick: () -> Unit
 ) {
 
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
+    Row(verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 15.dp, end = 20.dp)
-            .height(35.dp)
+            .padding(horizontal = 10.dp)
+            .clip(RoundedCornerShape(8.dp))
+            .height(40.dp)
+            .pointerHoverIcon(PointerIcon.Hand)
+            .clickable { onClick() }
     ) {
 
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Box(Modifier.size(25.dp).clip(RoundedCornerShape(8.dp)).pointerHoverIcon(PointerIcon.Hand).clickable { onClick() }) {
-                Icon(
-                    painter = painterResource("icons/system/toogle_down.svg"),
-                    contentDescription = null,
-                    tint = MaterialTheme.colors.primary,
-                    modifier = Modifier.size(12.dp).align(Alignment.Center)
-                )
-            }
+        Icon(
+            painter = painterResource(iconResource),
+            contentDescription = null,
+            tint = MaterialTheme.colors.primary,
+            modifier = Modifier.size(25.dp).offset(x = 25.dp)
+        )
+
+
+        Column(modifier = Modifier.padding(start = 40.dp)) {
             Text(
-                modifier = Modifier.padding(start = 7.dp),
                 text = label,
                 fontSize = 14.sp,
                 color = MaterialTheme.colors.primary,
@@ -58,16 +57,16 @@ fun GroupMenuItem(
                 lineHeight = 0.sp,
                 fontFamily = Afacade
             )
+            Text(
+                text = brMoney.format(value),
+                fontSize = 10.sp,
+                color = if(value > 0f) Lime700 else if (value < 0f) Red400 else MaterialTheme.colors.primaryVariant,
+                fontWeight = FontWeight.Normal,
+                lineHeight = 0.sp,
+                fontFamily = Ubuntu
+            )
         }
 
-        Text(
-            modifier = Modifier.padding(0.dp),
-            text = brMoney.format(value),
-            fontSize = 10.sp,
-            color = if (value > 0f) Lime700 else if (value < 0f) Red400 else MaterialTheme.colors.primaryVariant,
-            fontWeight = FontWeight.Normal,
-            lineHeight = 0.sp,
-            fontFamily = Ubuntu
-        )
     }
+    Spacer(Modifier.height(5.dp))
 }

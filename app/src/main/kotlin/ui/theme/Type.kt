@@ -5,20 +5,30 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.platform.Font
 
-val AppFont = FontFamily(
+val Afacade = FontFamily(
     fonts = listOf(
         Font(
-            resource = "fonts/poppins-regular.ttf",
+            resource = "fonts/afacad-regular.ttf",
+            weight = FontWeight.Normal,
+            style = FontStyle.Normal
+        )
+    )
+)
+
+val Ubuntu = FontFamily(
+    fonts = listOf(
+        Font(
+            resource = "fonts/ubuntu-regular.ttf",
             weight = FontWeight.Normal,
             style = FontStyle.Normal
         ),
         Font(
-            resource = "fonts/poppins-medium.ttf",
+            resource = "fonts/ubuntu-medium.ttf",
             weight = FontWeight.Medium,
             style = FontStyle.Normal
         ),
         Font(
-            resource = "fonts/poppins-semibold.ttf",
+            resource = "fonts/ubuntu-bold.ttf",
             weight = FontWeight.SemiBold,
             style = FontStyle.Normal
         )

@@ -13,12 +13,16 @@ import ui.dashboard.DashboardScreen
 import ui.sidebar.Sidebar
 import ui.theme.LightColorScheme
 import java.awt.Toolkit
+import java.util.*
+
 
 fun main() = application {
 
     val screenSize = Toolkit.getDefaultToolkit().screenSize
-    val windowsWidth = (screenSize.width * 0.8).toInt().dp
-    val windowsHeight = (screenSize.height * 0.8).toInt().dp
+    val windowsWidth = (screenSize.width * 0.95).toInt().dp
+    val windowsHeight = (screenSize.height * 0.85).toInt().dp
+
+    Locale.setDefault(Locale.forLanguageTag("pt-BR"))
 
     Window(
         onCloseRequest = ::exitApplication,
@@ -35,3 +39,4 @@ fun main() = application {
         }
     }
 }
+

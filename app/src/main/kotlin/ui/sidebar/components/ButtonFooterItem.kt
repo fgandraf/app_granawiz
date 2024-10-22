@@ -17,7 +17,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ButtonFooterItem(iconResource: String) {
+fun ButtonFooterItem(
+    iconResource: String,
+    onClick: () -> Unit
+) {
 
     val secondaryColor = MaterialTheme.colors.secondary
 
@@ -28,7 +31,7 @@ fun ButtonFooterItem(iconResource: String) {
             .height(23.dp)
             .width(75.dp),
         contentPadding = PaddingValues(4.dp),
-        onClick = { }
+        onClick = { onClick() }
     ) {
         Icon(
             painter = painterResource(iconResource),
