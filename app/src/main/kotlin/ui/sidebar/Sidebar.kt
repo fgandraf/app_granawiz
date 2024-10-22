@@ -32,9 +32,10 @@ import ui.theme.Ubuntu
 @Preview
 @Composable
 fun Sidebar() {
+    val primaryVariant = MaterialTheme.colors.primaryVariant
     Column(modifier = Modifier.width(260.dp).fillMaxHeight().background(Gray200).drawBehind {
         drawLine(
-            color = MaterialTheme.colors.primaryVariant,
+            color = primaryVariant,
             start = Offset(279.5.dp.toPx(), 0f),
             end = Offset(279.5.dp.toPx(), size.height),
             strokeWidth = 0.5.dp.toPx()
@@ -43,13 +44,13 @@ fun Sidebar() {
 
         //===== HEADER
         val totalAmount by remember { mutableStateOf("R$ 2.125,00") }
-        Box(modifier = Modifier.fillMaxWidth().height(60.dp).padding(horizontal = 15.dp)) {
+        Box(modifier = Modifier.fillMaxWidth().height(60.dp).padding(horizontal = 20.dp)) {
             Icon(
                 painter = painterResource("icons/system/settings.svg"),
                 contentDescription = null,
                 tint = MaterialTheme.colors.primary,
                 modifier = Modifier
-                    .size(25.dp)
+                    .size(20.dp)
                     .clip(CircleShape)
                     .pointerHoverIcon(PointerIcon.Hand)
                     .align(Alignment.CenterStart)
