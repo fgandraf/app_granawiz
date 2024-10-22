@@ -9,7 +9,7 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
-import ui.dashboard.DashboardScreen
+import ui.categories.Categories
 import ui.sidebar.Sidebar
 import ui.theme.LightColorScheme
 import java.awt.Toolkit
@@ -33,7 +33,7 @@ fun main() = application {
 
             Row(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.background)) {
                 Sidebar()
-                DashboardScreen()
+                Categories()
             }
 
         }
