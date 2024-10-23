@@ -43,7 +43,7 @@ fun GroupMenuItem(
         Row(verticalAlignment = Alignment.CenterVertically) {
             Box(Modifier.size(25.dp).clip(RoundedCornerShape(8.dp)).pointerHoverIcon(PointerIcon.Hand).clickable { onClick() }) {
                 Icon(
-                    painter = painterResource("icons/system/toogle_down.svg"),
+                    painter = painterResource("icons/system/toggle_down.svg"),
                     contentDescription = null,
                     tint = MaterialTheme.colors.primary,
                     modifier = Modifier.size(12.dp).align(Alignment.Center)
