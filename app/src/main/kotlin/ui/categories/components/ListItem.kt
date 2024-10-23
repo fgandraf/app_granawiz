@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.res.painterResource
@@ -21,56 +22,73 @@ import ui.theme.Afacade
 
 @Composable
 fun ListItem(
-    iconResource: String? = null,
+    icon: String? = null,
+    color: Color = MaterialTheme.colors.primary,
     label: String,
-    separator: Boolean = false,
-    trailingIcon: String? = null,
-    onClick: () -> Unit
-){
-    val height = if (separator) 30.dp else 35.dp
+    subItems: Boolean = false,
+    onIconClick: () -> Unit = {},
+    onContainerClick: () -> Unit = {},
+    onTrailingClick: () -> Unit = {}
 
+){
     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 10.dp)
-            .height(height)
+            .height(30.dp)
             .clip(RoundedCornerShape(8.dp))
-            .pointerHoverIcon(if (iconResource != null) PointerIcon.Hand else PointerIcon.Default)
-            .clickable(enabled = iconResource != null) { onClick() }
+            .pointerHoverIcon(if (icon != null) PointerIcon.Hand else PointerIcon.Default)
+            .clickable(enabled = icon != null) { onContainerClick() }
     ) {
         Row {
-            if (iconResource != null){
-                Icon(
-                    painter = painterResource(iconResource),
-                    contentDescription = null,
-                    tint = MaterialTheme.colors.primary,
-                    modifier = Modifier.size(15.dp).offset(x = 10.dp),
+            if (icon != null){
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .width(40.dp)
+                        .clickable {  onIconClick() }
+                ) {
+                    Icon(
+                        painter = painterResource("icons/pack/$icon"),
+                        contentDescription = null,
+                        tint = color,
+                        modifier = Modifier.size(15.dp)
+                    )
+                }
+            }
+            Row(verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxHeight().padding(start = if (icon == null) 20.dp else 0.dp)
+            ) {
+                Text(
+                    text = label,
+                    fontSize  = 14.sp,
+                    color = color,
+                    fontWeight = FontWeight.Medium,
+                    lineHeight = 0.sp,
+                    fontFamily = Afacade,
+                    modifier = Modifier.pointerHoverIcon(PointerIcon.Text).clickable{ onTrailingClick() }
                 )
             }
-
-            Text(modifier = Modifier.offset(x = 22.dp),
-                text = label,
-                fontSize  = 14.sp,
-                color = MaterialTheme.colors.primary,
-                fontWeight = FontWeight.Medium,
-                lineHeight = 0.sp,
-                fontFamily = Afacade
-            )
         }
-
-
-        if (trailingIcon != null) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier
+                .fillMaxHeight()
+                .width(40.dp)
+                .pointerHoverIcon(PointerIcon.Hand)
+                .clickable(enabled = !subItems) { onTrailingClick() }
+        ) {
+            val trailingIcon = if (subItems) "icons/system/toggle_right.svg" else "icons/system/trash.svg"
             Icon(
                 painter = painterResource(trailingIcon),
                 contentDescription = null,
-                tint = MaterialTheme.colors.primary,
-                modifier = Modifier.size(12.dp).offset(x = (-10).dp)
-                    .pointerHoverIcon(PointerIcon.Hand)
-                    .clickable(enabled = iconResource == null) { onClick() }
+                tint = color,
+                modifier = Modifier.size(12.dp)
             )
         }
-
     }
-
-    if (separator) Divider(modifier = Modifier.padding(horizontal = 15.dp), thickness = 1.dp)
+    Divider(modifier = Modifier.padding(horizontal = 15.dp), thickness = 1.dp)
 }
