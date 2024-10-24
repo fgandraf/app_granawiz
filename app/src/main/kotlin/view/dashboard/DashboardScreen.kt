@@ -1,4 +1,4 @@
-package ui.dashboard
+package view.dashboard
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

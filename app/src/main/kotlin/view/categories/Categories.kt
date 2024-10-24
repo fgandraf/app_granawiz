@@ -1,4 +1,4 @@
-package ui.categories
+package view.categories
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -12,11 +12,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
-import ui.categories.components.AddButton
-import ui.categories.components.ListItem
-import ui.categories.components.ListTypeItem
-import ui.common.AddressView
-import ui.common.SearchBar
+import view.categories.components.AddButton
+import view.categories.components.ListItem
+import view.categories.components.ListTypeItem
+import ui.shared.AddressView
+import ui.shared.SearchBar
 import ui.theme.Lime700
 import ui.theme.Red400
 
@@ -31,7 +31,7 @@ fun Categories(){
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Row { AddressView("icons/system/category.svg","Categorias" ) }
+                Row { AddressView("assets/icons/systemIcons/category.svg","Categorias" ) }
                 SearchBar(onTuneClicked = { /* TO DO */ }, onSearchClicked = { /* TO DO */ })
             }
         }

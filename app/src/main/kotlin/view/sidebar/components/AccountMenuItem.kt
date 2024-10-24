@@ -1,4 +1,4 @@
-package ui.sidebar.components
+package view.sidebar.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -16,7 +16,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ui.brMoney
+import utils.brMoney
 import ui.theme.Afacade
 import ui.theme.Lime700
 import ui.theme.Red400

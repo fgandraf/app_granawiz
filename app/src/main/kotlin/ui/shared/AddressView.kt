@@ -1,4 +1,4 @@
-package ui.common
+package ui.shared
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
