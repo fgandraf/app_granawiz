@@ -1,4 +1,4 @@
-package ui.common
+package ui.shared
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -53,7 +53,7 @@ fun SearchBar(
         ) {
             Icon(
                 modifier = Modifier.fillMaxSize().padding(10.dp).align(Alignment.Center),
-                painter = painterResource("icons/system/tune.svg"),
+                painter = painterResource("assets/icons/systemIcons/tune.svg"),
                 contentDescription = "",
                 tint = MaterialTheme.colors.secondary,
             )
@@ -103,7 +103,7 @@ fun SearchBar(
         ) {
             Icon(
                 modifier = Modifier.size(40.dp).padding(10.dp).align(Alignment.Center),
-                painter = painterResource("icons/system/search.svg"),
+                painter = painterResource("assets/icons/systemIcons/search.svg"),
                 contentDescription = "",
                 tint = MaterialTheme.colors.secondary,
             )

@@ -9,8 +9,8 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
-import ui.categories.Categories
-import ui.sidebar.Sidebar
+import view.categories.Categories
+import view.sidebar.Sidebar
 import ui.theme.LightColorScheme
 import java.awt.Toolkit
 import java.util.*

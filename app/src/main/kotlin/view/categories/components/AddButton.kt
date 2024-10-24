@@ -1,4 +1,4 @@
-package ui.categories.components
+package view.categories.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -32,7 +32,7 @@ fun AddButton(
             .clickable { onClick() }
     ) {
         Icon(
-            painter = painterResource("icons/system/plus.svg"),
+            painter = painterResource("assets/icons/systemIcons/plus.svg"),
             contentDescription = null,
             tint = MaterialTheme.colors.primary,
             modifier = Modifier.size(15.dp),

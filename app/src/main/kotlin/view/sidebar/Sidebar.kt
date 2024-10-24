@@ -1,4 +1,4 @@
-package ui.sidebar
+package view.sidebar
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
@@ -25,10 +25,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ui.sidebar.components.MenuItem
-import ui.sidebar.components.*
 import ui.theme.Gray200
 import ui.theme.Ubuntu
+import view.sidebar.components.*
 
 @Preview
 @Composable
@@ -47,7 +46,7 @@ fun Sidebar() {
         val totalAmount by remember { mutableStateOf("R$ 2.125,00") }
         Box(modifier = Modifier.fillMaxWidth().height(60.dp).padding(horizontal = 20.dp)) {
             Icon(
-                painter = painterResource("icons/system/settings.svg"),
+                painter = painterResource("assets/icons/systemIcons/settings.svg"),
                 contentDescription = null,
                 tint = MaterialTheme.colors.primary,
                 modifier = Modifier
@@ -84,31 +83,31 @@ fun Sidebar() {
         Column(modifier = Modifier.fillMaxWidth().weight(1f)) {
 
             Spacer(modifier = Modifier.height(25.dp))
-            MenuItem(iconResource = "icons/system/dashboard.svg", label = "Dashboard") { /*TO DO*/ }
-            MenuItem(iconResource = "icons/system/calendar.svg", label = "Agendamentos") { /*TO DO*/ }
-            MenuItem(iconResource = "icons/system/report.svg", label = "Relatórios") { /*TO DO*/ }
+            MenuItem(iconResource = "assets/icons/systemIcons/dashboard.svg", label = "Dashboard") { /*TO DO*/ }
+            MenuItem(iconResource = "assets/icons/systemIcons/calendar.svg", label = "Agendamentos") { /*TO DO*/ }
+            MenuItem(iconResource = "assets/icons/systemIcons/report.svg", label = "Relatórios") { /*TO DO*/ }
 
             Spacer(modifier = Modifier.height(15.dp))
 
             SectionTitle("Base de dados")
-            MenuItem(iconResource = "icons/system/category.svg", label = "Categorias") { /*TO DO*/ }
-            MenuItem(iconResource = "icons/system/tag.svg", label = "Etiquetas") { /*TO DO*/ }
-            MenuItem(iconResource = "icons/system/recipient.svg", label = "Recebedores") { /*TO DO*/ }
-            MenuItem(iconResource = "icons/system/payer.svg", label = "Pagadores") { /*TO DO*/ }
+            MenuItem(iconResource = "assets/icons/systemIcons/category.svg", label = "Categorias") { /*TO DO*/ }
+            MenuItem(iconResource = "assets/icons/systemIcons/tag.svg", label = "Etiquetas") { /*TO DO*/ }
+            MenuItem(iconResource = "assets/icons/systemIcons/recipient.svg", label = "Recebedores") { /*TO DO*/ }
+            MenuItem(iconResource = "assets/icons/systemIcons/payer.svg", label = "Pagadores") { /*TO DO*/ }
 
             Spacer(modifier = Modifier.height(15.dp))
 
             SectionTitle("Transações")
-            MenuItem(iconResource = "icons/system/list.svg", label = "Todas as transações") { /*TO DO*/ }
+            MenuItem(iconResource = "assets/icons/systemIcons/list.svg", label = "Todas as transações") { /*TO DO*/ }
 
             GroupMenuItem("Pessoal", 1025f) { /*TO DO*/ }
-            AccountMenuItem(iconResource = "icons/logos/nubank.svg", label = "NuBank", value = 1025.00f) { /*TO DO*/ }
-            AccountMenuItem(iconResource = "icons/logos/inter.svg", label = "Inter", value = 500.00f) { /*TO DO*/ }
-            AccountMenuItem(iconResource = "icons/logos/bb.svg", label = "Banco do Brasil", value = -400.0f) { /*TO DO*/ }
+            AccountMenuItem(iconResource = "assets/icons/bankLogos/nubank.svg", label = "NuBank", value = 1025.00f) { /*TO DO*/ }
+            AccountMenuItem(iconResource = "assets/icons/bankLogos/inter.svg", label = "Inter", value = 500.00f) { /*TO DO*/ }
+            AccountMenuItem(iconResource = "assets/icons/bankLogos/bb.svg", label = "Banco do Brasil", value = -400.0f) { /*TO DO*/ }
 
             GroupMenuItem("Empresa", 200f) { }
-            AccountMenuItem(iconResource = "icons/logos/cef.svg", label = "Caixa Econômica", value = 200f) { /*TO DO*/ }
-            AccountMenuItem(iconResource = "icons/logos/mastercard.svg", label = "Cartão Master", value = 0f) { /*TO DO*/ }
+            AccountMenuItem(iconResource = "assets/icons/bankLogos/cef.svg", label = "Caixa Econômica", value = 200f) { /*TO DO*/ }
+            AccountMenuItem(iconResource = "assets/icons/bankLogos/mastercard.svg", label = "Cartão Master", value = 0f) { /*TO DO*/ }
         }
 
         //===== FOOTER
@@ -116,9 +115,9 @@ fun Sidebar() {
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.fillMaxWidth().height(50.dp).padding(horizontal = 15.dp)
         ) {
-            ButtonFooterItem("icons/system/add_group.svg") { /*TO DO*/ }
-            ButtonFooterItem("icons/system/add_account.svg") { /*TO DO*/ }
-            ButtonFooterItem("icons/system/arrange.svg") { /*TO DO*/ }
+            ButtonFooterItem("assets/icons/systemIcons/add_group.svg") { /*TO DO*/ }
+            ButtonFooterItem("assets/icons/systemIcons/add_account.svg") { /*TO DO*/ }
+            ButtonFooterItem("assets/icons/systemIcons/arrange.svg") { /*TO DO*/ }
         }
     }
 }

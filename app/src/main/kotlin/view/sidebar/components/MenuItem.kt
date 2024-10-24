@@ -1,4 +1,4 @@
-package ui.sidebar.components
+package view.sidebar.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*

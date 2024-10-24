@@ -1,4 +1,4 @@
-package ui.categories.components
+package view.categories.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -51,7 +51,7 @@ fun ListItem(
                         .clickable {  onIconClick() }
                 ) {
                     Icon(
-                        painter = painterResource("icons/pack/$icon"),
+                        painter = painterResource("assets/icons/categoryPack/$icon"),
                         contentDescription = null,
                         tint = color,
                         modifier = Modifier.size(15.dp)
@@ -81,7 +81,7 @@ fun ListItem(
                 .pointerHoverIcon(PointerIcon.Hand)
                 .clickable(enabled = !hasSubItems) { onTrailingClick() }
         ) {
-            val trailingIcon = if (hasSubItems) "icons/system/toggle_right.svg" else "icons/system/trash.svg"
+            val trailingIcon = if (hasSubItems) "assets/icons/systemIcons/toggle_right.svg" else "assets/icons/systemIcons/trash.svg"
             Icon(
                 painter = painterResource(trailingIcon),
                 contentDescription = null,

@@ -1,4 +1,4 @@
-package ui.sidebar.components
+package view.sidebar.components
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.clickable
@@ -17,7 +17,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ui.brMoney
+import utils.brMoney
 import ui.theme.Afacade
 import ui.theme.Lime700
 import ui.theme.Red400
@@ -43,7 +43,7 @@ fun GroupMenuItem(
         Row(verticalAlignment = Alignment.CenterVertically) {
             Box(Modifier.size(25.dp).clip(RoundedCornerShape(8.dp)).pointerHoverIcon(PointerIcon.Hand).clickable { onClick() }) {
                 Icon(
-                    painter = painterResource("icons/system/toggle_down.svg"),
+                    painter = painterResource("assets/icons/systemIcons/toggle_down.svg"),
                     contentDescription = null,
                     tint = MaterialTheme.colors.primary,
                     modifier = Modifier.size(12.dp).align(Alignment.Center)

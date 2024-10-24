@@ -1,4 +1,4 @@
-package ui.categories.components
+package view.categories.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -37,7 +37,7 @@ fun ListTypeItem(
     ) {
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(horizontal = 15.dp)) {
             Icon(
-                painter = painterResource("icons/system/$icon"),
+                painter = painterResource("assets/icons/systemIcons/$icon"),
                 contentDescription = null,
                 tint = color,
                 modifier = Modifier.size(15.dp)
@@ -54,7 +54,7 @@ fun ListTypeItem(
             )
         }
         Icon(
-            painter = painterResource("icons/system/toggle_right.svg"),
+            painter = painterResource("assets/icons/systemIcons/toggle_right.svg"),
             contentDescription = null,
             tint = color,
             modifier = Modifier.size(12.dp).offset(x = (-10).dp)
