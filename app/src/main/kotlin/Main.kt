@@ -19,8 +19,8 @@ import java.util.*
 fun main() = application {
 
     val screenSize = Toolkit.getDefaultToolkit().screenSize
-    val windowsWidth = (screenSize.width * 0.95).toInt().dp
-    val windowsHeight = (screenSize.height * 0.85).toInt().dp
+    val windowsWidth = (screenSize.width * 0.9).toInt().dp
+    val windowsHeight = (screenSize.height * 0.8).toInt().dp
 
     Locale.setDefault(Locale.forLanguageTag("pt-BR"))
 

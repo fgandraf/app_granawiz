@@ -74,7 +74,7 @@ fun Categories(){
                                     icon = "food.svg",
                                     color = Red400,
                                     label = "Alimentação",
-                                    subItems = true,
+                                    hasSubItems = true,
                                     onIconClick = {},
                                     onContainerClick = {}
                                 )
@@ -101,7 +101,7 @@ fun Categories(){
                                     icon = "fun.svg",
                                     color = Red400,
                                     label = "Lazer",
-                                    subItems = true,
+                                    hasSubItems = true,
                                     onContainerClick = {},
                                     onIconClick = {}
                                 )
@@ -119,7 +119,7 @@ fun Categories(){
                                     icon = "truck.svg",
                                     color = Red400,
                                     label = "Operacionais",
-                                    subItems = true,
+                                    hasSubItems = true,
                                     onContainerClick = {},
                                     onIconClick = {}
                                 )
@@ -146,7 +146,7 @@ fun Categories(){
                                     icon = "weight.svg",
                                     color = Red400,
                                     label = "Taxas e Impostos",
-                                    subItems = true,
+                                    hasSubItems = true,
                                     onContainerClick = {},
                                     onIconClick = {}
                                 )

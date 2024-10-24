@@ -25,7 +25,7 @@ fun ListItem(
     icon: String? = null,
     color: Color = MaterialTheme.colors.primary,
     label: String,
-    subItems: Boolean = false,
+    hasSubItems: Boolean = false,
     onIconClick: () -> Unit = {},
     onContainerClick: () -> Unit = {},
     onTrailingClick: () -> Unit = {}
@@ -79,9 +79,9 @@ fun ListItem(
                 .fillMaxHeight()
                 .width(40.dp)
                 .pointerHoverIcon(PointerIcon.Hand)
-                .clickable(enabled = !subItems) { onTrailingClick() }
+                .clickable(enabled = !hasSubItems) { onTrailingClick() }
         ) {
-            val trailingIcon = if (subItems) "icons/system/toggle_right.svg" else "icons/system/trash.svg"
+            val trailingIcon = if (hasSubItems) "icons/system/toggle_right.svg" else "icons/system/trash.svg"
             Icon(
                 painter = painterResource(trailingIcon),
                 contentDescription = null,
