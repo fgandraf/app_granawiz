@@ -25,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ui.sidebar.components.MenuItem
 import ui.sidebar.components.*
 import ui.theme.Gray200
 import ui.theme.Ubuntu

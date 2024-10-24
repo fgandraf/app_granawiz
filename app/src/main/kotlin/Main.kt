@@ -9,7 +9,7 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
-import ui.dashboard.DashboardScreen
+import ui.categories.Categories
 import ui.sidebar.Sidebar
 import ui.theme.LightColorScheme
 import java.awt.Toolkit
@@ -19,8 +19,8 @@ import java.util.*
 fun main() = application {
 
     val screenSize = Toolkit.getDefaultToolkit().screenSize
-    val windowsWidth = (screenSize.width * 0.95).toInt().dp
-    val windowsHeight = (screenSize.height * 0.85).toInt().dp
+    val windowsWidth = (screenSize.width * 0.9).toInt().dp
+    val windowsHeight = (screenSize.height * 0.8).toInt().dp
 
     Locale.setDefault(Locale.forLanguageTag("pt-BR"))
 
@@ -33,7 +33,7 @@ fun main() = application {
 
             Row(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.background)) {
                 Sidebar()
-                DashboardScreen()
+                Categories()
             }
 
         }
