@@ -1,7 +1,7 @@
 package model.entity
 
-import model.entity.account.BankAccount
 import jakarta.persistence.*
+import model.entity.account.BankAccount
 
 @Entity
 @Table(name = "TBL_GROUPS")

@@ -1,10 +1,10 @@
 package model.entity.account
 
-import model.enums.AccountType
-import model.entity.Group
 import jakarta.persistence.Column
 import jakarta.persistence.DiscriminatorValue
 import jakarta.persistence.Entity
+import model.entity.Group
+import model.enums.AccountType
 
 @Entity
 @DiscriminatorValue("CREDIT_CARD")

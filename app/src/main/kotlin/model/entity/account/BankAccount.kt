@@ -1,8 +1,8 @@
 package model.entity.account
 
-import model.enums.AccountType
-import model.entity.Group
 import jakarta.persistence.*
+import model.entity.Group
+import model.enums.AccountType
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
