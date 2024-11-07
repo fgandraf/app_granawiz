@@ -5,26 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b4b101b7-dcdd-45bf-9dca-3775c0981501" name="Changes" comment="Add Sidebar view and navigation">
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/model/utils/CurrencyUtils.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/MainContent.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/Screen.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/Footer.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/Header.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/Main.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/components/AccountMenuItem.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/components/ButtonFooterItem.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/components/DialogDeleteAccount.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/components/DialogNewAccount.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/components/DialogNewGroup.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/components/GroupMenuItem.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/components/SectionTitle.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/components/StaticMenuItem.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/viewModel/SidebarViewModel.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/categories/components/AddButton.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/categories/components/ListItem.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/categories/components/ListTypeItem.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/model/utils/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/SidebarScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/SidebarScreen.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/viewModel/.gitkeep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/categories/CategoriesScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/categories/CategoriesScreen.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/dashboard/DashboardScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/dashboard/DashboardScreen.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/payers/PayersScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/payers/PayersScreen.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/receivers/ReceiversScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/receivers/ReceiversScreen.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/settings/SettingsScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/settings/SettingsScreen.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/tags/TagsScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/tags/TagsScreen.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,7 +84,7 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "develop",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/felipegandra/dev/app_money-map/app/src/main/kotlin/view/modules",
+    "last_opened_file_path": "/Users/felipegandra/dev/app_money-map/app/src/main/kotlin/view/modules/categories/components",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -113,11 +103,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/kotlin/view/modules/categories/components" />
       <recent name="$PROJECT_DIR$/src/main/kotlin/view/modules" />
       <recent name="$PROJECT_DIR$/src/main/kotlin/model/utils" />
       <recent name="$PROJECT_DIR$/src/main/kotlin/viewModel" />
       <recent name="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/components" />
-      <recent name="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar" />
     </key>
   </component>
   <component name="RunManager">
@@ -154,7 +144,7 @@
       <updated>1730988833373</updated>
       <workItem from="1730988835281" duration="143000" />
       <workItem from="1730989865600" duration="614000" />
-      <workItem from="1730992581110" duration="2215000" />
+      <workItem from="1730992581110" duration="2625000" />
     </task>
     <task id="LOCAL-00001" summary="git ignore">
       <option name="closed" value="true" />
@@ -204,7 +194,15 @@
       <option name="project" value="LOCAL" />
       <updated>1730994348583</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Add Sidebar view and navigation">
+      <option name="closed" value="true" />
+      <created>1730994810576</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1730994810576</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

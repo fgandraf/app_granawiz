@@ -1,11 +1,15 @@
 package view.modules.payers
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 import config.IconPaths
 import view.shared.AddressView
@@ -32,7 +36,17 @@ fun PayersScreen() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            // Implements
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.Start,
+                modifier = Modifier
+                    .fillMaxHeight(0.85f)
+                    .fillMaxWidth(0.7f)
+                    .shadow(elevation = 1.dp, shape = RoundedCornerShape(20.dp))
+                    .border(0.5.dp, MaterialTheme.colors.primaryVariant, shape = RoundedCornerShape(20.dp))
+                    .clip(RoundedCornerShape(20.dp))
+                    .background(MaterialTheme.colors.onPrimary)
+            ) { }
         }
     }
 }
