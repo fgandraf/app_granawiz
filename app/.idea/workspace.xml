@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="d8daf512-d0b4-485b-8ca4-e7233917d5a3" name="Changes" comment="git ignore">
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/config/.gitkeep" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/model/dao/.gitkeep" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/model/entity/.gitkeep" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/model/enums/.gitkeep" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/model/utils/.gitkeep" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/categories/.gitkeep" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/dashboard/.gitkeep" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/payers/.gitkeep" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/receivers/.gitkeep" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/reports/.gitkeep" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/schedules/.gitkeep" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/settings/.gitkeep" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/.gitkeep" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/tags/.gitkeep" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/transactions/.gitkeep" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/shared/.gitkeep" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/theme/.gitkeep" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/viewModel/.gitkeep" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/assets/fonts/.gitkeep" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/assets/icons/bankLogos/.gitkeep" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/assets/icons/categoryPack/.gitkeep" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/assets/icons/systemIcons/.gitkeep" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/assets/images/.gitkeep" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/db/migration/.gitkeep" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;fgandraf&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;git@github.com:fgandraf/app_money-map.git&quot;,
+    &quot;accountId&quot;: &quot;542474c6-4ee9-4360-b63b-c8021f9a0fc6&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="2oWca4dRFKRfh79NsvPdbXZwxB4" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.Build app.executor": "Run",
+    "Kotlin.MainKt.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "develop",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/felipegandra/dev/app_money-map/app/src/main/resources/db/migration",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/db/migration" />
+      <recent name="$PROJECT_DIR$/src/main/resources/assets/images" />
+      <recent name="$PROJECT_DIR$/src/main/resources/assets/icons/systemIcons" />
+      <recent name="$PROJECT_DIR$/src/main/resources/assets/icons/categoryPack" />
+      <recent name="$PROJECT_DIR$/src/main/resources/assets/icons/bankLogos" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Kotlin.MainKt">
+    <configuration name="MainKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="MainKt" />
+      <module name="com.felipegandra.MoneyMap.main" />
+      <shortenClasspath name="NONE" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Gradle.desktop" />
+      <item itemvalue="Kotlin.MainKt" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Kotlin.MainKt" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23726.103" />
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23726.103" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d8daf512-d0b4-485b-8ca4-e7233917d5a3" name="Changes" comment="" />
+      <created>1730988833373</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1730988833373</updated>
+      <workItem from="1730988835281" duration="143000" />
+      <workItem from="1730989865600" duration="614000" />
+    </task>
+    <task id="LOCAL-00001" summary="git ignore">
+      <option name="closed" value="true" />
+      <created>1730988967073</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1730988967073</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="git ignore" />
+    <option name="LAST_COMMIT_MESSAGE" value="git ignore" />
+  </component>
+</project>

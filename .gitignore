@@ -1,8 +1,11 @@
 ### Kotlin ###
 .kotlin
 
+### Kotlin ###
+.gradle
+
 ### Build files ###
-app/build
+build/
 
 ### VS Code ###
 .vscode/
