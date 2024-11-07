@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="b4b101b7-dcdd-45bf-9dca-3775c0981501" name="Changes" comment="Add Sidebar view and navigation">
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/categories/components/AddButton.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/categories/components/ListItem.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/categories/components/ListTypeItem.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/categories/CategoriesScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/categories/CategoriesScreen.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/dashboard/DashboardScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/dashboard/DashboardScreen.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/payers/PayersScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/payers/PayersScreen.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/receivers/ReceiversScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/receivers/ReceiversScreen.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/settings/SettingsScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/settings/SettingsScreen.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/tags/TagsScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/tags/TagsScreen.kt" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="MoneyMap" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/.." value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;fgandraf&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;git@github.com:fgandraf/app_money-map.git&quot;,
+    &quot;accountId&quot;: &quot;542474c6-4ee9-4360-b63b-c8021f9a0fc6&quot;
+  }
+}</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="2oWca4dRFKRfh79NsvPdbXZwxB4" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.Build app.executor": "Run",
+    "Kotlin.MainKt (1).executor": "Run",
+    "Kotlin.MainKt.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "develop",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/felipegandra/dev/app_money-map/app/src/main/kotlin/view/modules/categories/components",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "sqlite"
+    ],
+    "com.intellij.ide.scratch.LRUPopupBuilder$1/": [
+      "SQLite"
+    ]
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/kotlin/view/modules/categories/components" />
+      <recent name="$PROJECT_DIR$/src/main/kotlin/view/modules" />
+      <recent name="$PROJECT_DIR$/src/main/kotlin/model/utils" />
+      <recent name="$PROJECT_DIR$/src/main/kotlin/viewModel" />
+      <recent name="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/components" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="MainKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="MainKt" />
+      <module name="MoneyMap.main" />
+      <shortenClasspath name="NONE" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Kotlin.MainKt" />
+        <item itemvalue="Kotlin.MainKt" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23726.103" />
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23726.103" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b4b101b7-dcdd-45bf-9dca-3775c0981501" name="Changes" comment="" />
+      <created>1730988833373</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1730988833373</updated>
+      <workItem from="1730988835281" duration="143000" />
+      <workItem from="1730989865600" duration="614000" />
+      <workItem from="1730992581110" duration="2625000" />
+    </task>
+    <task id="LOCAL-00001" summary="git ignore">
+      <option name="closed" value="true" />
+      <created>1730988967073</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1730988967073</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Add resources images, fonts and icons">
+      <option name="closed" value="true" />
+      <created>1730992792109</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1730992792109</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Add BankAccount and Group models and SQLite integration">
+      <option name="closed" value="true" />
+      <created>1730993392663</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1730993392663</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Add object IconPaths">
+      <option name="closed" value="true" />
+      <created>1730993456718</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1730993456718</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Add themes and shared components">
+      <option name="closed" value="true" />
+      <created>1730993564362</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1730993564362</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Add views for each menu item w/ header">
+      <option name="closed" value="true" />
+      <created>1730994348583</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1730994348583</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Add Sidebar view and navigation">
+      <option name="closed" value="true" />
+      <created>1730994810576</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1730994810576</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="git ignore" />
+    <MESSAGE value="Add resources images, fonts and icons" />
+    <MESSAGE value="Add models for BankAccount and Group" />
+    <MESSAGE value="Add BankAccount and Group models and SQLite integration" />
+    <MESSAGE value="Add object IconPaths" />
+    <MESSAGE value="Add themes and shared components" />
+    <MESSAGE value="Add views for each menu item w/ header" />
+    <MESSAGE value="Add Sidebar view and navigation" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add Sidebar view and navigation" />
+  </component>
+</project>
