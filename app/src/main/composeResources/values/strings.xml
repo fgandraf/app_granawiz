@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+    <!-- ─── Common ──────────────────────────────────────────────────────── -->
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="add">Add</string>
+    <string name="close">Close</string>
+    <string name="next">Next</string>
+    <string name="back">Back</string>
+    <string name="search">Search</string>
+    <string name="select">Select</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="loading">Loading...</string>
+    <string name="export">Export</string>
+    <string name="finish">Finish</string>
+    <string name="import">Import</string>
+    <string name="remove_row">Remove row</string>
+    <string name="mark_as_paid">Mark as paid</string>
+    <string name="move_up">Move up</string>
+    <string name="move_down">Move down</string>
+    <string name="additional_info">Additional information</string>
+    <string name="name">Name</string>
+    <string name="irreversible_warning">This action is irreversible! Read carefully!</string>
+
+    <!-- ─── Navigation ───────────────────────────────────────────────────── -->
+    <string name="nav_dashboard">Dashboard</string>
+    <string name="nav_transactions">Transactions</string>
+    <string name="nav_schedules">Schedules</string>
+    <string name="nav_categories">Categories</string>
+    <string name="nav_tags">Tags</string>
+    <string name="nav_receivers">Receivers</string>
+    <string name="nav_payers">Payers</string>
+    <string name="nav_all_transactions">All transactions</string>
+
+    <!-- ─── Sidebar ──────────────────────────────────────────────────────── -->
+    <string name="sidebar_total_balance">TOTAL BALANCE</string>
+    <string name="sidebar_database_section">Database</string>
+    <string name="sidebar_transactions_section">Transactions</string>
+    <string name="sidebar_no_groups">No groups created</string>
+    <string name="sidebar_new_group">New group</string>
+    <string name="sidebar_new_account">New account</string>
+
+    <!-- ─── Account types ────────────────────────────────────────────────── -->
+    <string name="account_type_checking">Checking Account</string>
+    <string name="account_type_savings">Savings Account</string>
+    <string name="account_type_credit_card">Credit Card</string>
+
+    <!-- ─── Dashboard ────────────────────────────────────────────────────── -->
+    <string name="dashboard_net_worth_title">Net worth</string>
+    <string name="dashboard_net_worth_variation">variation this month</string>
+    <string name="dashboard_cash_flow_title">Period cash flow</string>
+    <string name="dashboard_income">Income</string>
+    <string name="dashboard_expenses">Expenses</string>
+    <string name="dashboard_balance">Balance</string>
+    <string name="dashboard_savings_rate">Savings rate:</string>
+    <string name="dashboard_category_breakdown_title">Expenses by category</string>
+    <string name="dashboard_no_category_expenses">No expenses in this period</string>
+    <string name="dashboard_top_parties_title">Top receivers</string>
+    <string name="dashboard_no_data_in_period">No data in this period</string>
+    <string name="dashboard_transaction">transaction</string>
+    <string name="dashboard_transactions">transactions</string>
+    <string name="dashboard_top_expenses_title">Top expenses</string>
+    <string name="dashboard_evolution_title">Evolution</string>
+    <string name="dashboard_no_sufficient_data">Not enough data</string>
+    <string name="dashboard_evolution_income">Income</string>
+    <string name="dashboard_evolution_expenses">Expenses</string>
+    <string name="dashboard_evolution_balance">Balance</string>
+    <string name="dashboard_balance_of">Balance of %1$s:</string>
+    <string name="dashboard_spending_pace_title">Monthly pace</string>
+    <string name="dashboard_spending_pace_unavailable">Available after 3 months of records</string>
+    <string name="dashboard_spending_pace_day">Day %1$d of %2$d</string>
+    <string name="dashboard_spending_pace_above_average">of average</string>
+    <string name="dashboard_spending_pace_detail">spent · average</string>
+    <string name="dashboard_credit_cards_title">Credit cards</string>
+    <string name="dashboard_no_credit_cards">No credit cards registered</string>
+    <string name="dashboard_credit_card_due_today">due today</string>
+    <string name="dashboard_credit_card_due_tomorrow">due tomorrow</string>
+    <string name="dashboard_credit_card_due_in_days">due in %1$d days</string>
+    <string name="dashboard_credit_card_overdue_by_days">overdue by %1$d days</string>
+    <string name="dashboard_credit_card_available">Available:</string>
+    <string name="dashboard_upcoming_schedules_title">Upcoming transactions</string>
+    <string name="dashboard_no_upcoming_schedules">No upcoming transactions</string>
+    <string name="dashboard_period_this_month">This month</string>
+    <string name="dashboard_period_last_month">Last month</string>
+    <string name="dashboard_period_last_3_months">Last 3 months</string>
+    <string name="dashboard_period_this_year">This year</string>
+    <string name="dashboard_period_last_3_years">Last 3 years</string>
+
+    <!-- ─── Transactions ─────────────────────────────────────────────────── -->
+    <string name="transactions_empty">No transactions found.</string>
+    <string name="transaction_edit_income">Edit income</string>
+    <string name="transaction_edit_expense">Edit expense</string>
+    <string name="transaction_new_income">New income</string>
+    <string name="transaction_new_expense">New expense</string>
+    <string name="transaction_import_statement">Import statement</string>
+    <string name="transaction_export_dialog_title">Export transactions to CSV</string>
+    <string name="transaction_delete_confirm">Are you sure you want to delete this transaction?</string>
+    <string name="transaction_delete_schedule_warning">This transaction is part of an installment and will return to scheduled items.\n\nAre you sure you want to continue?</string>
+
+    <!-- ─── Filter bar ────────────────────────────────────────────────────── -->
+    <string name="filter_account">Account</string>
+    <string name="filter_all_accounts">All accounts</string>
+    <string name="filter_type">Type</string>
+    <string name="filter_all_types">All types</string>
+    <string name="filter_incomes">Income</string>
+    <string name="filter_expenses">Expenses</string>
+    <string name="filter_category">Category</string>
+    <string name="filter_all_categories">All categories</string>
+    <string name="filter_year">Year</string>
+    <string name="filter_all_years">All years</string>
+    <string name="filter_tag">Tag</string>
+    <string name="filter_all_tags">All tags</string>
+    <string name="filter_clear">Clear filters</string>
+    <string name="filter_export">Export</string>
+    <string name="filter_export_to_csv">Export to CSV</string>
+    <string name="filter_export_to_excel">Export to Excel</string>
+
+    <!-- ─── Categories ───────────────────────────────────────────────────── -->
+    <string name="category_type_expense">Expenses</string>
+    <string name="category_type_income">Income</string>
+    <string name="delete_category_title">Delete category</string>
+    <string name="delete_category_confirm">This will permanently delete the category %1$s and remove all associations made to it.</string>
+    <string name="delete_subcategory_title">Delete subcategory</string>
+    <string name="delete_subcategory_confirm">This will permanently delete the subcategory %1$s and remove all associations made to it.</string>
+
+    <!-- ─── Tags ──────────────────────────────────────────────────────────── -->
+    <string name="delete_tag_title">Delete tag</string>
+    <string name="delete_tag_confirm">This will permanently delete the tag %1$s and remove all associations made to it.</string>
+
+    <!-- ─── Parties ─────────────────────────────────────────────────────── -->
+    <string name="error_name_already_exists">Name already exists</string>
+    <string name="error_delete_party_title">Deletion not allowed</string>
+    <string name="error_association_already_exists">Association already exists</string>
+    <string name="party_type_receiver">receiver</string>
+    <string name="party_type_payer">payer</string>
+    <string name="delete_party_title">Delete %1$s</string>
+    <string name="delete_party_confirm">This will permanently delete the %1$s %2$s and remove all associations made to it.</string>
+    <string name="delete_party_name_title">Delete name</string>
+    <string name="delete_party_name_confirm">This will permanently delete the name %1$s and remove all associations made to it.</string>
+    <string name="delete_party_has_transactions">This %1$s has linked transactions. Select another %1$s to transfer all transactions to before deleting:</string>
+    <string name="delete_party_no_other_parties">This %1$s has linked transactions but there are no other %1$s registered to transfer them to.</string>
+    <string name="delete_party_reassign_label">Transfer transactions to:</string>
+    <string name="delete_party_reassign_button">Move and delete</string>
+
+    <!-- ─── Schedules ─────────────────────────────────────────────────────── -->
+    <string name="schedules_empty">No schedules found.</string>
+    <string name="schedules_group_overdue">Overdue</string>
+    <string name="schedules_group_due_today">Due today</string>
+    <string name="schedules_group_due_this_month">Due this month</string>
+    <string name="schedules_group_upcoming">Upcoming</string>
+    <string name="schedule_export_dialog_title">Export schedules to Excel</string>
+    <string name="schedule_edit_title">Edit schedule</string>
+    <string name="schedule_new_income">New scheduled income</string>
+    <string name="schedule_new_expense">New scheduled expense</string>
+    <string name="schedule_due_date">Due on %1$s %2$s</string>
+    <string name="schedule_delete_title">How do you want to delete this schedule?</string>
+    <string name="schedule_delete_only_this">Delete only this</string>
+    <string name="schedule_delete_this_and_future">Delete this and all future ones</string>
+
+    <!-- ─── Import statement wizard ──────────────────────────────────────── -->
+    <string name="import_title">Import statement</string>
+    <string name="import_step_file">File</string>
+    <string name="import_step_analysis">Analysis</string>
+    <string name="import_step_conciliation">Reconciliation</string>
+    <string name="import_step_import_label">Import</string>
+    <string name="import_step1_title">Select the statement file</string>
+    <string name="import_step1_instruction">Choose an .ofx or .csv file exported from your bank. The system will process the file and suggest categories for each transaction based on your existing categories and reconcile with already registered payers or receivers.</string>
+    <string name="import_target_account">Target account:</string>
+    <string name="import_account_not_selected">No account selected</string>
+    <string name="import_step2_title">Analyzing file</string>
+    <string name="import_step2_instruction">Checking transactions, inconsistencies, and duplicates before reconciliation.</string>
+    <string name="import_step3_title">Review reconciliation</string>
+    <string name="import_step3_instruction">Adjust the data before continuing.</string>
+    <string name="import_column_date">Date</string>
+    <string name="import_column_party">Payer/Receiver</string>
+    <string name="import_column_description">Description</string>
+    <string name="import_column_amount">Amount</string>
+    <string name="import_column_category">Category</string>
+    <string name="import_category_placeholder">Select</string>
+    <string name="import_empty_category">—</string>
+    <string name="import_remove_row">Remove row</string>
+    <string name="import_duplicate_warning">Records highlighted in yellow may be duplicates of transactions already registered in this account. Review before proceeding.</string>
+    <string name="import_step4_title">Processing import</string>
+    <string name="import_step4_instruction">Track the import progress below.</string>
+    <string name="import_file_picker">Statement file</string>
+    <string name="import_file_picker_prompt">Click to select file</string>
+    <string name="import_file_dialog_title">Select bank statement</string>
+    <string name="search_no_results">None found</string>
+
+    <!-- ─── Settings ─────────────────────────────────────────────────────── -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_app_name">GranaWiz</string>
+    <string name="settings_app_version">0.0.1-Beta</string>
+    <string name="settings_section_appearance">APPEARANCE</string>
+    <string name="settings_theme_label">Theme</string>
+    <string name="settings_theme_dark">Dark Mode</string>
+    <string name="settings_theme_light">Light Mode</string>
+    <string name="settings_titlebar_style_label">Title bar style</string>
+    <string name="settings_titlebar_style_default">Default</string>
+    <string name="settings_titlebar_style_macos">macOS Style</string>
+    <string name="settings_section_language">LANGUAGE</string>
+    <string name="settings_language">Application language</string>
+    <string name="settings_section_currency">CURRENCY</string>
+    <string name="settings_default_currency">Default currency</string>
+    <string name="settings_number_format">Number format</string>
+    <string name="settings_section_about">ABOUT</string>
+    <string name="settings_developer">Developer</string>
+    <string name="settings_developer_name">Felipe Gandra</string>
+    <string name="settings_site">Website</string>
+    <string name="settings_site_url">www.felipegandra.com</string>
+    <string name="settings_distribution">Distribution</string>
+    <string name="settings_distribution_value">Free</string>
+    <string name="settings_copyright">© 2026 Felipe Gandra. All rights reserved.</string>
+
+    <!-- ─── Forms (shared labels) ────────────────────────────────────────── -->
+    <string name="form_field_name">Name:</string>
+    <string name="form_field_initial_balance">Initial balance:</string>
+    <string name="form_field_credit_limit">Credit limit:</string>
+    <string name="form_field_limit">Limit:</string>
+    <string name="form_field_closing_day">Closing day:</string>
+    <string name="form_field_due_day">Due day:</string>
+    <string name="form_field_group">Group:</string>
+    <string name="form_field_tags">Tags:</string>
+    <string name="form_field_description">Description:</string>
+    <string name="form_field_amount">Amount:</string>
+    <string name="form_field_category">Category:</string>
+    <string name="form_field_recurrence">Recurrence:</string>
+    <string name="form_field_associated_names">Associated names:</string>
+    <string name="form_field_date_time">Date and time:</string>
+    <string name="form_placeholder_amount">0,000.00</string>
+    <string name="form_placeholder_day">1 to 31</string>
+    <string name="form_placeholder_tags">Tags</string>
+    <string name="form_placeholder_account_name">Account name</string>
+    <string name="form_placeholder_select_category">Select category</string>
+    <string name="form_placeholder_select_group">Select group</string>
+    <string name="form_placeholder_select_account">Select account</string>
+    <string name="form_field_payer">Payer</string>
+    <string name="form_field_receiver">Receiver</string>
+
+    <!-- ─── Account form titles ──────────────────────────────────────────── -->
+    <string name="account_form_add_savings">Add savings account</string>
+    <string name="account_form_edit_savings">Edit savings account</string>
+    <string name="account_form_add_checking">Add checking account</string>
+    <string name="account_form_edit_checking">Edit checking account</string>
+    <string name="account_form_add_credit_card">Add credit card</string>
+    <string name="account_form_edit_credit_card">Edit credit card</string>
+
+    <!-- ─── Group form ────────────────────────────────────────────────────── -->
+    <string name="group_form_add_title">Add new group</string>
+    <string name="group_form_edit_title">Edit group</string>
+    <string name="group_form_field_name">Group name:</string>
+
+    <!-- ─── Recurrence picker ────────────────────────────────────────────── -->
+    <string name="recurrence_frequency">Frequency:</string>
+    <string name="recurrence_unit_day">day</string>
+    <string name="recurrence_unit_days">days</string>
+    <string name="recurrence_unit_week">week</string>
+    <string name="recurrence_unit_weeks">weeks</string>
+    <string name="recurrence_unit_month">month</string>
+    <string name="recurrence_unit_months">months</string>
+    <string name="recurrence_unit_year">year</string>
+    <string name="recurrence_unit_years">years</string>
+    <string name="recurrence_every">Every:</string>
+    <string name="recurrence_month_day">Day of month:</string>
+    <string name="recurrence_month_day_hint">(if the month has fewer days, falls on the last day)</string>
+    <string name="recurrence_ends_on">Ends on:</string>
+    <string name="recurrence_ends_never">Never</string>
+    <string name="recurrence_ends_after">After</string>
+    <string name="recurrence_installments_suffix">installment(s)</string>
+    <string name="recurrence_ends_on_date">On date</string>
+    <string name="recurrence_once">Only once</string>
+    <string name="recurrence_daily">Daily</string>
+    <string name="recurrence_every_n_days">Every %1$d days</string>
+    <string name="recurrence_weekly">Weekly</string>
+    <string name="recurrence_every_n_weeks">Every %1$d weeks</string>
+    <string name="recurrence_monthly">Monthly</string>
+    <string name="recurrence_every_n_months">Every %1$d months</string>
+    <string name="recurrence_yearly">Yearly</string>
+    <string name="recurrence_every_n_years">Every %1$d years</string>
+    <string name="recurrence_summary_until_date">until %1$s</string>
+
+    <!-- ─── Month names ────────────────────────────────────────────────────── -->
+    <string name="month_january">January</string>
+    <string name="month_february">February</string>
+    <string name="month_march">March</string>
+    <string name="month_april">April</string>
+    <string name="month_may">May</string>
+    <string name="month_june">June</string>
+    <string name="month_july">July</string>
+    <string name="month_august">August</string>
+    <string name="month_september">September</string>
+    <string name="month_october">October</string>
+    <string name="month_november">November</string>
+    <string name="month_december">December</string>
+    <string name="month_unknown">Unknown month</string>
+    <string name="month_current">This month</string>
+
+    <!-- ─── Confirmation dialog ───────────────────────────────────────────── -->
+    <string name="confirm_delete_input_label">Type "%1$s"</string>
+    <string name="confirm">Confirm</string>
+
+    <!-- ─── Account icon selector ───────────────────────────────────────── -->
+    <string name="account_icon_custom_title">Custom icon</string>
+    <string name="account_icon_custom_name_hint">Enter a name to identify this icon.</string>
+
+    <!-- ─── Account delete ───────────────────────────────────────────────── -->
+    <string name="delete_account_title">Delete account</string>
+    <string name="delete_account_confirm">This will permanently delete account %1$s → %2$s and all associated transactions.</string>
+
+    <!-- ─── Schedule row ─────────────────────────────────────────────────── -->
+    <string name="schedule_confirm_payment">Confirm payment of this schedule?</string>
+
+</resources>

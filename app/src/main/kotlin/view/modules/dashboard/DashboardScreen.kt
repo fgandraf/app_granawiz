@@ -1,0 +1,107 @@
+package view.modules.dashboard
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.dp
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Regular
+import com.adamglin.phosphoricons.regular.SquaresFour
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.loading
+import com.felipegandra.generated.resources.nav_dashboard
+import domain.structs.PageAddress
+import org.jetbrains.compose.resources.stringResource
+import view.modules.dashboard.component.*
+import view.shared.DefaultScreenHeader
+import view.shared.TextH2
+import viewModel.DashboardViewModel
+
+@Composable
+fun DashboardScreen() {
+
+    val viewModel = remember { DashboardViewModel() }
+    val summary by viewModel.summary.collectAsState()
+    val period by viewModel.period.collectAsState()
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(end = 15.dp, bottom = 15.dp)
+            .border(1.dp, MaterialTheme.colors.onSurface, RoundedCornerShape(15.dp))
+            .clip(RoundedCornerShape(15.dp))
+            .background(MaterialTheme.colors.surface)
+    ) {
+        //===== HEADER
+        DefaultScreenHeader(
+            addresses = listOf(
+                PageAddress(
+                    iconVector = PhosphorIcons.Regular.SquaresFour,
+                    iconSize = DpSize(21.dp, 18.dp),
+                    name = stringResource(Res.string.nav_dashboard),
+                    rootPath = true,
+                )
+            ),
+            trailingContent = { PeriodSelector(current = period, onSelect = { viewModel.selectPeriod(it) }) }
+        )
+
+        //===== BODY
+        val current = summary
+        if (current == null) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                TextH2(text = stringResource(Res.string.loading))
+            }
+            return
+        }
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = 20.dp, vertical = 10.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+        ) {
+            //---- Row 1: Net Worth + Cash Flow + Pace
+            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                NetWorthCard(modifier = Modifier.weight(1f), snapshot = current.netWorth)
+                CashFlowCard(
+                    modifier = Modifier.weight(1f),
+                    cashFlow = current.cashFlow,
+                    savingsRatePercent = current.savingsRatePercent,
+                )
+                SpendingPaceCard(modifier = Modifier.weight(1f), pace = current.spendingPace)
+            }
+
+            //---- Row 2: Categories + Evolution
+            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                CategoryBreakdownCard(modifier = Modifier.weight(1f), breakdown = current.categoryBreakdown)
+                MonthlyEvolutionCard(modifier = Modifier.weight(1f), data = current.monthlyEvolution)
+            }
+
+            //---- Row 3: Credit Cards (full width)
+            CreditCardsCard(modifier = Modifier.fillMaxWidth(), snapshots = current.creditCards)
+
+            //---- Row 4: Top parties + Top expenses + Upcoming
+            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                TopPartiesCard(modifier = Modifier.weight(1f), parties = current.topParties)
+                TopTransactionsCard(modifier = Modifier.weight(1f), transactions = current.topTransactions)
+                UpcomingSchedulesCard(modifier = Modifier.weight(1f), occurrences = current.upcomingOccurrences)
+            }
+
+
+            Spacer(Modifier.height(8.dp))
+        }
+    }
+}

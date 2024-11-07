@@ -1,0 +1,157 @@
+package view.modules.sidebar.components
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Divider
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.lerp
+import androidx.compose.ui.input.pointer.PointerIcon
+import androidx.compose.ui.input.pointer.pointerHoverIcon
+import utils.rememberAccountIconPainter
+import androidx.compose.ui.unit.dp
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Light
+import com.adamglin.phosphoricons.Regular
+import com.adamglin.phosphoricons.light.*
+import com.adamglin.phosphoricons.regular.Wallet
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
+import domain.entity.account.BankAccount
+import utils.formatCurrency
+import view.modules.Screen
+import viewModel.UserPreferences
+import view.modules.accountForm.AccountForm
+import view.shared.*
+import view.theme.ButtonPurple
+import viewModel.SidebarViewModel
+
+@Composable
+fun AccountMenuItem(
+    viewModel: SidebarViewModel,
+    account: BankAccount,
+    screen: Screen,
+    isActive: Boolean,
+    onClick: (Screen) -> Unit,
+) {
+
+    var expanded by remember { mutableStateOf(false) }
+
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 10.dp)
+            .clip(RoundedCornerShape(8.dp))
+            .height(40.dp)
+            .background(if (isActive) ButtonPurple.copy(alpha = if (UserPreferences.isLightTheme) 0.2f else 0.4f) else Color.Transparent)
+            .pointerHoverIcon(PointerIcon.Hand)
+            .clickable { onClick(screen) }
+    ) {
+
+        Icon(
+            painter = rememberAccountIconPainter(account.icon, account.iconSvg),
+            contentDescription = null,
+            tint = if (isActive) MaterialTheme.colors.secondary else MaterialTheme.colors.primary,
+            modifier = Modifier.size(25.dp).offset(x = 25.dp)
+        )
+
+
+        Column(modifier = Modifier.padding(start = 40.dp).weight(1f)) {
+            TextH3(
+                text = account.name,
+                color = if (isActive) MaterialTheme.colors.secondary else MaterialTheme.colors.primary
+            )
+            val positiveBalanceColor = if (MaterialTheme.colors.isLight) lerp(MaterialTheme.colors.onPrimary, Color.Black, 0.2f) else MaterialTheme.colors.onPrimary.copy(green = 0.7f)
+            val negativeBalanceColor = if (MaterialTheme.colors.isLight) MaterialTheme.colors.onError else MaterialTheme.colors.onError.copy(red = 1.5f)
+
+            TextSmall(
+                text = formatCurrency(account.balance, UserPreferences.currencySymbol),
+                color = if (account.balance > 0f) positiveBalanceColor else if (account.balance < 0f) negativeBalanceColor else MaterialTheme.colors.primaryVariant,
+            )
+        }
+
+        ClickableIcon(
+            icon = PhosphorIcons.Light.DotsThree,
+            shape = RoundedCornerShape(6.dp),
+            onClick = { expanded = !expanded }
+        )
+
+        DropDownAccountMenu(
+            viewModel = viewModel,
+            expanded = expanded,
+            onDismissRequest = { expanded = false; },
+            account = account
+        )
+    }
+
+    Spacer(Modifier.height(5.dp))
+}
+
+@Composable
+fun DropDownAccountMenu(
+    viewModel: SidebarViewModel,
+    expanded: Boolean,
+    onDismissRequest: () -> Unit,
+    account: BankAccount,
+) {
+
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        DropdownMenu(
+            modifier = Modifier.weight(1f).padding(horizontal = 10.dp),
+            expanded = expanded,
+            onDismissRequest = { onDismissRequest() }
+        ) {
+
+            ClickableRow(icon = PhosphorIcons.Light.ArrowLineUp, label = stringResource(Res.string.move_up)) {
+                viewModel.moveAccountPosition(account, -1)
+                onDismissRequest()
+            }
+
+            ClickableRow(icon = PhosphorIcons.Light.ArrowLineDown, label = stringResource(Res.string.move_down)) {
+                viewModel.moveAccountPosition(account, 1)
+                onDismissRequest()
+            }
+
+            Divider(modifier = Modifier.padding(vertical = 3.dp))
+
+            var showEditAccount by remember { mutableStateOf(false) }
+            ClickableRow(icon = PhosphorIcons.Light.PencilLine, label = stringResource(Res.string.edit)) { showEditAccount = true; }
+            if (showEditAccount) AccountForm(
+                sidebarViewModel = viewModel,
+                account = account,
+                onDismiss = { showEditAccount = false; onDismissRequest() })
+
+
+            Divider(modifier = Modifier.padding(vertical = 3.dp))
+
+
+            var deleteDialog by remember { mutableStateOf(false) }
+            ClickableRow(icon = PhosphorIcons.Light.Trash, label = stringResource(Res.string.delete)) { deleteDialog = true }
+            if (deleteDialog)
+
+                DialogDelete(
+                    title = stringResource(Res.string.delete_account_title),
+                    icon = PhosphorIcons.Regular.Wallet,
+                    objectName = "${account.group.name}/${account.name}",
+                    alertText = stringResource(Res.string.delete_account_confirm, account.group.name, account.name),
+                    onClickButton = {
+                        viewModel.deleteAccount(account)
+                        viewModel.reload()
+                        onDismissRequest()
+                    },
+                    onDismiss = { onDismissRequest(); deleteDialog = false }
+                )
+        }
+    }
+
+}

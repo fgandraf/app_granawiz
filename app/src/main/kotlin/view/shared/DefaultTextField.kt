@@ -1,0 +1,100 @@
+package view.shared
+
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import view.theme.DefaultFont
+
+@Composable
+fun DefaultTextField(
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    boxSize: Dp = 35.dp,
+    textAlign: TextAlign = TextAlign.Start,
+    textColor: Color? = null,
+    fontStyle: FontStyle = FontStyle.Normal,
+    value: String,
+    label: String? = null,
+    placeholder: String = "",
+    showBorder: Boolean = true,
+    borderOnActive: Boolean = false,
+    onValueChange: (String) -> Unit,
+) {
+    val primaryColor = MaterialTheme.colors.primary
+    val secondaryColor = MaterialTheme.colors.secondary
+
+    var isFocused by remember { mutableStateOf(false) }
+    var borderSize by remember { mutableStateOf(1.dp) }
+    var borderColor by remember { mutableStateOf(primaryColor) }
+
+    val effectiveShowBorder = if (borderOnActive) isFocused else showBorder
+
+    Column(modifier = modifier) {
+        if (label != null)
+            TextSmall(text = label, modifier = Modifier.padding(bottom = 5.dp))
+
+        val boxModifier = if (effectiveShowBorder)
+            Modifier.fillMaxWidth().height(boxSize)
+                .border(borderSize, borderColor, shape = RoundedCornerShape(5.dp))
+                .clip(RoundedCornerShape(5.dp))
+        else
+            Modifier.fillMaxWidth().height(boxSize)
+
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = boxModifier
+                .padding(10.dp)
+        ) {
+            BasicTextField(
+                enabled = enabled,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .onFocusChanged { focusState ->
+                        isFocused = focusState.isFocused
+                        if (focusState.isFocused) {
+                            borderSize = 1.2.dp; borderColor = secondaryColor
+                        } else {
+                            borderSize = 1.dp; borderColor = primaryColor
+                        }
+                    },
+                singleLine = boxSize <= 35.dp,
+                textStyle = TextStyle(
+                    fontFamily = DefaultFont,
+                    fontSize = 12.sp,
+                    color = textColor ?: MaterialTheme.colors.primary,
+                    fontStyle = fontStyle,
+                    lineHeight = 16.sp,
+                    textAlign = textAlign
+                ),
+                value = value,
+                onValueChange = onValueChange,
+                decorationBox = { innerTextField ->
+                    Box(modifier = Modifier.fillMaxSize()) {
+                        if (value.isEmpty())
+                            TextSmall(
+                                text = placeholder,
+                                align = textAlign,
+                                color = primaryColor.copy(alpha = 0.75f),
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                    }
+                    innerTextField()
+                }
+            )
+        }
+    }
+}
