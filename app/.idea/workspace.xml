@@ -4,36 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b4b101b7-dcdd-45bf-9dca-3775c0981501" name="Changes" comment="Add themes and shared components">
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/categories/CategoriesScreen.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/dashboard/DashboardScreen.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/payers/PayersScreen.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/receivers/ReceiversScreen.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/reports/ReportsScreen.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/schedules/ScheduleScreen.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/settings/SettingsScreen.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/SidebarScreen.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/tags/TagsScreen.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/transactions/TransactionsScreen.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+    <list default="true" id="b4b101b7-dcdd-45bf-9dca-3775c0981501" name="Changes" comment="Add Sidebar view and navigation">
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/model/utils/CurrencyUtils.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/MainContent.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/Screen.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/Footer.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/Header.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/Main.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/components/AccountMenuItem.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/components/ButtonFooterItem.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/components/DialogDeleteAccount.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/components/DialogNewAccount.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/components/DialogNewGroup.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/components/GroupMenuItem.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/components/SectionTitle.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/components/StaticMenuItem.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/viewModel/SidebarViewModel.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/model/entity/Group.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/model/entity/Group.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/model/entity/account/BankAccount.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/model/entity/account/BankAccount.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/model/entity/account/CheckingAccount.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/model/entity/account/CheckingAccount.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/model/entity/account/CreditCardAccount.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/model/entity/account/CreditCardAccount.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/model/entity/account/InvestmentAccount.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/model/entity/account/InvestmentAccount.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/model/entity/account/SavingsAccount.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/model/entity/account/SavingsAccount.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/categories/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/dashboard/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/payers/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/receivers/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/reports/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/schedules/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/settings/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/tags/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/transactions/.gitkeep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/model/utils/.gitkeep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/SidebarScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/SidebarScreen.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/viewModel/.gitkeep" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,10 +114,10 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/kotlin/view/modules" />
-      <recent name="$PROJECT_DIR$/src/main/kotlin/view/modules/transactions" />
-      <recent name="$PROJECT_DIR$/src/main/kotlin/view/modules/tags" />
-      <recent name="$PROJECT_DIR$/src/main/kotlin/view/modules/settings" />
-      <recent name="$PROJECT_DIR$/src/main/kotlin/view/modules/schedules" />
+      <recent name="$PROJECT_DIR$/src/main/kotlin/model/utils" />
+      <recent name="$PROJECT_DIR$/src/main/kotlin/viewModel" />
+      <recent name="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/components" />
+      <recent name="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar" />
     </key>
   </component>
   <component name="RunManager">
@@ -163,7 +154,7 @@
       <updated>1730988833373</updated>
       <workItem from="1730988835281" duration="143000" />
       <workItem from="1730989865600" duration="614000" />
-      <workItem from="1730992581110" duration="1713000" />
+      <workItem from="1730992581110" duration="2215000" />
     </task>
     <task id="LOCAL-00001" summary="git ignore">
       <option name="closed" value="true" />
@@ -205,7 +196,15 @@
       <option name="project" value="LOCAL" />
       <updated>1730993564362</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Add views for each menu item w/ header">
+      <option name="closed" value="true" />
+      <created>1730994348583</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1730994348583</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -218,6 +217,8 @@
     <MESSAGE value="Add BankAccount and Group models and SQLite integration" />
     <MESSAGE value="Add object IconPaths" />
     <MESSAGE value="Add themes and shared components" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add themes and shared components" />
+    <MESSAGE value="Add views for each menu item w/ header" />
+    <MESSAGE value="Add Sidebar view and navigation" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add Sidebar view and navigation" />
   </component>
 </project>
