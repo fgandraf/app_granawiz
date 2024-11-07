@@ -8,8 +8,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.material.MaterialTheme
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPosition
@@ -19,7 +17,7 @@ import config.DatabaseConfig
 import view.modules.MainContent
 import view.modules.Screen
 import view.modules.sidebar.Sidebar
-import view.theme.LightClorScheme
+import view.theme.LightColorScheme
 import java.awt.Toolkit
 import java.util.*
 
