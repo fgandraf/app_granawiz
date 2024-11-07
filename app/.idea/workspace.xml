@@ -5,7 +5,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b4b101b7-dcdd-45bf-9dca-3775c0981501" name="Changes" comment="Add Sidebar view and navigation">
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/config/.gitkeep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/model/dao/.gitkeep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/model/entity/.gitkeep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/model/enums/.gitkeep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/model/utils/.gitkeep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/categories/.gitkeep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/dashboard/.gitkeep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/payers/.gitkeep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/receivers/.gitkeep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/reports/.gitkeep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/schedules/.gitkeep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/settings/.gitkeep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/.gitkeep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/tags/.gitkeep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/transactions/.gitkeep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/shared/.gitkeep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/theme/.gitkeep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/viewModel/.gitkeep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/fonts/.gitkeep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/icons/bankLogos/.gitkeep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/icons/categoryPack/.gitkeep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/icons/systemIcons/.gitkeep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/images/.gitkeep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/.gitkeep" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,7 +99,7 @@
     "Kotlin.MainKt.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "develop",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/felipegandra/dev/app_money-map/app/src/main/kotlin/view/modules/categories/components",
     "node.js.detected.package.eslint": "true",
