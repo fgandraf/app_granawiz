@@ -4,31 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d8daf512-d0b4-485b-8ca4-e7233917d5a3" name="Changes" comment="git ignore">
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/config/.gitkeep" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/model/dao/.gitkeep" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/model/entity/.gitkeep" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/model/enums/.gitkeep" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/model/utils/.gitkeep" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/categories/.gitkeep" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/dashboard/.gitkeep" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/payers/.gitkeep" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/receivers/.gitkeep" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/reports/.gitkeep" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/schedules/.gitkeep" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/settings/.gitkeep" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/.gitkeep" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/tags/.gitkeep" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/transactions/.gitkeep" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/shared/.gitkeep" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/theme/.gitkeep" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/viewModel/.gitkeep" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/assets/fonts/.gitkeep" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/assets/icons/bankLogos/.gitkeep" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/assets/icons/categoryPack/.gitkeep" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/assets/icons/systemIcons/.gitkeep" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/assets/images/.gitkeep" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/db/migration/.gitkeep" afterDir="false" />
+    <list default="true" id="b4b101b7-dcdd-45bf-9dca-3775c0981501" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew.bat" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,7 +19,29 @@
       <ProjectState />
     </projectState>
   </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="MoneyMap" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/.." value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -90,7 +91,7 @@
       <recent name="$PROJECT_DIR$/src/main/resources/assets/icons/bankLogos" />
     </key>
   </component>
-  <component name="RunManager" selected="Kotlin.MainKt">
+  <component name="RunManager">
     <configuration name="MainKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="MainKt" />
       <module name="com.felipegandra.MoneyMap.main" />
@@ -99,10 +100,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <list>
-      <item itemvalue="Gradle.desktop" />
-      <item itemvalue="Kotlin.MainKt" />
-    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Kotlin.MainKt" />
@@ -120,13 +117,14 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="d8daf512-d0b4-485b-8ca4-e7233917d5a3" name="Changes" comment="" />
+      <changelist id="b4b101b7-dcdd-45bf-9dca-3775c0981501" name="Changes" comment="" />
       <created>1730988833373</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1730988833373</updated>
       <workItem from="1730988835281" duration="143000" />
       <workItem from="1730989865600" duration="614000" />
+      <workItem from="1730992581110" duration="26000" />
     </task>
     <task id="LOCAL-00001" summary="git ignore">
       <option name="closed" value="true" />
