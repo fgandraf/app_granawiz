@@ -1,0 +1,107 @@
+package domain.entity
+
+import domain.contracts.IFilterable
+import domain.entity.account.BankAccount
+import domain.structs.FilterEntry
+import domain.enums.ScheduleFrequency
+import domain.enums.TransactionType
+import jakarta.persistence.*
+import java.time.LocalDateTime
+
+@Entity
+@Table(name = "tbl_schedules")
+class Schedule(
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "schedule_id", columnDefinition = "INTEGER") val id: Long = 0,
+
+    @ManyToOne
+    @JoinColumn(name = "party_id", referencedColumnName = "party_id")
+    val party: Party,
+
+    @ManyToOne
+    @JoinColumn(name = "account_id", referencedColumnName = "account_id")
+    val account: BankAccount,
+
+    @ManyToOne
+    @JoinColumn(name = "category_id", referencedColumnName = "category_id")
+    val category: Category,
+
+    @ManyToOne
+    @JoinColumn(name = "subcategory_id", referencedColumnName = "subcategory_id")
+    val subcategory: Subcategory?,
+
+    @ManyToMany(cascade = [CascadeType.PERSIST, CascadeType.MERGE])
+    @JoinTable(
+        name = "tbl_schedule_tag",
+        joinColumns = [JoinColumn(name = "schedule_id")],
+        inverseJoinColumns = [JoinColumn(name = "tag_id")]
+    )
+    val tags: MutableList<Tag>? = mutableListOf(),
+
+    @Column(name = "start_date", columnDefinition = "DATETIME") val startDate: LocalDateTime,
+
+    val description: String,
+
+    val balance: Double,
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type", insertable = true, updatable = true)
+    val type: TransactionType,
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "frequency", insertable = true, updatable = true) val frequency: ScheduleFrequency,
+
+    @Column(name = "interval_value") val interval: Int = 1,
+
+    @Column(name = "day_of_month") val dayOfMonth: Int? = null,
+
+    @Column(name = "end_date", columnDefinition = "DATETIME") val endDate: LocalDateTime? = null,
+
+    @Column(name = "installments") val installments: Int? = null,
+
+    ) : IFilterable {
+
+    override fun toFilterEntry() = FilterEntry(
+        partyName = party.name,
+        description = description,
+        category = category,
+        subcategory = subcategory,
+        tags = tags,
+        accountId = account.id,
+        type = type,
+    )
+
+    constructor() : this(
+        0, Party(), BankAccount(), Category(), null, null,
+        LocalDateTime.now(), "", 0.0, TransactionType.NEUTRAL,
+        ScheduleFrequency.ONCE, 1, null, null, null
+    )
+
+    fun copy(
+        id: Long = this.id,
+        party: Party = this.party,
+        account: BankAccount = this.account,
+        category: Category = this.category,
+        subcategory: Subcategory? = this.subcategory,
+        tags: MutableList<Tag>? = this.tags,
+        startDate: LocalDateTime = this.startDate,
+        description: String = this.description,
+        balance: Double = this.balance,
+        type: TransactionType = this.type,
+        frequency: ScheduleFrequency = this.frequency,
+        interval: Int = this.interval,
+        dayOfMonth: Int? = this.dayOfMonth,
+        endDate: LocalDateTime? = this.endDate,
+        installments: Int? = this.installments,
+    ): Schedule {
+        return Schedule(
+            id, party, account, category, subcategory, tags,
+            startDate, description, balance, type,
+            frequency, interval, dayOfMonth, endDate, installments
+        )
+    }
+
+
+}

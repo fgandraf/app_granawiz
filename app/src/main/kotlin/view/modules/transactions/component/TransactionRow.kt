@@ -1,0 +1,204 @@
+package view.modules.transactions.component
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.lerp
+import androidx.compose.ui.input.pointer.PointerIcon
+import androidx.compose.ui.input.pointer.pointerHoverIcon
+import utils.rememberSvgPainter
+import androidx.compose.ui.unit.dp
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Light
+import com.adamglin.phosphoricons.light.DotsThree
+import com.adamglin.phosphoricons.light.Pen
+import com.adamglin.phosphoricons.light.Tag
+import com.adamglin.phosphoricons.light.Trash
+import domain.entity.Transaction
+import domain.enums.TransactionType
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
+import utils.IconPaths
+import utils.formatNumber
+import view.shared.*
+import java.time.format.TextStyle
+import java.util.*
+
+@Composable
+fun TransactionRow(
+    transaction: Transaction,
+    onDelete: () -> Unit,
+    onClick: () -> Unit
+){
+
+    Column {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(45.dp)
+                .clip(RoundedCornerShape(0.dp))
+                .pointerHoverIcon(PointerIcon.Hand)
+                .clickable { onClick() }
+        ) {
+
+
+            // Transaction Type
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxHeight().padding(start = 30.dp, end = 20.dp)
+            ) {
+                val gainColor = if (MaterialTheme.colors.isLight) MaterialTheme.colors.onPrimary else lerp(MaterialTheme.colors.onPrimary, Color.Green, 0.4f)
+                Box(
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .background(if (transaction.type == TransactionType.GAIN) gainColor else if (transaction.type == TransactionType.EXPENSE) MaterialTheme.colors.onError else MaterialTheme.colors.primaryVariant)
+                        .size(10.dp)
+                )
+            }
+
+
+            // Party Name and Date
+            Column(
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .weight(1f)
+                    .padding(end = 10.dp)
+            ) {
+                TextNormal(
+                    modifier = Modifier.padding(bottom = 2.dp),
+                    text = transaction.party.name
+                )
+                val day = transaction.date.dayOfMonth
+                val month = transaction.date.month.getDisplayName(TextStyle.FULL, Locale.of("pt", "BR"))
+                TextSmall(text = "$day $month")
+            }
+
+
+            // Category and Subcategory
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .weight(1f)
+                    .padding(end = 10.dp)
+            ) {
+
+                if (transaction.category.icon.isNotBlank()) {
+                    Icon(
+                        painter = rememberSvgPainter(IconPaths.CATEGORY_PACK + transaction.category.icon),
+                        contentDescription = null,
+                        tint = MaterialTheme.colors.primary,
+                        modifier = Modifier.size(15.dp)
+                    )
+                }
+
+                Spacer(Modifier.width(10.dp))
+                TextNormal(text = transaction.category.name)
+
+                if (transaction.subcategory != null) {
+                    Spacer(Modifier.width(5.dp))
+                    TextNormal(text = "→")
+                    Spacer(Modifier.width(5.dp))
+                    TextNormal(text = transaction.subcategory!!.name)
+                }
+            }
+
+            // Tags
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .weight(1f)
+                    .padding(end = 10.dp)
+            ) {
+                if (transaction.tags?.isNotEmpty() == true) {
+                    transaction.tags?.forEach { tag ->
+                        Row {
+                            Icon(
+                                imageVector = PhosphorIcons.Light.Tag,
+                                contentDescription = null,
+                                tint = MaterialTheme.colors.primary,
+                                modifier = Modifier.size(15.dp)
+                            )
+                            Spacer(Modifier.width(5.dp))
+                            TextNormal(text = tag.name)
+                            Spacer(Modifier.width(15.dp))
+                        }
+                    }
+                }
+
+            }
+
+            // Balance
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .padding(end = 10.dp)
+                    .weight(0.4f)
+            ) {
+                TextNormal(text = formatNumber(transaction.balance))
+            }
+
+
+            // ...
+            var showEditTransaction by remember { mutableStateOf(false) }
+            Row(Modifier.fillMaxHeight().padding(end = 20.dp), Arrangement.End, Alignment.CenterVertically) {
+                ClickableIcon(
+                    icon = PhosphorIcons.Light.DotsThree,
+                    shape = RoundedCornerShape(6.dp),
+                    onClick = { showEditTransaction = true },
+                )
+
+                if (showEditTransaction) {
+                    DropdownMenu(
+                        modifier = Modifier.padding(horizontal = 10.dp),
+                        expanded = showEditTransaction,
+                        onDismissRequest = { showEditTransaction = false }
+                    ) {
+                        var showForm by remember { mutableStateOf(false) }
+                        ClickableRow(icon = PhosphorIcons.Light.Pen, label = stringResource(Res.string.edit)) { showForm = true }
+                        if (showForm) onClick()
+
+                        var showDeleteTransaction by remember { mutableStateOf(false) }
+                        ClickableRow(icon = PhosphorIcons.Light.Trash, label = stringResource(Res.string.delete)) { showDeleteTransaction = true }
+                        if (showDeleteTransaction) {
+                            val deleteMessage = if (transaction.scheduleId != null)
+                                stringResource(Res.string.transaction_delete_schedule_warning)
+                            else
+                                stringResource(Res.string.transaction_delete_confirm)
+                            SimpleQuestionDialog(
+                                message = deleteMessage,
+                                onConfirmRequest = {
+                                    onDelete()
+                                    showDeleteTransaction = false
+                                    showEditTransaction = false
+                                },
+                                onDismissRequest = { showDeleteTransaction = false; showEditTransaction = false },
+                            )
+                        }
+                    }
+                }
+            }
+
+
+        }
+
+    }
+
+}

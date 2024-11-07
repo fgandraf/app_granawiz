@@ -1,0 +1,158 @@
+package view.shared
+
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.sp
+import view.theme.Afacade
+import view.theme.DefaultFont
+
+
+@Composable
+fun TextNormal(
+    modifier: Modifier = Modifier,
+    text: String,
+    color: Color? = MaterialTheme.colors.primary,
+    align: TextAlign = TextAlign.Start,
+    lineHeight: TextUnit? = 12.sp,
+    fontStyle: FontStyle? = FontStyle.Normal,
+    fontSize: TextUnit = 12.sp,
+) {
+    Text(
+        modifier = modifier,
+        text = text,
+        fontSize = fontSize,
+        color = color!!,
+        fontWeight = FontWeight.Normal,
+        lineHeight = lineHeight!!,
+        fontFamily = DefaultFont,
+        textAlign = align,
+        fontStyle = fontStyle,
+    )
+}
+
+@Composable
+fun TextMedium(
+    modifier: Modifier = Modifier,
+    text: String,
+    color: Color? = MaterialTheme.colors.primary,
+    align: TextAlign = TextAlign.Start
+) {
+    Text(
+        modifier = modifier,
+        text = text,
+        fontSize = 14.sp,
+        color = color!!,
+        fontWeight = FontWeight.Medium,
+        lineHeight = 14.sp,
+        fontFamily = DefaultFont,
+        textAlign = align
+    )
+}
+
+@Composable
+fun TextSmall(
+    modifier: Modifier = Modifier,
+    color: Color? = MaterialTheme.colors.primary,
+    text: String,
+    align: TextAlign = TextAlign.Start,
+    italic: Boolean = false,
+) {
+    Text(
+        modifier = modifier,
+        text = text,
+        fontSize = 10.sp,
+        color = color!!,
+        fontWeight = FontWeight.Medium,
+        lineHeight = 10.sp,
+        fontFamily = DefaultFont,
+        textAlign = align,
+        fontStyle = if (italic) FontStyle.Italic else FontStyle.Normal
+    )
+}
+
+
+@Composable
+fun TextH1(
+    modifier: Modifier = Modifier,
+    text: String,
+    color: Color? = MaterialTheme.colors.primary,
+    align: TextAlign = TextAlign.Start,
+) {
+    Text(
+        modifier = modifier,
+        text = text,
+        fontSize = 26.sp,
+        color = color!!,
+        fontWeight = FontWeight.Bold,
+        lineHeight = 26.sp,
+        fontFamily = Afacade,
+        textAlign = align
+    )
+}
+
+
+@Composable
+fun TextH2(
+    modifier: Modifier = Modifier,
+    text: String,
+    align: TextAlign = TextAlign.Start,
+) {
+    Text(
+        modifier = modifier,
+        text = text,
+        fontSize = 16.sp,
+        color = MaterialTheme.colors.primary,
+        fontWeight = FontWeight.Bold,
+        lineHeight = 16.sp,
+        fontFamily = Afacade,
+        textAlign = align
+    )
+}
+
+
+@Composable
+fun TextH3(
+    modifier: Modifier = Modifier,
+    text: String,
+    color: Color? = MaterialTheme.colors.primary,
+    align: TextAlign = TextAlign.Start,
+    fontWeight: FontWeight? = FontWeight.Medium,
+) {
+    Text(
+        modifier = modifier,
+        text = text,
+        fontSize = 14.sp,
+        color = color!!,
+        fontWeight = fontWeight,
+        lineHeight = 14.sp,
+        fontFamily = Afacade,
+        textAlign = align
+    )
+}
+
+
+@Composable
+fun TextH4(
+    modifier: Modifier = Modifier,
+    color: Color? = MaterialTheme.colors.primary,
+    text: String,
+    align: TextAlign = TextAlign.Start,
+) {
+    Text(
+        modifier = modifier,
+        text = text,
+        fontSize = 11.sp,
+        color = color!!,
+        fontWeight = FontWeight.Bold,
+        lineHeight = 10.sp,
+        fontFamily = Afacade,
+        textAlign = align
+    )
+}
