@@ -5,11 +5,14 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
+import config.DatabaseConfig
 import java.awt.Toolkit
 import java.util.*
 
 
 fun main() = application {
+
+    DatabaseConfig.runMigrations()
 
     val screenSize = Toolkit.getDefaultToolkit().screenSize
     val windowsWidth = (screenSize.width * 0.8).toInt().dp

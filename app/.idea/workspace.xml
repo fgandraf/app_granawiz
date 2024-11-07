@@ -4,10 +4,32 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b4b101b7-dcdd-45bf-9dca-3775c0981501" name="Changes" comment="">
+    <list default="true" id="b4b101b7-dcdd-45bf-9dca-3775c0981501" name="Changes" comment="Add BankAccount and Group models and SQLite integration">
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/1bad1627-937e-4ac5-aa30-221fdb6d7e80.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/1bad1627-937e-4ac5-aa30-221fdb6d7e80/storage_v2/_src_/schema/main.uQUzAA.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/config/DatabaseConfig.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/config/HibernateUtil.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/model/dao/AccountDao.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/model/dao/GroupDao.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/model/entity/Group.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/model/entity/account/BankAccount.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/model/entity/account/CheckingAccount.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/model/entity/account/CreditCardAccount.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/model/entity/account/InvestmentAccount.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/model/entity/account/SavingsAccount.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/model/enums/AccountType.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/db/migration/V1__InitialCreation.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/db/migration/V2__InsertInitialDatas.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradlew.bat" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/config/.gitkeep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/model/dao/.gitkeep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/model/entity/.gitkeep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/model/enums/.gitkeep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/.gitkeep" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,6 +78,9 @@
     &quot;accountId&quot;: &quot;542474c6-4ee9-4360-b63b-c8021f9a0fc6&quot;
   }
 }</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 7
@@ -68,6 +93,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Gradle.Build app.executor": "Run",
+    "Kotlin.MainKt (1).executor": "Run",
     "Kotlin.MainKt.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
@@ -80,21 +106,29 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "sqlite"
+    ],
+    "com.intellij.ide.scratch.LRUPopupBuilder$1/": [
+      "SQLite"
+    ]
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/resources/db/migration" />
-      <recent name="$PROJECT_DIR$/src/main/resources/assets/images" />
-      <recent name="$PROJECT_DIR$/src/main/resources/assets/icons/systemIcons" />
-      <recent name="$PROJECT_DIR$/src/main/resources/assets/icons/categoryPack" />
-      <recent name="$PROJECT_DIR$/src/main/resources/assets/icons/bankLogos" />
+      <recent name="$PROJECT_DIR$/src/main/kotlin/config" />
+      <recent name="$PROJECT_DIR$/src/main/kotlin/model/dao" />
+      <recent name="$PROJECT_DIR$/src/main/kotlin/model/enums" />
+      <recent name="$PROJECT_DIR$/src/main/kotlin/model/entity" />
     </key>
   </component>
   <component name="RunManager">
     <configuration name="MainKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="MainKt" />
-      <module name="com.felipegandra.MoneyMap.main" />
+      <module name="MoneyMap.main" />
       <shortenClasspath name="NONE" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -102,6 +136,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Kotlin.MainKt" />
         <item itemvalue="Kotlin.MainKt" />
       </list>
     </recent_temporary>
@@ -124,7 +159,7 @@
       <updated>1730988833373</updated>
       <workItem from="1730988835281" duration="143000" />
       <workItem from="1730989865600" duration="614000" />
-      <workItem from="1730992581110" duration="26000" />
+      <workItem from="1730992581110" duration="802000" />
     </task>
     <task id="LOCAL-00001" summary="git ignore">
       <option name="closed" value="true" />
@@ -134,7 +169,15 @@
       <option name="project" value="LOCAL" />
       <updated>1730988967073</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Add resources images, fonts and icons">
+      <option name="closed" value="true" />
+      <created>1730992792109</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1730992792109</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -142,6 +185,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="git ignore" />
-    <option name="LAST_COMMIT_MESSAGE" value="git ignore" />
+    <MESSAGE value="Add resources images, fonts and icons" />
+    <MESSAGE value="Add models for BankAccount and Group" />
+    <MESSAGE value="Add BankAccount and Group models and SQLite integration" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add BankAccount and Group models and SQLite integration" />
   </component>
 </project>
