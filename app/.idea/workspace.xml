@@ -4,31 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b4b101b7-dcdd-45bf-9dca-3775c0981501" name="Changes" comment="Add Sidebar view and navigation">
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/config/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/model/dao/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/model/entity/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/model/enums/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/model/utils/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/categories/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/dashboard/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/payers/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/receivers/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/reports/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/schedules/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/settings/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/tags/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/transactions/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/shared/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/theme/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/viewModel/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/fonts/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/icons/bankLogos/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/icons/categoryPack/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/icons/systemIcons/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/images/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/.gitkeep" beforeDir="false" />
+    <list default="true" id="b4b101b7-dcdd-45bf-9dca-3775c0981501" name="Changes" comment="Delete .gitkeep files">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/components/DialogNewGroup.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/components/DialogNewGroup.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,32 +71,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Gradle.Build app.executor": "Run",
-    "Kotlin.MainKt (1).executor": "Run",
-    "Kotlin.MainKt.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "develop",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/felipegandra/dev/app_money-map/app/src/main/kotlin/view/modules/categories/components",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Gradle.Build app.executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.MainKt (1).executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.MainKt.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/felipegandra/dev/app_money-map/app/src/main/kotlin/view/modules/categories/components&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "sqlite"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;sqlite&quot;
     ],
-    "com.intellij.ide.scratch.LRUPopupBuilder$1/": [
-      "SQLite"
+    &quot;com.intellij.ide.scratch.LRUPopupBuilder$1/&quot;: [
+      &quot;SQLite&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/kotlin/view/modules/categories/components" />
@@ -162,6 +141,7 @@
       <workItem from="1730988835281" duration="143000" />
       <workItem from="1730989865600" duration="614000" />
       <workItem from="1730992581110" duration="2625000" />
+      <workItem from="1731031969992" duration="313000" />
     </task>
     <task id="LOCAL-00001" summary="git ignore">
       <option name="closed" value="true" />
@@ -219,7 +199,15 @@
       <option name="project" value="LOCAL" />
       <updated>1730994810576</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Delete .gitkeep files">
+      <option name="closed" value="true" />
+      <created>1730997539588</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1730997539588</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -234,6 +222,7 @@
     <MESSAGE value="Add themes and shared components" />
     <MESSAGE value="Add views for each menu item w/ header" />
     <MESSAGE value="Add Sidebar view and navigation" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add Sidebar view and navigation" />
+    <MESSAGE value="Delete .gitkeep files" />
+    <option name="LAST_COMMIT_MESSAGE" value="Delete .gitkeep files" />
   </component>
 </project>
