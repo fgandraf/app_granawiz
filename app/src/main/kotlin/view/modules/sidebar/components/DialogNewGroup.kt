@@ -21,7 +21,7 @@ import config.IconPaths
 import view.shared.ClickableIcon
 import view.shared.DefaultTextField
 import view.shared.TextPrimary
-import view.theme.Indigo900
+import view.theme.Purple600
 import view.theme.Ubuntu
 import viewModel.SidebarViewModel
 
@@ -90,7 +90,7 @@ fun DialogNewGroup(
                 Button(
                     modifier = Modifier.fillMaxWidth().pointerHoverIcon(if(confirmed) PointerIcon.Hand else PointerIcon.Default),
                     enabled = confirmed,
-                    colors = ButtonDefaults.buttonColors(backgroundColor = Indigo900),
+                    colors = ButtonDefaults.buttonColors(backgroundColor = Purple600),
                     onClick = {
                         viewModel.addNewGroup(value)
                         onDismiss()
@@ -105,14 +105,6 @@ fun DialogNewGroup(
                     )
                 }
 
-//                ClickableRow(
-//                    enabled = value != "",
-//                    roundedBorder = true,
-//                    label = "Adicionar",
-//                ){
-//                    viewModel.addNewGroup(value)
-//                    onDismiss()
-//                }
             }
 
         }

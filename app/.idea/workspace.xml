@@ -4,8 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b4b101b7-dcdd-45bf-9dca-3775c0981501" name="Changes" comment="Delete .gitkeep files">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="b4b101b7-dcdd-45bf-9dca-3775c0981501" name="Changes" comment="Dialog New Group purge and button color">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/components/DialogNewGroup.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/components/DialogNewGroup.kt" afterDir="false" />
     </list>
@@ -141,7 +140,7 @@
       <workItem from="1730988835281" duration="143000" />
       <workItem from="1730989865600" duration="614000" />
       <workItem from="1730992581110" duration="2625000" />
-      <workItem from="1731031969992" duration="313000" />
+      <workItem from="1731031969992" duration="979000" />
     </task>
     <task id="LOCAL-00001" summary="git ignore">
       <option name="closed" value="true" />
@@ -207,7 +206,15 @@
       <option name="project" value="LOCAL" />
       <updated>1730997539588</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Dialog New Group add button">
+      <option name="closed" value="true" />
+      <created>1731032658817</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1731032658817</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -223,6 +230,8 @@
     <MESSAGE value="Add views for each menu item w/ header" />
     <MESSAGE value="Add Sidebar view and navigation" />
     <MESSAGE value="Delete .gitkeep files" />
-    <option name="LAST_COMMIT_MESSAGE" value="Delete .gitkeep files" />
+    <MESSAGE value="Dialog New Group add button" />
+    <MESSAGE value="Dialog New Group purge and button color" />
+    <option name="LAST_COMMIT_MESSAGE" value="Dialog New Group purge and button color" />
   </component>
 </project>
