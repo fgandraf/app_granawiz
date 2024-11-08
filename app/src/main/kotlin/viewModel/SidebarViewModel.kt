@@ -35,12 +35,12 @@ class SidebarViewModel {
         fetchTotalAccounts()
     }
 
-    private fun loadGroup() {
+    fun loadGroup() {
         val dao = GroupDao()
         groups = dao.getAll()
     }
 
-    private fun fetchTotalAccounts() {
+    fun fetchTotalAccounts() {
         totalAccounts = groups.sumOf { group -> group.accounts.sumOf { it.balance } }
     }
 

@@ -106,5 +106,9 @@ fun DropDownNewAccount(
         }
     }
 
-    if (showNewAccountDialog) AddAccount(viewModel, accountType) { showNewAccountDialog = false }
+    if (showNewAccountDialog) AddAccount(sidebarViewModel = viewModel, accountType = accountType) {
+        showNewAccountDialog = false
+        viewModel.loadGroup()
+        viewModel.fetchTotalAccounts()
+    }
 }
