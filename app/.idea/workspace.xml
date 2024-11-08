@@ -5,8 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b4b101b7-dcdd-45bf-9dca-3775c0981501" name="Changes" comment="Dialog New Group purge and button color">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/addAccount/AddAccount.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/addAccount/components/AccountType.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/shared/DialogTitleBar.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/assets/icons/systemIcons/checking.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/assets/icons/systemIcons/credit_card.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/assets/icons/systemIcons/investment.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/assets/icons/systemIcons/savings.svg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/components/DialogNewGroup.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/components/DialogNewGroup.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/Footer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/Footer.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/components/DialogNewAccount.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/theme/Color.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/view/theme/Color.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/icons/systemIcons/arrange.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/icons/systemIcons/outlined_check.svg" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,6 +49,13 @@
         </projects_view>
       </state>
     </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Kotlin File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -70,39 +89,43 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Gradle.Build app.executor&quot;: &quot;Run&quot;,
-    &quot;Kotlin.MainKt (1).executor&quot;: &quot;Run&quot;,
-    &quot;Kotlin.MainKt.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/felipegandra/dev/app_money-map/app/src/main/kotlin/view/modules/categories/components&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.Build app.executor": "Run",
+    "Kotlin.MainKt (1).executor": "Run",
+    "Kotlin.MainKt.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "develop",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/felipegandra/dev/app_money-map/app/src/main/resources/assets/icons/systemIcons",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;sqlite&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "sqlite"
     ],
-    &quot;com.intellij.ide.scratch.LRUPopupBuilder$1/&quot;: [
-      &quot;SQLite&quot;
+    "com.intellij.ide.scratch.LRUPopupBuilder$1/": [
+      "SQLite"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/assets/icons/systemIcons" />
+      <recent name="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/components" />
+      <recent name="$PROJECT_DIR$/src/main/kotlin/view/shared" />
       <recent name="$PROJECT_DIR$/src/main/kotlin/view/modules/categories/components" />
       <recent name="$PROJECT_DIR$/src/main/kotlin/view/modules" />
-      <recent name="$PROJECT_DIR$/src/main/kotlin/model/utils" />
-      <recent name="$PROJECT_DIR$/src/main/kotlin/viewModel" />
-      <recent name="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/components" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/kotlin/view/modules/addAccount" />
+      <recent name="$PROJECT_DIR$/src/main/kotlin/view/modules/addAccount/components" />
     </key>
   </component>
   <component name="RunManager">
@@ -140,7 +163,7 @@
       <workItem from="1730988835281" duration="143000" />
       <workItem from="1730989865600" duration="614000" />
       <workItem from="1730992581110" duration="2625000" />
-      <workItem from="1731031969992" duration="979000" />
+      <workItem from="1731031969992" duration="5217000" />
     </task>
     <task id="LOCAL-00001" summary="git ignore">
       <option name="closed" value="true" />
@@ -214,7 +237,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731032658817</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Dialog New Group purge and button color">
+      <option name="closed" value="true" />
+      <created>1731032955252</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1731032955252</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

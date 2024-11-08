@@ -12,7 +12,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import view.modules.sidebar.components.ButtonFooterItem
-import view.modules.sidebar.components.DialogNewAccount
+import view.modules.addAccount.AddAccount
 import view.modules.sidebar.components.DialogNewGroup
 import viewModel.SidebarViewModel
 
@@ -52,7 +52,7 @@ fun Footer(viewModel: SidebarViewModel) {
                 showNewAccountDialog = true
             }
             if (showNewAccountDialog)
-                DialogNewAccount(
+                AddAccount(
                     viewModel = viewModel,
                     onDismiss = { showNewAccountDialog = false }
                 )
