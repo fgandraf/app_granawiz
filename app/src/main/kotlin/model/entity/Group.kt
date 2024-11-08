@@ -4,7 +4,7 @@ import jakarta.persistence.*
 import model.entity.account.BankAccount
 
 @Entity
-@Table(name = "TBL_GROUPS")
+@Table(name = "tbl_groups")
 open class Group(
 
     @Id
