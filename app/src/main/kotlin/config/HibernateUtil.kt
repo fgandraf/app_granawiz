@@ -17,7 +17,6 @@ object HibernateUtil {
         configuration.addAnnotatedClass(BankAccount::class.java)
         configuration.addAnnotatedClass(CheckingAccount::class.java)
         configuration.addAnnotatedClass(CreditCardAccount::class.java)
-        configuration.addAnnotatedClass(InvestmentAccount::class.java)
         configuration.addAnnotatedClass(SavingsAccount::class.java)
 
         // Propriedades do Hibernate

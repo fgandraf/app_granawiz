@@ -5,14 +5,18 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import view.modules.sidebar.components.ButtonFooterItem
+import config.IconPaths
 import view.modules.addAccount.AddAccount
+import view.modules.addAccount.components.AccountType
+import view.modules.sidebar.components.ButtonFooterItem
 import view.modules.sidebar.components.DialogNewGroup
 import viewModel.SidebarViewModel
 
@@ -20,7 +24,6 @@ import viewModel.SidebarViewModel
 fun Footer(viewModel: SidebarViewModel) {
 
     Divider()
-
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
@@ -31,32 +34,77 @@ fun Footer(viewModel: SidebarViewModel) {
             .background(Color.White, RoundedCornerShape(6.dp))
             .clip(RoundedCornerShape(6.dp))
             .border(1.dp, Color.LightGray, RoundedCornerShape(6.dp))
-
     ){
 
+        var showNewGroupDialog by remember { mutableStateOf(false) }
+        ButtonFooterItem(Modifier.weight(1f), "add_group.svg", "Novo grupo") { showNewGroupDialog = true }
+        if (showNewGroupDialog) DialogNewGroup(viewModel = viewModel, onDismiss = { showNewGroupDialog = false })
 
+        Divider(modifier = Modifier.fillMaxHeight().width(1.dp))
 
-            var showNewGroupDialog by remember { mutableStateOf(false) }
-            ButtonFooterItem(Modifier.weight(1f), "add_group.svg", "Novo grupo") { showNewGroupDialog = true }
-            if (showNewGroupDialog)
-                DialogNewGroup(
-                    viewModel = viewModel,
-                    onDismiss = { showNewGroupDialog = false }
-                )
-
-            Divider(modifier = Modifier.fillMaxHeight().width(1.dp))
-
-
-            var showNewAccountDialog by remember { mutableStateOf(false) }
-            ButtonFooterItem(Modifier.weight(1f), "add_account.svg", "Nova conta") {
-                showNewAccountDialog = true
-            }
-            if (showNewAccountDialog)
-                AddAccount(
-                    viewModel = viewModel,
-                    onDismiss = { showNewAccountDialog = false }
-                )
+        var expanded by remember { mutableStateOf(false) }
+        ButtonFooterItem(Modifier.weight(1f), "add_account.svg", "Nova conta") { expanded = !expanded }
+        DropDownNewAccount(viewModel, expanded) { expanded = false }
 
     }
+}
 
+
+@Composable
+fun DropDownNewAccount(
+    viewModel: SidebarViewModel,
+    expanded: Boolean,
+    onDismissRequest: () -> Unit
+) {
+
+    var showNewAccountDialog by remember { mutableStateOf(false) }
+    var accountType by remember { mutableStateOf(model.enums.AccountType.CHECKING) }
+
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        DropdownMenu(
+            modifier = Modifier.padding(30.dp).width(250.dp),
+            expanded = expanded,
+            onDismissRequest = { onDismissRequest() }
+        ) {
+
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+
+                AccountType(
+                    icon = IconPaths.SYSTEM_ICONS + "checking.svg",
+                    color = MaterialTheme.colors.primary,
+                    label = "Conta Corrente",
+                    onContainerClick = {
+                        accountType = model.enums.AccountType.CHECKING
+                        showNewAccountDialog = true
+                        onDismissRequest()
+                    }
+                )
+
+                AccountType(
+                    icon = IconPaths.SYSTEM_ICONS + "savings.svg",
+                    color = MaterialTheme.colors.primary,
+                    label = "Conta Poupança",
+                    onContainerClick = {
+                        accountType = model.enums.AccountType.SAVINGS
+                        showNewAccountDialog = true
+                        onDismissRequest()
+                    }
+                )
+
+                AccountType(
+                    icon = IconPaths.SYSTEM_ICONS + "credit_card.svg",
+                    color = MaterialTheme.colors.primary,
+                    label = "Cartão de Crédito",
+                    onContainerClick = {
+                        accountType = model.enums.AccountType.CREDIT_CARD
+                        showNewAccountDialog = true
+                        onDismissRequest()
+                    }
+                )
+
+            }
+        }
+    }
+
+    if (showNewAccountDialog) AddAccount(viewModel, accountType) { showNewAccountDialog = false }
 }

@@ -3,6 +3,5 @@ package model.enums
 enum class AccountType {
     CHECKING,
     SAVINGS,
-    CREDIT_CARD,
-    INVESTMENT
+    CREDIT_CARD
 }
