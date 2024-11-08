@@ -22,13 +22,13 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import config.IconPaths
 import model.entity.account.BankAccount
-import viewModel.SidebarViewModel
-import view.shared.ClickableIcon
 import view.shared.DefaultTextField
+import view.shared.DialogTitleBar
 import view.shared.TextPrimary
 import view.theme.Red200
 import view.theme.Red400
 import view.theme.Ubuntu
+import viewModel.SidebarViewModel
 
 @Composable
 fun DialogDeleteAccount(
@@ -43,24 +43,8 @@ fun DialogDeleteAccount(
                 .background(MaterialTheme.colors.surface, shape = RoundedCornerShape(8.dp))
         ) {
 
-            //===== Title
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth().padding(5.dp).padding(start = 5.dp)
-            ) {
-                TextPrimary(
-                    text = "Excluir conta ${account.group.name} / ${account.name}",
-                    size = 12.sp,
-                    color = MaterialTheme.colors.secondary,
-                )
-                ClickableIcon(
-                    icon = "close",
-                    padding = true,
-                    color = MaterialTheme.colors.secondary,
-                    onClick = onDismiss
-                )
-            }
+            //===== Title Bar
+            DialogTitleBar("Excluir conta ${account.group.name} / ${account.name}", onDismiss)
             Divider()
 
             //===== Account Information

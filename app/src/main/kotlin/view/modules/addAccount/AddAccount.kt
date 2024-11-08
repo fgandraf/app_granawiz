@@ -1,7 +1,10 @@
  package view.modules.addAccount
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
@@ -9,12 +12,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import config.IconPaths
 import view.modules.addAccount.components.AccountType
-import view.shared.ClickableIcon
-import view.shared.TextPrimary
+import view.shared.DialogTitleBar
 import viewModel.SidebarViewModel
 
  @Composable
@@ -30,24 +31,8 @@ fun AddAccount(
                 .background(MaterialTheme.colors.surface, shape = RoundedCornerShape(8.dp))
         ) {
 
-            //===== Title
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth().padding(5.dp).padding(start = 5.dp)
-            ) {
-                TextPrimary(
-                    text = "Adicionar nova conta",
-                    size = 12.sp,
-                    color = MaterialTheme.colors.secondary,
-                )
-                ClickableIcon(
-                    icon = "close",
-                    padding = true,
-                    color = MaterialTheme.colors.secondary,
-                    onClick = onDismiss
-                )
-            }
+            //===== Title Bar
+            DialogTitleBar("Adicionar nova conta", onDismiss)
             Divider()
 
             Column(

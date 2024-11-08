@@ -18,8 +18,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import config.IconPaths
-import view.shared.ClickableIcon
 import view.shared.DefaultTextField
+import view.shared.DialogTitleBar
 import view.shared.TextPrimary
 import view.theme.Purple600
 import view.theme.Ubuntu
@@ -37,24 +37,7 @@ fun DialogNewGroup(
                 .background(MaterialTheme.colors.surface, shape = RoundedCornerShape(8.dp))
         ) {
 
-            //===== Title
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth().padding(5.dp).padding(start = 5.dp)
-            ) {
-                TextPrimary(
-                    text = "Adicionar novo grupo",
-                    size = 12.sp,
-                    color = MaterialTheme.colors.secondary,
-                )
-                ClickableIcon(
-                    icon = "close",
-                    padding = true,
-                    color = MaterialTheme.colors.secondary,
-                    onClick = onDismiss
-                )
-            }
+            DialogTitleBar("Adicionar novo grupo", onDismiss)
             Divider()
 
             //===== Main

@@ -4,21 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b4b101b7-dcdd-45bf-9dca-3775c0981501" name="Changes" comment="Dialog New Group purge and button color">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/addAccount/AddAccount.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/addAccount/components/AccountType.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/view/shared/DialogTitleBar.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/assets/icons/systemIcons/checking.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/assets/icons/systemIcons/credit_card.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/assets/icons/systemIcons/investment.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/assets/icons/systemIcons/savings.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/Footer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/Footer.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/sidebar/components/DialogNewAccount.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/theme/Color.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/view/theme/Color.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/icons/systemIcons/arrange.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/icons/systemIcons/outlined_check.svg" beforeDir="false" />
+    <list default="true" id="b4b101b7-dcdd-45bf-9dca-3775c0981501" name="Changes" comment="Component Dialog Title Bar">
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/view/modules/addAccount/AddAccount.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/view/modules/addAccount/AddAccount.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -163,7 +150,7 @@
       <workItem from="1730988835281" duration="143000" />
       <workItem from="1730989865600" duration="614000" />
       <workItem from="1730992581110" duration="2625000" />
-      <workItem from="1731031969992" duration="5217000" />
+      <workItem from="1731031969992" duration="5317000" />
     </task>
     <task id="LOCAL-00001" summary="git ignore">
       <option name="closed" value="true" />
@@ -245,7 +232,23 @@
       <option name="project" value="LOCAL" />
       <updated>1731032955252</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Dialog Add Account home dialog">
+      <option name="closed" value="true" />
+      <created>1731037259171</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1731037259171</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Component Dialog Title Bar">
+      <option name="closed" value="true" />
+      <created>1731037282279</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1731037282279</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -263,6 +266,8 @@
     <MESSAGE value="Delete .gitkeep files" />
     <MESSAGE value="Dialog New Group add button" />
     <MESSAGE value="Dialog New Group purge and button color" />
-    <option name="LAST_COMMIT_MESSAGE" value="Dialog New Group purge and button color" />
+    <MESSAGE value="Dialog Add Account home dialog" />
+    <MESSAGE value="Component Dialog Title Bar" />
+    <option name="LAST_COMMIT_MESSAGE" value="Component Dialog Title Bar" />
   </component>
 </project>
