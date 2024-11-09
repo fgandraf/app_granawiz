@@ -124,7 +124,6 @@ fun DialogDeleteAccount(
                     align = TextAlign.Start
                 )
                 DefaultTextField(
-                    borderColor = if (confirmed) Color.Blue else Color.Red,
                     value = value,
                     onValueChange = { value = it },
                 )
