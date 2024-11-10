@@ -42,9 +42,16 @@ fun Footer(viewModel: SidebarViewModel) {
 
         Divider(modifier = Modifier.fillMaxHeight().width(1.dp))
 
-        var expanded by remember { mutableStateOf(false) }
-        ButtonFooterItem(Modifier.weight(1f), "add_account.svg", "Nova conta") { expanded = !expanded }
-        DropDownNewAccount(viewModel, expanded) { expanded = false }
+        var showNewAccountMenu by remember { mutableStateOf(false) }
+        ButtonFooterItem(
+            modifier = Modifier.weight(1f),
+            iconResource = "add_account.svg",
+            label = "Nova conta",
+            enabled = viewModel.groups.isNotEmpty()
+        ) {
+            showNewAccountMenu = !showNewAccountMenu
+        }
+        DropDownNewAccount(viewModel, showNewAccountMenu) { showNewAccountMenu = false }
 
     }
 }
