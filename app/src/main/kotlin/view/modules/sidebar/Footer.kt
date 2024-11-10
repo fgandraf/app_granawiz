@@ -37,7 +37,7 @@ fun Footer(viewModel: SidebarViewModel) {
     ){
 
         var showNewGroupDialog by remember { mutableStateOf(false) }
-        ButtonFooterItem(Modifier.weight(1f), "add_group.svg", "Novo grupo") { showNewGroupDialog = true }
+        ButtonFooterItem(Modifier.weight(1f), "group.svg", "Novo grupo") { showNewGroupDialog = true }
         if (showNewGroupDialog) DialogNewGroup(viewModel = viewModel, onDismiss = { showNewGroupDialog = false })
 
         Divider(modifier = Modifier.fillMaxHeight().width(1.dp))
@@ -45,7 +45,7 @@ fun Footer(viewModel: SidebarViewModel) {
         var showNewAccountMenu by remember { mutableStateOf(false) }
         ButtonFooterItem(
             modifier = Modifier.weight(1f),
-            iconResource = "add_account.svg",
+            iconResource = "account.svg",
             label = "Nova conta",
             enabled = viewModel.groups.isNotEmpty()
         ) {
@@ -77,7 +77,7 @@ fun DropDownNewAccount(
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
                 AccountType(
-                    icon = IconPaths.SYSTEM_ICONS + "checking.svg",
+                    icon = IconPaths.SYSTEM_ICONS + "checking_account.svg",
                     color = MaterialTheme.colors.primary,
                     label = "Conta Corrente",
                     onContainerClick = {
@@ -88,7 +88,7 @@ fun DropDownNewAccount(
                 )
 
                 AccountType(
-                    icon = IconPaths.SYSTEM_ICONS + "savings.svg",
+                    icon = IconPaths.SYSTEM_ICONS + "savings_account.svg",
                     color = MaterialTheme.colors.primary,
                     label = "Conta Poupança",
                     onContainerClick = {

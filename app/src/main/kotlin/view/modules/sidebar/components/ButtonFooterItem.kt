@@ -37,9 +37,9 @@ fun ButtonFooterItem(
             painter = painterResource(IconPaths.SYSTEM_ICONS + iconResource),
             contentDescription = null,
             tint = color,
-            modifier = Modifier.size(30.dp, 20.dp).padding(end = 5.dp)
+            modifier = Modifier.size(18.dp)
         )
-        Spacer(Modifier.height(2.dp))
+        Spacer(Modifier.height(1.dp))
 
         Text(
             text = label,

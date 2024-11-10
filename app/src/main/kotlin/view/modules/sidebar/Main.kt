@@ -40,7 +40,7 @@ fun Main(
             onClick = onScreenSelected
         )
         StaticMenuItem(
-            iconResource = "calendar",
+            iconResource = "schedule",
             label = "Agendamentos",
             screen = Screen.Schedules,
             currentScreen = currentScreen,
@@ -69,7 +69,7 @@ fun Main(
             onClick = onScreenSelected
         )
         StaticMenuItem(
-            iconResource = "recipient",
+            iconResource = "receiver",
             label = "Recebedores",
             screen = Screen.Receivers,
             currentScreen = currentScreen,
@@ -93,6 +93,7 @@ fun Main(
         Spacer(Modifier.height(10.dp))
 
 
+        //=== DYNAMIC MENU ITEMS
         if (viewModel.groups.isEmpty())
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -102,7 +103,6 @@ fun Main(
                 TextPrimary(text = "Nenhum grupo criado", italic = true, size = 10.sp)
             }
         else {
-            //=== DYNAMIC MENU ITEMS
             val expandedGroups = remember { mutableStateMapOf<String, Boolean>() }
             viewModel.groups.forEach { group ->
 

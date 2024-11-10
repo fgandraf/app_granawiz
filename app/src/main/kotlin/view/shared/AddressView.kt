@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.sp
 import view.theme.Ubuntu
 
 @Composable
-fun AddressView(icon: String, value: String, iconSize: DpSize = DpSize(16.dp, 16.dp)) {
+fun AddressView(icon: String, value: String, iconSize: DpSize = DpSize(17.dp, 17.dp)) {
     Row(modifier = Modifier, verticalAlignment = Alignment.CenterVertically) {
         Text(modifier = Modifier.padding(end = 10.dp),
             text = "/",

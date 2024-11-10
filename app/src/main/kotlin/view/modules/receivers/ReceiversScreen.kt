@@ -25,7 +25,7 @@ fun ReceiversScreen() {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Row { AddressView(IconPaths.SYSTEM_ICONS + "recipient.svg", "Recebedores") }
+                Row { AddressView(IconPaths.SYSTEM_ICONS + "receiver.svg", "Recebedores") }
                 SearchBar(onTuneClicked = { /* TO DO */ }, onSearchClicked = { /* TO DO */ })
             }
         }

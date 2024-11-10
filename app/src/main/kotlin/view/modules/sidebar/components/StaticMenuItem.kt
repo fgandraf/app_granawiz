@@ -44,7 +44,7 @@ fun StaticMenuItem(
             painter = painterResource(IconPaths.SYSTEM_ICONS + iconResource + ".svg"),
             contentDescription = null,
             tint = MaterialTheme.colors.primary,
-            modifier = Modifier.size(15.dp).offset(x = 10.dp),
+            modifier = Modifier.size(17.dp).offset(x = 10.dp),
         )
         Text(modifier = Modifier.offset(x = 22.dp),
             text = label,
