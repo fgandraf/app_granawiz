@@ -48,7 +48,7 @@ fun AddAccount(
 
                 when (accountType) {
                     AccountType.SAVINGS -> NewSavingAccount(sidebarViewModel, addAccountViewModel)
-                    AccountType.CHECKING -> NewCheckingAccount(sidebarViewModel, addAccountViewModel)
+                    AccountType.CHECKING -> NewCheckingAccount(sidebarViewModel, addAccountViewModel, onDismiss)
                     AccountType.CREDIT_CARD -> NewCreditCard(sidebarViewModel, addAccountViewModel)
                 }
 

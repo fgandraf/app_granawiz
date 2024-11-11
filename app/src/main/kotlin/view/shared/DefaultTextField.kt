@@ -22,6 +22,7 @@ fun DefaultTextField(
     boxSize: Dp = 35.dp,
     textAlign: TextAlign = TextAlign.Start,
     value: String,
+    placeholder: String = "",
     onValueChange: (String) -> Unit
 ){
     val primaryColor = MaterialTheme.colors.primary
@@ -54,7 +55,14 @@ fun DefaultTextField(
                 textAlign = textAlign
             ),
             value = value,
-            onValueChange = onValueChange
+            onValueChange = onValueChange,
+            decorationBox = { innerTextField ->
+                Box(modifier = Modifier.fillMaxSize()) {
+                    if (value.isEmpty())
+                        TextPrimary(text = placeholder, size = 10.sp, align = textAlign, modifier = Modifier.fillMaxWidth())
+                }
+                innerTextField()
+            }
         )
     }
 }

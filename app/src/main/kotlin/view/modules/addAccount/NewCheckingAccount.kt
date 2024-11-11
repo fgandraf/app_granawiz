@@ -10,6 +10,7 @@ import androidx.compose.material.ExposedDropdownMenuBox
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.res.painterResource
@@ -18,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import config.IconPaths
 import model.entity.Group
+import model.entity.account.CheckingAccount
 import view.shared.ComboBoxField
 import view.shared.DefaultButton
 import view.shared.DefaultTextField
@@ -29,7 +31,8 @@ import viewModel.SidebarViewModel
 @Composable
 fun NewCheckingAccount(
     sidebarViewModel: SidebarViewModel,
-    addAccountViewModel: AddAccountViewModel
+    addAccountViewModel: AddAccountViewModel,
+    onDismiss: () -> Unit
 ){
 
     var name by remember { mutableStateOf("") }
@@ -57,8 +60,6 @@ fun NewCheckingAccount(
                     contentDescription = "") }
         }
 
-
-
         //==== FORMULARIO
         Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 60.dp).padding(top = 35.dp, bottom = 50.dp)
         ) {
@@ -70,14 +71,23 @@ fun NewCheckingAccount(
             }
 
             //---open balance
+
             Row(modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp)) {
+                var openBalanceText by remember { mutableStateOf("") }
                 Column(modifier = Modifier.weight(1f).padding(end = 10.dp)) {
                     TextPrimary(text = "Saldo inicial:", modifier = Modifier.padding(bottom = 5.dp), size = 10.sp)
-                    DefaultTextField(value = openBalance.toString(), textAlign = TextAlign.Right){ openBalance = it.toDouble() }
+                    DefaultTextField(value = openBalanceText, textAlign = TextAlign.Right, placeholder = "0.000,00"){
+                        openBalanceText = it.filter { char -> char.isDigit() || char == ',' || char == '.' }
+                        openBalance = it.replace(".", "").replace(",", ".").toDoubleOrNull() ?: 0.0
+                    }
                 }
+                var limitText by remember { mutableStateOf("") }
                 Column(modifier = Modifier.weight(1f).padding(start = 10.dp)) {
                     TextPrimary(text = "Limite:", modifier = Modifier.padding(bottom = 5.dp), size = 10.sp)
-                    DefaultTextField(value = limit.toString(), textAlign = TextAlign.Right) { limit = it.toDouble() }
+                    DefaultTextField(value = limitText, textAlign = TextAlign.Right) {
+                        limitText = it.filter { char -> char.isDigit() || char == ',' || char == '.' }
+                        limit = it.replace(".", "").replace(",", ".").toDoubleOrNull() ?: 0.0
+                    }
                 }
             }
 
@@ -86,8 +96,12 @@ fun NewCheckingAccount(
                 TextPrimary(text = "Grupo:", modifier = Modifier.padding(bottom = 5.dp), size = 10.sp)
                 var expanded by remember { mutableStateOf(false) }
                 var selectedGroupName by remember { mutableStateOf("") }
-                ExposedDropdownMenuBox(expanded = expanded, onExpandedChange = { expanded = !expanded }) {
-                    ComboBoxField(label = selectedGroupName, expanded = expanded)
+                var focused by remember { mutableStateOf(false) }
+                ExposedDropdownMenuBox(
+                    modifier = Modifier.onFocusChanged { state -> focused = state.isFocused },
+                    expanded = expanded, onExpandedChange = { expanded = !expanded }) {
+
+                    ComboBoxField(label = selectedGroupName, focused = focused, expanded = expanded)
                     ExposedDropdownMenu(
                         modifier = Modifier.pointerHoverIcon(PointerIcon.Hand),
                         expanded = expanded, onDismissRequest = { expanded = false }
@@ -125,7 +139,20 @@ fun NewCheckingAccount(
             val confirmed by remember { derivedStateOf { name != "" && group.id != 0L } }
 
             DefaultButton(confirmed = confirmed, "Adicionar conta"){
-                //IMPLEMENTS
+
+                val account = CheckingAccount(
+                    name = name,
+                    description = description,
+                    position = sidebarViewModel.groups.find{ it.id == group.id }!!.accounts.size + 1,
+                    icon = "default.svg",
+                    balance = openBalance,
+                    group = group,
+                    openBalance = openBalance,
+                    overdraftLimit = limit
+                )
+                addAccountViewModel.addAccount(account)
+                sidebarViewModel.loadGroup()
+                onDismiss()
             }
         }
 
