@@ -33,12 +33,10 @@ fun NewCheckingAccount(
 ){
 
     var name by remember { mutableStateOf("") }
-    var initialAmount by remember { mutableStateOf(0.0) }
+    var openBalance by remember { mutableStateOf(0.0) }
     var limit by remember { mutableStateOf(0.0) }
     var group by remember { mutableStateOf(Group()) }
     var description by remember { mutableStateOf("") }
-
-
 
     Column(Modifier.fillMaxWidth().padding(top = 30.dp), horizontalAlignment = Alignment.CenterHorizontally) {
 
@@ -65,32 +63,25 @@ fun NewCheckingAccount(
         Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 60.dp).padding(top = 35.dp, bottom = 50.dp)
         ) {
 
-            //---NOME
+            //---name
             Column(modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp)) {
                 TextPrimary(text = "Nome:", modifier = Modifier.padding(bottom = 5.dp), size = 10.sp)
-                DefaultTextField(value = name, onValueChange = {
-                    name = it
-                })
+                DefaultTextField(value = name) { name = it }
             }
 
-            //---SALDO INICIAL
+            //---open balance
             Row(modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp)) {
-                Column(modifier = Modifier.weight(1f)) {
+                Column(modifier = Modifier.weight(1f).padding(end = 10.dp)) {
                     TextPrimary(text = "Saldo inicial:", modifier = Modifier.padding(bottom = 5.dp), size = 10.sp)
-                    DefaultTextField(value = initialAmount.toString(), textAlign = TextAlign.Right, onValueChange = {
-                        initialAmount = it.toDouble()
-                    })
+                    DefaultTextField(value = openBalance.toString(), textAlign = TextAlign.Right){ openBalance = it.toDouble() }
                 }
-                Spacer(modifier = Modifier.width(20.dp))
-                Column(modifier = Modifier.weight(1f)) {
+                Column(modifier = Modifier.weight(1f).padding(start = 10.dp)) {
                     TextPrimary(text = "Limite:", modifier = Modifier.padding(bottom = 5.dp), size = 10.sp)
-                    DefaultTextField(value = limit.toString(), textAlign = TextAlign.Right, onValueChange = {
-                        limit = it.toDouble()
-                    })
+                    DefaultTextField(value = limit.toString(), textAlign = TextAlign.Right) { limit = it.toDouble() }
                 }
             }
 
-            //---GRUPO
+            //---group
             Column(modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp)) {
                 TextPrimary(text = "Grupo:", modifier = Modifier.padding(bottom = 5.dp), size = 10.sp)
                 var expanded by remember { mutableStateOf(false) }
@@ -117,15 +108,12 @@ fun NewCheckingAccount(
                 }
             }
 
-            //---DESCRIÇÃO
+            //---description
             Column(modifier = Modifier.fillMaxWidth()) {
                 TextPrimary(text = "Descrição:", modifier = Modifier.padding(bottom = 5.dp), size = 10.sp)
-                DefaultTextField(value = description, boxSize = 80.dp, onValueChange = {
-                    description = it
-                })
+                DefaultTextField(value = description, boxSize = 80.dp) { description = it }
             }
         }
-
 
 
         //==== FOOTER
