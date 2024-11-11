@@ -4,6 +4,9 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Divider
+import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ExposedDropdownMenuBox
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -15,12 +18,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import config.IconPaths
 import model.entity.Group
+import view.shared.ComboBoxField
 import view.shared.DefaultButton
 import view.shared.DefaultTextField
 import view.shared.TextPrimary
 import viewModel.AddAccountViewModel
 import viewModel.SidebarViewModel
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun NewCheckingAccount(
     sidebarViewModel: SidebarViewModel,
@@ -30,7 +35,7 @@ fun NewCheckingAccount(
     var name by remember { mutableStateOf("") }
     var initialAmount by remember { mutableStateOf(0.0) }
     var limit by remember { mutableStateOf(0.0) }
-    var group by remember { mutableStateOf(Group(name="", position = 0)) }
+    var group by remember { mutableStateOf(Group()) }
     var description by remember { mutableStateOf("") }
 
 
@@ -59,6 +64,8 @@ fun NewCheckingAccount(
         //==== FORMULARIO
         Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 60.dp).padding(top = 35.dp, bottom = 50.dp)
         ) {
+
+            //---NOME
             Column(modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp)) {
                 TextPrimary(text = "Nome:", modifier = Modifier.padding(bottom = 5.dp), size = 10.sp)
                 DefaultTextField(value = name, onValueChange = {
@@ -66,6 +73,7 @@ fun NewCheckingAccount(
                 })
             }
 
+            //---SALDO INICIAL
             Row(modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp)) {
                 Column(modifier = Modifier.weight(1f)) {
                     TextPrimary(text = "Saldo inicial:", modifier = Modifier.padding(bottom = 5.dp), size = 10.sp)
@@ -82,13 +90,34 @@ fun NewCheckingAccount(
                 }
             }
 
+            //---GRUPO
             Column(modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp)) {
                 TextPrimary(text = "Grupo:", modifier = Modifier.padding(bottom = 5.dp), size = 10.sp)
-                DefaultTextField(value = "", onValueChange = {
-                    //IMPLEMENTS
-                })
+                var expanded by remember { mutableStateOf(false) }
+                var selectedGroupName by remember { mutableStateOf("") }
+                ExposedDropdownMenuBox(expanded = expanded, onExpandedChange = { expanded = !expanded }) {
+                    ComboBoxField(label = selectedGroupName, expanded = expanded)
+                    ExposedDropdownMenu(
+                        modifier = Modifier.pointerHoverIcon(PointerIcon.Hand),
+                        expanded = expanded, onDismissRequest = { expanded = false }
+                    ){
+                        sidebarViewModel.groups.forEach { x ->
+                            DropdownMenuItem(
+                                onClick = {
+                                    selectedGroupName = x.name
+                                    group = x
+                                    expanded = false
+                                }
+                            ) {
+                                TextPrimary(text = x.name, size = 12.sp)
+                            }
+                        }
+
+                    }
+                }
             }
 
+            //---DESCRIÇÃO
             Column(modifier = Modifier.fillMaxWidth()) {
                 TextPrimary(text = "Descrição:", modifier = Modifier.padding(bottom = 5.dp), size = 10.sp)
                 DefaultTextField(value = description, boxSize = 80.dp, onValueChange = {
@@ -105,7 +134,7 @@ fun NewCheckingAccount(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 10.dp)
         ) {
-            val confirmed by remember { derivedStateOf { name != "" && group != Group(name = "", position = 0) } }
+            val confirmed by remember { derivedStateOf { name != "" && group.id != 0L } }
 
             DefaultButton(confirmed = confirmed, "Adicionar conta"){
                 //IMPLEMENTS
