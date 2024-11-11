@@ -4,25 +4,21 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Divider
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.PointerIcon
-import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import config.IconPaths
+import view.shared.DefaultButton
 import view.shared.DefaultTextField
 import view.shared.DialogTitleBar
 import view.shared.TextPrimary
-import view.theme.Purple600
-import view.theme.Ubuntu
 import viewModel.SidebarViewModel
 
 @Composable
@@ -70,22 +66,9 @@ fun DialogNewGroup(
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 30.dp, vertical = 10.dp)
             ) {
 
-                Button(
-                    modifier = Modifier.fillMaxWidth().pointerHoverIcon(if(confirmed) PointerIcon.Hand else PointerIcon.Default),
-                    enabled = confirmed,
-                    colors = ButtonDefaults.buttonColors(backgroundColor = Purple600),
-                    onClick = {
-                        viewModel.addNewGroup(value)
-                        onDismiss()
-                    }
-                ){
-                    Text(
-                        text = "Adicionar",
-                        color = Color.White,
-                        fontStyle = if(!confirmed) FontStyle.Italic else FontStyle.Normal,
-                        fontFamily = Ubuntu,
-                        fontSize = 12.sp,
-                    )
+                DefaultButton(confirmed, "Adicionar"){
+                    viewModel.addNewGroup(value)
+                    onDismiss()
                 }
 
             }

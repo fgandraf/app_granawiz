@@ -27,7 +27,7 @@ fun AddAccount(
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
-                .width(500.dp).height(400.dp)
+                .width(500.dp).defaultMinSize(minHeight = 400.dp)
                 .background(MaterialTheme.colors.surface, shape = RoundedCornerShape(8.dp))
         ) {
 
@@ -43,8 +43,7 @@ fun AddAccount(
 
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier.padding(top = 50.dp, bottom = 70.dp)
+                verticalArrangement = Arrangement.Center
             ) {
 
                 when (accountType) {

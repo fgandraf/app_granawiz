@@ -1,9 +1,7 @@
 package view.shared
 
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.MaterialTheme
@@ -13,12 +11,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import view.theme.Ubuntu
 
 @Composable
 fun DefaultTextField(
+    boxSize: Dp = 35.dp,
+    textAlign: TextAlign = TextAlign.Start,
     value: String,
     onValueChange: (String) -> Unit
 ){
@@ -31,21 +33,25 @@ fun DefaultTextField(
     Box(contentAlignment = Alignment.Center,
         modifier = Modifier
             .fillMaxWidth()
+            .height(boxSize)
             .border(borderSize, borderColor, shape = RoundedCornerShape(5.dp))
             .clip(RoundedCornerShape(5.dp))
             .padding(10.dp)
     ) {
         BasicTextField(
-            modifier = Modifier.fillMaxWidth().onFocusChanged { focusState ->
-                if (focusState.isFocused){ borderSize = 1.2.dp; borderColor = secondaryColor }
-                else { borderSize = 1.dp; borderColor = primaryColor }
+            modifier = Modifier
+                .fillMaxSize()
+                .onFocusChanged { focusState ->
+                    if (focusState.isFocused){ borderSize = 1.2.dp; borderColor = secondaryColor }
+                    else { borderSize = 1.dp; borderColor = primaryColor }
             },
-            singleLine = true,
+            singleLine = boxSize <= 35.dp,
             textStyle = TextStyle(
                 fontFamily = Ubuntu,
                 fontSize = 12.sp,
                 color = MaterialTheme.colors.primary,
-                lineHeight = 16.sp
+                lineHeight = 16.sp,
+                textAlign = textAlign
             ),
             value = value,
             onValueChange = onValueChange
