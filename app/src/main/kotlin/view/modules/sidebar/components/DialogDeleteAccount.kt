@@ -5,16 +5,15 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Divider
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.PointerIcon
-import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -22,6 +21,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import config.IconPaths
 import model.entity.account.BankAccount
+import view.shared.DefaultButton
 import view.shared.DefaultTextField
 import view.shared.DialogTitleBar
 import view.shared.TextPrimary
@@ -136,23 +136,9 @@ fun DialogDeleteAccount(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxWidth().padding(vertical = 10.dp, horizontal = 20.dp)
             ){
-                Button(
-                    modifier = Modifier.fillMaxWidth().pointerHoverIcon(if(confirmed) PointerIcon.Hand else PointerIcon.Default),
-                    shape = RoundedCornerShape(20.dp),
-                    enabled = confirmed,
-                    colors = ButtonDefaults.buttonColors(backgroundColor = Color.Red),
-                    onClick = {
-                        viewModel.deleteAccount(account)
-                        onDismiss()
-                    }
-                ){
-                    Text(
-                        text = "Excluir conta",
-                        color = Color.White,
-                        fontStyle = if(!confirmed) FontStyle.Italic else FontStyle.Normal,
-                        fontFamily = Ubuntu,
-                        fontSize = 12.sp,
-                    )
+                DefaultButton(confirmed = confirmed, color = Red400, label = "Excluir conta"){
+                    viewModel.deleteAccount(account)
+                    onDismiss()
                 }
             }
         }

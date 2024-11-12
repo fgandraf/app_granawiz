@@ -20,11 +20,12 @@ import view.theme.Ubuntu
 fun DefaultButton(
     confirmed: Boolean,
     label: String,
+    color: Color = Purple600,
     onClick: () -> Unit,
 ){
     Button(
         enabled = confirmed,
-        colors = ButtonDefaults.buttonColors(backgroundColor = Purple600),
+        colors = ButtonDefaults.buttonColors(backgroundColor = color),
         onClick = onClick,
         shape = RoundedCornerShape(12.dp),
         modifier = Modifier
