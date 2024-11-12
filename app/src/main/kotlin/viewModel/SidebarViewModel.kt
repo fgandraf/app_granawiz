@@ -1,11 +1,12 @@
 package viewModel
 
-import androidx.compose.runtime.*
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import model.dao.AccountDao
 import model.dao.GroupDao
 import model.entity.Group
 import model.entity.account.BankAccount
-import model.entity.account.CheckingAccount
 
 class SidebarViewModel {
 
@@ -13,24 +14,6 @@ class SidebarViewModel {
     var totalAccounts by mutableStateOf(0.0); private set
 
     init {
-        loadGroup()
-        fetchTotalAccounts()
-    }
-
-    fun insertTestAccountOnGroup() {
-        val teste = CheckingAccount(
-            name = "Conta teste",
-            description = "Conta de Teste",
-            position = groups[0].accounts.size + 1,
-            icon = "nubank.svg",
-            balance = 230.0,
-            openBalance = 0.0,
-            overdraftLimit = 0.0,
-            group = groups[0]
-        )
-        val dao = AccountDao()
-        dao.insert(teste)
-
         loadGroup()
         fetchTotalAccounts()
     }

@@ -21,13 +21,12 @@ import model.entity.Group
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun ListComboBox(
+fun GroupListComboBox(
     modifier: Modifier = Modifier,
     value: String,
     label: String? = null,
     placeholder: String,
-    expanded: MutableState<Boolean>,
-    list: List<Group>,
+    groupList: List<Group>,
     onClickItem: (Group) -> Unit = {}
 ){
 
@@ -44,13 +43,14 @@ fun ListComboBox(
     }
 
     Column(modifier = modifier){
+        var expanded by remember { mutableStateOf(false) }
 
         if (label != null)
             TextPrimary(text = label, modifier = Modifier.padding(bottom = 5.dp), size = 10.sp)
 
         ExposedDropdownMenuBox(
             modifier = Modifier.onFocusChanged { state -> focused.value = state.isFocused },
-            expanded = expanded.value, onExpandedChange = { expanded.value = !expanded.value }
+            expanded = expanded, onExpandedChange = { expanded = !expanded }
         ) {
 
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween,
@@ -78,7 +78,7 @@ fun ListComboBox(
                     Modifier.size(35.dp)
                 ) {
                     Icon(
-                        painter = painterResource(if (expanded.value) IconPaths.SYSTEM_ICONS + "toggle_down.svg" else IconPaths.SYSTEM_ICONS + "toggle_right.svg"),
+                        painter = painterResource(if (expanded) IconPaths.SYSTEM_ICONS + "toggle_down.svg" else IconPaths.SYSTEM_ICONS + "toggle_right.svg"),
                         contentDescription = null,
                         tint = MaterialTheme.colors.primary,
                         modifier = Modifier.size(15.dp).align(Alignment.Center)
@@ -89,10 +89,10 @@ fun ListComboBox(
 
             ExposedDropdownMenu(
                 modifier = Modifier.pointerHoverIcon(PointerIcon.Hand),
-                expanded = expanded.value, onDismissRequest = { expanded.value = false }
+                expanded = expanded, onDismissRequest = { expanded = false }
             ) {
-                list.forEach { item ->
-                    DropdownMenuItem( onClick = { onClickItem(item) } ) {
+                groupList.forEach { item ->
+                    DropdownMenuItem( onClick = { onClickItem(item); expanded = !expanded } ) {
                         TextPrimary(text = item.name, size = 12.sp)
                     }
                 }

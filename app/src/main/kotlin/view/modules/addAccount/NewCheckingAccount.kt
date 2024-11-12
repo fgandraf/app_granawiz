@@ -14,12 +14,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import model.entity.Group
-import model.entity.account.CheckingAccount
 import view.modules.addAccount.components.IconSelector
 import view.shared.DefaultButton
 import view.shared.DefaultTextField
-import view.shared.ListComboBox
+import view.shared.GroupListComboBox
 import viewModel.AddAccountViewModel
 import viewModel.SidebarViewModel
 
@@ -30,24 +28,16 @@ fun NewCheckingAccount(
     onDismiss: () -> Unit
 ){
 
-    var name by remember { mutableStateOf("") }
-    var icon by remember { mutableStateOf("default.svg") }
-    var openBalance by remember { mutableStateOf(0.0) }
-    var limit by remember { mutableStateOf(0.0) }
-    var group by remember { mutableStateOf(Group()) }
-    var description by remember { mutableStateOf("") }
-
     Column(Modifier.fillMaxWidth().padding(top = 30.dp), horizontalAlignment = Alignment.CenterHorizontally) {
 
         //==== ICON
-        IconSelector(icon) { icon = it }
+        IconSelector(addAccountViewModel.icon) { addAccountViewModel.icon = it }
 
         //==== FORM
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 60.dp)
-                .padding(top = 35.dp, bottom = 50.dp)
+                .padding(start = 60.dp, end = 60.dp, top = 35.dp, bottom = 50.dp)
                 .background(MaterialTheme.colors.onPrimary, RoundedCornerShape(16.dp))
                 .border(0.5.dp, MaterialTheme.colors.primaryVariant, RoundedCornerShape(8.dp))
         ) {
@@ -56,10 +46,10 @@ fun NewCheckingAccount(
                 //---name
                 DefaultTextField(
                     modifier = Modifier.padding(bottom = 20.dp),
-                    value = name,
+                    value = addAccountViewModel.name,
                     label = "Nome:",
                     placeholder = "Nome da conta"
-                ) { name = it }
+                ) { addAccountViewModel.name = it }
 
                 Row(modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp)) {
                     //---open balance
@@ -72,7 +62,7 @@ fun NewCheckingAccount(
                         placeholder = "0.000,00"
                     ) {
                         openBalanceText = it.filter { char -> char.isDigit() || char == ',' || char == '.' }
-                        openBalance = it.replace(".", "").replace(",", ".").toDoubleOrNull() ?: 0.0
+                        addAccountViewModel.openBalance = it.replace(".", "").replace(",", ".").toDoubleOrNull() ?: 0.0
                     }
 
                     //---limit
@@ -85,29 +75,27 @@ fun NewCheckingAccount(
                         placeholder = "0.000,00"
                     ) {
                         limitText = it.filter { char -> char.isDigit() || char == ',' || char == '.' }
-                        limit = it.replace(".", "").replace(",", ".").toDoubleOrNull() ?: 0.0
+                        addAccountViewModel.limit = it.replace(".", "").replace(",", ".").toDoubleOrNull() ?: 0.0
                     }
                 }
 
                 //---group
-                val expandedGroupItems = remember { mutableStateOf(false) }
-                ListComboBox(
+                GroupListComboBox(
                     modifier = Modifier.padding(bottom = 20.dp),
-                    value = group.name,
+                    value = addAccountViewModel.group.name,
                     label = "Grupo:",
                     placeholder = "Selecione o grupo",
-                    expanded = expandedGroupItems,
-                    list = sidebarViewModel.groups,
-                    onClickItem = { group = it; expandedGroupItems.value = false }
+                    groupList = sidebarViewModel.groups,
+                    onClickItem = { addAccountViewModel.group = it }
                 )
 
                 //---description
                 DefaultTextField(
-                    value = description,
+                    value = addAccountViewModel.description,
                     label = "Descrição:",
                     boxSize = 80.dp,
                     placeholder = "Informações adicionais"
-                ) { description = it }
+                ) { addAccountViewModel.description = it }
             }
         }
 
@@ -118,21 +106,10 @@ fun NewCheckingAccount(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 10.dp)
         ) {
-            val confirmed by remember { derivedStateOf { name != "" && group.id != 0L } }
+            val confirmed by remember { derivedStateOf { addAccountViewModel.name != "" && addAccountViewModel.group.id != 0L } }
 
             DefaultButton(confirmed = confirmed, "Adicionar conta") {
-
-                val account = CheckingAccount(
-                    name = name,
-                    description = description,
-                    position = sidebarViewModel.groups.find { it.id == group.id }!!.accounts.size + 1,
-                    icon = icon,
-                    balance = openBalance,
-                    group = group,
-                    openBalance = openBalance,
-                    overdraftLimit = limit
-                )
-                addAccountViewModel.addAccount(account)
+                addAccountViewModel.addCheckingAccount(sidebarViewModel.groups)
                 sidebarViewModel.loadGroup()
                 onDismiss()
             }
