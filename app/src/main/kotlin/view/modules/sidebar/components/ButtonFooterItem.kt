@@ -22,28 +22,29 @@ fun ButtonFooterItem(
     modifier: Modifier = Modifier,
     iconResource: String,
     label: String,
+    enabled: Boolean = true,
     onClick: () -> Unit
 ) {
 
+    val color = if (enabled) MaterialTheme.colors.primary else MaterialTheme.colors.primaryVariant
+    val newModifier = if (enabled) modifier.clickable(onClick = onClick).pointerHoverIcon(PointerIcon.Hand) else modifier
+
     Column(verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
-            .fillMaxHeight()
-            .pointerHoverIcon(PointerIcon.Hand)
-            .clickable { onClick() }
+        modifier = newModifier.fillMaxHeight()
     ) {
         Icon(
             painter = painterResource(IconPaths.SYSTEM_ICONS + iconResource),
             contentDescription = null,
-            tint = MaterialTheme.colors.secondary,
-            modifier = Modifier.size(30.dp, 20.dp).padding(end = 5.dp)
+            tint = color,
+            modifier = Modifier.size(18.dp)
         )
-        Spacer(Modifier.height(2.dp))
+        Spacer(Modifier.height(1.dp))
 
         Text(
             text = label,
             fontSize  = 12.sp,
-            color = MaterialTheme.colors.primary,
+            color =  color,
             fontWeight = FontWeight.Normal,
             lineHeight = 0.sp,
             fontFamily = Afacade

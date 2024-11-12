@@ -4,7 +4,7 @@ import jakarta.persistence.*
 import model.entity.account.BankAccount
 
 @Entity
-@Table(name = "TBL_GROUPS")
+@Table(name = "tbl_groups")
 open class Group(
 
     @Id
@@ -12,11 +12,13 @@ open class Group(
     @Column(name = "id", columnDefinition = "INTEGER")
     open val id: Long = 0,
 
-    open val name: String,
+    open val name: String = "",
 
-    open var position: Int,
+    open var position: Int = 0,
 
     @OneToMany(mappedBy = "group", cascade = [CascadeType.ALL], fetch = FetchType.LAZY, orphanRemoval = true)
     open val accounts: MutableList<BankAccount> = mutableListOf()
 
-) {}
+) {
+    constructor() : this(0, "", 0, mutableListOf())
+}

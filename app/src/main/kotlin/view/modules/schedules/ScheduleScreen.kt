@@ -20,7 +20,7 @@ fun ScheduleScreen() {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Row { AddressView(IconPaths.SYSTEM_ICONS + "calendar.svg", "Agendamentos") }
+                Row { AddressView(IconPaths.SYSTEM_ICONS + "schedule.svg", "Agendamentos") }
             }
         }
 

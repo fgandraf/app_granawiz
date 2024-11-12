@@ -19,10 +19,10 @@ class CreditCardAccount(
     @Column(name = "credit_limit")
     var creditLimit: Double,
 
-    @Column(name = "closing_date")
-    val closingDate: String,
+    @Column(name = "closing_day")
+    val closingDay: Int,
 
-    @Column(name = "due_date")
-    val dueDate: String
+    @Column(name = "due_day")
+    val dueDay: Int
 ) : BankAccount(type = AccountType.CREDIT_CARD, name = name, description = description, position = position, icon = icon, balance = balance, group = group) {
 }

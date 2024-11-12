@@ -1,0 +1,104 @@
+package view.modules.addAccount
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Divider
+import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import view.modules.addAccount.components.IconSelector
+import view.shared.DefaultButton
+import view.shared.DefaultTextField
+import view.shared.GroupListComboBox
+import viewModel.AddAccountViewModel
+import viewModel.SidebarViewModel
+
+@Composable
+fun NewSavingAccount(
+    sidebarViewModel: SidebarViewModel,
+    addAccountViewModel: AddAccountViewModel,
+    onDismiss: () -> Unit
+){
+
+    Column(Modifier.fillMaxWidth().padding(top = 30.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+
+        //==== ICON
+        IconSelector(addAccountViewModel.icon) { addAccountViewModel.icon = it }
+
+        //==== FORM
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 60.dp, end = 60.dp, top = 35.dp, bottom = 50.dp)
+                .background(MaterialTheme.colors.onPrimary, RoundedCornerShape(16.dp))
+                .border(0.5.dp, MaterialTheme.colors.primaryVariant, RoundedCornerShape(8.dp))
+        ) {
+            Column(Modifier.fillMaxWidth().padding(40.dp)) {
+
+                //---name
+                DefaultTextField(
+                    modifier = Modifier.padding(bottom = 20.dp),
+                    value = addAccountViewModel.name,
+                    label = "Nome:",
+                    placeholder = "Nome da conta"
+                ) { addAccountViewModel.name = it }
+
+
+                //---open balance
+                var openBalanceText by remember { mutableStateOf("") }
+                DefaultTextField(
+                    modifier = Modifier.padding(bottom = 20.dp),
+                    value = openBalanceText,
+                    label = "Saldo inicial:",
+                    textAlign = TextAlign.Right,
+                    placeholder = "0.000,00"
+                ) {
+                    openBalanceText = it.filter { char -> char.isDigit() || char == ',' || char == '.' }
+                    addAccountViewModel.openBalance = it.replace(".", "").replace(",", ".").toDoubleOrNull() ?: 0.0
+                }
+
+                //---group
+                GroupListComboBox(
+                    modifier = Modifier.padding(bottom = 20.dp),
+                    value = addAccountViewModel.group.name,
+                    label = "Grupo:",
+                    placeholder = "Selecione o grupo",
+                    groupList = sidebarViewModel.groups,
+                    onClickItem = { addAccountViewModel.group = it }
+                )
+
+                //---description
+                DefaultTextField(
+                    value = addAccountViewModel.description,
+                    label = "Descrição:",
+                    boxSize = 80.dp,
+                    placeholder = "Informações adicionais"
+                ) { addAccountViewModel.description = it }
+            }
+        }
+
+
+        //==== FOOTER
+        Divider()
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 10.dp)
+        ) {
+            val confirmed by remember { derivedStateOf { addAccountViewModel.name != "" && addAccountViewModel.group.id != 0L } }
+
+            DefaultButton(confirmed = confirmed, "Adicionar conta") {
+                addAccountViewModel.addSavingAccount(sidebarViewModel.groups)
+                sidebarViewModel.loadGroup()
+                onDismiss()
+            }
+        }
+    }
+
+}

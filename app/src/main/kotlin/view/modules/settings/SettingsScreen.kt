@@ -18,7 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import view.shared.ClickableIcon
+import view.shared.DialogTitleBar
 import view.theme.Afacade
 import view.theme.Gray200
 
@@ -33,18 +33,9 @@ fun SettingsScreen(
                 .height(600.dp)
                 .background(MaterialTheme.colors.surface, shape = RoundedCornerShape(8.dp))
         ) {
-            Row(
-                horizontalArrangement = Arrangement.End,
-                modifier = Modifier.fillMaxWidth().padding(5.dp)
-            ) {
-                ClickableIcon(
-                    icon = "close",
-                    padding = true,
-                    color = MaterialTheme.colors.secondary,
-                    onClick = onDismiss
-                )
-            }
 
+            //===== Title Bar
+            DialogTitleBar("", onDismiss)
 
             //===== Logo
             Column(

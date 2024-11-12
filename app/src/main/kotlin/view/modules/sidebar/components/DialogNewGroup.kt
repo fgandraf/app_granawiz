@@ -15,9 +15,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import config.IconPaths
-import view.shared.ClickableIcon
-import view.shared.ClickableRow
+import view.shared.DefaultButton
 import view.shared.DefaultTextField
+import view.shared.DialogTitleBar
 import view.shared.TextPrimary
 import viewModel.SidebarViewModel
 
@@ -33,24 +33,7 @@ fun DialogNewGroup(
                 .background(MaterialTheme.colors.surface, shape = RoundedCornerShape(8.dp))
         ) {
 
-            //===== Title
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth().padding(5.dp).padding(start = 5.dp)
-            ) {
-                TextPrimary(
-                    text = "Adicionar novo grupo",
-                    size = 12.sp,
-                    color = MaterialTheme.colors.secondary,
-                )
-                ClickableIcon(
-                    icon = "close",
-                    padding = true,
-                    color = MaterialTheme.colors.secondary,
-                    onClick = onDismiss
-                )
-            }
+            DialogTitleBar("Adicionar novo grupo", onDismiss)
             Divider()
 
             //===== Main
@@ -76,19 +59,18 @@ fun DialogNewGroup(
             Divider()
 
 
+            val confirmed by remember { derivedStateOf { value != "" } }
             //===== Footer
             Column(
                 verticalArrangement = Arrangement.Center,
-                modifier = Modifier.padding(horizontal = 30.dp, vertical = 10.dp)
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 30.dp, vertical = 10.dp)
             ) {
-                ClickableRow(
-                    enabled = value != "",
-                    roundedBorder = true,
-                    label = "Adicionar",
-                ){
+
+                DefaultButton(confirmed, "Adicionar"){
                     viewModel.addNewGroup(value)
                     onDismiss()
                 }
+
             }
 
         }

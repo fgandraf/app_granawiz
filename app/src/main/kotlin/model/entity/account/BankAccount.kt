@@ -7,7 +7,7 @@ import model.enums.AccountType
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "account_type", discriminatorType = DiscriminatorType.STRING)
-@Table(name = "TBL_BANK_ACCOUNTS")
+@Table(name = "tbl_bank_accounts")
 open class BankAccount(
 
     @Id

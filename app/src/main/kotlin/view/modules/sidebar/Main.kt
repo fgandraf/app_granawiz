@@ -1,22 +1,22 @@
 package view.modules.sidebar
 
 import androidx.compose.animation.*
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import view.modules.Screen
 import view.modules.sidebar.components.AccountMenuItem
 import view.modules.sidebar.components.GroupMenuItem
 import view.modules.sidebar.components.SectionTitle
 import view.modules.sidebar.components.StaticMenuItem
+import view.shared.TextPrimary
 import viewModel.SidebarViewModel
 
 @Composable
@@ -40,7 +40,7 @@ fun Main(
             onClick = onScreenSelected
         )
         StaticMenuItem(
-            iconResource = "calendar",
+            iconResource = "schedule",
             label = "Agendamentos",
             screen = Screen.Schedules,
             currentScreen = currentScreen,
@@ -69,7 +69,7 @@ fun Main(
             onClick = onScreenSelected
         )
         StaticMenuItem(
-            iconResource = "recipient",
+            iconResource = "receiver",
             label = "Recebedores",
             screen = Screen.Receivers,
             currentScreen = currentScreen,
@@ -93,38 +93,47 @@ fun Main(
         Spacer(Modifier.height(10.dp))
 
 
-
         //=== DYNAMIC MENU ITEMS
-        val expandedGroups = remember { mutableStateMapOf<String, Boolean>() }
-        viewModel.groups.forEach { group ->
-
-            val isExpanded = expandedGroups[group.name] ?: true
-            GroupMenuItem(
-                viewModel = viewModel,
-                group = group,
-                isExpanded = isExpanded,
-                toggleClick = { expandedGroups[group.name] = !isExpanded }
-            )
-
-            AnimatedVisibility(
-                visible = isExpanded,
-                enter = expandVertically() + fadeIn(),
-                exit = shrinkVertically() + fadeOut()
+        if (viewModel.groups.isEmpty())
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxWidth()
             ) {
-                Column {
-                    group.accounts.forEach { account ->
-                        AccountMenuItem(
-                            viewModel = viewModel,
-                            account = account,
-                            group = group,
-                            screen = Screen.Transactions(account),
-                            currentScreen = currentScreen,
-                            onClick = onScreenSelected
-                        )
+                TextPrimary(text = "Nenhum grupo criado", italic = true, size = 10.sp)
+            }
+        else {
+            val expandedGroups = remember { mutableStateMapOf<String, Boolean>() }
+            viewModel.groups.forEach { group ->
+
+                val isExpanded = expandedGroups[group.name] ?: true
+                GroupMenuItem(
+                    viewModel = viewModel,
+                    group = group,
+                    isExpanded = isExpanded,
+                    toggleClick = { expandedGroups[group.name] = !isExpanded }
+                )
+
+                AnimatedVisibility(
+                    visible = isExpanded,
+                    enter = expandVertically() + fadeIn(),
+                    exit = shrinkVertically() + fadeOut()
+                ) {
+                    Column {
+                        group.accounts.forEach { account ->
+                            AccountMenuItem(
+                                viewModel = viewModel,
+                                account = account,
+                                group = group,
+                                screen = Screen.Transactions(account),
+                                currentScreen = currentScreen,
+                                onClick = onScreenSelected
+                            )
+                        }
                     }
                 }
+                Spacer(Modifier.height(5.dp))
             }
-            Spacer(Modifier.height(5.dp))
         }
 
     }

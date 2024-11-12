@@ -1,3 +1,6 @@
+### IntelliJ ###
+app/.idea
+
 ### Kotlin ###
 .kotlin
 

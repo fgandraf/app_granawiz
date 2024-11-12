@@ -1,18 +1,16 @@
 package model.dao
 
 import config.HibernateUtil
-import model.entity.Group
 import model.entity.account.BankAccount
 
 class AccountDao {
 
     private val sessionFactory = HibernateUtil.getSessionFactory()
 
-    fun insert(account: BankAccount, group: Group) {
+    fun insert(account: BankAccount) {
         val session = sessionFactory.openSession()
 
         session.beginTransaction()
-        group.accounts.add(account)
         session.persist(account)
         session.transaction.commit()
 
@@ -38,7 +36,6 @@ class AccountDao {
             session.close()
         }
     }
-
 
 
 }

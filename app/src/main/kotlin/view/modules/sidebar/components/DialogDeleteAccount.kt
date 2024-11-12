@@ -5,16 +5,15 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Divider
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.PointerIcon
-import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -22,13 +21,14 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import config.IconPaths
 import model.entity.account.BankAccount
-import viewModel.SidebarViewModel
-import view.shared.ClickableIcon
+import view.shared.DefaultButton
 import view.shared.DefaultTextField
+import view.shared.DialogTitleBar
 import view.shared.TextPrimary
 import view.theme.Red200
 import view.theme.Red400
 import view.theme.Ubuntu
+import viewModel.SidebarViewModel
 
 @Composable
 fun DialogDeleteAccount(
@@ -43,24 +43,8 @@ fun DialogDeleteAccount(
                 .background(MaterialTheme.colors.surface, shape = RoundedCornerShape(8.dp))
         ) {
 
-            //===== Title
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth().padding(5.dp).padding(start = 5.dp)
-            ) {
-                TextPrimary(
-                    text = "Excluir conta ${account.group.name} / ${account.name}",
-                    size = 12.sp,
-                    color = MaterialTheme.colors.secondary,
-                )
-                ClickableIcon(
-                    icon = "close",
-                    padding = true,
-                    color = MaterialTheme.colors.secondary,
-                    onClick = onDismiss
-                )
-            }
+            //===== Title Bar
+            DialogTitleBar("Excluir conta ${account.group.name} / ${account.name}", onDismiss)
             Divider()
 
             //===== Account Information
@@ -131,16 +115,15 @@ fun DialogDeleteAccount(
             val confirmed by remember { derivedStateOf { value == "${account.group.name}/${account.name}" } }
             Column(
                 verticalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxWidth().padding(20.dp)
+                modifier = Modifier.fillMaxWidth().padding(vertical = 20.dp, horizontal = 40.dp)
             ){
                 TextPrimary(
                     modifier = Modifier.padding(bottom = 5.dp),
-                    text = "Para confirmar, digite \"${account.group.name}/${account.name}\" abaixo:",
+                    text = "Digite \"${account.group.name}/${account.name}\"",
                     size = 12.sp,
                     align = TextAlign.Start
                 )
                 DefaultTextField(
-                    borderColor = if (confirmed) Color.Blue else Color.Red,
                     value = value,
                     onValueChange = { value = it },
                 )
@@ -153,22 +136,9 @@ fun DialogDeleteAccount(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxWidth().padding(vertical = 10.dp, horizontal = 20.dp)
             ){
-                Button(
-                    modifier = Modifier.fillMaxWidth().pointerHoverIcon(if(confirmed) PointerIcon.Hand else PointerIcon.Default),
-                    enabled = confirmed,
-                    colors = ButtonDefaults.buttonColors(backgroundColor = Color.Red),
-                    onClick = {
-                        viewModel.deleteAccount(account)
-                        onDismiss()
-                    }
-                ){
-                    Text(
-                        text = "Excluir conta",
-                        color = Color.White,
-                        fontStyle = if(!confirmed) FontStyle.Italic else FontStyle.Normal,
-                        fontFamily = Ubuntu,
-                        fontSize = 12.sp,
-                    )
+                DefaultButton(confirmed = confirmed, color = Red400, label = "Excluir conta"){
+                    viewModel.deleteAccount(account)
+                    onDismiss()
                 }
             }
         }
