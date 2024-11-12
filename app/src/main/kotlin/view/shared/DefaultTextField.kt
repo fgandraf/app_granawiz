@@ -19,9 +19,11 @@ import view.theme.Ubuntu
 
 @Composable
 fun DefaultTextField(
+    modifier: Modifier = Modifier,
     boxSize: Dp = 35.dp,
     textAlign: TextAlign = TextAlign.Start,
     value: String,
+    label: String? = null,
     placeholder: String = "",
     onValueChange: (String) -> Unit
 ){
@@ -31,38 +33,48 @@ fun DefaultTextField(
     var borderSize by remember { mutableStateOf(1.dp) }
     var borderColor by remember { mutableStateOf(primaryColor) }
 
-    Box(contentAlignment = Alignment.Center,
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(boxSize)
-            .border(borderSize, borderColor, shape = RoundedCornerShape(5.dp))
-            .clip(RoundedCornerShape(5.dp))
-            .padding(10.dp)
-    ) {
-        BasicTextField(
+    Column(modifier = modifier) {
+        if (label != null)
+            TextPrimary(text = label, modifier = Modifier.padding(bottom = 5.dp), size = 10.sp)
+
+        Box(contentAlignment = Alignment.Center,
             modifier = Modifier
-                .fillMaxSize()
-                .onFocusChanged { focusState ->
-                    if (focusState.isFocused){ borderSize = 1.2.dp; borderColor = secondaryColor }
-                    else { borderSize = 1.dp; borderColor = primaryColor }
-            },
-            singleLine = boxSize <= 35.dp,
-            textStyle = TextStyle(
-                fontFamily = Ubuntu,
-                fontSize = 12.sp,
-                color = MaterialTheme.colors.primary,
-                lineHeight = 16.sp,
-                textAlign = textAlign
-            ),
-            value = value,
-            onValueChange = onValueChange,
-            decorationBox = { innerTextField ->
-                Box(modifier = Modifier.fillMaxSize()) {
-                    if (value.isEmpty())
-                        TextPrimary(text = placeholder, size = 10.sp, align = textAlign, modifier = Modifier.fillMaxWidth())
+                .fillMaxWidth()
+                .height(boxSize)
+                .border(borderSize, borderColor, shape = RoundedCornerShape(5.dp))
+                .clip(RoundedCornerShape(5.dp))
+                .padding(10.dp)
+        ) {
+            BasicTextField(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .onFocusChanged { focusState ->
+                        if (focusState.isFocused){ borderSize = 1.2.dp; borderColor = secondaryColor }
+                        else { borderSize = 1.dp; borderColor = primaryColor }
+                    },
+                singleLine = boxSize <= 35.dp,
+                textStyle = TextStyle(
+                    fontFamily = Ubuntu,
+                    fontSize = 12.sp,
+                    color = MaterialTheme.colors.primary,
+                    lineHeight = 16.sp,
+                    textAlign = textAlign
+                ),
+                value = value,
+                onValueChange = onValueChange,
+                decorationBox = { innerTextField ->
+                    Box(modifier = Modifier.fillMaxSize()) {
+                        if (value.isEmpty())
+                            TextPrimary(
+                                text = placeholder,
+                                size = 10.sp,
+                                align = textAlign,
+                                color = primaryColor.copy(alpha = 0.75f),
+                                modifier = Modifier.fillMaxWidth())
+                    }
+                    innerTextField()
                 }
-                innerTextField()
-            }
-        )
+            )
+        }
     }
 }

@@ -1,6 +1,7 @@
 package view.shared
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
@@ -10,6 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import view.theme.Purple600
 import view.theme.Ubuntu
@@ -21,10 +23,13 @@ fun DefaultButton(
     onClick: () -> Unit,
 ){
     Button(
-        modifier = Modifier.fillMaxWidth().pointerHoverIcon(if(confirmed) PointerIcon.Hand else PointerIcon.Default),
         enabled = confirmed,
         colors = ButtonDefaults.buttonColors(backgroundColor = Purple600),
-        onClick = onClick
+        onClick = onClick,
+        shape = RoundedCornerShape(12.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .pointerHoverIcon(if(confirmed) PointerIcon.Hand else PointerIcon.Default),
     ){
         Text(
             text = label,

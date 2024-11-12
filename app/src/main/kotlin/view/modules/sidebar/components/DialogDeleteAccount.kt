@@ -115,11 +115,11 @@ fun DialogDeleteAccount(
             val confirmed by remember { derivedStateOf { value == "${account.group.name}/${account.name}" } }
             Column(
                 verticalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxWidth().padding(20.dp)
+                modifier = Modifier.fillMaxWidth().padding(vertical = 20.dp, horizontal = 40.dp)
             ){
                 TextPrimary(
                     modifier = Modifier.padding(bottom = 5.dp),
-                    text = "Para confirmar, digite \"${account.group.name}/${account.name}\" abaixo:",
+                    text = "Digite \"${account.group.name}/${account.name}\"",
                     size = 12.sp,
                     align = TextAlign.Start
                 )
@@ -138,6 +138,7 @@ fun DialogDeleteAccount(
             ){
                 Button(
                     modifier = Modifier.fillMaxWidth().pointerHoverIcon(if(confirmed) PointerIcon.Hand else PointerIcon.Default),
+                    shape = RoundedCornerShape(20.dp),
                     enabled = confirmed,
                     colors = ButtonDefaults.buttonColors(backgroundColor = Color.Red),
                     onClick = {
