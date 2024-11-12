@@ -29,7 +29,7 @@ class SidebarViewModel {
             group = groups[0]
         )
         val dao = AccountDao()
-        dao.insert(teste, groups[0])
+        dao.insert(teste)
 
         loadGroup()
         fetchTotalAccounts()

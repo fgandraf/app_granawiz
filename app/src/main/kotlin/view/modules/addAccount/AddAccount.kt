@@ -28,7 +28,7 @@ fun AddAccount(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .width(500.dp).defaultMinSize(minHeight = 400.dp)
-                .background(MaterialTheme.colors.surface, shape = RoundedCornerShape(8.dp))
+                .background(MaterialTheme.colors.background, shape = RoundedCornerShape(8.dp))
         ) {
 
             val title = when (accountType) {
@@ -47,9 +47,9 @@ fun AddAccount(
             ) {
 
                 when (accountType) {
-                    AccountType.SAVINGS -> NewSavingAccount(sidebarViewModel, addAccountViewModel)
+                    AccountType.SAVINGS -> NewSavingAccount(sidebarViewModel, addAccountViewModel, onDismiss)
                     AccountType.CHECKING -> NewCheckingAccount(sidebarViewModel, addAccountViewModel, onDismiss)
-                    AccountType.CREDIT_CARD -> NewCreditCard(sidebarViewModel, addAccountViewModel)
+                    AccountType.CREDIT_CARD -> NewCreditCard(sidebarViewModel, addAccountViewModel, onDismiss)
                 }
 
             }

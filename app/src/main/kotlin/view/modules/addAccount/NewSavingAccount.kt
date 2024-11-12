@@ -13,7 +13,8 @@ import viewModel.SidebarViewModel
 @Composable
 fun NewSavingAccount(
     sidebarViewModel: SidebarViewModel,
-    addAccountViewModel: AddAccountViewModel
+    addAccountViewModel: AddAccountViewModel,
+    onDismiss: () -> Unit
 ){
 
     Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {

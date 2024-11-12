@@ -14,7 +14,8 @@ import viewModel.SidebarViewModel
 @Composable
 fun NewCreditCard(
     sidebarViewModel: SidebarViewModel,
-    addAccountViewModel: AddAccountViewModel
+    addAccountViewModel: AddAccountViewModel,
+    onDismiss: () -> Unit
 ){
 
     Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
