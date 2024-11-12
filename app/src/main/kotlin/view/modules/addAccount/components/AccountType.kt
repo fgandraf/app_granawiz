@@ -78,5 +78,4 @@ fun AccountType(
             )
         }
     }
-    //Divider(modifier = Modifier.padding(horizontal = 15.dp), thickness = 1.dp)
 }

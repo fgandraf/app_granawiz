@@ -1,28 +1,22 @@
 package view.modules.addAccount
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
-import androidx.compose.material.DropdownMenu
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.PointerIcon
-import androidx.compose.ui.input.pointer.pointerHoverIcon
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import config.IconPaths
 import model.entity.Group
 import model.entity.account.CheckingAccount
+import view.modules.addAccount.components.IconSelector
 import view.shared.DefaultButton
 import view.shared.DefaultTextField
 import view.shared.ListComboBox
@@ -46,39 +40,7 @@ fun NewCheckingAccount(
     Column(Modifier.fillMaxWidth().padding(top = 30.dp), horizontalAlignment = Alignment.CenterHorizontally) {
 
         //==== ICON
-        var expandedIcons by remember { mutableStateOf(false) }
-        Column(horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier
-                .background(Color.White, CircleShape)
-                .clip(CircleShape)
-                .border(0.8.dp, MaterialTheme.colors.primaryVariant, CircleShape)
-                .pointerHoverIcon(PointerIcon.Hand)
-                .clickable { expandedIcons = !expandedIcons }
-        ) {
-            Box(
-                modifier = Modifier
-                    .padding(15.dp)
-            ) {
-                Image(
-                    modifier = Modifier.size(60.dp),
-                    painter = painterResource(IconPaths.BANK_LOGOS + icon),
-                    contentDescription = "",
-                    alpha = 0.5f
-                )
-                Image(
-                    modifier = Modifier.size(14.dp).align(Alignment.BottomEnd),
-                    painter = painterResource(IconPaths.SYSTEM_ICONS + "edit.svg"),
-                    contentDescription = "",
-                    alpha = 0.8f
-                )
-            }
-            DropDownIcons(
-                expanded = expandedIcons,
-                onDismissRequest = { expandedIcons = false }
-            )
-
-        }
+        IconSelector(icon) { icon = it }
 
         //==== FORM
         Column(
@@ -174,25 +136,6 @@ fun NewCheckingAccount(
                 sidebarViewModel.loadGroup()
                 onDismiss()
             }
-        }
-    }
-}
-
-
-
-@Composable
-fun DropDownIcons(
-    expanded: Boolean,
-    onDismissRequest: () -> Unit
-) {
-
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        DropdownMenu(
-            modifier = Modifier.weight(1f).padding(horizontal = 10.dp).width(300.dp).height(300.dp),
-            expanded = expanded,
-            onDismissRequest = { onDismissRequest() }
-        ) {
-            // IMPLEMENTS
         }
     }
 }
