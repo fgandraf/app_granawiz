@@ -17,8 +17,8 @@ CREATE TABLE tbl_bank_accounts (
     open_balance REAL,
     overdraft_limit REAL,
     credit_limit REAL,
-    closing_date TEXT,
-    due_date TEXT,
+    closing_day INTEGER(2),
+    due_day INTEGER(2),
 
     FOREIGN KEY (group_id) REFERENCES tbl_groups(id)
 );

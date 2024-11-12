@@ -41,9 +41,7 @@ fun FlowLayout(
         layout(width = maxWidthPx, height = height) {
             var yPosition = 0
             rows.forEachIndexed { index, row ->
-                val currentRowWidth = row.sumOf { it.width }
-                val xOffset = ((maxWidthPx - currentRowWidth) / 2).coerceAtLeast(0) // Calcula o deslocamento para centralizar
-                var xPosition = xOffset // Aplica o deslocamento inicial
+                var xPosition = 0
 
                 row.forEach { placeable ->
                     placeable.place(x = xPosition, y = yPosition)

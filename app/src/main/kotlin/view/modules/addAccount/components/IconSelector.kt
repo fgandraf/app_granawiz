@@ -25,7 +25,7 @@ fun IconSelector(
 ){
 
     var expandedIcons by remember { mutableStateOf(false) }
-    Column(horizontalAlignment = Alignment.CenterHorizontally,
+    Column(
         verticalArrangement = Arrangement.Center,
         modifier = Modifier
             .background(Color.White, CircleShape)

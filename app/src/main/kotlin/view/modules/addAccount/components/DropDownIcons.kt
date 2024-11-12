@@ -20,7 +20,7 @@ import javax.xml.parsers.DocumentBuilderFactory
 
 @Composable
 fun DropDownIcons(
-    width : Dp = 280.dp,
+    width : Dp = 320.dp,
     expanded: Boolean,
     onDismissRequest: () -> Unit,
     onIconSelected: (String) -> Unit
@@ -34,23 +34,28 @@ fun DropDownIcons(
             val iconsDirectory = File("src/main/resources/assets/icons/bankLogos")
             FlowLayout(maxWidth = width) {
                 iconsDirectory.listFiles()?.forEach { file ->
-                    Column(horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier.width(80.dp)) {
-                        Image(
-                            painter = painterResource("assets/icons/bankLogos/${file.name}"),
-                            contentDescription = "",
-                            modifier = Modifier
-                                .pointerHoverIcon(PointerIcon.Hand)
-                                .clickable {
-                                    onIconSelected(file.name)
-                                    onDismissRequest()
-                                }
-                                .padding(5.dp)
-                                .size(40.dp)
-                        )
-                        val document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file)
-                        val title = document.getElementsByTagName("title").item(0)
-                        TextPrimary(text = title.textContent, size = 10.sp)
+
+                    if (!file.name.startsWith("_")){
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            modifier = Modifier.width(80.dp)
+                        ) {
+                            Image(
+                                painter = painterResource("assets/icons/bankLogos/${file.name}"),
+                                contentDescription = "",
+                                modifier = Modifier
+                                    .pointerHoverIcon(PointerIcon.Hand)
+                                    .clickable {
+                                        onIconSelected(file.name)
+                                        onDismissRequest()
+                                    }
+                                    .padding(5.dp)
+                                    .size(40.dp)
+                            )
+                            val document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file)
+                            val title = document.getElementsByTagName("title").item(0)
+                            TextPrimary(text = title.textContent, size = 10.sp)
+                        }
                     }
                 }
 
