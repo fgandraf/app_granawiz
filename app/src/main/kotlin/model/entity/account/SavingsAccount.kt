@@ -21,4 +21,24 @@ class SavingsAccount(
 
 ) : BankAccount(type = AccountType.SAVINGS, name = name, description = description, position = position, icon = icon, balance = balance, group = group){
 
+    constructor(
+        id: Long,
+        name: String,
+        description: String = "",
+        position: Int,
+        icon: String,
+        balance: Double,
+        group: Group,
+        openBalance: Double = 0.0
+    ) : this(
+        name = name,
+        description = description,
+        position = position,
+        icon = icon,
+        balance = balance,
+        group = group,
+        openBalance = openBalance,
+    ) {
+        this.id = id
+    }
 }

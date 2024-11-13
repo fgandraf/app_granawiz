@@ -12,7 +12,7 @@ open class Group(
     @Column(name = "id", columnDefinition = "INTEGER")
     open val id: Long = 0,
 
-    open val name: String = "",
+    open var name: String = "",
 
     open var position: Int = 0,
 

@@ -2,22 +2,26 @@ package view.modules.sidebar.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material.*
+import androidx.compose.material.Divider
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import model.entity.Group
+import model.utils.brMoney
+import view.modules.addGroup.AddGroup
 import view.shared.ClickableIcon
 import view.shared.ClickableRow
-import model.utils.brMoney
+import view.theme.Afacade
+import view.theme.Lime700
+import view.theme.Red400
+import view.theme.Ubuntu
 import viewModel.SidebarViewModel
-import view.theme.*
 
 @Composable
 fun GroupMenuItem(
@@ -37,7 +41,6 @@ fun GroupMenuItem(
 
         var groupName by remember { mutableStateOf(group.name) }
         LaunchedEffect(group.name) { groupName = group.name }
-        val valueChanged = groupName != group.name
 
         Row(modifier = Modifier.padding(start = 5.dp)){
             ClickableIcon(
@@ -50,19 +53,14 @@ fun GroupMenuItem(
             )
 
             Column(modifier = Modifier.padding(start = 7.dp)) {
-                BasicTextField(
-                    value = groupName,
-                    onValueChange = { groupName = it },
-                    singleLine = true,
-                    textStyle = TextStyle(
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Medium,
-                        lineHeight = 0.sp,
-                        fontFamily = Afacade,
-                        color = if (valueChanged) Color.Blue else MaterialTheme.colors.primary
-                    )
+                Text(
+                    text = groupName,
+                    fontSize = 14.sp,
+                    color = MaterialTheme.colors.primary,
+                    fontWeight = FontWeight.Medium,
+                    lineHeight = 0.sp,
+                    fontFamily = Afacade
                 )
-
 
                 val totalGroup = viewModel.fetchTotalGroup(group)
                 Text(
@@ -76,38 +74,23 @@ fun GroupMenuItem(
             }
         }
 
-        if (!valueChanged) {
-            var dropDownMenuExpanded by remember { mutableStateOf(false) }
-            Row {
-                ClickableIcon(
-                    icon = "dots",
-                    shape = RoundedCornerShape(6.dp),
-                    iconSize = 16.dp,
-                    padding = true,
-                    onClick = { dropDownMenuExpanded = !dropDownMenuExpanded }
-                )
+        var dropDownMenuExpanded by remember { mutableStateOf(false) }
+        Row {
+            ClickableIcon(
+                icon = "dots",
+                shape = RoundedCornerShape(6.dp),
+                iconSize = 16.dp,
+                padding = true,
+                onClick = { dropDownMenuExpanded = !dropDownMenuExpanded }
+            )
 
-                DropDownGroupMenu(
-                    viewModel = viewModel,
-                    expanded = dropDownMenuExpanded,
-                    onDismissRequest = { dropDownMenuExpanded = false },
-                    group = group
-                )
-            }
+            DropDownGroupMenu(
+                viewModel = viewModel,
+                expanded = dropDownMenuExpanded,
+                onDismissRequest = { dropDownMenuExpanded = false },
+                group = group
+            )
         }
-        else
-            Row {
-                ClickableIcon(
-                    icon = "check",
-                    color = Color.Blue,
-                    shape = RoundedCornerShape(6.dp),
-                    iconSize = 16.dp,
-                    padding = true,
-                    onClick = {
-                        viewModel.renameGroup(group, groupName)
-                    }
-                )
-            }
     }
 }
 
@@ -126,24 +109,23 @@ fun DropDownGroupMenu(
             onDismissRequest = { onDismissRequest() }
         ) {
 
-
-
             ClickableRow(iconResource = "move_up", label = "Mover para cima") {
                 viewModel.moveGroup(group, -1)
-                onDismissRequest()
-            }
+                onDismissRequest() }
+
             ClickableRow(iconResource = "move_down", label = "Mover para baixo") {
                 viewModel.moveGroup(group, 1)
-                onDismissRequest()
-            }
-
-
+                onDismissRequest() }
 
             Divider(modifier = Modifier.padding(vertical = 3.dp))
-            if (group.accounts.isNotEmpty())
-                ClickableRow(iconResource = "trash", label = "Excluir", enabled = false){}
-            else
-                ClickableRow(iconResource = "trash", label = "Excluir") { viewModel.deleteGroup(group) }
+
+            var showNewGroupDialog by remember { mutableStateOf(false) }
+            ClickableRow(iconResource = "edit", label = "Editar") { showNewGroupDialog = true }
+            if (showNewGroupDialog) AddGroup(viewModel = viewModel, group = group, onDismiss = { showNewGroupDialog = false; onDismissRequest() })
+
+            Divider(modifier = Modifier.padding(vertical = 3.dp))
+
+            ClickableRow(iconResource = "trash", label = "Excluir", enabled = group.accounts.isEmpty()) { viewModel.deleteGroup(group) }
 
         }
     }

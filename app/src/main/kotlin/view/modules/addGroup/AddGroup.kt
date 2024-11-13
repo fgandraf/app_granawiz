@@ -1,4 +1,4 @@
-package view.modules.sidebar.components
+package view.modules.addGroup
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import config.IconPaths
+import model.entity.Group
 import view.shared.DefaultButton
 import view.shared.DefaultTextField
 import view.shared.DialogTitleBar
@@ -22,8 +23,9 @@ import view.shared.TextPrimary
 import viewModel.SidebarViewModel
 
 @Composable
-fun DialogNewGroup(
+fun AddGroup(
     viewModel: SidebarViewModel,
+    group: Group? = null,
     onDismiss: () -> Unit
 ) {
     Dialog(onDismissRequest = onDismiss) {
@@ -33,11 +35,14 @@ fun DialogNewGroup(
                 .background(MaterialTheme.colors.surface, shape = RoundedCornerShape(8.dp))
         ) {
 
-            DialogTitleBar("Adicionar novo grupo", onDismiss)
+            val title by remember { mutableStateOf(if (group == null) "Adicionar novo grupo" else "Editar grupo") }
+            val buttonLabel by remember { mutableStateOf(if (group == null) "Adicionar" else "Editar") }
+            var value by remember { mutableStateOf(group?.name ?: "") }
+
+            DialogTitleBar(title, onDismiss)
             Divider()
 
             //===== Main
-            var value by remember { mutableStateOf("") }
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
@@ -50,7 +55,7 @@ fun DialogNewGroup(
                 )
                 TextPrimary(
                     modifier = Modifier.padding(top = 20.dp, bottom = 5.dp),
-                    text = "Nome do novo grupo:",
+                    text = "Nome do grupo:",
                     size = 12.sp,
                     align = TextAlign.Start
                 )
@@ -66,8 +71,8 @@ fun DialogNewGroup(
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 30.dp, vertical = 10.dp)
             ) {
 
-                DefaultButton(confirmed, "Adicionar"){
-                    viewModel.addNewGroup(value)
+                DefaultButton(confirmed, buttonLabel){
+                    if (group == null) viewModel.addNewGroup(value) else viewModel.renameGroup(group, value)
                     onDismiss()
                 }
 
