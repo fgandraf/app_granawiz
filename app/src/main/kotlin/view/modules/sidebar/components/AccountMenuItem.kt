@@ -19,14 +19,15 @@ import androidx.compose.ui.unit.sp
 import config.IconPaths
 import model.entity.Group
 import model.entity.account.BankAccount
+import model.utils.brMoney
+import view.modules.Screen
+import view.modules.addAccount.AddAccount
 import view.shared.ClickableIcon
 import view.shared.ClickableRow
 import view.theme.Afacade
 import view.theme.Lime700
 import view.theme.Red400
 import view.theme.Ubuntu
-import model.utils.brMoney
-import view.modules.Screen
 import viewModel.SidebarViewModel
 
 @Composable
@@ -126,6 +127,14 @@ fun DropDownAccountMenu(
             }
 
             Divider(modifier = Modifier.padding(vertical = 3.dp))
+
+            var showEditAccount by remember { mutableStateOf(false) }
+            ClickableRow(iconResource = "edit", label = "Editar") { showEditAccount = true }
+            if (showEditAccount) AddAccount(sidebarViewModel = viewModel, account = account, onDismiss = { showEditAccount = false; onDismissRequest() })
+
+
+            Divider(modifier = Modifier.padding(vertical = 3.dp))
+
 
             var showDialog by remember { mutableStateOf(false) }
             ClickableRow(iconResource = "trash", label = "Excluir") { showDialog = true }

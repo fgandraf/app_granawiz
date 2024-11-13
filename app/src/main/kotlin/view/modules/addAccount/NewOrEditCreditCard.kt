@@ -2,10 +2,7 @@ package view.modules.addAccount
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
@@ -14,6 +11,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import model.entity.account.CreditCardAccount
+import model.utils.toBrMoney
 import view.modules.addAccount.components.IconSelector
 import view.shared.DefaultButton
 import view.shared.DefaultTextField
@@ -22,11 +21,15 @@ import viewModel.AddAccountViewModel
 import viewModel.SidebarViewModel
 
 @Composable
-fun NewCheckingAccount(
+fun NewOrEditCreditCard(
     sidebarViewModel: SidebarViewModel,
     addAccountViewModel: AddAccountViewModel,
+    account: CreditCardAccount? = null,
     onDismiss: () -> Unit
 ){
+
+    if (account != null) { LaunchedEffect(account) { addAccountViewModel.initializeFromAccount(account) } }
+    val buttonLabel by remember { mutableStateOf(if (account == null) "Adicionar" else "Editar") }
 
     Column(Modifier.fillMaxWidth().padding(top = 30.dp), horizontalAlignment = Alignment.CenterHorizontally) {
 
@@ -51,31 +54,54 @@ fun NewCheckingAccount(
                     placeholder = "Nome da conta"
                 ) { addAccountViewModel.name = it }
 
+
+                //---limite
+                var limitText by remember { mutableStateOf(if (account != null) toBrMoney.format(account.creditLimit) else "") }
+                DefaultTextField(
+                    modifier = Modifier.padding(bottom = 20.dp),
+                    value = limitText,
+                    label = "Limite de crédito:",
+                    textAlign = TextAlign.Right,
+                    placeholder = "0.000,00"
+                ) {
+                    limitText = it.filter { char -> char.isDigit() || char == ',' || char == '.' }
+                    addAccountViewModel.limit = it.replace(".", "").replace(",", ".").toDoubleOrNull() ?: 0.0
+                }
+
+
+
                 Row(modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp)) {
-                    //---open balance
-                    var openBalanceText by remember { mutableStateOf("") }
+                    //---closing day
+                    var closingDayText by remember { mutableStateOf(account?.closingDay?.toString() ?: "") }
                     DefaultTextField(
                         modifier = Modifier.weight(1f).padding(end = 10.dp),
-                        value = openBalanceText,
-                        label = "Saldo inicial:",
+                        value = closingDayText,
+                        label = "Dia do fechamento:",
                         textAlign = TextAlign.Right,
-                        placeholder = "0.000,00"
+                        placeholder = "1 à 31"
                     ) {
-                        openBalanceText = it.filter { char -> char.isDigit() || char == ',' || char == '.' }
-                        addAccountViewModel.openBalance = it.replace(".", "").replace(",", ".").toDoubleOrNull() ?: 0.0
+                        val filteredInput = it.filter { char -> char.isDigit() }.take(2).toIntOrNull()
+                        if (filteredInput != null && filteredInput in 1..31) {
+                            addAccountViewModel.closingDay = filteredInput
+                            closingDayText = filteredInput.toString()
+                        }
                     }
 
-                    //---limit
-                    var limitText by remember { mutableStateOf("") }
+                    //---due day
+                    var dueDayText by remember { mutableStateOf(account?.dueDay?.toString() ?: "") }
                     DefaultTextField(
                         modifier = Modifier.weight(1f).padding(start = 10.dp),
-                        value = limitText,
-                        label = "Limite:",
+                        value = dueDayText,
+                        label = "Dia da fatura:",
                         textAlign = TextAlign.Right,
-                        placeholder = "0.000,00"
+                        placeholder = "1 à 31"
                     ) {
-                        limitText = it.filter { char -> char.isDigit() || char == ',' || char == '.' }
-                        addAccountViewModel.limit = it.replace(".", "").replace(",", ".").toDoubleOrNull() ?: 0.0
+                        val filteredInput = it.filter { char -> char.isDigit() }.take(2).toIntOrNull()
+                        if (filteredInput != null && filteredInput in 1..31) {
+                            addAccountViewModel.dueDay = filteredInput
+                            dueDayText = filteredInput.toString()
+                        }
+
                     }
                 }
 
@@ -108,11 +134,15 @@ fun NewCheckingAccount(
         ) {
             val confirmed by remember { derivedStateOf { addAccountViewModel.name != "" && addAccountViewModel.group.id != 0L } }
 
-            DefaultButton(confirmed = confirmed, "Adicionar conta") {
-                addAccountViewModel.addCheckingAccount(sidebarViewModel.groups)
+            DefaultButton(confirmed = confirmed, buttonLabel) {
+                if (account == null)
+                    addAccountViewModel.addCreditCardAccount(sidebarViewModel.groups)
+                else
+                    addAccountViewModel.updateCreditCardAccount(account)
                 sidebarViewModel.loadGroup()
                 onDismiss()
             }
         }
     }
+
 }

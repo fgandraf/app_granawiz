@@ -17,7 +17,7 @@ import config.IconPaths
 import view.modules.addAccount.AddAccount
 import view.modules.addAccount.components.AccountType
 import view.modules.sidebar.components.ButtonFooterItem
-import view.modules.sidebar.components.DialogNewGroup
+import view.modules.addGroup.AddGroup
 import viewModel.SidebarViewModel
 
 @Composable
@@ -38,7 +38,7 @@ fun Footer(viewModel: SidebarViewModel) {
 
         var showNewGroupDialog by remember { mutableStateOf(false) }
         ButtonFooterItem(Modifier.weight(1f), "group.svg", "Novo grupo") { showNewGroupDialog = true }
-        if (showNewGroupDialog) DialogNewGroup(viewModel = viewModel, onDismiss = { showNewGroupDialog = false })
+        if (showNewGroupDialog) AddGroup(viewModel = viewModel, onDismiss = { showNewGroupDialog = false })
 
         Divider(modifier = Modifier.fillMaxHeight().width(1.dp))
 

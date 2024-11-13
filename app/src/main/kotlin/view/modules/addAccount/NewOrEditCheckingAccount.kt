@@ -3,6 +3,7 @@ package view.modules.addAccount
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -13,6 +14,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import model.entity.account.CheckingAccount
+import model.utils.toBrMoney
 import view.modules.addAccount.components.IconSelector
 import view.shared.DefaultButton
 import view.shared.DefaultTextField
@@ -21,11 +24,15 @@ import viewModel.AddAccountViewModel
 import viewModel.SidebarViewModel
 
 @Composable
-fun NewSavingAccount(
+fun NewOrEditCheckingAccount(
     sidebarViewModel: SidebarViewModel,
     addAccountViewModel: AddAccountViewModel,
+    account: CheckingAccount? = null,
     onDismiss: () -> Unit
 ){
+
+    if (account != null) { LaunchedEffect(account) { addAccountViewModel.initializeFromAccount(account) } }
+    val buttonLabel by remember { mutableStateOf(if (account == null) "Adicionar" else "Editar") }
 
     Column(Modifier.fillMaxWidth().padding(top = 30.dp), horizontalAlignment = Alignment.CenterHorizontally) {
 
@@ -47,21 +54,36 @@ fun NewSavingAccount(
                     modifier = Modifier.padding(bottom = 20.dp),
                     value = addAccountViewModel.name,
                     label = "Nome:",
-                    placeholder = "Nome da conta"
-                ) { addAccountViewModel.name = it }
+                    placeholder = "Nome da conta",
+                    onValueChange = { addAccountViewModel.name = it}
+                )
 
+                Row(modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp)) {
+                    var openBalanceText by remember { mutableStateOf(if (account != null) toBrMoney.format(account.openBalance) else "" ) }
+                    //---open balance
+                    DefaultTextField(
+                        modifier = Modifier.weight(1f).padding(end = 10.dp),
+                        value = openBalanceText,
+                        label = "Saldo inicial:",
+                        textAlign = TextAlign.Right,
+                        placeholder = "0.000,00"
+                    ) {
+                        openBalanceText = it.filter { char -> char.isDigit() || char == ',' || char == '.' }
+                        addAccountViewModel.openBalance = it.replace(".", "").replace(",", ".").toDoubleOrNull() ?: 0.0
+                    }
 
-                //---open balance
-                var openBalanceText by remember { mutableStateOf("") }
-                DefaultTextField(
-                    modifier = Modifier.padding(bottom = 20.dp),
-                    value = openBalanceText,
-                    label = "Saldo inicial:",
-                    textAlign = TextAlign.Right,
-                    placeholder = "0.000,00"
-                ) {
-                    openBalanceText = it.filter { char -> char.isDigit() || char == ',' || char == '.' }
-                    addAccountViewModel.openBalance = it.replace(".", "").replace(",", ".").toDoubleOrNull() ?: 0.0
+                    //---limit
+                    var limitText by remember { mutableStateOf(if (account != null) toBrMoney.format(account.overdraftLimit) else "") }
+                    DefaultTextField(
+                        modifier = Modifier.weight(1f).padding(start = 10.dp),
+                        value = limitText,
+                        label = "Limite:",
+                        textAlign = TextAlign.Right,
+                        placeholder = "0.000,00"
+                    ) {
+                        limitText = it.filter { char -> char.isDigit() || char == ',' || char == '.' }
+                        addAccountViewModel.limit = it.replace(".", "").replace(",", ".").toDoubleOrNull() ?: 0.0
+                    }
                 }
 
                 //---group
@@ -93,12 +115,14 @@ fun NewSavingAccount(
         ) {
             val confirmed by remember { derivedStateOf { addAccountViewModel.name != "" && addAccountViewModel.group.id != 0L } }
 
-            DefaultButton(confirmed = confirmed, "Adicionar conta") {
-                addAccountViewModel.addSavingAccount(sidebarViewModel.groups)
+            DefaultButton(confirmed = confirmed, buttonLabel) {
+                if (account == null)
+                    addAccountViewModel.addCheckingAccount(sidebarViewModel.groups)
+                else
+                    addAccountViewModel.updateCheckingAccount(account)
                 sidebarViewModel.loadGroup()
                 onDismiss()
             }
         }
     }
-
 }

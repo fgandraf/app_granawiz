@@ -17,6 +17,16 @@ class AccountDao {
         session.close()
     }
 
+    fun update(account: BankAccount) {
+        val session = sessionFactory.openSession()
+
+        session.beginTransaction()
+        session.merge(account)
+        session.transaction.commit()
+
+        session.close()
+    }
+
     fun delete(account: BankAccount) {
         val session = sessionFactory.openSession()
 

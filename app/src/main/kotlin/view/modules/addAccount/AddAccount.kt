@@ -1,4 +1,4 @@
- package view.modules.addAccount
+package view.modules.addAccount
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -10,6 +10,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import model.entity.account.BankAccount
+import model.entity.account.CheckingAccount
+import model.entity.account.CreditCardAccount
+import model.entity.account.SavingsAccount
 import model.enums.AccountType
 import view.shared.DialogTitleBar
 import viewModel.AddAccountViewModel
@@ -17,13 +21,14 @@ import viewModel.SidebarViewModel
 
 @Composable
 fun AddAccount(
-     sidebarViewModel: SidebarViewModel,
-     addAccountViewModel: AddAccountViewModel = AddAccountViewModel(),
-     accountType: AccountType,
-     onDismiss: () -> Unit
+    sidebarViewModel: SidebarViewModel,
+    addAccountViewModel: AddAccountViewModel = AddAccountViewModel(),
+    accountType: AccountType? = null,
+    account: BankAccount? = null,
+    onDismiss: () -> Unit
 ) {
-    Dialog(onDismissRequest = onDismiss) {
 
+    Dialog(onDismissRequest = onDismiss) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
@@ -31,29 +36,48 @@ fun AddAccount(
                 .background(MaterialTheme.colors.background, shape = RoundedCornerShape(8.dp))
         ) {
 
-            val title = when (accountType) {
+
+            val type = account?.type ?: accountType
+            var title = when (type!!) {
                 AccountType.SAVINGS -> "conta poupança"
                 AccountType.CHECKING -> "conta corrente"
                 AccountType.CREDIT_CARD -> "cartão de crédito"
             }
+            title = if (account == null) "Adiconar $title" else "Editar $title"
+
 
             //===== Title Bar
-            DialogTitleBar("Adicionar $title", onDismiss)
+            DialogTitleBar(title, onDismiss)
             Divider()
 
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
+                when (type) {
+                    AccountType.SAVINGS -> NewOrEditSavingAccount(
+                        sidebarViewModel = sidebarViewModel,
+                        addAccountViewModel = addAccountViewModel,
+                        account = if (account != null) account as SavingsAccount else null,
+                        onDismiss = onDismiss
+                    )
 
-                when (accountType) {
-                    AccountType.SAVINGS -> NewSavingAccount(sidebarViewModel, addAccountViewModel, onDismiss)
-                    AccountType.CHECKING -> NewCheckingAccount(sidebarViewModel, addAccountViewModel, onDismiss)
-                    AccountType.CREDIT_CARD -> NewCreditCard(sidebarViewModel, addAccountViewModel, onDismiss)
+                    AccountType.CHECKING -> NewOrEditCheckingAccount(
+                        sidebarViewModel = sidebarViewModel,
+                        account = if (account != null) account as CheckingAccount else null,
+                        addAccountViewModel = addAccountViewModel,
+                        onDismiss = onDismiss
+                    )
+
+                    AccountType.CREDIT_CARD -> NewOrEditCreditCard(
+                        sidebarViewModel = sidebarViewModel,
+                        account = if (account != null) account as CreditCardAccount else null,
+                        addAccountViewModel = addAccountViewModel,
+                        onDismiss = onDismiss
+                    )
+
                 }
-
             }
-
         }
     }
 }

@@ -13,7 +13,7 @@ open class BankAccount(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", columnDefinition = "INTEGER")
-    open val id: Long = 0,
+    open var id: Long = 0,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "account_type", insertable = false, updatable = false)
