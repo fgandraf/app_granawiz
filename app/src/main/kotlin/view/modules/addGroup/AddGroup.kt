@@ -64,7 +64,7 @@ fun AddGroup(
             Divider()
 
 
-            val confirmed by remember { derivedStateOf { value != "" && value != group?.name } }
+            val confirmed by remember { derivedStateOf { value != "" } }
             //===== Footer
             Column(
                 verticalArrangement = Arrangement.Center,
