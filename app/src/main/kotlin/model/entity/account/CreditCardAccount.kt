@@ -27,7 +27,7 @@ class CreditCardAccount(
 ) : BankAccount(type = AccountType.CREDIT_CARD, name = name, description = description, position = position, icon = icon, balance = balance, group = group) {
 
     constructor(
-        id: Long,
+        id: Long?,
         name: String,
         description: String = "",
         position: Int,
@@ -48,6 +48,8 @@ class CreditCardAccount(
         closingDay = closingDay,
         dueDay = dueDay
     ) {
-        this.id = id
+        if (id != null) {
+            this.id = id
+        }
     }
 }

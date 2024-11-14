@@ -100,10 +100,7 @@ fun NewOrEditSavingAccount(
             val confirmed by remember { derivedStateOf { addAccountViewModel.name != "" && addAccountViewModel.group.id != 0L } }
 
             DefaultButton(confirmed = confirmed, buttonLabel) {
-                if (account == null)
-                    addAccountViewModel.addSavingAccount(sidebarViewModel.groups)
-                else
-                    addAccountViewModel.updateSavingAccount(account)
+                addAccountViewModel.saveSavingAccount(account)
                 sidebarViewModel.loadGroup()
                 onDismiss()
             }
