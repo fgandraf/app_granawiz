@@ -35,7 +35,7 @@ fun main() = application {
     Window(
         onCloseRequest = ::exitApplication,
         state = WindowState(width = windowsWidth, height = windowsHeight, position = WindowPosition.Aligned(Alignment.Center)),
-        title = "Money Map"
+        title = "Money"
     ) {
 
         MaterialTheme(colors = LightColorScheme) {
