@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.sp
 import config.IconPaths
 import model.entity.Tag
 import view.shared.ClickableIcon
+import view.shared.DialogDelete
 import view.theme.Afacade
 import viewModel.TagViewModel
 
@@ -28,7 +29,8 @@ fun TagListItem(
     tag: Tag,
 ){
     var value by remember { mutableStateOf(tag.name) }
-    val valueChanged by remember{ derivedStateOf { tag.name != value } }
+    val valueChanged = value != tag.name
+    var deleteDialog by remember { mutableStateOf(false) }
 
     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp).height(30.dp).clip(RoundedCornerShape(8.dp))
@@ -42,7 +44,7 @@ fun TagListItem(
                 Icon(
                     painter = painterResource(IconPaths.SYSTEM_ICONS + "tag.svg"),
                     contentDescription = null,
-                    tint = MaterialTheme.colors.primary,
+                    tint = if (valueChanged) Color.Blue else MaterialTheme.colors.primary,
                     modifier = Modifier.size(15.dp)
                 )
             }
@@ -59,23 +61,22 @@ fun TagListItem(
                         fontWeight = FontWeight.Medium,
                         lineHeight = 0.sp,
                         fontFamily = Afacade,
-                        color = if (valueChanged) Color.Blue else MaterialTheme.colors.primary
+                        color = if (valueChanged) Color.Blue else MaterialTheme.colors.primary,
                     )
                 )
             }
         }
 
-
         Row(modifier = Modifier.padding(end = 10.dp)) {
-            if (!valueChanged)
+            if (valueChanged){
                 ClickableIcon(
-                icon = "trash",
-                shape = RoundedCornerShape(6.dp),
-                iconSize = 12.dp,
-                padding = true,
-                onClick = { tagViewModel.deleteTag(tag) }
-            )
-            else
+                    icon = "close",
+                    color = Color.Blue,
+                    shape = RoundedCornerShape(6.dp),
+                    iconSize = 12.dp,
+                    padding = true,
+                    onClick = { value = tag.name}
+                )
                 ClickableIcon(
                     icon = "check",
                     color = Color.Blue,
@@ -83,6 +84,25 @@ fun TagListItem(
                     iconSize = 12.dp,
                     padding = true,
                     onClick = { tagViewModel.updateTag(tag, value) }
+                )
+            }
+            else
+                ClickableIcon(
+                    icon = "trash",
+                    shape = RoundedCornerShape(6.dp),
+                    iconSize = 12.dp,
+                    padding = true,
+                    onClick = { deleteDialog = true }
+                )
+
+            if (deleteDialog)
+                DialogDelete(
+                    title = "Excluir etiqueta",
+                    iconResource = IconPaths.SYSTEM_ICONS + "tag.svg",
+                    objectName = tag.name,
+                    alertText = "Isso irá excluir permanentemente a etiqueta ${tag.name} e remover todas as associações feitas à ela.",
+                    onClickButton = { tagViewModel.deleteTag(tag) },
+                    onDismiss = { deleteDialog = false }
                 )
         }
 

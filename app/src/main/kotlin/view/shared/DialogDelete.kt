@@ -1,4 +1,4 @@
-package view.modules.sidebar.components
+package view.shared
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -20,20 +20,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import config.IconPaths
-import model.entity.account.BankAccount
-import view.shared.DefaultButton
-import view.shared.DefaultTextField
-import view.shared.DialogTitleBar
-import view.shared.TextPrimary
 import view.theme.Red200
 import view.theme.Red400
 import view.theme.Ubuntu
-import viewModel.SidebarViewModel
 
 @Composable
-fun DialogDeleteAccount(
-    account: BankAccount,
-    viewModel: SidebarViewModel,
+fun DialogDelete(
+    title: String = "",
+    iconResource: String = "",
+    objectName: String,
+    alertText: String,
+    onClickButton: () -> Unit,
     onDismiss: () -> Unit
 ){
     Dialog(onDismissRequest = onDismiss) {
@@ -44,19 +41,19 @@ fun DialogDeleteAccount(
         ) {
 
             //===== Title Bar
-            DialogTitleBar("Excluir conta ${account.group.name} / ${account.name}", onDismiss)
+            DialogTitleBar(title, onDismiss)
             Divider()
 
-            //===== Account Information
+            //===== Information
             Column(modifier = Modifier.fillMaxWidth().padding(vertical = 20.dp), horizontalAlignment = Alignment.CenterHorizontally) {
                 Image(
                     modifier = Modifier.size(40.dp),
-                    painter = painterResource(IconPaths.BANK_LOGOS + account.icon),
-                    contentDescription = "${account.name} logo"
+                    painter = painterResource(iconResource),
+                    contentDescription = "Object icon"
                 )
                 Spacer(Modifier.height(15.dp))
                 Text(
-                    text = "${account.group.name}/${account.name}",
+                    text = objectName,
                     color = MaterialTheme.colors.secondary,
                     fontWeight = FontWeight.Medium,
                     fontFamily = Ubuntu,
@@ -84,7 +81,7 @@ fun DialogDeleteAccount(
                     Image(
                         modifier = Modifier.size(16.dp),
                         painter = painterResource(IconPaths.SYSTEM_ICONS + "alert.svg"),
-                        contentDescription = "${account.name} logo"
+                        contentDescription = "Exclamation icon"
                     )
                     TextPrimary(
                         modifier = Modifier.padding(start = 10.dp),
@@ -101,7 +98,7 @@ fun DialogDeleteAccount(
                     Divider(Modifier.height(50.dp).width(3.dp))
                     Spacer(Modifier.width(25.dp))
                     TextPrimary(
-                        text = "Isso irá excluir permanentemente a conta ${account.group.name} → ${account.name}, bem como todas as transações associadas a ela.",
+                        text = alertText,
                         color = MaterialTheme.colors.secondary,
                         align = TextAlign.Justify,
                         lineHeight = 16.sp
@@ -112,14 +109,14 @@ fun DialogDeleteAccount(
 
             //===== Confirmation
             var value by remember{mutableStateOf("")}
-            val confirmed by remember { derivedStateOf { value == "${account.group.name}/${account.name}" } }
+            val confirmed by remember { derivedStateOf { value == objectName } }
             Column(
                 verticalArrangement = Arrangement.Center,
                 modifier = Modifier.fillMaxWidth().padding(vertical = 20.dp, horizontal = 40.dp)
             ){
                 TextPrimary(
                     modifier = Modifier.padding(bottom = 5.dp),
-                    text = "Digite \"${account.group.name}/${account.name}\"",
+                    text = "Digite \"${objectName}\"",
                     size = 12.sp,
                     align = TextAlign.Start
                 )
@@ -136,9 +133,8 @@ fun DialogDeleteAccount(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxWidth().padding(vertical = 10.dp, horizontal = 20.dp)
             ){
-                DefaultButton(confirmed = confirmed, color = Red400, label = "Excluir conta"){
-                    viewModel.deleteAccount(account)
-                    onDismiss()
+                DefaultButton(confirmed = confirmed, color = Red400, label = title){
+                    onClickButton()
                 }
             }
         }

@@ -24,6 +24,7 @@ import view.modules.Screen
 import view.modules.addAccount.AddAccount
 import view.shared.ClickableIcon
 import view.shared.ClickableRow
+import view.shared.DialogDelete
 import view.theme.Afacade
 import view.theme.Lime700
 import view.theme.Red400
@@ -136,16 +137,17 @@ fun DropDownAccountMenu(
             Divider(modifier = Modifier.padding(vertical = 3.dp))
 
 
-            var showDialog by remember { mutableStateOf(false) }
-            ClickableRow(iconResource = "trash", label = "Excluir") { showDialog = true }
-            if (showDialog)
-                DialogDeleteAccount(
-                    account = account,
-                    viewModel = viewModel,
-                    onDismiss = { showDialog = false; onDismissRequest() }
+            var deleteDialog by remember { mutableStateOf(false) }
+            ClickableRow(iconResource = "trash", label = "Excluir") { deleteDialog = true }
+            if (deleteDialog)
+                DialogDelete(
+                    title = "Excluir conta",
+                    iconResource = IconPaths.BANK_LOGOS + account.icon,
+                    objectName = "${account.group.name}/${account.name}",
+                    alertText = "Isso irá excluir permanentemente a conta ${account.group.name} → ${account.name}, bem como todas as transações associadas a ela.",
+                    onClickButton = { viewModel.deleteAccount(account); onDismissRequest() },
+                    onDismiss = { onDismissRequest(); deleteDialog = false }
                 )
-
-
         }
     }
 
