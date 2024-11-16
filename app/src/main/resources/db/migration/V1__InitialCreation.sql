@@ -27,3 +27,16 @@ CREATE TABLE tbl_tags (
     tag_id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL
 );
+
+CREATE TABLE tbl_receivers (
+  receiver_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL
+);
+
+CREATE TABLE tbl_associated_receivers_names (
+    associated_receivers_names_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    receiver_id INTEGER,
+    name TEXT NOT NULL,
+
+    FOREIGN KEY (receiver_id) REFERENCES tbl_receivers(receiver_id)
+);
