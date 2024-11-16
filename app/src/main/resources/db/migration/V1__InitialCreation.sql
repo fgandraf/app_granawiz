@@ -22,3 +22,8 @@ CREATE TABLE tbl_bank_accounts (
 
     FOREIGN KEY (group_id) REFERENCES tbl_groups(group_id)
 );
+
+CREATE TABLE tbl_tags (
+    tag_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL
+);
