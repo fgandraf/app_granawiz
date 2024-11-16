@@ -22,7 +22,7 @@ object HibernateUtil {
         // Propriedades do Hibernate
         val settings = Properties()
         settings["hibernate.connection.driver_class"] = "org.sqlite.JDBC"
-        settings["hibernate.connection.url"] = "jdbc:sqlite:money_map.db"
+        settings["hibernate.connection.url"] = "jdbc:sqlite:money.db"
         settings["hibernate.dialect"] = "org.hibernate.community.dialect.SQLiteDialect"
         settings["hibernate.show_sql"] = "true"
         settings["hibernate.format_sql"] = "true"

@@ -31,7 +31,7 @@ class CheckingAccount(
     ) {
 
     constructor(
-        id: Long,
+        id: Long?,
         name: String,
         description: String = "",
         position: Int,
@@ -50,6 +50,8 @@ class CheckingAccount(
         openBalance = openBalance,
         overdraftLimit = overdraftLimit
     ) {
-        this.id = id
+        if (id != null) {
+            this.id = id
+        }
     }
 }

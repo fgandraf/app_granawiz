@@ -12,7 +12,7 @@ open class BankAccount(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", columnDefinition = "INTEGER")
+    @Column(name = "account_id", columnDefinition = "INTEGER")
     open var id: Long = 0,
 
     @Enumerated(EnumType.STRING)
@@ -26,5 +26,6 @@ open class BankAccount(
     open var position: Int,
 
     @ManyToOne
+    @JoinColumn(name = "group_id", referencedColumnName = "group_id")
     open val group: Group
 )

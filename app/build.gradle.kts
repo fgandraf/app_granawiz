@@ -44,7 +44,7 @@ compose.desktop {
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "MoneyMap"
+            packageName = "Money"
             packageVersion = "1.0.0"
         }
     }

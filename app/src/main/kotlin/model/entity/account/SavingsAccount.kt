@@ -22,7 +22,7 @@ class SavingsAccount(
 ) : BankAccount(type = AccountType.SAVINGS, name = name, description = description, position = position, icon = icon, balance = balance, group = group){
 
     constructor(
-        id: Long,
+        id: Long?,
         name: String,
         description: String = "",
         position: Int,
@@ -39,6 +39,8 @@ class SavingsAccount(
         group = group,
         openBalance = openBalance,
     ) {
-        this.id = id
+        if (id != null) {
+            this.id = id
+        }
     }
 }

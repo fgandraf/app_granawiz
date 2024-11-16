@@ -5,11 +5,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import model.dao.AccountDao
 import model.entity.Group
+import model.entity.account.BankAccount
 import model.entity.account.CheckingAccount
 import model.entity.account.CreditCardAccount
 import model.entity.account.SavingsAccount
+import model.enums.AccountType
 
 class AddAccountViewModel {
+
+    private val accountDao = AccountDao()
 
     var name by mutableStateOf("")
     var icon by mutableStateOf("_default.svg")
@@ -20,131 +24,111 @@ class AddAccountViewModel {
     var closingDay by mutableStateOf(0)
     var dueDay by mutableStateOf(0)
 
-    fun initializeFromAccount(account: CheckingAccount?) {
-        account?.let {
+
+    fun initializeFromAccount(account: BankAccount){
+        account.let {
             icon = it.icon
             name = it.name
-            openBalance = it.openBalance
-            limit = it.overdraftLimit
             group = it.group
             description = it.description
         }
-    }
-
-    fun initializeFromAccount(account: SavingsAccount?) {
-        account?.let {
-            icon = it.icon
-            name = it.name
-            openBalance = it.openBalance
-            group = it.group
-            description = it.description
+        when (account.type){
+            AccountType.CHECKING -> {
+                (account as CheckingAccount).let {
+                   openBalance = it.balance
+                   limit = it.overdraftLimit
+               }
+            }
+            AccountType.SAVINGS -> {
+                (account as SavingsAccount).let {
+                    openBalance = it.balance
+                }
+            }
+            AccountType.CREDIT_CARD -> {
+                (account as CreditCardAccount).let {
+                    limit = it.creditLimit
+                    closingDay = it.closingDay
+                    dueDay = it.dueDay
+                }
+            }
         }
     }
 
-    fun initializeFromAccount(account: CreditCardAccount?) {
-        account?.let {
-            icon = it.icon
-            name = it.name
-            limit = it.creditLimit
-            closingDay = it.closingDay
-            dueDay = it.dueDay
-            group = it.group
-            description = it.description
+    fun saveCheckingAccount(account: CheckingAccount? = null){
+        if (account == null) {
+            val newAccount = buildAccount(AccountType.CHECKING) as CheckingAccount
+            accountDao.insert(newAccount)
+        }
+        else{
+            val updatedAccount = buildAccount(AccountType.CHECKING, id = account.id, position = account.position) as CheckingAccount
+            accountDao.update(updatedAccount)
+        }
+    }
+
+    fun saveSavingAccount(account: SavingsAccount? = null){
+        if (account == null) {
+            val newAccount = buildAccount(AccountType.SAVINGS) as SavingsAccount
+            accountDao.insert(newAccount)
+        }
+        else{
+            val updatedAccount = buildAccount(AccountType.SAVINGS, id = account.id, position = account.position) as SavingsAccount
+            accountDao.update(updatedAccount)
+        }
+    }
+
+    fun saveCreditCardAccount(account: CreditCardAccount? = null){
+        if (account == null) {
+            val newAccount = buildAccount(AccountType.CREDIT_CARD) as CreditCardAccount
+            accountDao.insert(newAccount)
+        }
+        else{
+            val updatedAccount = buildAccount(AccountType.CREDIT_CARD, id = account.id, position = account.position) as CreditCardAccount
+            accountDao.update(updatedAccount)
         }
     }
 
 
-
-    fun addCheckingAccount(groups: List<Group>) {
-        val checkingAccount = CheckingAccount(
-            name = this.name,
-            description = this.description,
-            position = groups.find { it.id == this.group.id }!!.accounts.size + 1,
-            icon = this.icon,
-            balance = this.openBalance,
-            group = this.group,
-            openBalance = this.openBalance,
-            overdraftLimit = this.limit
-        )
-        val dao = AccountDao()
-        dao.insert(checkingAccount)
-    }
-
-    fun updateCheckingAccount(account: CheckingAccount) {
-        val checkingAccount = CheckingAccount(
-            id = account.id,
-            name = this.name,
-            description = this.description,
-            position = account.position,
-            icon = this.icon,
-            balance = account.balance,
-            group = this.group,
-            openBalance = this.openBalance,
-            overdraftLimit = this.limit
-        )
-        val dao = AccountDao()
-        dao.update(checkingAccount)
-    }
-
-    fun addSavingAccount(groups: List<Group>) {
-        val savingAccount = SavingsAccount(
-            name = this.name,
-            description = this.description,
-            position = groups.find { it.id == this.group.id }!!.accounts.size + 1,
-            icon = this.icon,
-            balance = this.openBalance,
-            group = this.group,
-            openBalance = this.openBalance
-        )
-        val dao = AccountDao()
-        dao.insert(savingAccount)
-    }
-
-    fun updateSavingAccount(account: SavingsAccount) {
-        val savingAccount = SavingsAccount(
-            id = account.id,
-            name = this.name,
-            description = this.description,
-            position = account.position,
-            icon = this.icon,
-            balance = account.balance,
-            group = this.group,
-            openBalance = this.openBalance
-        )
-        val dao = AccountDao()
-        dao.update(savingAccount)
-    }
-
-    fun addCreditCardAccount(groups: List<Group>) {
-        val creditCardAccount = CreditCardAccount(
-            icon = this.icon,
-            name = this.name,
-            balance = 0.0,
-            creditLimit = this.limit,
-            closingDay = closingDay,
-            dueDay = dueDay,
-            group = this.group,
-            description = this.description,
-            position = groups.find { it.id == this.group.id }!!.accounts.size + 1
-        )
-        val dao = AccountDao()
-        dao.insert(creditCardAccount)
-    }
-
-    fun updateCreditCardAccount(account: CreditCardAccount) {
-        val creditCardAccount = CreditCardAccount(
-            id = account.id,
-            name = this.name,
-            description = this.description,
-            position = account.position,
-            icon = this.icon,
-            balance = account.balance,
-            group = this.group,
-            creditLimit = this.limit,
-            closingDay = this.closingDay,
-            dueDay = this.dueDay
-        )
-        val dao = AccountDao()
-        dao.update(creditCardAccount)
+    private fun buildAccount(accountType: AccountType, id: Long? = null, position: Int? = null) : BankAccount{
+         when(accountType){
+            AccountType.CHECKING -> {
+                return CheckingAccount(
+                    id = id,
+                    name = this.name,
+                    description = this.description,
+                    position = position ?: (this.group.accounts.size + 1),
+                    icon = this.icon,
+                    balance = this.openBalance,
+                    group = this.group,
+                    openBalance = this.openBalance,
+                    overdraftLimit = this.limit
+                )
+            }
+            AccountType.SAVINGS -> {
+                return SavingsAccount(
+                    id = id ?: 0L,
+                    name = this.name,
+                    description = this.description,
+                    position = position ?: (this.group.accounts.size + 1),
+                    icon = this.icon,
+                    balance = this.openBalance,
+                    group = this.group,
+                    openBalance = this.openBalance
+                )
+            }
+            AccountType.CREDIT_CARD -> {
+                return CreditCardAccount(
+                    id = id ?: 0L,
+                    name = this.name,
+                    description = this.description,
+                    position = position ?: (this.group.accounts.size + 1),
+                    icon = this.icon,
+                    balance = 0.0,
+                    group = this.group,
+                    creditLimit = this.limit,
+                    closingDay = this.closingDay,
+                    dueDay = this.dueDay
+                )
+            }
+        }
     }
 }

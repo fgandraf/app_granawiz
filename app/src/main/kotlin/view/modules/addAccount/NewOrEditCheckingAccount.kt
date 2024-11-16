@@ -116,10 +116,7 @@ fun NewOrEditCheckingAccount(
             val confirmed by remember { derivedStateOf { addAccountViewModel.name != "" && addAccountViewModel.group.id != 0L } }
 
             DefaultButton(confirmed = confirmed, buttonLabel) {
-                if (account == null)
-                    addAccountViewModel.addCheckingAccount(sidebarViewModel.groups)
-                else
-                    addAccountViewModel.updateCheckingAccount(account)
+                addAccountViewModel.saveCheckingAccount(account)
                 sidebarViewModel.loadGroup()
                 onDismiss()
             }

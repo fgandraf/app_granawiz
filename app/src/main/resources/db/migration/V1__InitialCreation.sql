@@ -1,12 +1,12 @@
 CREATE TABLE tbl_groups (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    group_id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     position INTEGER
 );
 
 
 CREATE TABLE tbl_bank_accounts (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    account_id INTEGER PRIMARY KEY AUTOINCREMENT,
     account_type TEXT NOT NULL,
     name TEXT NOT NULL,
     description TEXT,
@@ -20,5 +20,5 @@ CREATE TABLE tbl_bank_accounts (
     closing_day INTEGER(2),
     due_day INTEGER(2),
 
-    FOREIGN KEY (group_id) REFERENCES tbl_groups(id)
+    FOREIGN KEY (group_id) REFERENCES tbl_groups(group_id)
 );

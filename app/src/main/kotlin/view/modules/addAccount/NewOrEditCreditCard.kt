@@ -135,10 +135,7 @@ fun NewOrEditCreditCard(
             val confirmed by remember { derivedStateOf { addAccountViewModel.name != "" && addAccountViewModel.group.id != 0L } }
 
             DefaultButton(confirmed = confirmed, buttonLabel) {
-                if (account == null)
-                    addAccountViewModel.addCreditCardAccount(sidebarViewModel.groups)
-                else
-                    addAccountViewModel.updateCreditCardAccount(account)
+                addAccountViewModel.saveCreditCardAccount(account)
                 sidebarViewModel.loadGroup()
                 onDismiss()
             }
