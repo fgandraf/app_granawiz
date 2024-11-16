@@ -1,6 +1,7 @@
 package config
 
 import model.entity.Group
+import model.entity.Tag
 import model.entity.account.*
 import org.hibernate.SessionFactory
 import org.hibernate.cfg.Configuration
@@ -14,6 +15,7 @@ object HibernateUtil {
 
         // Registro das classes de entidade
         configuration.addAnnotatedClass(Group::class.java)
+        configuration.addAnnotatedClass(Tag::class.java)
         configuration.addAnnotatedClass(BankAccount::class.java)
         configuration.addAnnotatedClass(CheckingAccount::class.java)
         configuration.addAnnotatedClass(CreditCardAccount::class.java)
