@@ -1,39 +1,33 @@
 package view.modules.receivers.components
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.Divider
-import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.PointerIcon
-import androidx.compose.ui.input.pointer.pointerHoverIcon
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import config.IconPaths
-import model.entity.Receiver
+import model.entity.AssociatedReceiverName
 import view.shared.ClickableIcon
 import view.shared.DialogDelete
 import view.theme.Afacade
 import viewModel.ReceiverViewModel
 
 @Composable
-fun ReceiverListItem(
+fun ReceiverNameListItem(
     receiverViewModel: ReceiverViewModel,
-    receiver: Receiver,
-    onClick: () -> Unit,
+    receiverName: AssociatedReceiverName,
 ){
-    var value by remember { mutableStateOf(receiver.name) }
-    val valueChanged = value != receiver.name
+    var value by remember { mutableStateOf(receiverName.name) }
+    val valueChanged = value != receiverName.name
     var deleteDialog by remember { mutableStateOf(false) }
 
     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween,
@@ -42,11 +36,8 @@ fun ReceiverListItem(
             .padding(horizontal = 10.dp)
             .height(30.dp)
             .clip(RoundedCornerShape(8.dp))
-            .pointerHoverIcon(PointerIcon.Hand)
-            .clickable { onClick() }
     ) {
         Row {
-
             Row(verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxHeight().padding(start = 10.dp)
             ) {
@@ -73,7 +64,7 @@ fun ReceiverListItem(
                     shape = RoundedCornerShape(6.dp),
                     iconSize = 12.dp,
                     padding = true,
-                    onClick = { value = receiver.name}
+                    onClick = { value = receiverName.name}
                 )
                 ClickableIcon(
                     icon = "check",
@@ -81,12 +72,10 @@ fun ReceiverListItem(
                     shape = RoundedCornerShape(6.dp),
                     iconSize = 12.dp,
                     padding = true,
-                    onClick = { receiverViewModel.updateReceiver(receiver, value) }
+                    onClick = { /*receiverViewModel.updateReceiver(receiverName, value)*/ }
                 )
             }
-
-            val hasSubItem by remember{ mutableStateOf(receiver.receiverNames.size > 0) }
-            if (!valueChanged) {
+            else {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     ClickableIcon(
                         icon = "trash",
@@ -95,27 +84,16 @@ fun ReceiverListItem(
                         padding = true,
                         onClick = { deleteDialog = true }
                     )
-                    Spacer(Modifier.width(if (hasSubItem) 0.dp else 22.dp))
-                    if (hasSubItem) {
-                        Spacer(Modifier.width(10.dp))
-                        Icon(
-                            painter = painterResource(IconPaths.SYSTEM_ICONS + "toggle_right.svg"),
-                            contentDescription = null,
-                            modifier = Modifier.size(12.dp)
-                        )
-                    }
                 }
-
             }
-
 
             if (deleteDialog)
                 DialogDelete(
                     title = "Excluir recebedor",
                     iconResource = IconPaths.SYSTEM_ICONS + "receiver.svg",
-                    objectName = receiver.name,
-                    alertText = "Isso irá excluir permanentemente o recebedor ${receiver.name} e remover todas as associações feitas à ele.",
-                    onClickButton = { receiverViewModel.deleteReceiver(receiver) },
+                    objectName = receiverName.name,
+                    alertText = "Isso irá excluir permanentemente o nome ${receiverName.name} e remover todas as associações feitas à ele.",
+                    onClickButton = { receiverViewModel.deleteAssociatedReceiver(receiverName) },
                     onDismiss = { deleteDialog = false }
                 )
         }

@@ -70,7 +70,7 @@ fun Main(
         )
         StaticMenuItem(
             iconResource = "receiver",
-            label = "Recebedores",
+            label = "Beneficiários",
             screen = Screen.Receivers,
             currentScreen = currentScreen,
             onClick = onScreenSelected

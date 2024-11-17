@@ -1,8 +1,8 @@
 package model.dao
 
 import config.HibernateUtil
+import model.entity.AssociatedReceiverName
 import model.entity.Receiver
-import org.hibernate.Hibernate
 
 class ReceiverDao {
 
@@ -16,10 +16,7 @@ class ReceiverDao {
         val root = criteriaQuery.from(Receiver::class.java)
         criteriaQuery.orderBy(criteriaBuilder.asc(root.get<Int>("name")))
         val receivers = session.createQuery(criteriaQuery).resultList
-        receivers.forEach { receiver ->
-            Hibernate.initialize(receiver.receiverNames)
-            receiver.receiverNames.sortBy { it.name }
-        }
+        receivers.forEach { receiver -> receiver.receiverNames.sortBy { it.name } }
         session.transaction.commit()
         session.close()
         return receivers
@@ -28,11 +25,17 @@ class ReceiverDao {
 
     fun delete(receiver: Receiver) {
         val session = sessionFactory.openSession()
-
         session.beginTransaction()
         session.remove(receiver)
         session.transaction.commit()
+        session.close()
+    }
 
+    fun deleteName(receiveName: AssociatedReceiverName) {
+        val session = sessionFactory.openSession()
+        session.beginTransaction()
+        session.remove(receiveName)
+        session.transaction.commit()
         session.close()
     }
 
