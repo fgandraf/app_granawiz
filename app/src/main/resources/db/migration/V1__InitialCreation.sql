@@ -33,10 +33,10 @@ CREATE TABLE tbl_receivers (
   name TEXT NOT NULL
 );
 
-CREATE TABLE tbl_associated_receivers_names (
-    associated_receivers_names_id INTEGER PRIMARY KEY AUTOINCREMENT,
+CREATE TABLE tbl_receiver_names (
+    receiver_name_id INTEGER PRIMARY KEY AUTOINCREMENT,
     receiver_id INTEGER,
-    name TEXT NOT NULL,
+    name TEXT NOT NULL UNIQUE,
 
     FOREIGN KEY (receiver_id) REFERENCES tbl_receivers(receiver_id)
 );

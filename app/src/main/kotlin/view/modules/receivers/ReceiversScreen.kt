@@ -11,19 +11,16 @@ import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 import config.IconPaths
-import view.shared.AddListItem
-import view.shared.ListItem
-import view.shared.AddressView
-import view.shared.DialogDelete
-import view.shared.SearchBar
-import view.shared.TextPrimary
+import view.shared.*
 import viewModel.ReceiverViewModel
 
 @Composable
@@ -54,7 +51,7 @@ fun ReceiversScreen(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxHeight(0.85f)
-                    .fillMaxWidth(0.7f)
+                    .fillMaxWidth(0.75f)
                     .shadow(elevation = 1.dp, shape = RoundedCornerShape(20.dp))
                     .border(0.5.dp, MaterialTheme.colors.primaryVariant, shape = RoundedCornerShape(20.dp))
                     .clip(RoundedCornerShape(20.dp))
@@ -78,7 +75,10 @@ fun ReceiversScreen(
                                 hasSubItem = receiver.receiverNames.size > 0,
                                 deleteDialogIsVisible = deleteDialogIsVisible,
                                 onRenameConfirmation = { receiverViewModel.updateReceiver(receiver, it)},
-                                onContentClick = { receiverViewModel.loadAssociatedNames(receiver) },
+                                onContentClick = {
+                                    receiverViewModel.loadAssociatedNames(receiver)
+                                    receiverViewModel.selectReceiver(receiver)
+                                },
                                 deleteDialog = {
                                     DialogDelete(
                                         title = "Excluir recebedor",
@@ -126,14 +126,13 @@ fun ReceiversScreen(
 
                         items(receiverViewModel.associatedReceiversName, key = { it.id }) { receiverName ->
 
-
                             val deleteDialogIsVisible = remember { mutableStateOf(false) }
                             ListItem(
                                 label = receiverName.name,
                                 hasSubItem = false,
                                 spaceBetween = 0.dp,
                                 deleteDialogIsVisible = deleteDialogIsVisible,
-                                onRenameConfirmation = { /*receiverViewModel.updateReceiver(receiver, it)*/ },
+                                onRenameConfirmation = { receiverViewModel.updateReceiverName(receiverName, it) },
                                 onContentClick = null,
                                 deleteDialog = {
                                     DialogDelete(
@@ -141,13 +140,11 @@ fun ReceiversScreen(
                                         iconResource = IconPaths.SYSTEM_ICONS + "receiver.svg",
                                         objectName = receiverName.name,
                                         alertText = "Isso irá excluir permanentemente o nome ${receiverName.name} e remover todas as associações feitas à ele.",
-                                        onClickButton = { /*receiverViewModel.deleteReceiver(receiver)*/ },
+                                        onClickButton = { receiverViewModel.deleteReceiverName(receiverName) },
                                         onDismiss = { deleteDialogIsVisible.value = false }
                                     )
                                 }
                             )
-
-
 
                         }
 
@@ -157,7 +154,7 @@ fun ReceiversScreen(
                             AddListItem(
                                 isVisible = isVisible,
                                 value = value,
-                                confirmationClick = { /*receiverViewModel.addReceiver(value.value)*/ }
+                                confirmationClick = { receiverViewModel.addReceiverName(value.value) }
                             )
                         }
 

@@ -1,7 +1,7 @@
 package model.dao
 
 import config.HibernateUtil
-import model.entity.AssociatedReceiverName
+import model.entity.ReceiverName
 import model.entity.Receiver
 
 class ReceiverDao {
@@ -31,7 +31,7 @@ class ReceiverDao {
         session.close()
     }
 
-    fun deleteName(receiveName: AssociatedReceiverName) {
+    fun deleteName(receiveName: ReceiverName) {
         val session = sessionFactory.openSession()
         session.beginTransaction()
         session.remove(receiveName)
@@ -47,11 +47,41 @@ class ReceiverDao {
         session.close()
     }
 
+    fun updateName(receiverName: ReceiverName) {
+        val session = sessionFactory.openSession()
+        try {
+            session.beginTransaction()
+            session.merge(receiverName)
+            session.transaction.commit()
+        } catch (e: Exception) {
+            session.transaction.rollback()
+            if (e.cause is org.hibernate.exception.ConstraintViolationException)
+                println("Erro: O nome '${receiverName.name}' já está associado ao recebedor '${receiverName.receiver.name}'.")
+        } finally {
+            session.close()
+        }
+    }
+
     fun insert(receiver: Receiver) {
         val session = sessionFactory.openSession()
         session.beginTransaction()
         session.persist(receiver)
         session.transaction.commit()
         session.close()
+    }
+
+    fun insertName(receiverName: ReceiverName) {
+        val session = sessionFactory.openSession()
+        try {
+            session.beginTransaction()
+            session.persist(receiverName)
+            session.transaction.commit()
+        } catch (e: Exception) {
+            session.transaction.rollback()
+            if (e.cause is org.hibernate.exception.ConstraintViolationException)
+                println("Erro: O nome '${receiverName.name}' já está associado ao recebedor '${receiverName.receiver.name}'.")
+        } finally {
+            session.close()
+        }
     }
 }

@@ -33,6 +33,6 @@ INSERT INTO tbl_tags VALUES (9, 'Evento Summit');
 
 
 
-INSERT INTO tbl_associated_receivers_names VALUES (1, 6, 'NISSEI DROG');
-INSERT INTO tbl_associated_receivers_names VALUES (2, 6, 'DROGARIA NISSEI');
-INSERT INTO tbl_associated_receivers_names VALUES (3, 6, 'NISSEI*100-DROG');
+INSERT INTO tbl_receiver_names VALUES (1, 6, 'NISSEI DROG');
+INSERT INTO tbl_receiver_names VALUES (2, 6, 'DROGARIA NISSEI');
+INSERT INTO tbl_receiver_names VALUES (3, 6, 'NISSEI*100-DROG');

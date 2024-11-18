@@ -3,11 +3,11 @@ package model.entity
 import jakarta.persistence.*
 
 @Entity
-@Table(name = "tbl_associated_receivers_names")
-open class AssociatedReceiverName(
+@Table(name = "tbl_receiver_names")
+open class ReceiverName(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "associated_receivers_names_id", columnDefinition = "INTEGER")
+    @Column(name = "receiver_name_id", columnDefinition = "INTEGER")
     open val id: Long = 0,
 
     open var name: String = "",

@@ -13,7 +13,7 @@ open class Receiver(
     open var name: String = "",
 
     @OneToMany(mappedBy = "receiver", cascade = [CascadeType.ALL], fetch = FetchType.LAZY, orphanRemoval = true)
-    open val receiverNames: MutableList<AssociatedReceiverName> = mutableListOf()
+    open val receiverNames: MutableList<ReceiverName> = mutableListOf()
 ) {
     constructor() : this(0, "", mutableListOf())
 }

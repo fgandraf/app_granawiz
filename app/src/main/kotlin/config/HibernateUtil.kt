@@ -1,6 +1,6 @@
 package config
 
-import model.entity.AssociatedReceiverName
+import model.entity.ReceiverName
 import model.entity.Group
 import model.entity.Receiver
 import model.entity.Tag
@@ -19,7 +19,7 @@ object HibernateUtil {
         configuration.addAnnotatedClass(Group::class.java)
         configuration.addAnnotatedClass(Tag::class.java)
         configuration.addAnnotatedClass(Receiver::class.java)
-        configuration.addAnnotatedClass(AssociatedReceiverName::class.java)
+        configuration.addAnnotatedClass(ReceiverName::class.java)
         configuration.addAnnotatedClass(BankAccount::class.java)
         configuration.addAnnotatedClass(CheckingAccount::class.java)
         configuration.addAnnotatedClass(CreditCardAccount::class.java)
