@@ -18,8 +18,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 import config.IconPaths
-import view.modules.receivers.components.AddListItem
-import view.modules.receivers.components.ListItem
+import view.shared.AddListItem
+import view.shared.ListItem
 import view.shared.AddressView
 import view.shared.DialogDelete
 import view.shared.SearchBar

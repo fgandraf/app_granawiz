@@ -1,41 +1,57 @@
-package view.modules.receivers.components
+package view.shared
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.Divider
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.PointerIcon
+import androidx.compose.ui.input.pointer.pointerHoverIcon
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import config.IconPaths
-import model.entity.AssociatedReceiverName
-import view.shared.ClickableIcon
-import view.shared.DialogDelete
 import view.theme.Afacade
-import viewModel.ReceiverViewModel
 
 @Composable
-fun ReceiverNameListItem(
-    receiverViewModel: ReceiverViewModel,
-    receiverName: AssociatedReceiverName,
+fun ListItem(
+    label: String = "",
+    hasSubItem: Boolean = false,
+    spaceBetween: Dp = 22.dp,
+    deleteDialogIsVisible: MutableState<Boolean> = remember { mutableStateOf(false) },
+    onRenameConfirmation: (String) -> Unit,
+    onContentClick: (() -> Unit?)?,
+    deleteDialog: @Composable () -> Unit,
 ){
-    var value by remember { mutableStateOf(receiverName.name) }
-    val valueChanged = value != receiverName.name
-    var deleteDialog by remember { mutableStateOf(false) }
+    var value by remember { mutableStateOf(label) }
+    val valueChanged = value != label
+
+
 
     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 10.dp)
-            .height(30.dp)
-            .clip(RoundedCornerShape(8.dp))
+        modifier = if (onContentClick != null)
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 10.dp)
+                .height(30.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .clickable{onContentClick()}
+                .pointerHoverIcon(PointerIcon.Hand)
+        else
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 10.dp)
+                .height(30.dp)
     ) {
         Row {
             Row(verticalAlignment = Alignment.CenterVertically,
@@ -64,7 +80,7 @@ fun ReceiverNameListItem(
                     shape = RoundedCornerShape(6.dp),
                     iconSize = 12.dp,
                     padding = true,
-                    onClick = { value = receiverName.name}
+                    onClick = { value = label },
                 )
                 ClickableIcon(
                     icon = "check",
@@ -72,30 +88,34 @@ fun ReceiverNameListItem(
                     shape = RoundedCornerShape(6.dp),
                     iconSize = 12.dp,
                     padding = true,
-                    onClick = { /*receiverViewModel.updateReceiver(receiverName, value)*/ }
+                    onClick = { onRenameConfirmation(value) }
                 )
             }
-            else {
+
+            if (!valueChanged) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     ClickableIcon(
                         icon = "trash",
                         shape = RoundedCornerShape(6.dp),
                         iconSize = 12.dp,
                         padding = true,
-                        onClick = { deleteDialog = true }
+                        onClick = { deleteDialogIsVisible.value = true }
                     )
+                    Spacer(Modifier.width(if (hasSubItem) 0.dp else spaceBetween))
+                    if (hasSubItem) {
+                        Spacer(Modifier.width(10.dp))
+                        Icon(
+                            painter = painterResource(IconPaths.SYSTEM_ICONS + "toggle_right.svg"),
+                            contentDescription = null,
+                            modifier = Modifier.size(12.dp)
+                        )
+                    }
                 }
+
             }
 
-            if (deleteDialog)
-                DialogDelete(
-                    title = "Excluir recebedor",
-                    iconResource = IconPaths.SYSTEM_ICONS + "receiver.svg",
-                    objectName = receiverName.name,
-                    alertText = "Isso irá excluir permanentemente o nome ${receiverName.name} e remover todas as associações feitas à ele.",
-                    onClickButton = { receiverViewModel.deleteAssociatedReceiver(receiverName) },
-                    onDismiss = { deleteDialog = false }
-                )
+            if (deleteDialogIsVisible.value)
+                deleteDialog()
         }
 
     }

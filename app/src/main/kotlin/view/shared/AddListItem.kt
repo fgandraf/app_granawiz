@@ -1,4 +1,4 @@
-package view.modules.receivers.components
+package view.shared
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
@@ -19,7 +19,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import view.modules.categories.components.AddButton
-import view.shared.ClickableIcon
 import view.theme.Afacade
 
 @Composable
