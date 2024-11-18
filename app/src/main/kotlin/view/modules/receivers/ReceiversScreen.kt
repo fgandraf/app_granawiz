@@ -1,6 +1,5 @@
 package view.modules.receivers
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.VerticalScrollbar
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -19,11 +18,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 import config.IconPaths
-import view.modules.categories.components.AddButton
-import view.modules.receivers.components.NewReceiverItem
-import view.modules.receivers.components.ReceiverListItem
-import view.modules.receivers.components.ReceiverNameListItem
+import view.modules.receivers.components.AddListItem
+import view.modules.receivers.components.ListItem
 import view.shared.AddressView
+import view.shared.DialogDelete
 import view.shared.SearchBar
 import view.shared.TextPrimary
 import viewModel.ReceiverViewModel
@@ -32,8 +30,6 @@ import viewModel.ReceiverViewModel
 fun ReceiversScreen(
     receiverViewModel: ReceiverViewModel = ReceiverViewModel()
 ) {
-
-
 
     Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.background)) {
 
@@ -70,49 +66,43 @@ fun ReceiversScreen(
                         .fillMaxHeight()
                         .padding(35.dp)
                 ) {
-
-                    var renameReceiverIsVisible by remember { mutableStateOf(false) }
                     val listState = rememberLazyListState()
 
-                    LazyColumn(
-                        state = listState,
-                        modifier = Modifier.fillMaxSize().padding(top = 30.dp)
-                    ) {
+                    LazyColumn(state = listState, modifier = Modifier.fillMaxSize().padding(top = 30.dp)) {
+
                         items(receiverViewModel.receivers, key = { it.id }) { receiver ->
-                            ReceiverListItem(receiverViewModel, receiver){
-                                receiverViewModel.loadAssociatedNames(receiver)
-                            }
-                        }
-                        item {
-                            Column {
-                                val label = remember { mutableStateOf("") }
-                                AnimatedVisibility(visible = renameReceiverIsVisible) {
-                                    NewReceiverItem(
-                                        receiverViewModel = receiverViewModel,
-                                        label = label,
-                                        onValueChange = { label.value = it },
-                                        onDismiss = { renameReceiverIsVisible = false; label.value = "" }
+
+                            val deleteDialogIsVisible = remember { mutableStateOf(false) }
+                            ListItem(
+                                label = receiver.name,
+                                hasSubItem = receiver.receiverNames.size > 0,
+                                deleteDialogIsVisible = deleteDialogIsVisible,
+                                onRenameConfirmation = { receiverViewModel.updateReceiver(receiver, it)},
+                                onContentClick = { receiverViewModel.loadAssociatedNames(receiver) },
+                                deleteDialog = {
+                                    DialogDelete(
+                                        title = "Excluir recebedor",
+                                        iconResource = IconPaths.SYSTEM_ICONS + "receiver.svg",
+                                        objectName = receiver.name,
+                                        alertText = "Isso irá excluir permanentemente o recebedor ${receiver.name} e remover todas as associações feitas à ele.",
+                                        onClickButton = { receiverViewModel.deleteReceiver(receiver) },
+                                        onDismiss = { deleteDialogIsVisible.value = false }
                                     )
                                 }
-                                AnimatedVisibility(visible = !renameReceiverIsVisible) {
-                                    Column(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .height(40.dp)
-                                            .padding(end = 10.dp),
-                                        horizontalAlignment = Alignment.End,
-                                        verticalArrangement = Arrangement.Bottom
-                                    ) {
-                                        Row(
-                                            modifier = Modifier.width(130.dp),
-                                            horizontalArrangement = Arrangement.Center
-                                        ) {
-                                            AddButton { renameReceiverIsVisible = true }
-                                        }
-                                    }
-                                }
-                            }
+                            )
+
                         }
+
+                        item {
+                            val value = remember { mutableStateOf("") }
+                            val isVisible = remember { mutableStateOf(false) }
+                            AddListItem(
+                                isVisible = isVisible,
+                                value = value,
+                                confirmationClick = { receiverViewModel.addReceiver(value.value) }
+                            )
+                        }
+
                     }
                     VerticalScrollbar(
                         adapter = rememberScrollbarAdapter(listState),
@@ -122,9 +112,6 @@ fun ReceiversScreen(
 
                 Divider(Modifier.fillMaxHeight(0.95f).width(1.dp))
 
-                var renameReceiverNameIsVisible by remember { mutableStateOf(false) }
-                val listState = rememberLazyListState()
-
                 Box(
                     modifier = Modifier
                         .weight(1f)
@@ -133,50 +120,52 @@ fun ReceiversScreen(
                 ) {
                     TextPrimary(text = "Nomes associados:")
 
+                    val listState = rememberLazyListState()
 
-                    LazyColumn(
-                        state = listState,
-                        modifier = Modifier.fillMaxSize().padding(top = 30.dp)
-                    ) {
+                    LazyColumn(state = listState, modifier = Modifier.fillMaxSize().padding(top = 30.dp)) {
+
                         items(receiverViewModel.associatedReceiversName, key = { it.id }) { receiverName ->
-                            ReceiverNameListItem(receiverViewModel, receiverName)
-                        }
-                        item {
-                            Column {
-                                val label = remember { mutableStateOf("") }
-                                AnimatedVisibility(visible = renameReceiverNameIsVisible) {
-                                    NewReceiverItem(
-                                        receiverViewModel = receiverViewModel,
-                                        label = label,
-                                        onValueChange = { label.value = it },
-                                        onDismiss = { renameReceiverNameIsVisible = false; label.value = "" }
+
+
+                            val deleteDialogIsVisible = remember { mutableStateOf(false) }
+                            ListItem(
+                                label = receiverName.name,
+                                hasSubItem = false,
+                                spaceBetween = 0.dp,
+                                deleteDialogIsVisible = deleteDialogIsVisible,
+                                onRenameConfirmation = { /*receiverViewModel.updateReceiver(receiver, it)*/ },
+                                onContentClick = null,
+                                deleteDialog = {
+                                    DialogDelete(
+                                        title = "Excluir nome",
+                                        iconResource = IconPaths.SYSTEM_ICONS + "receiver.svg",
+                                        objectName = receiverName.name,
+                                        alertText = "Isso irá excluir permanentemente o nome ${receiverName.name} e remover todas as associações feitas à ele.",
+                                        onClickButton = { /*receiverViewModel.deleteReceiver(receiver)*/ },
+                                        onDismiss = { deleteDialogIsVisible.value = false }
                                     )
                                 }
-                                AnimatedVisibility(visible = !renameReceiverNameIsVisible) {
-                                    Column(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .height(40.dp)
-                                            .padding(end = 10.dp),
-                                        horizontalAlignment = Alignment.End,
-                                        verticalArrangement = Arrangement.Bottom
-                                    ) {
-                                        Row(
-                                            modifier = Modifier.width(130.dp),
-                                            horizontalArrangement = Arrangement.Center
-                                        ) {
-                                            AddButton { renameReceiverNameIsVisible = true }
-                                        }
-                                    }
-                                }
-                            }
+                            )
+
+
+
                         }
+
+                        item {
+                            val value = remember { mutableStateOf("") }
+                            val isVisible = remember { mutableStateOf(false) }
+                            AddListItem(
+                                isVisible = isVisible,
+                                value = value,
+                                confirmationClick = { /*receiverViewModel.addReceiver(value.value)*/ }
+                            )
+                        }
+
                     }
                     VerticalScrollbar(
                         adapter = rememberScrollbarAdapter(listState),
                         modifier = Modifier.align(Alignment.CenterEnd)
                     )
-
 
                 }
 

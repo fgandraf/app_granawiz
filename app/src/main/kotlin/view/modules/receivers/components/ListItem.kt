@@ -17,36 +17,36 @@ import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import config.IconPaths
-import model.entity.Receiver
 import view.shared.ClickableIcon
-import view.shared.DialogDelete
 import view.theme.Afacade
-import viewModel.ReceiverViewModel
 
 @Composable
-fun ReceiverListItem(
-    receiverViewModel: ReceiverViewModel,
-    receiver: Receiver,
-    onClick: () -> Unit,
+fun ListItem(
+    label: String = "",
+    hasSubItem: Boolean = false,
+    spaceBetween: Dp = 22.dp,
+    deleteDialogIsVisible: MutableState<Boolean> = remember { mutableStateOf(false) },
+    onRenameConfirmation: (String) -> Unit,
+    onContentClick: (() -> Unit?)?,
+    deleteDialog: @Composable () -> Unit,
 ){
-    var value by remember { mutableStateOf(receiver.name) }
-    val valueChanged = value != receiver.name
-    var deleteDialog by remember { mutableStateOf(false) }
+    var value by remember { mutableStateOf(label) }
+    val valueChanged = value != label
+
+    val modifier = if (onContentClick != null) Modifier.clickable{onContentClick()}.pointerHoverIcon(PointerIcon.Hand) else Modifier
 
     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 10.dp)
             .height(30.dp)
             .clip(RoundedCornerShape(8.dp))
-            .pointerHoverIcon(PointerIcon.Hand)
-            .clickable { onClick() }
     ) {
         Row {
-
             Row(verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxHeight().padding(start = 10.dp)
             ) {
@@ -73,7 +73,7 @@ fun ReceiverListItem(
                     shape = RoundedCornerShape(6.dp),
                     iconSize = 12.dp,
                     padding = true,
-                    onClick = { value = receiver.name}
+                    onClick = { value = label },
                 )
                 ClickableIcon(
                     icon = "check",
@@ -81,11 +81,10 @@ fun ReceiverListItem(
                     shape = RoundedCornerShape(6.dp),
                     iconSize = 12.dp,
                     padding = true,
-                    onClick = { receiverViewModel.updateReceiver(receiver, value) }
+                    onClick = { onRenameConfirmation(value) }
                 )
             }
 
-            val hasSubItem by remember{ mutableStateOf(receiver.receiverNames.size > 0) }
             if (!valueChanged) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     ClickableIcon(
@@ -93,9 +92,9 @@ fun ReceiverListItem(
                         shape = RoundedCornerShape(6.dp),
                         iconSize = 12.dp,
                         padding = true,
-                        onClick = { deleteDialog = true }
+                        onClick = { deleteDialogIsVisible.value = true }
                     )
-                    Spacer(Modifier.width(if (hasSubItem) 0.dp else 22.dp))
+                    Spacer(Modifier.width(if (hasSubItem) 0.dp else spaceBetween))
                     if (hasSubItem) {
                         Spacer(Modifier.width(10.dp))
                         Icon(
@@ -108,16 +107,8 @@ fun ReceiverListItem(
 
             }
 
-
-            if (deleteDialog)
-                DialogDelete(
-                    title = "Excluir recebedor",
-                    iconResource = IconPaths.SYSTEM_ICONS + "receiver.svg",
-                    objectName = receiver.name,
-                    alertText = "Isso irá excluir permanentemente o recebedor ${receiver.name} e remover todas as associações feitas à ele.",
-                    onClickButton = { receiverViewModel.deleteReceiver(receiver) },
-                    onDismiss = { deleteDialog = false }
-                )
+            if (deleteDialogIsVisible.value)
+                deleteDialog()
         }
 
     }
