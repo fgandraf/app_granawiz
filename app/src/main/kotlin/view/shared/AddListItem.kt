@@ -26,6 +26,7 @@ fun AddListItem(
     isVisible: MutableState<Boolean>,
     value: MutableState<String>,
     confirmationClick: () -> Unit,
+    alertDialogContent: @Composable () -> Unit? = {}
 ){
     Column {
         AnimatedVisibility(visible = isVisible.value) {
@@ -101,4 +102,6 @@ fun AddListItem(
             }
         }
     }
+
+    alertDialogContent()
 }

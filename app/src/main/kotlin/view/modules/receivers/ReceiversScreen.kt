@@ -154,11 +154,20 @@ fun ReceiversScreen(
                             AddListItem(
                                 isVisible = isVisible,
                                 value = value,
-                                confirmationClick = { receiverViewModel.addReceiverName(value.value) }
+                                confirmationClick = { receiverViewModel.addReceiverName(value.value) },
+                                alertDialogContent = {
+                                    receiverViewModel.errorMessage?.let { errorMessage ->
+                                        SimpleAlertDialog(
+                                            onDismissRequest = { receiverViewModel.clearError() },
+                                            title = "Associação já existente",
+                                            message = errorMessage
+                                        )
+                                    }
+                                }
                             )
                         }
-
                     }
+
                     VerticalScrollbar(
                         adapter = rememberScrollbarAdapter(listState),
                         modifier = Modifier.align(Alignment.CenterEnd)

@@ -13,9 +13,15 @@ class ReceiverViewModel {
     var receivers by mutableStateOf(emptyList<Receiver>()); private set
     var associatedReceiversName by mutableStateOf(emptyList<ReceiverName>()); private set
 
+    var errorMessage: String? by mutableStateOf(null); private set
+
     private val _selectedReceiver = MutableStateFlow(Receiver())
     fun selectReceiver(receiver: Receiver) {
         _selectedReceiver.value = receiver
+    }
+
+    fun clearError() {
+        errorMessage = null
     }
 
     private val receiverDao = ReceiverDao()
@@ -48,10 +54,17 @@ class ReceiverViewModel {
     }
 
     fun addReceiverName(name: String) {
-        val newReceiverName = ReceiverName(name = name, receiver = _selectedReceiver.value)
-        receiverDao.insertName(newReceiverName)
-        loadReceivers()
-        associatedReceiversName = receivers.find { x -> x.id == newReceiverName.receiver.id }?.receiverNames ?: emptyList()
+        val existingName = receiverDao.getReceiverNameByName(name)
+        if (existingName != null){
+            errorMessage = "O nome \"$name\" já está vinculado ao Beneficiário \"${existingName.receiver.name}\"."
+            return
+        }
+        else{
+            val newReceiverName = ReceiverName(name = name, receiver = _selectedReceiver.value)
+            receiverDao.insertName(newReceiverName)
+            loadReceivers()
+            associatedReceiversName = receivers.find { x -> x.id == newReceiverName.receiver.id }?.receiverNames ?: emptyList()
+        }
     }
 
     fun updateReceiver(receiver: Receiver, name: String) {
@@ -61,11 +74,16 @@ class ReceiverViewModel {
     }
 
     fun updateReceiverName(receiverName: ReceiverName, name: String) {
-        val receiverId = receiverName.receiver.id
-        val updatedReceiverName = ReceiverName(receiverName.id, name, receiverName.receiver)
-        receiverDao.updateName(updatedReceiverName)
-        loadReceivers()
-        associatedReceiversName = receivers.find { x -> x.id == receiverId }?.receiverNames ?: emptyList()
+        val existingName = receiverDao.getReceiverNameByName(name)
+        if (existingName != null)
+            errorMessage = "O nome \"$name\" já está vinculado ao Beneficiário \"${existingName.receiver.name}\"."
+        else {
+            val receiverId = receiverName.receiver.id
+            val updatedReceiverName = ReceiverName(receiverName.id, name, receiverName.receiver)
+            receiverDao.updateName(updatedReceiverName)
+            loadReceivers()
+            associatedReceiversName = receivers.find { x -> x.id == receiverId }?.receiverNames ?: emptyList()
+        }
     }
 
 }

@@ -22,6 +22,20 @@ class ReceiverDao {
         return receivers
     }
 
+    fun getReceiverNameByName(name: String): ReceiverName? {
+        val session = sessionFactory.openSession()
+        session.beginTransaction()
+        val criteriaBuilder = session.criteriaBuilder
+        val criteriaQuery = criteriaBuilder.createQuery(ReceiverName::class.java)
+        val root = criteriaQuery.from(ReceiverName::class.java)
+        criteriaQuery.where(criteriaBuilder.equal(root.get<String>("name"), name))
+        val query = session.createQuery(criteriaQuery)
+        val receiverName = query.resultList.firstOrNull()
+        session.transaction.commit()
+        session.close()
+        return receiverName
+    }
+
 
     fun delete(receiver: Receiver) {
         val session = sessionFactory.openSession()
