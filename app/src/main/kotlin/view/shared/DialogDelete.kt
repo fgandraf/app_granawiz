@@ -135,6 +135,7 @@ fun DialogDelete(
             ){
                 DefaultButton(confirmed = confirmed, color = Red400, label = title){
                     onClickButton()
+                    onDismiss()
                 }
             }
         }
