@@ -13,4 +13,4 @@ pluginManagement {
     }
 }
 
-rootProject.name = "MoneyMap"
+rootProject.name = "GranaWiz"

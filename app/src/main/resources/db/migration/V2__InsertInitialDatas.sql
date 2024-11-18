@@ -31,8 +31,17 @@ INSERT INTO tbl_tags VALUES (8, 'Reforma Cozinha');
 INSERT INTO tbl_tags VALUES (9, 'Evento Summit');
 
 
-
-
 INSERT INTO tbl_receiver_names VALUES (1, 6, 'NISSEI DROG');
 INSERT INTO tbl_receiver_names VALUES (2, 6, 'DROGARIA NISSEI');
 INSERT INTO tbl_receiver_names VALUES (3, 6, 'NISSEI*100-DROG');
+
+INSERT INTO tbl_payers VALUES (1, 'Banco do Brasil');
+INSERT INTO tbl_payers VALUES (2, 'Caixa Econômica Federal');
+INSERT INTO tbl_payers VALUES (3, 'Marisa Viviani Parra');
+INSERT INTO tbl_payers VALUES (4, 'Pedro Burneiko de Godoy');
+INSERT INTO tbl_payers VALUES (5, 'Promore - SEESP');
+
+INSERT INTO tbl_payer_names VALUES (1, 2, 'PAG FORN CEF');
+INSERT INTO tbl_payer_names VALUES (2, 2, 'PAGAMENTO FORNECEDOR GOV');
+INSERT INTO tbl_payer_names VALUES (3, 1, 'BB FORN');
+INSERT INTO tbl_payer_names VALUES (4, 1, 'BB FORNECEDOR');

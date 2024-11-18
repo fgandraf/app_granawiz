@@ -1,1 +1,1 @@
-# app_money-map
+<img src="./assets/logo.png" alt="GranaWiz Logo"/>

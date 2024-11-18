@@ -1,9 +1,6 @@
 package config
 
-import model.entity.ReceiverName
-import model.entity.Group
-import model.entity.Receiver
-import model.entity.Tag
+import model.entity.*
 import model.entity.account.*
 import org.hibernate.SessionFactory
 import org.hibernate.cfg.Configuration
@@ -20,6 +17,8 @@ object HibernateUtil {
         configuration.addAnnotatedClass(Tag::class.java)
         configuration.addAnnotatedClass(Receiver::class.java)
         configuration.addAnnotatedClass(ReceiverName::class.java)
+        configuration.addAnnotatedClass(Payer::class.java)
+        configuration.addAnnotatedClass(PayerName::class.java)
         configuration.addAnnotatedClass(BankAccount::class.java)
         configuration.addAnnotatedClass(CheckingAccount::class.java)
         configuration.addAnnotatedClass(CreditCardAccount::class.java)
@@ -28,7 +27,7 @@ object HibernateUtil {
         // Propriedades do Hibernate
         val settings = Properties()
         settings["hibernate.connection.driver_class"] = "org.sqlite.JDBC"
-        settings["hibernate.connection.url"] = "jdbc:sqlite:money.db"
+        settings["hibernate.connection.url"] = "jdbc:sqlite:granawiz.db"
         settings["hibernate.dialect"] = "org.hibernate.community.dialect.SQLiteDialect"
         settings["hibernate.show_sql"] = "true"
         settings["hibernate.format_sql"] = "true"

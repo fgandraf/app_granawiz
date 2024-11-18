@@ -40,3 +40,16 @@ CREATE TABLE tbl_receiver_names (
 
     FOREIGN KEY (receiver_id) REFERENCES tbl_receivers(receiver_id)
 );
+
+CREATE TABLE tbl_payers (
+   payer_id INTEGER PRIMARY KEY AUTOINCREMENT,
+   name TEXT NOT NULL
+);
+
+CREATE TABLE tbl_payer_names (
+    payer_name_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    payer_id INTEGER,
+    name TEXT NOT NULL UNIQUE,
+
+    FOREIGN KEY (payer_id) REFERENCES tbl_payers(payer_id)
+);

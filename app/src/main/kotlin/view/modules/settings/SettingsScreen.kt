@@ -44,13 +44,13 @@ fun SettingsScreen(
                 modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp)
             ) {
                 Image(
-                    painter = painterResource("assets/images/MoneyMapIcon.png"),
+                    painter = painterResource("assets/images/icon.png"),
                     contentDescription = null,
                     modifier = Modifier.size(50.dp)
                 )
 
                 Text(
-                    text = "MoneyMap",
+                    text = "GranaWiz",
                     fontSize = 26.sp,
                     fontWeight = FontWeight.Bold,
                     fontFamily = Afacade,
