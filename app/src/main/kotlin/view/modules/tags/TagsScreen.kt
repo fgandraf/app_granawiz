@@ -1,6 +1,5 @@
 package view.modules.tags
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.VerticalScrollbar
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -18,18 +17,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 import config.IconPaths
-import view.modules.categories.components.AddButton
-import view.modules.tags.components.NewTagItem
-import view.modules.tags.components.TagListItem
-import view.shared.AddressView
-import view.shared.SearchBar
+import view.shared.*
 import viewModel.TagViewModel
 
 @Composable
 fun TagsScreen(
     tagViewModel: TagViewModel = TagViewModel(),
 ) {
-    var renameVisible by remember { mutableStateOf(false) }
     val listState = rememberLazyListState()
 
     Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.background)) {
@@ -66,37 +60,35 @@ fun TagsScreen(
                     modifier = Modifier.fillMaxSize()
                 ) {
                     items(tagViewModel.tags, key = { it.id }) { tag ->
-                        TagListItem(tagViewModel, tag)
-                    }
-                    item {
-                        Column {
-                            val label = remember { mutableStateOf("") }
-                            AnimatedVisibility(visible = renameVisible) {
-                                NewTagItem(
-                                    tagViewModel = tagViewModel,
-                                    label = label,
-                                    onValueChange = { label.value = it },
-                                    onDismiss = { renameVisible = false; label.value = "" }
+                        val deleteDialogIsVisible = remember { mutableStateOf(false) }
+                        ListItem(
+                            label = tag.name,
+                            icon = IconPaths.SYSTEM_ICONS + "tag.svg",
+                            spaceBetween = 0.dp,
+                            deleteDialogIsVisible = deleteDialogIsVisible,
+                            onUpdateConfirmation = { tagViewModel.updateTag(tag, it) },
+                            onContentClick = {},
+                            deleteDialog = {
+                                DialogDelete(
+                                    title = "Excluir etiqueta",
+                                    iconResource = IconPaths.SYSTEM_ICONS + "tag.svg",
+                                    objectName = tag.name,
+                                    alertText = "Isso irá excluir permanentemente a etiquera ${tag.name} e remover todas as associações feitas à ela.",
+                                    onClickButton = { tagViewModel.deleteTag(tag) },
+                                    onDismiss = { deleteDialogIsVisible.value = false }
                                 )
                             }
-                            AnimatedVisibility(visible = !renameVisible) {
-                                Column(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .height(40.dp)
-                                        .padding(end = 10.dp),
-                                    horizontalAlignment = Alignment.End,
-                                    verticalArrangement = Arrangement.Bottom
-                                ) {
-                                    Row(
-                                        modifier = Modifier.width(130.dp),
-                                        horizontalArrangement = Arrangement.Center
-                                    ) {
-                                        AddButton { renameVisible = true }
-                                    }
-                                }
-                            }
-                        }
+                        )
+                    }
+                    item {
+                        val value = remember { mutableStateOf("") }
+                        val isVisible = remember { mutableStateOf(false) }
+                        AddListItem(
+                            isVisible = isVisible,
+                            value = value,
+                            icon = "tag.svg",
+                            confirmationClick = { tagViewModel.addTag(value.value) },
+                        )
                     }
                 }
                 VerticalScrollbar(

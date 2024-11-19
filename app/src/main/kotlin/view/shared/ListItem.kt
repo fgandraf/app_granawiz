@@ -26,16 +26,18 @@ import view.theme.Afacade
 @Composable
 fun ListItem(
     label: String = "",
+    icon: String? = null,
+    clickableIcon: Boolean = false,
     hasSubItem: Boolean = false,
     spaceBetween: Dp = 22.dp,
     deleteDialogIsVisible: MutableState<Boolean> = remember { mutableStateOf(false) },
     onUpdateConfirmation: (String) -> Unit,
+    onIconClick: () -> Unit = {},
     onContentClick: (() -> Unit?)?,
     deleteDialog: @Composable () -> Unit,
 ){
     var value by remember { mutableStateOf(label) }
     val valueChanged = value != label
-
 
 
     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween,
@@ -54,6 +56,28 @@ fun ListItem(
                 .height(30.dp)
     ) {
         Row {
+            if (icon != null){
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center,
+                    modifier = if (clickableIcon)
+                        Modifier
+                            .clickable { onIconClick() }
+                            .fillMaxHeight()
+                            .width(30.dp)
+                    else Modifier
+                        .fillMaxHeight()
+                        .width(30.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(icon),
+                        contentDescription = null,
+                        tint = if (valueChanged) Color.Blue else MaterialTheme.colors.primary,
+                        modifier = Modifier.size(15.dp)
+                    )
+                }
+            }
+
             Row(verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxHeight().padding(start = 10.dp)
             ) {

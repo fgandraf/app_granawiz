@@ -1,10 +1,13 @@
 package view.modules.categories
 
-import androidx.compose.foundation.*
+import androidx.compose.foundation.VerticalScrollbar
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
@@ -62,7 +65,6 @@ fun CategoriesScreen(
                     //===== FIRST COLUMN
                     Row(modifier = Modifier.weight(2f).fillMaxHeight()) {
                         Column(modifier = Modifier.padding(20.dp)) {
-
                             ListTypeItem(icon = "gastos.svg", color = MaterialTheme.colors.primary, label = "Gastos") {
                                 viewModel.selectType(CategoryType.EXPENSE)
                                 viewModel.loadCategories(CategoryType.EXPENSE)
@@ -100,9 +102,12 @@ fun CategoriesScreen(
                                     val deleteDialogIsVisible = remember { mutableStateOf(false) }
                                     view.shared.ListItem(
                                         label = category.name,
+                                        icon = IconPaths.CATEGORY_PACK + category.icon,
+                                        clickableIcon = true,
                                         hasSubItem = category.subcategories.size > 0,
                                         deleteDialogIsVisible = deleteDialogIsVisible,
-                                        onUpdateConfirmation = { viewModel.updateCategory(category, it, "icon.svg") },
+                                        onUpdateConfirmation = { viewModel.updateCategory(category, it, category.icon) },
+                                        onIconClick = { /*IMPLEMENTS*/ },
                                         onContentClick = {
                                             viewModel.loadSubCategories(category)
                                             viewModel.selectCategory(category)
@@ -166,6 +171,7 @@ fun CategoriesScreen(
                                     view.shared.ListItem(
                                         label = subcategory.name,
                                         hasSubItem = false,
+                                        spaceBetween = 0.dp,
                                         deleteDialogIsVisible = deleteDialogIsVisible,
                                         onUpdateConfirmation = { viewModel.updateSubcategory(subcategory, it) },
                                         onContentClick = {},
