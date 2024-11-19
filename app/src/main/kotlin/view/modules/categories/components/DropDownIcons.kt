@@ -4,9 +4,11 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.DropdownMenu
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.res.painterResource
@@ -17,7 +19,7 @@ import java.io.File
 
 @Composable
 fun DropDownIcons(
-    width : Dp = 210.dp,
+    width : Dp = 315.dp,
     expanded: Boolean,
     onDismissRequest: () -> Unit,
     onIconSelected: (String) -> Unit
@@ -35,11 +37,12 @@ fun DropDownIcons(
                     if (!file.name.startsWith("_")){
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
-                            modifier = Modifier.width(30.dp)
+                            modifier = Modifier.width(35.dp)
                         ) {
                             Image(
                                 painter = painterResource("assets/icons/categoryPack/${file.name}"),
                                 contentDescription = "",
+                                colorFilter = ColorFilter.tint(color = MaterialTheme.colors.primary),
                                 modifier = Modifier
                                     .pointerHoverIcon(PointerIcon.Hand)
                                     .clickable {
@@ -47,7 +50,7 @@ fun DropDownIcons(
                                         onDismissRequest()
                                     }
                                     .padding(5.dp)
-                                    .size(15.dp)
+                                    .size(18.dp)
                             )
                         }
                     }

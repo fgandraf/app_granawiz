@@ -44,16 +44,16 @@ INSERT INTO tbl_payer_names VALUES (2, 2, 'PAGAMENTO FORNECEDOR GOV');
 INSERT INTO tbl_payer_names VALUES (3, 1, 'BB FORN');
 INSERT INTO tbl_payer_names VALUES (4, 1, 'BB FORNECEDOR');
 
-INSERT INTO tbl_categories VALUES (1, 'EXPENSE', 'Alimentação', 'food.svg');
-INSERT INTO tbl_categories VALUES (2, 'EXPENSE', 'Compras', 'shop.svg');
-INSERT INTO tbl_categories VALUES (3, 'EXPENSE', 'Educação', 'education.svg');
-INSERT INTO tbl_categories VALUES (4, 'EXPENSE', 'Lazer', 'fun.svg');
-INSERT INTO tbl_categories VALUES (5, 'EXPENSE', 'Moradia', 'house.svg');
+INSERT INTO tbl_categories VALUES (1, 'EXPENSE', 'Alimentação', 'pizza.svg');
+INSERT INTO tbl_categories VALUES (2, 'EXPENSE', 'Compras', 'shopping-cart.svg');
+INSERT INTO tbl_categories VALUES (3, 'EXPENSE', 'Educação', 'graduation-cap.svg');
+INSERT INTO tbl_categories VALUES (4, 'EXPENSE', 'Lazer', 'cheers.svg');
+INSERT INTO tbl_categories VALUES (5, 'EXPENSE', 'Moradia', 'house-line.svg');
 INSERT INTO tbl_categories VALUES (6, 'EXPENSE', 'Outros', 'question.svg');
-INSERT INTO tbl_categories VALUES (7, 'EXPENSE', 'Saúde', 'medicine.svg');
-INSERT INTO tbl_categories VALUES (8, 'EXPENSE', 'Taxas e Impostos', 'weight');
-INSERT INTO tbl_categories VALUES (9, 'EXPENSE', 'Transporte', 'car.svg');
-INSERT INTO tbl_categories VALUES (10, 'EXPENSE', 'Vestimentas', 'clothes.svg');
+INSERT INTO tbl_categories VALUES (7, 'EXPENSE', 'Saúde', 'pill.svg');
+INSERT INTO tbl_categories VALUES (8, 'EXPENSE', 'Taxas e Impostos', 'scales.svg');
+INSERT INTO tbl_categories VALUES (9, 'EXPENSE', 'Transporte', 'car-profile.svg');
+INSERT INTO tbl_categories VALUES (10, 'EXPENSE', 'Vestimentas', 't-shirt.svg');
 
 INSERT INTO tbl_categories VALUES (11, 'INCOME', 'Salário', 'question.svg');
 INSERT INTO tbl_categories VALUES (12, 'INCOME', 'Prestação de Serviços', 'question.svg');
