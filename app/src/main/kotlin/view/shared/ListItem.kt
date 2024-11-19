@@ -21,21 +21,25 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import config.IconPaths
+import view.modules.categories.components.DropDownIcons
 import view.theme.Afacade
 
 @Composable
 fun ListItem(
     label: String = "",
+    icon: String? = null,
+    clickableIcon: Boolean = false,
     hasSubItem: Boolean = false,
     spaceBetween: Dp = 22.dp,
     deleteDialogIsVisible: MutableState<Boolean> = remember { mutableStateOf(false) },
-    onRenameConfirmation: (String) -> Unit,
+    onUpdateConfirmation: (String) -> Unit,
+    onSelectIcon: (String) -> Unit = {},
     onContentClick: (() -> Unit?)?,
     deleteDialog: @Composable () -> Unit,
 ){
     var value by remember { mutableStateOf(label) }
     val valueChanged = value != label
-
+    var expandedIcons by remember { mutableStateOf(false) }
 
 
     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween,
@@ -45,7 +49,7 @@ fun ListItem(
                 .padding(horizontal = 10.dp)
                 .height(30.dp)
                 .clip(RoundedCornerShape(8.dp))
-                .clickable{onContentClick()}
+                .clickable{ onContentClick() }
                 .pointerHoverIcon(PointerIcon.Hand)
         else
             Modifier
@@ -54,6 +58,28 @@ fun ListItem(
                 .height(30.dp)
     ) {
         Row {
+            if (icon != null){
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center,
+                    modifier = if (clickableIcon)
+                        Modifier
+                            .clickable { expandedIcons = true }
+                            .fillMaxHeight()
+                            .width(30.dp)
+                    else Modifier
+                        .fillMaxHeight()
+                        .width(30.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(icon),
+                        contentDescription = null,
+                        tint = if (valueChanged) Color.Blue else MaterialTheme.colors.primary,
+                        modifier = Modifier.size(15.dp)
+                    )
+                }
+            }
+
             Row(verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxHeight().padding(start = 10.dp)
             ) {
@@ -88,7 +114,7 @@ fun ListItem(
                     shape = RoundedCornerShape(6.dp),
                     iconSize = 12.dp,
                     padding = true,
-                    onClick = { onRenameConfirmation(value) }
+                    onClick = { onUpdateConfirmation(value) }
                 )
             }
 
@@ -117,7 +143,11 @@ fun ListItem(
             if (deleteDialogIsVisible.value)
                 deleteDialog()
         }
-
     }
+    DropDownIcons(
+        expanded = expandedIcons,
+        onDismissRequest = { expandedIcons = false },
+        onIconSelected = {onSelectIcon(it); expandedIcons = false}
+    )
     Divider(modifier = Modifier.padding(horizontal = 15.dp), thickness = 1.dp)
 }

@@ -74,7 +74,7 @@ fun PayersScreen(
                                 label = payer.name,
                                 hasSubItem = payer.payersNames.size > 0,
                                 deleteDialogIsVisible = deleteDialogIsVisible,
-                                onRenameConfirmation = { payerViewModel.updatePayer(payer, it)},
+                                onUpdateConfirmation = { payerViewModel.updatePayer(payer, it)},
                                 onContentClick = {
                                     payerViewModel.loadAssociatedNames(payer)
                                     payerViewModel.selectPayer(payer)
@@ -132,7 +132,7 @@ fun PayersScreen(
                                 hasSubItem = false,
                                 spaceBetween = 0.dp,
                                 deleteDialogIsVisible = deleteDialogIsVisible,
-                                onRenameConfirmation = { payerViewModel.updatePayerName(payerName, it) },
+                                onUpdateConfirmation = { payerViewModel.updatePayerName(payerName, it) },
                                 onContentClick = null,
                                 deleteDialog = {
                                     DialogDelete(

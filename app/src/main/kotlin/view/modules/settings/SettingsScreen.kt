@@ -44,7 +44,7 @@ fun SettingsScreen(
                 modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp)
             ) {
                 Image(
-                    painter = painterResource("assets/images/icon.png"),
+                    painter = painterResource("assets/images/icon.svg"),
                     contentDescription = null,
                     modifier = Modifier.size(50.dp)
                 )

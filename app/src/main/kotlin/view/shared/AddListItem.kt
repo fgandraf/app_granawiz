@@ -1,30 +1,39 @@
 package view.shared
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.Divider
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.PointerIcon
+import androidx.compose.ui.input.pointer.pointerHoverIcon
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import view.modules.categories.components.AddButton
+import config.IconPaths
 import view.theme.Afacade
 
 @Composable
 fun AddListItem(
     isVisible: MutableState<Boolean>,
     value: MutableState<String>,
+    icon: String? = null,
     confirmationClick: () -> Unit,
     alertDialogContent: @Composable () -> Unit? = {}
 ){
@@ -41,10 +50,24 @@ fun AddListItem(
                         .height(30.dp)
                 ) {
                     Row {
+                        if (icon != null) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center,
+                                modifier = Modifier.fillMaxHeight().width(40.dp)
+                            ) {
+                                Icon(
+                                    painter = painterResource(IconPaths.SYSTEM_ICONS + icon),
+                                    contentDescription = null,
+                                    tint = Color.Blue,
+                                    modifier = Modifier.size(15.dp)
+                                )
+                            }
+                        }
                         Row(verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier
                                 .fillMaxHeight()
-                                .padding(start = 10.dp)
+                                .padding(start = if (icon != null) 0.dp else 10.dp)
                         ) {
                             BasicTextField(
                                 value = value.value,
@@ -97,7 +120,31 @@ fun AddListItem(
                     modifier = Modifier.width(130.dp),
                     horizontalArrangement = Arrangement.Center
                 ) {
-                    AddButton { isVisible.value = true }
+                    Row(verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center,
+                        modifier = Modifier
+                            .height(25.dp)
+                            .clip(RoundedCornerShape(8.dp))
+                            .pointerHoverIcon(PointerIcon.Hand)
+                            .width(120.dp)
+                            .clickable { isVisible.value = true }
+                    ) {
+                        Icon(
+                            painter = painterResource(IconPaths.SYSTEM_ICONS + "plus.svg"),
+                            contentDescription = null,
+                            tint = MaterialTheme.colors.primary,
+                            modifier = Modifier.size(15.dp),
+                        )
+
+                        Text(modifier = Modifier.padding(start = 10.dp),
+                            text = "Adicionar",
+                            fontSize  = 14.sp,
+                            color = MaterialTheme.colors.primary,
+                            fontWeight = FontWeight.Medium,
+                            lineHeight = 0.sp,
+                            fontFamily = Afacade
+                        )
+                    }
                 }
             }
         }
