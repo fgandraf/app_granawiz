@@ -100,6 +100,7 @@ fun CategoriesScreen(
                                 items(viewModel.categories, key = { it.id }) { category ->
 
                                     val deleteDialogIsVisible = remember { mutableStateOf(false) }
+
                                     view.shared.ListItem(
                                         label = category.name,
                                         icon = IconPaths.CATEGORY_PACK + category.icon,
@@ -107,7 +108,9 @@ fun CategoriesScreen(
                                         hasSubItem = category.subcategories.size > 0,
                                         deleteDialogIsVisible = deleteDialogIsVisible,
                                         onUpdateConfirmation = { viewModel.updateCategory(category, it, category.icon) },
-                                        onIconClick = { /*IMPLEMENTS*/ },
+                                        onSelectIcon = {
+                                           viewModel.updateCategory(category, category.name, it)
+                                        },
                                         onContentClick = {
                                             viewModel.loadSubCategories(category)
                                             viewModel.selectCategory(category)

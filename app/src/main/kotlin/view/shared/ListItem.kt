@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import config.IconPaths
+import view.modules.categories.components.DropDownIcons
 import view.theme.Afacade
 
 @Composable
@@ -32,12 +33,13 @@ fun ListItem(
     spaceBetween: Dp = 22.dp,
     deleteDialogIsVisible: MutableState<Boolean> = remember { mutableStateOf(false) },
     onUpdateConfirmation: (String) -> Unit,
-    onIconClick: () -> Unit = {},
+    onSelectIcon: (String) -> Unit = {},
     onContentClick: (() -> Unit?)?,
     deleteDialog: @Composable () -> Unit,
 ){
     var value by remember { mutableStateOf(label) }
     val valueChanged = value != label
+    var expandedIcons by remember { mutableStateOf(false) }
 
 
     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween,
@@ -47,7 +49,7 @@ fun ListItem(
                 .padding(horizontal = 10.dp)
                 .height(30.dp)
                 .clip(RoundedCornerShape(8.dp))
-                .clickable{onContentClick()}
+                .clickable{ onContentClick() }
                 .pointerHoverIcon(PointerIcon.Hand)
         else
             Modifier
@@ -62,7 +64,7 @@ fun ListItem(
                     horizontalArrangement = Arrangement.Center,
                     modifier = if (clickableIcon)
                         Modifier
-                            .clickable { onIconClick() }
+                            .clickable { expandedIcons = true }
                             .fillMaxHeight()
                             .width(30.dp)
                     else Modifier
@@ -141,7 +143,11 @@ fun ListItem(
             if (deleteDialogIsVisible.value)
                 deleteDialog()
         }
-
     }
+    DropDownIcons(
+        expanded = expandedIcons,
+        onDismissRequest = { expandedIcons = false },
+        onIconSelected = {onSelectIcon(it); expandedIcons = false}
+    )
     Divider(modifier = Modifier.padding(horizontal = 15.dp), thickness = 1.dp)
 }
