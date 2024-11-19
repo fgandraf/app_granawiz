@@ -74,7 +74,7 @@ fun ReceiversScreen(
                                 label = receiver.name,
                                 hasSubItem = receiver.receiverNames.size > 0,
                                 deleteDialogIsVisible = deleteDialogIsVisible,
-                                onRenameConfirmation = { receiverViewModel.updateReceiver(receiver, it)},
+                                onUpdateConfirmation = { receiverViewModel.updateReceiver(receiver, it)},
                                 onContentClick = {
                                     receiverViewModel.loadAssociatedNames(receiver)
                                     receiverViewModel.selectReceiver(receiver)
@@ -132,7 +132,7 @@ fun ReceiversScreen(
                                 hasSubItem = false,
                                 spaceBetween = 0.dp,
                                 deleteDialogIsVisible = deleteDialogIsVisible,
-                                onRenameConfirmation = { receiverViewModel.updateReceiverName(receiverName, it) },
+                                onUpdateConfirmation = { receiverViewModel.updateReceiverName(receiverName, it) },
                                 onContentClick = null,
                                 deleteDialog = {
                                     DialogDelete(

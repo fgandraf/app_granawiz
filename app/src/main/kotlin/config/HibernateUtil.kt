@@ -19,6 +19,8 @@ object HibernateUtil {
         configuration.addAnnotatedClass(ReceiverName::class.java)
         configuration.addAnnotatedClass(Payer::class.java)
         configuration.addAnnotatedClass(PayerName::class.java)
+        configuration.addAnnotatedClass(Category::class.java)
+        configuration.addAnnotatedClass(SubCategory::class.java)
         configuration.addAnnotatedClass(BankAccount::class.java)
         configuration.addAnnotatedClass(CheckingAccount::class.java)
         configuration.addAnnotatedClass(CreditCardAccount::class.java)

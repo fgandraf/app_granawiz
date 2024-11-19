@@ -29,7 +29,7 @@ fun ListItem(
     hasSubItem: Boolean = false,
     spaceBetween: Dp = 22.dp,
     deleteDialogIsVisible: MutableState<Boolean> = remember { mutableStateOf(false) },
-    onRenameConfirmation: (String) -> Unit,
+    onUpdateConfirmation: (String) -> Unit,
     onContentClick: (() -> Unit?)?,
     deleteDialog: @Composable () -> Unit,
 ){
@@ -88,7 +88,7 @@ fun ListItem(
                     shape = RoundedCornerShape(6.dp),
                     iconSize = 12.dp,
                     padding = true,
-                    onClick = { onRenameConfirmation(value) }
+                    onClick = { onUpdateConfirmation(value) }
                 )
             }
 

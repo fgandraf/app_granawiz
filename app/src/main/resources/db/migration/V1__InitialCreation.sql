@@ -53,3 +53,18 @@ CREATE TABLE tbl_payer_names (
 
     FOREIGN KEY (payer_id) REFERENCES tbl_payers(payer_id)
 );
+
+CREATE TABLE tbl_categories (
+    category_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    category_type TEXT NOT NULL,
+    name TEXT NOT NULL,
+    icon TEXT
+);
+
+CREATE TABLE tbl_sub_categories (
+    sub_category_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    category_id INTEGER,
+    name TEXT NOT NULL,
+
+    FOREIGN KEY (category_id) REFERENCES tbl_categories(category_id)
+);

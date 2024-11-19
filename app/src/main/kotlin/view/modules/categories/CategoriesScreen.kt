@@ -2,25 +2,34 @@ package view.modules.categories
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 import config.IconPaths
-import view.modules.categories.components.AddButton
-import view.modules.categories.components.ListItem
+import model.enums.CategoryType
 import view.modules.categories.components.ListTypeItem
+import view.shared.AddListItem
 import view.shared.AddressView
+import view.shared.DialogDelete
 import view.shared.SearchBar
+import viewModel.CategoryViewModel
 
 @Composable
-fun CategoriesScreen(){
+fun CategoriesScreen(
+    viewModel: CategoryViewModel = CategoryViewModel(),
+){
+
+    var addCategoryButton by remember { mutableStateOf<Boolean>(false) }
+    var addSubcategoryButton by remember { mutableStateOf<Boolean>(false) }
 
     Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.background)) {
 
@@ -46,14 +55,26 @@ fun CategoriesScreen(){
                     .border(0.5.dp, MaterialTheme.colors.primaryVariant, shape = RoundedCornerShape(20.dp))
                     .clip(RoundedCornerShape(20.dp))
                     .background(MaterialTheme.colors.onPrimary)
+                .   padding(30.dp)
             ) {
-                Row(modifier = Modifier.padding(30.dp)) {
+                Row {
 
                     //===== FIRST COLUMN
                     Row(modifier = Modifier.weight(2f).fillMaxHeight()) {
-                        Column(modifier = Modifier.padding(top = 35.dp)) {
-                            ListTypeItem(icon = "gastos.svg", color = MaterialTheme.colors.primary, label = "Gastos") { }
-                            ListTypeItem(icon = "rendimentos.svg", color = MaterialTheme.colors.primary, label = "Rendimentos") { }
+                        Column(modifier = Modifier.padding(20.dp)) {
+
+                            ListTypeItem(icon = "gastos.svg", color = MaterialTheme.colors.primary, label = "Gastos") {
+                                viewModel.selectType(CategoryType.EXPENSE)
+                                viewModel.loadCategories(CategoryType.EXPENSE)
+                                addCategoryButton = true
+                                addSubcategoryButton = false
+                            }
+                            ListTypeItem(icon = "rendimentos.svg", color = MaterialTheme.colors.primary, label = "Rendimentos") {
+                                viewModel.selectType(CategoryType.INCOME)
+                                viewModel.loadCategories(CategoryType.INCOME)
+                                addCategoryButton = true
+                                addSubcategoryButton = false
+                            }
                         }
                     }
                     Divider(modifier = Modifier.width(2.dp).fillMaxHeight())
@@ -62,199 +83,127 @@ fun CategoriesScreen(){
                     //===== SECOND COLUMN
                     Row(modifier = Modifier.weight(3f).fillMaxHeight()) {
 
-                        val scrollState = rememberScrollState()
-                        Box(modifier = Modifier.fillMaxSize()){
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .fillMaxHeight()
+                                .padding(20.dp)
+                        ) {
+                            val listState = rememberLazyListState()
 
-                            Column(verticalArrangement = Arrangement.SpaceBetween) {
 
-                                Column(
-                                    verticalArrangement = Arrangement.SpaceBetween,
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .weight(1f)
-                                        .verticalScroll(scrollState)
-                                        .padding(end = 12.dp)
-                                ) {
-                                    Column(modifier = Modifier.fillMaxWidth().padding(top = 35.dp)) {
 
-                                        ListItem(
-                                            icon = "food.svg",
-                                            color = MaterialTheme.colors.primary,
-                                            label = "Alimentação",
-                                            hasSubItems = true,
-                                            onIconClick = {},
-                                            onContainerClick = {}
-                                        )
+                            LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
 
-                                        ListItem(
-                                            icon = "shop.svg",
-                                            color = MaterialTheme.colors.primary,
-                                            label = "Compras",
-                                            onIconClick = {},
-                                            onContainerClick = {},
-                                            onTrailingClick = {}
-                                        )
+                                items(viewModel.categories, key = { it.id }) { category ->
 
-                                        ListItem(
-                                            icon = "education.svg",
-                                            color = MaterialTheme.colors.primary,
-                                            label = "Educação",
-                                            onContainerClick = {},
-                                            onIconClick = {},
-                                            onTrailingClick = {}
-                                        )
+                                    val deleteDialogIsVisible = remember { mutableStateOf(false) }
+                                    view.shared.ListItem(
+                                        label = category.name,
+                                        hasSubItem = category.subcategories.size > 0,
+                                        deleteDialogIsVisible = deleteDialogIsVisible,
+                                        onUpdateConfirmation = { viewModel.updateCategory(category, it, "icon.svg") },
+                                        onContentClick = {
+                                            viewModel.loadSubCategories(category)
+                                            viewModel.selectCategory(category)
+                                            addSubcategoryButton = true
+                                            Unit
+                                        },
+                                        deleteDialog = {
+                                            DialogDelete(
+                                                title = "Excluir categoria",
+                                                iconResource = IconPaths.SYSTEM_ICONS + "category.svg",
+                                                objectName = category.name,
+                                                alertText = "Isso irá excluir permanentemente a categoria ${category.name} e remover todas as associações feitas à ela.",
+                                                onClickButton = { viewModel.deleteCategory(category) },
+                                                onDismiss = { deleteDialogIsVisible.value = false }
+                                            )
+                                        }
+                                    )
 
-                                        ListItem(
-                                            icon = "fun.svg",
-                                            color = MaterialTheme.colors.primary,
-                                            label = "Lazer",
-                                            hasSubItems = true,
-                                            onContainerClick = {},
-                                            onIconClick = {}
-                                        )
-
-                                        ListItem(
-                                            icon = "house.svg",
-                                            color = MaterialTheme.colors.primary,
-                                            label = "Moradia",
-                                            onContainerClick = {},
-                                            onIconClick = {},
-                                            onTrailingClick = {}
-                                        )
-
-                                        ListItem(
-                                            icon = "truck.svg",
-                                            color = MaterialTheme.colors.primary,
-                                            label = "Operacionais",
-                                            hasSubItems = true,
-                                            onContainerClick = {},
-                                            onIconClick = {}
-                                        )
-
-                                        ListItem(
-                                            icon = "question.svg",
-                                            color = MaterialTheme.colors.primary,
-                                            label = "Outros",
-                                            onContainerClick = {},
-                                            onIconClick = {},
-                                            onTrailingClick = {}
-                                        )
-
-                                        ListItem(
-                                            icon = "medicine.svg",
-                                            color = MaterialTheme.colors.primary,
-                                            label = "Saúde",
-                                            onContainerClick = {},
-                                            onIconClick = {},
-                                            onTrailingClick = {}
-                                        )
-
-                                        ListItem(
-                                            icon = "weight.svg",
-                                            color = MaterialTheme.colors.primary,
-                                            label = "Taxas e Impostos",
-                                            hasSubItems = true,
-                                            onContainerClick = {},
-                                            onIconClick = {}
-                                        )
-
-                                        ListItem(
-                                            icon = "car.svg",
-                                            color = MaterialTheme.colors.primary,
-                                            label = "Transporte",
-                                            onContainerClick = {},
-                                            onIconClick = {},
-                                            onTrailingClick = {}
-                                        )
-
-                                        ListItem(
-                                            icon = "clothes.svg",
-                                            color = MaterialTheme.colors.primary,
-                                            label = "Vestimentas",
-                                            onContainerClick = {},
-                                            onIconClick = {},
-                                            onTrailingClick = {}
-                                        )
-                                    }
                                 }
 
-                                Column(modifier = Modifier.fillMaxWidth().height(40.dp).padding(end = 10.dp), horizontalAlignment = Alignment.End, verticalArrangement = Arrangement.Bottom) {
-                                    Row(modifier = Modifier.width(130.dp), horizontalArrangement = Arrangement.Center) {
-                                        AddButton { }
+                                item {
+                                    if (addCategoryButton) {
+                                        val value = remember { mutableStateOf("") }
+                                        val isVisible = remember { mutableStateOf(false) }
+                                        AddListItem(
+                                            isVisible = isVisible,
+                                            value = value,
+                                            confirmationClick = { viewModel.addCategory(value.value, "icon.svg") },
+                                        )
                                     }
+
                                 }
+
                             }
-
                             VerticalScrollbar(
-                                adapter = rememberScrollbarAdapter(scrollState),
-                                modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight().padding(vertical = 3.dp).clip(
-                                    CircleShape
-                                ).background(MaterialTheme.colors.primaryVariant.copy(alpha = 0.3F))
+                                adapter = rememberScrollbarAdapter(listState),
+                                modifier = Modifier.align(Alignment.CenterEnd)
                             )
                         }
                     }
+                    Divider(modifier = Modifier.width(2.dp).fillMaxHeight())
 
 
                     //===== THIRD COLUMN
                     Row(modifier = Modifier.weight(3f).fillMaxHeight()) {
 
-                        val scrollState = rememberScrollState()
-                        Box(modifier = Modifier.fillMaxSize()) {
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .fillMaxHeight()
+                                .padding(20.dp)
+                        ) {
+                            val listState = rememberLazyListState()
 
-                            Column(verticalArrangement = Arrangement.SpaceBetween) {
 
-                                Column(
-                                    verticalArrangement = Arrangement.SpaceBetween,
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .weight(1f)
-                                        .verticalScroll(scrollState)
-                                        .padding(end = 12.dp)
-                                ) {
-                                    Column(modifier = Modifier.fillMaxWidth().padding(top = 35.dp)) {
-                                        ListItem(
-                                            label = "Conveniência",
-                                            color = MaterialTheme.colors.primary,
-                                            onContainerClick = {},
-                                            onIconClick = {})
-                                        ListItem(
-                                            label = "Lanchonete",
-                                            color = MaterialTheme.colors.primary,
-                                            onContainerClick = {},
-                                            onIconClick = {})
-                                        ListItem(
-                                            label = "Restaurante",
-                                            color = MaterialTheme.colors.primary,
-                                            onContainerClick = {},
-                                            onIconClick = {})
-                                        ListItem(
-                                            label = "Outros",
-                                            color = MaterialTheme.colors.primary,
-                                            onContainerClick = {},
-                                            onIconClick = {})
-                                    }
+                            LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
+
+                                items(viewModel.subCategories, key = { it.id }) { subcategory ->
+
+                                    val deleteDialogIsVisible = remember { mutableStateOf(false) }
+                                    view.shared.ListItem(
+                                        label = subcategory.name,
+                                        hasSubItem = false,
+                                        deleteDialogIsVisible = deleteDialogIsVisible,
+                                        onUpdateConfirmation = { viewModel.updateSubcategory(subcategory, it) },
+                                        onContentClick = {},
+                                        deleteDialog = {
+                                            DialogDelete(
+                                                title = "Excluir subcategoria",
+                                                iconResource = IconPaths.SYSTEM_ICONS + "category.svg",
+                                                objectName = subcategory.name,
+                                                alertText = "Isso irá excluir permanentemente a subcategoria ${subcategory.name} e remover todas as associações feitas à ela.",
+                                                onClickButton = { viewModel.deleteSubcategory(subcategory) },
+                                                onDismiss = { deleteDialogIsVisible.value = false }
+                                            )
+                                        }
+                                    )
+
                                 }
 
-                                Column(modifier = Modifier.fillMaxWidth().height(40.dp).padding(end = 10.dp), horizontalAlignment = Alignment.End, verticalArrangement = Arrangement.Bottom){
-                                    Row(
-                                        modifier = Modifier.width(130.dp),
-                                        horizontalArrangement = Arrangement.Center
-                                    ) {
-                                        AddButton { }
+                                item {
+                                    if (addSubcategoryButton){
+                                        val value = remember { mutableStateOf("") }
+                                        val isVisible = remember { mutableStateOf(false) }
+                                        AddListItem(
+                                            isVisible = isVisible,
+                                            value = value,
+                                            confirmationClick = { viewModel.addSubcategory(value.value) }
+                                        )
                                     }
+
                                 }
+
                             }
-
                             VerticalScrollbar(
-                                adapter = rememberScrollbarAdapter(scrollState),
-                                modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight().padding(vertical = 3.dp).clip(
-                                    CircleShape
-                                ).background(MaterialTheme.colors.primaryVariant.copy(alpha = 0.3F))
+                                adapter = rememberScrollbarAdapter(listState),
+                                modifier = Modifier.align(Alignment.CenterEnd)
                             )
                         }
                     }
+                    Divider(modifier = Modifier.width(2.dp).fillMaxHeight())
                 }
             }
         }
