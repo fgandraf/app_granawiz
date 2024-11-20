@@ -138,7 +138,7 @@ fun CategoriesScreen(
                                         AddListItem(
                                             isVisible = isVisible,
                                             value = value,
-                                            confirmationClick = { viewModel.addCategory(value.value, "icon.svg") },
+                                            confirmationClick = { viewModel.addCategory(value.value, "question-mark.svg") },
                                         )
                                     }
 
