@@ -3,12 +3,12 @@ package model.entity
 import jakarta.persistence.*
 
 @Entity
-@Table(name = "tbl_sub_categories")
+@Table(name = "tbl_subcategories")
 open class SubCategory(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "sub_category_id", columnDefinition = "INTEGER")
+    @Column(name = "subcategory_id", columnDefinition = "INTEGER")
     open var id: Long = 0,
 
     open val name: String,

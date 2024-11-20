@@ -4,7 +4,6 @@ CREATE TABLE tbl_groups (
     position INTEGER
 );
 
-
 CREATE TABLE tbl_bank_accounts (
     account_id INTEGER PRIMARY KEY AUTOINCREMENT,
     account_type TEXT NOT NULL,
@@ -28,32 +27,6 @@ CREATE TABLE tbl_tags (
     name TEXT NOT NULL
 );
 
-CREATE TABLE tbl_receivers (
-  receiver_id INTEGER PRIMARY KEY AUTOINCREMENT,
-  name TEXT NOT NULL
-);
-
-CREATE TABLE tbl_receiver_names (
-    receiver_name_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    receiver_id INTEGER,
-    name TEXT NOT NULL UNIQUE,
-
-    FOREIGN KEY (receiver_id) REFERENCES tbl_receivers(receiver_id)
-);
-
-CREATE TABLE tbl_payers (
-   payer_id INTEGER PRIMARY KEY AUTOINCREMENT,
-   name TEXT NOT NULL
-);
-
-CREATE TABLE tbl_payer_names (
-    payer_name_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    payer_id INTEGER,
-    name TEXT NOT NULL UNIQUE,
-
-    FOREIGN KEY (payer_id) REFERENCES tbl_payers(payer_id)
-);
-
 CREATE TABLE tbl_categories (
     category_id INTEGER PRIMARY KEY AUTOINCREMENT,
     category_type TEXT NOT NULL,
@@ -61,10 +34,24 @@ CREATE TABLE tbl_categories (
     icon TEXT
 );
 
-CREATE TABLE tbl_sub_categories (
-    sub_category_id INTEGER PRIMARY KEY AUTOINCREMENT,
+CREATE TABLE tbl_subcategories (
+    subcategory_id INTEGER PRIMARY KEY AUTOINCREMENT,
     category_id INTEGER,
     name TEXT NOT NULL,
 
     FOREIGN KEY (category_id) REFERENCES tbl_categories(category_id)
+);
+
+CREATE TABLE tbl_parties (
+    party_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    type TEXT CHECK(type IN ('PAYER', 'RECEIVER', 'BOTH')) NOT NULL
+);
+
+CREATE TABLE tbl_party_names (
+    party_name_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    party_id INTEGER,
+    name TEXT NOT NULL UNIQUE,
+
+    FOREIGN KEY (party_id) REFERENCES tbl_parties(party_id)
 );
