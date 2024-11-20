@@ -75,7 +75,7 @@ fun ListItem(
                         painter = painterResource(icon),
                         contentDescription = null,
                         tint = if (valueChanged) Color.Blue else MaterialTheme.colors.primary,
-                        modifier = Modifier.size(15.dp)
+                        modifier = Modifier.size(20.dp)
                     )
                 }
             }

@@ -19,7 +19,7 @@ import java.io.File
 
 @Composable
 fun DropDownIcons(
-    width : Dp = 315.dp,
+    width : Dp = 350.dp,
     expanded: Boolean,
     onDismissRequest: () -> Unit,
     onIconSelected: (String) -> Unit
@@ -34,26 +34,26 @@ fun DropDownIcons(
             FlowLayout(maxWidth = width) {
                 iconsDirectory.listFiles()?.forEach { file ->
 
-                    if (!file.name.startsWith("_")){
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            modifier = Modifier.width(35.dp)
-                        ) {
-                            Image(
-                                painter = painterResource("assets/icons/categoryPack/${file.name}"),
-                                contentDescription = "",
-                                colorFilter = ColorFilter.tint(color = MaterialTheme.colors.primary),
-                                modifier = Modifier
-                                    .pointerHoverIcon(PointerIcon.Hand)
-                                    .clickable {
-                                        onIconSelected(file.name)
-                                        onDismissRequest()
-                                    }
-                                    .padding(5.dp)
-                                    .size(18.dp)
-                            )
-                        }
+
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.width(35.dp)
+                    ) {
+                        Image(
+                            painter = painterResource("assets/icons/categoryPack/${file.name}"),
+                            contentDescription = "",
+                            colorFilter = ColorFilter.tint(color = MaterialTheme.colors.primary),
+                            modifier = Modifier
+                                .pointerHoverIcon(PointerIcon.Hand)
+                                .clickable {
+                                    onIconSelected(file.name)
+                                    onDismissRequest()
+                                }
+                                .padding(5.dp)
+                                .size(25.dp)
+                        )
                     }
+
                 }
 
             }

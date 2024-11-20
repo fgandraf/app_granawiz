@@ -45,21 +45,21 @@ INSERT INTO tbl_payer_names VALUES (3, 1, 'BB FORN');
 INSERT INTO tbl_payer_names VALUES (4, 1, 'BB FORNECEDOR');
 
 INSERT INTO tbl_categories VALUES (1, 'EXPENSE', 'Alimentação', 'pizza.svg');
-INSERT INTO tbl_categories VALUES (2, 'EXPENSE', 'Compras', 'shopping-cart.svg');
+INSERT INTO tbl_categories VALUES (2, 'EXPENSE', 'Compra', 'shopping-cart.svg');
 INSERT INTO tbl_categories VALUES (3, 'EXPENSE', 'Educação', 'graduation-cap.svg');
-INSERT INTO tbl_categories VALUES (4, 'EXPENSE', 'Lazer', 'cheers.svg');
+INSERT INTO tbl_categories VALUES (4, 'EXPENSE', 'Lazer', 'mask-happy.svg');
 INSERT INTO tbl_categories VALUES (5, 'EXPENSE', 'Moradia', 'house-line.svg');
-INSERT INTO tbl_categories VALUES (6, 'EXPENSE', 'Outros', 'question.svg');
-INSERT INTO tbl_categories VALUES (7, 'EXPENSE', 'Saúde', 'pill.svg');
-INSERT INTO tbl_categories VALUES (8, 'EXPENSE', 'Taxas e Impostos', 'scales.svg');
+INSERT INTO tbl_categories VALUES (6, 'EXPENSE', 'Outro', 'question-mark.svg');
+INSERT INTO tbl_categories VALUES (7, 'EXPENSE', 'Saúde', 'first-aid.svg');
+INSERT INTO tbl_categories VALUES (8, 'EXPENSE', 'Taxa e Imposto', 'scales.svg');
 INSERT INTO tbl_categories VALUES (9, 'EXPENSE', 'Transporte', 'car-profile.svg');
-INSERT INTO tbl_categories VALUES (10, 'EXPENSE', 'Vestimentas', 't-shirt.svg');
+INSERT INTO tbl_categories VALUES (10, 'EXPENSE', 'Vestimenta', 't-shirt.svg');
 
-INSERT INTO tbl_categories VALUES (11, 'INCOME', 'Salário', 'question.svg');
-INSERT INTO tbl_categories VALUES (12, 'INCOME', 'Prestação de Serviços', 'question.svg');
-INSERT INTO tbl_categories VALUES (13, 'INCOME', 'Rendimentos', 'question.svg');
-INSERT INTO tbl_categories VALUES (14, 'INCOME', 'Empréstimo', 'question.svg');
-INSERT INTO tbl_categories VALUES (15, 'INCOME', 'Venda', 'question.svg');
+INSERT INTO tbl_categories VALUES (11, 'INCOME', 'Salário', 'money.svg');
+INSERT INTO tbl_categories VALUES (12, 'INCOME', 'Prestação de Serviço', 'call-bell.svg');
+INSERT INTO tbl_categories VALUES (13, 'INCOME', 'Rendimento', 'chart-line-up.svg');
+INSERT INTO tbl_categories VALUES (14, 'INCOME', 'Empréstimo', 'bank.svg');
+INSERT INTO tbl_categories VALUES (15, 'INCOME', 'Venda', 'handshake.svg');
 
 
 INSERT INTO tbl_sub_categories VALUES (1, 1, 'Conveniência');
