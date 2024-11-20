@@ -15,10 +15,8 @@ object HibernateUtil {
         // Registro das classes de entidade
         configuration.addAnnotatedClass(Group::class.java)
         configuration.addAnnotatedClass(Tag::class.java)
-        configuration.addAnnotatedClass(Receiver::class.java)
-        configuration.addAnnotatedClass(ReceiverName::class.java)
-        configuration.addAnnotatedClass(Payer::class.java)
-        configuration.addAnnotatedClass(PayerName::class.java)
+        configuration.addAnnotatedClass(Party::class.java)
+        configuration.addAnnotatedClass(PartyName::class.java)
         configuration.addAnnotatedClass(Category::class.java)
         configuration.addAnnotatedClass(SubCategory::class.java)
         configuration.addAnnotatedClass(BankAccount::class.java)
