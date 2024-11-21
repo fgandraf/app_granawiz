@@ -4,7 +4,7 @@ import jakarta.persistence.*
 
 @Entity
 @Table(name = "tbl_subcategories")
-open class SubCategory(
+open class Subcategory(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,4 +16,6 @@ open class SubCategory(
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "category_id")
     open val category: Category
-)
+){
+    constructor() : this(0L, "", Category())
+}

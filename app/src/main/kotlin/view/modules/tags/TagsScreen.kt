@@ -24,7 +24,7 @@ import viewModel.TagViewModel
 fun TagsScreen(
     tagViewModel: TagViewModel = TagViewModel(),
 ) {
-    val listState = rememberLazyListState()
+
 
     Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.background)) {
 
@@ -55,6 +55,7 @@ fun TagsScreen(
                     .background(MaterialTheme.colors.onPrimary)
                     .padding(30.dp)
             ) {
+                val listState = rememberLazyListState()
                 LazyColumn(
                     state = listState,
                     modifier = Modifier.fillMaxSize()

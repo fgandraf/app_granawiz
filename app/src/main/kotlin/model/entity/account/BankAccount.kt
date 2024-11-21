@@ -28,4 +28,6 @@ open class BankAccount(
     @ManyToOne
     @JoinColumn(name = "group_id", referencedColumnName = "group_id")
     open val group: Group
-)
+){
+    constructor(): this(0L, AccountType.CHECKING, "", "", "", 0.0, 0, Group())
+}

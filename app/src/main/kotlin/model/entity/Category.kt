@@ -22,7 +22,7 @@ open class Category(
 
 
     @OneToMany(mappedBy = "category", cascade = [CascadeType.ALL], fetch = FetchType.LAZY, orphanRemoval = true)
-    open val subcategories: MutableList<SubCategory> = mutableListOf()
+    open val subcategories: MutableList<Subcategory> = mutableListOf()
 
 ) {
     constructor() : this(0, CategoryType.INCOME, "", "", mutableListOf())

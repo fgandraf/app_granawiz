@@ -55,3 +55,28 @@ CREATE TABLE tbl_party_names (
 
     FOREIGN KEY (party_id) REFERENCES tbl_parties(party_id)
 );
+
+CREATE TABLE tbl_transactions (
+    transaction_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    party_id INTEGER,
+    account_id INTEGER,
+    category_id INTEGER,
+    subcategory_id INTEGER,
+    date DATETIME,
+    description TEXT,
+    balance REAL NOT NULL,
+    type TEXT CHECK(type IN ('GAIN', 'EXPENSE', 'NEUTRAL')) NOT NULL,
+
+    FOREIGN KEY (party_id) REFERENCES tbl_parties(party_id),
+    FOREIGN KEY (account_id) REFERENCES tbl_bank_accounts(account_id),
+    FOREIGN KEY (category_id) REFERENCES tbl_categories(category_id),
+    FOREIGN KEY (subcategory_id) REFERENCES tbl_subcategories(subcategory_id)
+);
+
+CREATE TABLE tbl_transaction_tag (
+    transaction_id INTEGER NOT NULL,
+    tag_id INTEGER NOT NULL,
+    PRIMARY KEY (transaction_id, tag_id),
+    FOREIGN KEY (transaction_id) REFERENCES tbl_transactions(transaction_id),
+    FOREIGN KEY (tag_id) REFERENCES tbl_tags(tag_id)
+);

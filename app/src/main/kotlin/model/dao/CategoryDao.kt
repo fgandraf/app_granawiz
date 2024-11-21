@@ -2,7 +2,7 @@ package model.dao
 
 import config.HibernateUtil
 import model.entity.Category
-import model.entity.SubCategory
+import model.entity.Subcategory
 import model.enums.CategoryType
 import org.hibernate.Hibernate
 
@@ -42,7 +42,7 @@ class CategoryDao {
         session.close()
     }
 
-    fun deleteSubcategory(subcategory: SubCategory) {
+    fun deleteSubcategory(subcategory: Subcategory) {
         val session = sessionFactory.openSession()
         session.beginTransaction()
         session.remove(subcategory)
@@ -58,7 +58,7 @@ class CategoryDao {
         session.close()
     }
 
-    fun updateSubcategory(subcategory: SubCategory) {
+    fun updateSubcategory(subcategory: Subcategory) {
         val session = sessionFactory.openSession()
         session.beginTransaction()
         session.merge(subcategory)
@@ -74,7 +74,7 @@ class CategoryDao {
         session.close()
     }
 
-    fun insertSubcategory(subcategory: SubCategory) {
+    fun insertSubcategory(subcategory: Subcategory) {
         val session = sessionFactory.openSession()
         session.beginTransaction()
         session.persist(subcategory)
