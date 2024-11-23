@@ -17,16 +17,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import config.IconPaths
-import model.entity.Group
-import model.entity.account.BankAccount
-import model.utils.brMoney
+import core.entity.Group
+import core.entity.account.BankAccount
+import core.utils.brMoney
 import view.modules.Screen
 import view.modules.addAccount.AddAccount
 import view.shared.ClickableIcon
 import view.shared.ClickableRow
 import view.shared.DialogDelete
 import view.theme.Afacade
-import view.theme.Lime700
+import view.theme.Lime400
 import view.theme.Red400
 import view.theme.Ubuntu
 import viewModel.SidebarViewModel
@@ -74,7 +74,7 @@ fun AccountMenuItem(
             Text(
                 text = brMoney.format(account.balance),
                 fontSize = 10.sp,
-                color = if(account.balance > 0f) Lime700 else if (account.balance < 0f) Red400 else MaterialTheme.colors.primaryVariant,
+                color = if(account.balance > 0f) Lime400 else if (account.balance < 0f) Red400 else MaterialTheme.colors.primaryVariant,
                 fontWeight = FontWeight.Normal,
                 lineHeight = 0.sp,
                 fontFamily = Ubuntu

@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import config.IconPaths
-import model.entity.Group
+import core.entity.Group
 import view.shared.DefaultButton
 import view.shared.DefaultTextField
 import view.shared.DialogTitleBar

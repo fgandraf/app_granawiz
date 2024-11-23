@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import config.IconPaths
-import view.theme.Red200
+import view.theme.Red800
 import view.theme.Red400
 import view.theme.Ubuntu
 
@@ -75,7 +75,7 @@ fun DialogDelete(
                         .fillMaxWidth()
                         .padding(horizontal = 30.dp)
                         .clip(RoundedCornerShape(5.dp))
-                        .border(1.dp, Red200.copy(0.5f), shape = RoundedCornerShape(5.dp))
+                        .border(1.dp, Red800.copy(0.5f), shape = RoundedCornerShape(5.dp))
                         .background(Color.Yellow.copy(alpha = 0.2F))
                 ){
                     Image(

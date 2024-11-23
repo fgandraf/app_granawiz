@@ -4,10 +4,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import kotlinx.coroutines.flow.MutableStateFlow
-import model.dao.CategoryDao
-import model.entity.Category
-import model.entity.Subcategory
-import model.enums.CategoryType
+import infra.dao.CategoryDao
+import core.entity.Category
+import core.entity.Subcategory
+import core.enums.CategoryType
 
 class CategoryViewModel {
 

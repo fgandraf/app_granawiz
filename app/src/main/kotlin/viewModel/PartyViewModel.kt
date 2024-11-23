@@ -4,10 +4,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import kotlinx.coroutines.flow.MutableStateFlow
-import model.dao.PartyDao
-import model.entity.Party
-import model.entity.PartyName
-import model.enums.PartyType
+import infra.dao.PartyDao
+import core.entity.Party
+import core.entity.PartyName
+import core.enums.PartyType
 
 class PartyViewModel(type: PartyType) {
 

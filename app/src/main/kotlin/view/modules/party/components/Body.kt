@@ -20,7 +20,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 import config.IconPaths
-import model.enums.PartyType
+import core.enums.PartyType
 import view.shared.*
 import viewModel.PartyViewModel
 

@@ -11,8 +11,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import model.entity.account.CreditCardAccount
-import model.utils.toBrMoney
+import core.entity.account.CreditCardAccount
+import core.utils.toBrMoney
 import view.modules.addAccount.components.IconSelector
 import view.shared.DefaultButton
 import view.shared.DefaultTextField

@@ -4,9 +4,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import kotlinx.coroutines.flow.MutableStateFlow
-import model.dao.TransactionDao
-import model.entity.Transaction
-import model.entity.account.BankAccount
+import infra.dao.TransactionDao
+import core.entity.Transaction
+import core.entity.account.BankAccount
 
 class TransactionViewModel(account: BankAccount? = null) {
 

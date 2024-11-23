@@ -12,13 +12,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import model.entity.Group
-import model.utils.brMoney
+import core.entity.Group
+import core.utils.brMoney
 import view.modules.addGroup.AddGroup
 import view.shared.ClickableIcon
 import view.shared.ClickableRow
 import view.theme.Afacade
-import view.theme.Lime700
+import view.theme.Lime400
 import view.theme.Red400
 import view.theme.Ubuntu
 import viewModel.SidebarViewModel
@@ -66,7 +66,7 @@ fun GroupMenuItem(
                 Text(
                     text = brMoney.format(totalGroup),
                     fontSize = 10.sp,
-                    color = if (totalGroup > 0f) Lime700 else if (totalGroup < 0f) Red400 else MaterialTheme.colors.primaryVariant,
+                    color = if (totalGroup > 0f) Lime400 else if (totalGroup < 0f) Red400 else MaterialTheme.colors.primaryVariant,
                     fontWeight = FontWeight.Normal,
                     lineHeight = 0.sp,
                     fontFamily = Ubuntu

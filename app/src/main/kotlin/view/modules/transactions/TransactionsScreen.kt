@@ -1,16 +1,14 @@
 package view.modules.transactions
 
-import androidx.compose.foundation.VerticalScrollbar
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -21,7 +19,7 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import config.IconPaths
-import model.entity.account.BankAccount
+import core.entity.account.BankAccount
 import view.modules.transactions.component.MonthHeader
 import view.modules.transactions.component.TransactionRow
 import view.shared.AddressView
@@ -71,8 +69,9 @@ fun TransactionsScreen(
 
 
         // BODY
-        Box{
+        Box(modifier = Modifier.fillMaxSize()) {
             val listState = rememberLazyListState()
+
             LazyColumn(
                 state = listState,
                 modifier = Modifier.fillMaxSize()
@@ -89,10 +88,23 @@ fun TransactionsScreen(
                             else negativeBalnce -= transaction.balance
                         }
                         MonthHeader(month, incomeBalance = positiveBalance, outcomeBalance = negativeBalnce)
-                    }
 
-                    items(transactions, key = { it.id }) { transaction ->
-                        TransactionRow(transaction = transaction, onClick = { /* IMPLEMENTS */ })
+                        Column(modifier = Modifier
+                            .padding(horizontal = 30.dp)
+                            .clip(RoundedCornerShape(10.dp))
+                            .background(MaterialTheme.colors.onPrimary, RoundedCornerShape(10.dp))
+                            .border(0.5.dp, MaterialTheme.colors.primaryVariant.copy(0.8f), RoundedCornerShape(10.dp))
+                        ) {
+                            Spacer(Modifier.height(10.dp))
+
+                            var count = transactions.count()
+                            transactions.forEach { transaction ->
+                                TransactionRow(transaction = transaction, onClick = { /* IMPLEMENTS */ })
+                                count--
+                                if (count > 0) Divider(modifier = Modifier.padding(horizontal = 20.dp), color = MaterialTheme.colors.primaryVariant.copy(0.4f))
+                            }
+                            Spacer(Modifier.height(10.dp))
+                        }
                     }
 
                 }
@@ -104,14 +116,17 @@ fun TransactionsScreen(
                 modifier = Modifier.align(Alignment.CenterEnd)
             )
 
-            Box(modifier = Modifier
-                .size(60.dp)
-                .clip(CircleShape)
-                .background(Blue500)
-                .align(Alignment.BottomEnd)
-                .pointerHoverIcon(PointerIcon.Hand)
-                .clickable { }
-            )
+            Box(modifier = Modifier.fillMaxSize().padding(bottom = 50.dp, end = 50.dp)) {
+                Box(
+                    modifier = Modifier
+                        .size(70.dp)
+                        .clip(CircleShape)
+                        .background(Blue500.copy(alpha = 0.8f)  )
+                        .align(Alignment.BottomEnd)
+                        .pointerHoverIcon(PointerIcon.Hand)
+                        .clickable { /*IMPLEMENTS*/}
+                )
+            }
         }
     }
 }

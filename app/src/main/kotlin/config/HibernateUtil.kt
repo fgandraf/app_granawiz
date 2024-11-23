@@ -1,7 +1,7 @@
 package config
 
-import model.entity.*
-import model.entity.account.*
+import core.entity.*
+import core.entity.account.*
 import org.hibernate.SessionFactory
 import org.hibernate.cfg.Configuration
 import java.util.*

@@ -10,7 +10,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import model.utils.brMoney
+import core.utils.brMoney
 import view.modules.settings.SettingsScreen
 import view.shared.ClickableIcon
 import view.shared.TextPrimary

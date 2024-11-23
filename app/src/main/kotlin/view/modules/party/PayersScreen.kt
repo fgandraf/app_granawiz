@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import config.IconPaths
-import model.enums.PartyType
+import core.enums.PartyType
 import view.modules.party.components.Body
 import view.shared.AddressView
 import view.shared.SearchBar

@@ -18,7 +18,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 import config.IconPaths
-import model.enums.CategoryType
+import core.enums.CategoryType
 import view.modules.categories.components.ListTypeItem
 import view.shared.AddListItem
 import view.shared.AddressView
