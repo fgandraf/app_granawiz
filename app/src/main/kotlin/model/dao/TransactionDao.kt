@@ -2,7 +2,9 @@ package model.dao
 
 import config.HibernateUtil
 import model.entity.Transaction
+import model.entity.account.BankAccount
 import org.hibernate.Hibernate
+import java.time.LocalDateTime
 
 class TransactionDao {
 
@@ -14,7 +16,7 @@ class TransactionDao {
         val criteriaBuilder = session.criteriaBuilder
         val criteriaQuery = criteriaBuilder.createQuery(Transaction::class.java)
         val root = criteriaQuery.from(Transaction::class.java)
-        criteriaQuery.orderBy(criteriaBuilder.asc(root.get<String>("description")))
+        criteriaQuery.orderBy(criteriaBuilder.desc(root.get<LocalDateTime>("date")))
         val transactions = session.createQuery(criteriaQuery).resultList
         transactions.forEach { transaction ->
             Hibernate.initialize(transaction.party)
@@ -27,6 +29,31 @@ class TransactionDao {
         session.close()
         return transactions
     }
+
+    fun getAllByAccount(account: BankAccount) : List<Transaction> {
+        val session = sessionFactory.openSession()
+        session.beginTransaction()
+        val criteriaBuilder = session.criteriaBuilder
+
+        val criteriaQuery = criteriaBuilder.createQuery(Transaction::class.java)
+
+        val root = criteriaQuery.from(Transaction::class.java)
+        criteriaQuery.where(criteriaBuilder.equal(root.get<BankAccount>("account"), account))
+        criteriaQuery.orderBy(criteriaBuilder.desc(root.get<LocalDateTime>("date")))
+
+        val transactions = session.createQuery(criteriaQuery).resultList
+        transactions.forEach { transaction ->
+            Hibernate.initialize(transaction.party)
+            Hibernate.initialize(transaction.account)
+            Hibernate.initialize(transaction.category)
+            Hibernate.initialize(transaction.subcategory)
+            Hibernate.initialize(transaction.tags)
+        }
+        session.transaction.commit()
+        session.close()
+        return transactions
+    }
+
 
 
 //    fun delete(group: Group) {

@@ -77,7 +77,7 @@ INSERT INTO tbl_party_names VALUES (7, 1, 'BB FORNECEDOR');
 INSERT INTO tbl_transactions VALUES (1,9,1,1, 3,'2024-11-20 15:03:32','Marmita Fitness',-23.50, 'EXPENSE');
 INSERT INTO tbl_transactions VALUES (2,9,1,1, 1,'2024-11-19 12:03:32','Doce de Leite Ninho',-16.00, 'EXPENSE');
 INSERT INTO tbl_transactions VALUES (3,3,1,12, null,'2024-11-08 12:03:32','Regularização da Construção',650.00, 'GAIN');
-INSERT INTO tbl_transactions VALUES (4,10,1,1, 1,'2024-11-04 12:03:32','Salgados e café',26.90, 'EXPENSE');
+INSERT INTO tbl_transactions VALUES (4,10,1,1, 1,'2024-11-04 12:03:32','Salgados e café',-26.90, 'EXPENSE');
 
 INSERT INTO tbl_transaction_tag VALUES (1, 5);
 INSERT INTO tbl_transaction_tag VALUES (2, 1);

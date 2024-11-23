@@ -10,7 +10,10 @@ import model.entity.account.BankAccount
 
 class TransactionViewModel(account: BankAccount? = null) {
 
-    //val selectedAccount = account
+    private val transactionDao = TransactionDao()
+
+
+    val selectedAccount = account
 
     var transactions by mutableStateOf(emptyList<Transaction>()); private set
 
@@ -25,14 +28,14 @@ class TransactionViewModel(account: BankAccount? = null) {
         errorMessage = null
     }
 
-    private val transactionDao = TransactionDao()
-
-    fun loadTransaction() {
-        transactions = transactionDao.getAll()
+    private fun loadTransaction() {
+        transactions = if (selectedAccount == null)
+            transactionDao.getAll()
+        else
+            transactionDao.getAllByAccount(selectedAccount)
     }
 
 
-    //Apagar depois
     init {
         loadTransaction()
     }

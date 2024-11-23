@@ -39,7 +39,7 @@ fun TransactionRow(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 10.dp)
+                .padding(start = 40.dp, end = 30.dp)
                 .height(45.dp)
                 .clip(RoundedCornerShape(10.dp))
                 .pointerHoverIcon(PointerIcon.Hand)
@@ -50,12 +50,12 @@ fun TransactionRow(
             // Transaction Type
             Row(horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxHeight().padding(start = 10.dp, end = 20.dp).weight(0.2f)
+                modifier = Modifier.fillMaxHeight().padding(start = 20.dp, end = 30.dp)
             ) {
                 Box(modifier = Modifier
                     .clip(CircleShape)
                     .background(if (transaction.type == TransactionType.GAIN) Lime700 else if (transaction.type == TransactionType.EXPENSE) Red400 else Gray400 )
-                    .size(12.dp)
+                    .size(10.dp)
                 )
             }
 
@@ -150,6 +150,6 @@ fun TransactionRow(
             }
         }
 
-        Divider(modifier = Modifier.padding(horizontal = 20.dp), color = Gray400.copy(alpha = 0.5f))
+        Divider(modifier = Modifier.padding(start = 50.dp, end = 40.dp), color = Gray400.copy(alpha = 0.5f))
     }
 }
