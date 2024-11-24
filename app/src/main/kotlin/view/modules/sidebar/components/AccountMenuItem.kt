@@ -21,7 +21,7 @@ import core.entity.Group
 import core.entity.account.BankAccount
 import core.utils.brMoney
 import view.modules.Screen
-import view.modules.addAccount.AddAccount
+import view.modules.accountForm.AccountForm
 import view.shared.ClickableIcon
 import view.shared.ClickableRow
 import view.shared.DialogDelete
@@ -131,7 +131,7 @@ fun DropDownAccountMenu(
 
             var showEditAccount by remember { mutableStateOf(false) }
             ClickableRow(iconResource = "edit", label = "Editar") { showEditAccount = true }
-            if (showEditAccount) AddAccount(sidebarViewModel = viewModel, account = account, onDismiss = { showEditAccount = false; onDismissRequest() })
+            if (showEditAccount) AccountForm(sidebarViewModel = viewModel, account = account, onDismiss = { showEditAccount = false; onDismissRequest() })
 
 
             Divider(modifier = Modifier.padding(vertical = 3.dp))

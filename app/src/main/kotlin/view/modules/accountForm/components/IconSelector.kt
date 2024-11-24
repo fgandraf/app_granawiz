@@ -1,4 +1,4 @@
-package view.modules.addAccount.components
+package view.modules.accountForm.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

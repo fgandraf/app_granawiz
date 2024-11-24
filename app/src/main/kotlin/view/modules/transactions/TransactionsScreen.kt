@@ -7,19 +7,24 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import config.IconPaths
+import core.entity.Transaction
 import core.entity.account.BankAccount
+import view.modules.transactionForm.TransactionForm
 import view.modules.transactions.component.MonthHeader
 import view.modules.transactions.component.TransactionRow
 import view.shared.AddressView
@@ -33,6 +38,10 @@ fun TransactionsScreen(
     account: BankAccount?,
     viewModel: TransactionViewModel = TransactionViewModel(account),
 ) {
+
+    var selectedTransaction by remember { mutableStateOf(Transaction()) }
+    var showAddOrEditTransaction by remember { mutableStateOf(false) }
+
 
     Column(
         modifier = Modifier
@@ -99,7 +108,13 @@ fun TransactionsScreen(
 
                             var count = transactions.count()
                             transactions.forEach { transaction ->
-                                TransactionRow(transaction = transaction, onClick = { /* IMPLEMENTS */ })
+                                TransactionRow(
+                                    transaction = transaction,
+                                    onClick = {
+                                        selectedTransaction = transaction
+                                        showAddOrEditTransaction = true
+                                    }
+                                )
                                 count--
                                 if (count > 0) Divider(modifier = Modifier.padding(horizontal = 20.dp), color = MaterialTheme.colors.primaryVariant.copy(0.4f))
                             }
@@ -116,17 +131,33 @@ fun TransactionsScreen(
                 modifier = Modifier.align(Alignment.CenterEnd)
             )
 
+
             Box(modifier = Modifier.fillMaxSize().padding(bottom = 50.dp, end = 50.dp)) {
                 Box(
                     modifier = Modifier
-                        .size(70.dp)
+                        .size(60.dp)
                         .clip(CircleShape)
                         .background(Blue500.copy(alpha = 0.8f)  )
                         .align(Alignment.BottomEnd)
                         .pointerHoverIcon(PointerIcon.Hand)
-                        .clickable { /*IMPLEMENTS*/}
+                        .clickable { showAddOrEditTransaction = true }
+                ){
+                    Icon(painter = painterResource(IconPaths.SYSTEM_ICONS + "plus.svg"), contentDescription = "Add transaction", tint = Color.White, modifier = Modifier
+                        .size(25.dp).align(Alignment.Center))
+                }
+            }
+
+            if (showAddOrEditTransaction) {
+                TransactionForm(
+                    transactionViewModel = viewModel,
+                    transaction = selectedTransaction,
+                    onDismiss = {
+                        selectedTransaction = Transaction()
+                        showAddOrEditTransaction = false
+                    }
                 )
             }
+
         }
     }
 }

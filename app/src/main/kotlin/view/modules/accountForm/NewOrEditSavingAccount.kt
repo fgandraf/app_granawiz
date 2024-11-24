@@ -1,4 +1,4 @@
-package view.modules.addAccount
+package view.modules.accountForm
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -15,7 +15,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import core.entity.account.SavingsAccount
 import core.utils.toBrMoney
-import view.modules.addAccount.components.IconSelector
+import view.modules.accountForm.components.IconSelector
 import view.shared.DefaultButton
 import view.shared.DefaultTextField
 import view.shared.GroupListComboBox

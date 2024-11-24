@@ -1,4 +1,4 @@
-package view.modules.addGroup
+package view.modules.groupForm
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -23,7 +23,7 @@ import view.shared.TextPrimary
 import viewModel.SidebarViewModel
 
 @Composable
-fun AddGroup(
+fun GroupForm(
     viewModel: SidebarViewModel,
     group: Group? = null,
     onDismiss: () -> Unit

@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import core.entity.Group
 import core.utils.brMoney
-import view.modules.addGroup.AddGroup
+import view.modules.groupForm.GroupForm
 import view.shared.ClickableIcon
 import view.shared.ClickableRow
 import view.theme.Afacade
@@ -121,7 +121,7 @@ fun DropDownGroupMenu(
 
             var showNewGroupDialog by remember { mutableStateOf(false) }
             ClickableRow(iconResource = "edit", label = "Editar") { showNewGroupDialog = true }
-            if (showNewGroupDialog) AddGroup(viewModel = viewModel, group = group, onDismiss = { showNewGroupDialog = false; onDismissRequest() })
+            if (showNewGroupDialog) GroupForm(viewModel = viewModel, group = group, onDismiss = { showNewGroupDialog = false; onDismissRequest() })
 
             Divider(modifier = Modifier.padding(vertical = 3.dp))
 

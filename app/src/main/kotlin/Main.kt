@@ -27,8 +27,8 @@ fun main() = application {
     DatabaseConfig.runMigrations()
 
     val screenSize = Toolkit.getDefaultToolkit().screenSize
-    val windowsWidth = (screenSize.width * 0.8).toInt().dp
-    val windowsHeight = (screenSize.height * 0.8).toInt().dp
+    val windowsWidth = (screenSize.width * 0.75).toInt().dp
+    val windowsHeight = (screenSize.height * 0.75).toInt().dp
 
     Locale.setDefault(Locale.forLanguageTag("pt-BR"))
 

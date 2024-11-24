@@ -14,10 +14,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import config.IconPaths
-import view.modules.addAccount.AddAccount
-import view.modules.addAccount.components.AccountType
+import view.modules.accountForm.AccountForm
+import view.modules.accountForm.components.AccountType
 import view.modules.sidebar.components.ButtonFooterItem
-import view.modules.addGroup.AddGroup
+import view.modules.groupForm.GroupForm
 import viewModel.SidebarViewModel
 
 @Composable
@@ -38,7 +38,7 @@ fun Footer(viewModel: SidebarViewModel) {
 
         var showNewGroupDialog by remember { mutableStateOf(false) }
         ButtonFooterItem(Modifier.weight(1f), "group.svg", "Novo grupo") { showNewGroupDialog = true }
-        if (showNewGroupDialog) AddGroup(viewModel = viewModel, onDismiss = { showNewGroupDialog = false })
+        if (showNewGroupDialog) GroupForm(viewModel = viewModel, onDismiss = { showNewGroupDialog = false })
 
         Divider(modifier = Modifier.fillMaxHeight().width(1.dp))
 
@@ -113,7 +113,7 @@ fun DropDownNewAccount(
         }
     }
 
-    if (showNewAccountDialog) AddAccount(sidebarViewModel = viewModel, accountType = accountType) {
+    if (showNewAccountDialog) AccountForm(sidebarViewModel = viewModel, accountType = accountType) {
         showNewAccountDialog = false
         viewModel.loadGroup()
         viewModel.fetchTotalAccounts()

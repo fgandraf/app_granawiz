@@ -7,48 +7,6 @@ INSERT INTO tbl_bank_accounts VALUES(3, 'CHECKING','Banco do Brasil', 'Conta do 
 INSERT INTO tbl_bank_accounts VALUES(4, 'CHECKING','Caixa Econômica', 'Conta Corporativa da Caixa Econômica Federal', 2, 'cef.svg', -1000, 2, 0, 0, null,null,null);
 INSERT INTO tbl_bank_accounts VALUES(5, 'CREDIT_CARD','Mastercard', 'Cartão Mastercard da Caixa Econômica Federal', 1, 'mastercard.svg', -400, 2, 0, 0, 3500,25,5);
 
-INSERT INTO tbl_tags VALUES (1, 'Emergência');
-INSERT INTO tbl_tags VALUES (2, 'Black Friday');
-INSERT INTO tbl_tags VALUES (3, 'Parcelado');
-INSERT INTO tbl_tags VALUES (4, 'Impulso');
-INSERT INTO tbl_tags VALUES (5, 'Planejado');
-INSERT INTO tbl_tags VALUES (6, 'Cashback');
-INSERT INTO tbl_tags VALUES (7, 'Viagem');
-INSERT INTO tbl_tags VALUES (8, 'Reforma Cozinha');
-INSERT INTO tbl_tags VALUES (9, 'Evento Summit');
-
-INSERT INTO tbl_categories VALUES (1, 'EXPENSE', 'Alimentação', 'pizza.svg');
-INSERT INTO tbl_categories VALUES (2, 'EXPENSE', 'Compra', 'shopping-cart.svg');
-INSERT INTO tbl_categories VALUES (3, 'EXPENSE', 'Educação', 'graduation-cap.svg');
-INSERT INTO tbl_categories VALUES (4, 'EXPENSE', 'Lazer', 'mask-happy.svg');
-INSERT INTO tbl_categories VALUES (5, 'EXPENSE', 'Moradia', 'house-line.svg');
-INSERT INTO tbl_categories VALUES (6, 'EXPENSE', 'Outro', 'question-mark.svg');
-INSERT INTO tbl_categories VALUES (7, 'EXPENSE', 'Saúde', 'first-aid.svg');
-INSERT INTO tbl_categories VALUES (8, 'EXPENSE', 'Taxa e Imposto', 'scales.svg');
-INSERT INTO tbl_categories VALUES (9, 'EXPENSE', 'Transporte', 'car-profile.svg');
-INSERT INTO tbl_categories VALUES (10, 'EXPENSE', 'Vestimenta', 't-shirt.svg');
-
-INSERT INTO tbl_categories VALUES (11, 'INCOME', 'Salário', 'money.svg');
-INSERT INTO tbl_categories VALUES (12, 'INCOME', 'Prestação de Serviço', 'call-bell.svg');
-INSERT INTO tbl_categories VALUES (13, 'INCOME', 'Rendimento', 'chart-line-up.svg');
-INSERT INTO tbl_categories VALUES (14, 'INCOME', 'Empréstimo', 'bank.svg');
-INSERT INTO tbl_categories VALUES (15, 'INCOME', 'Venda', 'handshake.svg');
-
-INSERT INTO tbl_subcategories VALUES (1, 1, 'Conveniência');
-INSERT INTO tbl_subcategories VALUES (2, 1, 'Lanchonete');
-INSERT INTO tbl_subcategories VALUES (3, 1, 'Restaurante');
-INSERT INTO tbl_subcategories VALUES (4, 1, 'Outros');
-INSERT INTO tbl_subcategories VALUES (5, 3, 'Livros');
-INSERT INTO tbl_subcategories VALUES (6, 3, 'Mensalidade');
-INSERT INTO tbl_subcategories VALUES (7, 9, 'Combustível');
-INSERT INTO tbl_subcategories VALUES (8, 9, 'Translado');
-INSERT INTO tbl_subcategories VALUES (9, 7, 'Consulta');
-INSERT INTO tbl_subcategories VALUES (10, 7, 'Medicamento');
-INSERT INTO tbl_subcategories VALUES (11, 12, 'Contrato');
-INSERT INTO tbl_subcategories VALUES (12, 12, 'Particular');
-INSERT INTO tbl_subcategories VALUES (13, 14, 'Bancário');
-INSERT INTO tbl_subcategories VALUES (14, 14, 'Pessoal');
-
 INSERT INTO tbl_parties VALUES (1, 'Banco do Brasil', 'PAYER');
 INSERT INTO tbl_parties VALUES (2, 'Caixa Econômica Federal', 'PAYER');
 INSERT INTO tbl_parties VALUES (3, 'Marisa Viviani Parra', 'PAYER');
@@ -84,4 +42,48 @@ INSERT INTO tbl_transaction_tag VALUES (2, 1);
 INSERT INTO tbl_transaction_tag VALUES (2, 4);
 INSERT INTO tbl_transaction_tag VALUES (3, 3);
 INSERT INTO tbl_transaction_tag VALUES (4, 7);
-INSERT INTO tbl_transaction_tag VALUES (4, 9);
+INSERT INTO tbl_transaction_tag VALUES (4, 5);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+INSERT INTO tbl_transactions VALUES (5,9,1,1, 3,'2024-10-20 15:03:32','Marmita Fitness',-26.12, 'EXPENSE');
+INSERT INTO tbl_transactions VALUES (6,9,1,1, 1,'2024-10-19 12:03:32','Doce de Leite Ninho', -17.50, 'EXPENSE');
+INSERT INTO tbl_transactions VALUES (7,3,1,12, null,'2024-09-08 12:03:32','Regularização da Construção', 350.00, 'GAIN');
+INSERT INTO tbl_transactions VALUES (8,10,1,1, 1,'2024-09-08 12:03:32','Salgados e café', -8.40, 'EXPENSE');
+
+INSERT INTO tbl_transactions VALUES (9,9,1,1, 3,'2024-09-20 15:03:32','Marmita Fitness',-23.50, 'EXPENSE');
+INSERT INTO tbl_transactions VALUES (10,9,1,1, 1,'2024-08-19 12:03:32','Paçoca', -8.00, 'EXPENSE');
+INSERT INTO tbl_transactions VALUES (11,3,1,12, null,'2024-07-08 12:03:32','Regularização da Construção', 200.00, 'GAIN');
+INSERT INTO tbl_transactions VALUES (12,10,1,1, 1,'2024-07-08 12:03:32','Salgados e café', -12.30, 'EXPENSE');
+
+
+
+INSERT INTO tbl_transaction_tag VALUES (5, 5);
+INSERT INTO tbl_transaction_tag VALUES (6, 1);
+INSERT INTO tbl_transaction_tag VALUES (6, 4);
+INSERT INTO tbl_transaction_tag VALUES (7, 3);
+INSERT INTO tbl_transaction_tag VALUES (8, 7);
+INSERT INTO tbl_transaction_tag VALUES (8, 9);
+
+
+INSERT INTO tbl_transaction_tag VALUES (9, 5);
+INSERT INTO tbl_transaction_tag VALUES (10, 1);
+INSERT INTO tbl_transaction_tag VALUES (10, 4);
+INSERT INTO tbl_transaction_tag VALUES (11, 3);
+INSERT INTO tbl_transaction_tag VALUES (12, 7);
+INSERT INTO tbl_transaction_tag VALUES (12, 9);

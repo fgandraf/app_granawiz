@@ -1,4 +1,4 @@
-package view.modules.addAccount
+package view.modules.accountForm
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -20,7 +20,7 @@ import viewModel.AddAccountViewModel
 import viewModel.SidebarViewModel
 
 @Composable
-fun AddAccount(
+fun AccountForm(
     sidebarViewModel: SidebarViewModel,
     addAccountViewModel: AddAccountViewModel = AddAccountViewModel(),
     accountType: AccountType? = null,
@@ -43,7 +43,7 @@ fun AddAccount(
                 AccountType.CHECKING -> "conta corrente"
                 AccountType.CREDIT_CARD -> "cartão de crédito"
             }
-            title = if (account == null) "Adiconar $title" else "Editar $title"
+            title = if (account == null) "Adicionar $title" else "Editar $title"
 
 
             //===== Title Bar
