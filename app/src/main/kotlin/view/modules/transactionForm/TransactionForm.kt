@@ -28,7 +28,7 @@ import view.theme.Red400
 import view.theme.Ubuntu
 import viewModel.AddTransactionViewModel
 import viewModel.TransactionViewModel
-import java.time.LocalDateTime
+
 
 @Composable
 fun TransactionForm(
@@ -49,7 +49,7 @@ fun TransactionForm(
         ) {
 
             //===== Title Bar
-            val title = if (transaction?.id == 0L) "Adicionar transação" else "Editar transação"
+            val title = if (addTransactionViewModel.id == 0L) "Adicionar transação" else "Editar transação"
             DialogTitleBar(title, onDismiss)
             Divider()
 
@@ -63,8 +63,8 @@ fun TransactionForm(
 
                 var type by remember { mutableStateOf("")}
                 var color by remember { mutableStateOf(Color.Gray) }
-                if (transaction?.type!! == TransactionType.EXPENSE) { type = "DESPESA"; color = Red400 }
-                else if (transaction.type == TransactionType.GAIN) { type = "RECEITA"; color = Lime400 }
+                if (addTransactionViewModel.type == TransactionType.EXPENSE) { type = "DESPESA"; color = Red400 }
+                else if (addTransactionViewModel.type == TransactionType.GAIN) { type = "RECEITA"; color = Lime400 }
                 else { type = ""; color = MaterialTheme.colors.primary }
 
                 Row(horizontalArrangement = Arrangement.SpaceBetween,
@@ -107,20 +107,18 @@ fun TransactionForm(
                     Column(Modifier.fillMaxWidth().padding(30.dp)) {
 
                         Row(modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp)) {
+
+
                             //---date
-                            var date by remember { mutableStateOf(transaction.date ?: LocalDateTime.now()) }
-                            DefaultTextField(
+                            DateTimeDialog(
                                 modifier = Modifier.weight(1f).padding(end = 10.dp),
-                                value = date.toString(),
-                                label = "Data:",
-                                textAlign = TextAlign.Right,
-                                placeholder = "0.000,00"
-                            ) {
-                                //date = it.filter { char -> char.isDigit() || char == ',' || char == '.' }
-                                //addAccountViewModel.openBalance = it.replace(".", "").replace(",", ".").toDoubleOrNull() ?: 0.0
-                            }
+                                value = addTransactionViewModel.date,
+                                label = "Data e horário:",
+                                selectedDateTime = { addTransactionViewModel.date = it}
+                            )
+
                             //---balance
-                            var balance by remember { mutableStateOf(toBrMoney.format(transaction.balance)) }
+                            var balance by remember { mutableStateOf(toBrMoney.format(addTransactionViewModel.balance)) }
                             DefaultTextField(
                                 modifier = Modifier.weight(1f).padding(start = 10.dp),
                                 value = balance,
@@ -137,7 +135,7 @@ fun TransactionForm(
                         DefaultTextField(
                             modifier = Modifier.padding(bottom = 20.dp),
                             value = addTransactionViewModel.party.name,
-                            label = if (transaction.type == TransactionType.GAIN) "Pagador" else "Recebedor",
+                            label = if (addTransactionViewModel.type == TransactionType.GAIN) "Pagador" else "Recebedor",
                             placeholder = "Nome",
                             onValueChange = { addTransactionViewModel.party.name = it }
                         )
@@ -153,13 +151,13 @@ fun TransactionForm(
 
 
 
-                        val category = transaction.category
-                        val subcategory = transaction.subcategory
+                        val category = addTransactionViewModel.category
+                        val subcategory = addTransactionViewModel.subCategory
                         //---category
                         DropDownTextField(
                             modifier = Modifier.padding(bottom = 20.dp),
                             categoryIcon = category.icon,
-                            value = category.name + if(subcategory != null) " → ${subcategory.name} " else "",
+                            value = category.name + if(subcategory?.name.isNullOrEmpty()) "" else " → ${subcategory?.name}",
                             label = "Categoria:",
                             placeholder = "Selecione a categoria",
                             onClick = { }

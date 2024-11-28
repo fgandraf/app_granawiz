@@ -1,21 +1,13 @@
 package view.shared
 
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.input.pointer.PointerIcon
-import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import config.IconPaths
@@ -24,42 +16,24 @@ import config.IconPaths
 fun DropDownTextField(
     modifier: Modifier = Modifier,
     categoryIcon: String? = null,
-    boxSize: Dp = 35.dp,
     textAlign: TextAlign = TextAlign.Center,
     value: String,
     label: String? = null,
     placeholder: String = "",
     onClick: () -> Unit
 ){
-    val primaryColor = MaterialTheme.colors.primary
-    val secondaryColor = MaterialTheme.colors.secondary
-
-    var borderSize by remember { mutableStateOf(1.dp) }
-    var borderColor by remember { mutableStateOf(primaryColor) }
 
     Column(modifier = modifier) {
         if (label != null)
             TextPrimary(text = label, modifier = Modifier.padding(bottom = 5.dp), size = 10.sp)
 
-        Box(contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(boxSize)
-                .border(borderSize, borderColor, shape = RoundedCornerShape(5.dp))
-                .clip(RoundedCornerShape(5.dp))
-                .pointerHoverIcon(PointerIcon.Hand)
-                .onFocusChanged { focusState ->
-                    if (focusState.isFocused){ borderSize = 1.2.dp; borderColor = secondaryColor }
-                    else { borderSize = 1.dp; borderColor = primaryColor }
-                }
-                .clickable { onClick() }
-        ) {
+        FocusableBox(onClick = onClick) {
             if (value.isEmpty())
                 TextPrimary(
                     text = placeholder,
                     size = 10.sp,
                     align = textAlign,
-                    color = primaryColor.copy(alpha = 0.75f),
+                    color = MaterialTheme.colors.primary.copy(alpha = 0.75f),
                     modifier = Modifier.fillMaxWidth())
             else
             {

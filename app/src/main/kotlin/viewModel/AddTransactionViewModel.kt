@@ -10,6 +10,7 @@ import java.time.LocalDateTime
 
 class AddTransactionViewModel {
 
+    var id by mutableStateOf(0L)
     var party by mutableStateOf(Party())
     var account by mutableStateOf(BankAccount())
     var category by mutableStateOf(Category())
@@ -22,6 +23,7 @@ class AddTransactionViewModel {
 
     fun initializeFromTransaction(transaction: Transaction){
         transaction.let {
+            id = it.id
             party = it.party
             account = it.account
             category = it.category
