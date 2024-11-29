@@ -110,7 +110,7 @@ fun TransactionForm(
 
 
                             //---date
-                            DateTimeDialog(
+                            DateTimePicker(
                                 modifier = Modifier.weight(1f).padding(end = 10.dp),
                                 value = addTransactionViewModel.date,
                                 label = "Data e horário:",
