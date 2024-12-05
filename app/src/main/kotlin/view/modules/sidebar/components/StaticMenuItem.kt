@@ -12,19 +12,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import config.IconPaths
 import view.modules.Screen
 import view.theme.Afacade
 
 @Composable
 fun StaticMenuItem(
-    iconResource: String,
+    icon: ImageVector,
     label: String,
     screen: Screen,
     currentScreen: Screen,
@@ -41,10 +40,10 @@ fun StaticMenuItem(
             .clickable { onClick(screen) }
     ) {
         Icon(
-            painter = painterResource(IconPaths.SYSTEM_ICONS + iconResource + ".svg"),
+            imageVector = icon,
             contentDescription = null,
             tint = MaterialTheme.colors.primary,
-            modifier = Modifier.size(17.dp).offset(x = 10.dp),
+            modifier = Modifier.size(20.dp).offset(x = 10.dp),
         )
         Text(modifier = Modifier.offset(x = 22.dp),
             text = label,

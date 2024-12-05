@@ -13,10 +13,12 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import config.IconPaths
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Light
+import com.adamglin.phosphoricons.light.CaretDown
+import com.adamglin.phosphoricons.light.CaretRight
 import core.entity.Group
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -78,7 +80,7 @@ fun GroupListComboBox(
                     Modifier.size(35.dp)
                 ) {
                     Icon(
-                        painter = painterResource(if (expanded) IconPaths.SYSTEM_ICONS + "toggle_down.svg" else IconPaths.SYSTEM_ICONS + "toggle_right.svg"),
+                        imageVector = if (expanded) PhosphorIcons.Light.CaretDown else PhosphorIcons.Light.CaretRight,
                         contentDescription = null,
                         tint = MaterialTheme.colors.primary,
                         modifier = Modifier.size(15.dp).align(Alignment.Center)

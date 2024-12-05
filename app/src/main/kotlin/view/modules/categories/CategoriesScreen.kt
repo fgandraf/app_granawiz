@@ -17,8 +17,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Light
+import com.adamglin.phosphoricons.light.ChartLineUp
+import com.adamglin.phosphoricons.light.Invoice
+import com.adamglin.phosphoricons.light.Shapes
 import config.IconPaths
 import core.enums.CategoryType
+import view.modules.categories.components.CategoryListItem
 import view.modules.categories.components.ListTypeItem
 import view.shared.AddListItem
 import view.shared.AddressView
@@ -41,7 +47,7 @@ fun CategoriesScreen(
             Row(modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Row { AddressView(IconPaths.SYSTEM_ICONS + "category.svg","Categorias" ) }
+                Row { AddressView(icon = PhosphorIcons.Light.Shapes, value = "Categorias" ) }
                 SearchBar(onTuneClicked = { /* TO DO */ }, onSearchClicked = { /* TO DO */ })
             }
         }
@@ -58,20 +64,20 @@ fun CategoriesScreen(
                     .border(0.5.dp, MaterialTheme.colors.primaryVariant, shape = RoundedCornerShape(20.dp))
                     .clip(RoundedCornerShape(20.dp))
                     .background(MaterialTheme.colors.onPrimary)
-                .   padding(30.dp)
+                    .padding(30.dp)
             ) {
                 Row {
 
                     //===== FIRST COLUMN
                     Row(modifier = Modifier.weight(2f).fillMaxHeight()) {
                         Column(modifier = Modifier.padding(20.dp)) {
-                            ListTypeItem(icon = "gastos.svg", color = MaterialTheme.colors.primary, label = "Gastos") {
+                            ListTypeItem(icon = PhosphorIcons.Light.Invoice, color = MaterialTheme.colors.primary, label = "Gastos") {
                                 viewModel.selectType(CategoryType.EXPENSE)
                                 viewModel.loadCategories(CategoryType.EXPENSE)
                                 addCategoryButton = true
                                 addSubcategoryButton = false
                             }
-                            ListTypeItem(icon = "rendimentos.svg", color = MaterialTheme.colors.primary, label = "Rendimentos") {
+                            ListTypeItem(icon = PhosphorIcons.Light.ChartLineUp, color = MaterialTheme.colors.primary, label = "Rendimentos") {
                                 viewModel.selectType(CategoryType.INCOME)
                                 viewModel.loadCategories(CategoryType.INCOME)
                                 addCategoryButton = true
@@ -93,15 +99,13 @@ fun CategoriesScreen(
                         ) {
                             val listState = rememberLazyListState()
 
-
-
                             LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
 
                                 items(viewModel.categories, key = { it.id }) { category ->
 
                                     val deleteDialogIsVisible = remember { mutableStateOf(false) }
 
-                                    view.shared.ListItem(
+                                    CategoryListItem(
                                         label = category.name,
                                         icon = IconPaths.CATEGORY_PACK + category.icon,
                                         clickableIcon = true,
@@ -120,7 +124,7 @@ fun CategoriesScreen(
                                         deleteDialog = {
                                             DialogDelete(
                                                 title = "Excluir categoria",
-                                                iconResource = IconPaths.SYSTEM_ICONS + "category.svg",
+                                                icon = PhosphorIcons.Light.Shapes,
                                                 objectName = category.name,
                                                 alertText = "Isso irá excluir permanentemente a categoria ${category.name} e remover todas as associações feitas à ela.",
                                                 onClickButton = { viewModel.deleteCategory(category) },
@@ -181,7 +185,7 @@ fun CategoriesScreen(
                                         deleteDialog = {
                                             DialogDelete(
                                                 title = "Excluir subcategoria",
-                                                iconResource = IconPaths.SYSTEM_ICONS + "category.svg",
+                                                icon = PhosphorIcons.Light.Shapes,
                                                 objectName = subcategory.name,
                                                 alertText = "Isso irá excluir permanentemente a subcategoria ${subcategory.name} e remover todas as associações feitas à ela.",
                                                 onClickButton = { viewModel.deleteSubcategory(subcategory) },

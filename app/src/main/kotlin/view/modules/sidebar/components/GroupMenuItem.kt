@@ -12,6 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Light
+import com.adamglin.phosphoricons.light.*
 import core.entity.Group
 import core.utils.brMoney
 import view.modules.groupForm.GroupForm
@@ -45,9 +48,8 @@ fun GroupMenuItem(
         Row(modifier = Modifier.padding(start = 5.dp)){
             ClickableIcon(
                 modifier = Modifier.size(16.dp),
-                icon = if (isExpanded) "toggle_down" else "toggle_right",
+                icon = if (isExpanded) PhosphorIcons.Light.CaretDown else PhosphorIcons.Light.CaretRight,
                 shape = RoundedCornerShape(6.dp),
-                iconSize = 12.dp,
                 padding = true,
                 onClick = { toggleClick() },
             )
@@ -77,9 +79,8 @@ fun GroupMenuItem(
         var dropDownMenuExpanded by remember { mutableStateOf(false) }
         Row {
             ClickableIcon(
-                icon = "dots",
+                icon = PhosphorIcons.Light.DotsThree,
                 shape = RoundedCornerShape(6.dp),
-                iconSize = 16.dp,
                 padding = true,
                 onClick = { dropDownMenuExpanded = !dropDownMenuExpanded }
             )
@@ -109,23 +110,23 @@ fun DropDownGroupMenu(
             onDismissRequest = { onDismissRequest() }
         ) {
 
-            ClickableRow(iconResource = "move_up", label = "Mover para cima") {
+            ClickableRow(icon = PhosphorIcons.Light.ArrowLineUp, label = "Mover para cima") {
                 viewModel.moveGroup(group, -1)
                 onDismissRequest() }
 
-            ClickableRow(iconResource = "move_down", label = "Mover para baixo") {
+            ClickableRow(icon = PhosphorIcons.Light.ArrowLineDown, label = "Mover para baixo") {
                 viewModel.moveGroup(group, 1)
                 onDismissRequest() }
 
             Divider(modifier = Modifier.padding(vertical = 3.dp))
 
             var showNewGroupDialog by remember { mutableStateOf(false) }
-            ClickableRow(iconResource = "edit", label = "Editar") { showNewGroupDialog = true }
+            ClickableRow(icon = PhosphorIcons.Light.PencilLine, label = "Editar") { showNewGroupDialog = true }
             if (showNewGroupDialog) GroupForm(viewModel = viewModel, group = group, onDismiss = { showNewGroupDialog = false; onDismissRequest() })
 
             Divider(modifier = Modifier.padding(vertical = 3.dp))
 
-            ClickableRow(iconResource = "trash", label = "Excluir", enabled = group.accounts.isEmpty()) { viewModel.deleteGroup(group) }
+            ClickableRow(icon = PhosphorIcons.Light.Trash, label = "Excluir", enabled = group.accounts.isEmpty()) { viewModel.deleteGroup(group) }
 
         }
     }

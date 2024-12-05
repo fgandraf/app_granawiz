@@ -1,7 +1,10 @@
-package config
+package infra.config
 
 import core.entity.*
-import core.entity.account.*
+import core.entity.account.BankAccount
+import core.entity.account.CheckingAccount
+import core.entity.account.CreditCardAccount
+import core.entity.account.SavingsAccount
 import org.hibernate.SessionFactory
 import org.hibernate.cfg.Configuration
 import java.util.*

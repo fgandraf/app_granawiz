@@ -1,8 +1,8 @@
 package infra.dao
 
-import config.HibernateUtil
 import core.contracts.IGroupDao
 import core.entity.Group
+import infra.config.HibernateUtil
 import org.hibernate.Hibernate
 
 class GroupDao : IGroupDao {

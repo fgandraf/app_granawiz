@@ -11,7 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
-import config.IconPaths
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Light
+import com.adamglin.phosphoricons.light.SquaresFour
 import view.shared.AddressView
 
 @Composable
@@ -27,7 +29,7 @@ fun DashboardScreen() {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Row { AddressView(IconPaths.SYSTEM_ICONS + "dashboard.svg", "Dashboard") }
+                Row { AddressView(icon = PhosphorIcons.Light.SquaresFour, value = "Dashboard") }
             }
         }
 

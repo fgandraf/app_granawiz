@@ -1,4 +1,4 @@
-package config
+package infra.config
 
 import org.flywaydb.core.Flyway
 

@@ -1,8 +1,8 @@
 package infra.dao
 
-import config.HibernateUtil
 import core.contracts.ITagDao
 import core.entity.Tag
+import infra.config.HibernateUtil
 
 class TagDao : ITagDao {
 

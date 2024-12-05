@@ -1,4 +1,4 @@
-package view.modules.transactionForm.components
+package view.shared
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -10,9 +10,9 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.material.icons.filled.CalendarMonth
-import androidx.compose.material.icons.filled.ExpandLess
-import androidx.compose.material.icons.filled.ExpandMore
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.outlined.DateRange
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,7 +28,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import view.shared.DefaultButton
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -42,11 +41,15 @@ import java.util.*
 fun DateTimePicker(
     modifier: Modifier = Modifier,
     value: LocalDateTime,
-    label: String,
-    trailingIcon: ImageVector? = Icons.Default.CalendarMonth,
+    label: String = "Date and Time:",
+    trailingIcon: ImageVector = Icons.Outlined.DateRange,
     primaryColor: Color = Color.Black,
     selectedColor: Color = Color.Blue,
     fontFamily: FontFamily = FontFamily.Default,
+    language: String = "en",
+    country: String = "us",
+    showTime: Boolean = true,
+    weekDayNames: List<String> = listOf("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"),
     datePattern: String = "MM/dd/yyyy HH:mm",
     selectedDateTime: (LocalDateTime) -> Unit,
 ){
@@ -90,17 +93,19 @@ fun DateTimePicker(
                     color = primaryColor,
                     fontFamily = fontFamily
                 )
-                if (trailingIcon != null) {
-                    Icon(imageVector = trailingIcon, contentDescription = "Icon")
-                }
+                Icon(imageVector = trailingIcon, contentDescription = "Icon", tint = primaryColor, modifier = Modifier.size(20.dp))
             }
         }
 
         if (dialogPicker.value){
             DateTimeDialog(
                 expanded = dialogPicker.value,
+                showTime = showTime,
                 primaryColor = primaryColor,
                 selectedColor = selectedColor,
+                language = language,
+                country = country,
+                weekDayNames = weekDayNames,
                 fontFamily = fontFamily,
                 selectedDateTime = value,
                 onDateTimeSelected = {selectedDateTime(it)},
@@ -113,13 +118,13 @@ fun DateTimePicker(
 @Composable
 fun DateTimeDialog(
     expanded: Boolean,
-    showTime: Boolean = true,
-    primaryColor: Color = Color.Gray,
-    selectedColor: Color = Color.Blue,
-    language: String = "pt",
-    country: String = "br",
-    weekDayNames: List<String> = listOf("Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"),
-    fontFamily: FontFamily = FontFamily.Default,
+    showTime: Boolean,
+    primaryColor: Color,
+    selectedColor: Color,
+    language: String,
+    country: String,
+    weekDayNames: List<String>,
+    fontFamily: FontFamily,
     onDismissRequest: () -> Unit,
     selectedDateTime: LocalDateTime,
     onDateTimeSelected: (LocalDateTime) -> Unit
@@ -135,7 +140,7 @@ fun DateTimeDialog(
 
                     // DATE PICKER
                     var selectedDate by remember { mutableStateOf(selectedDateTime.toLocalDate()) }
-                    DatePicker(
+                    DatePickerComponent(
                         selectedDate = selectedDate,
                         primaryColor = primaryColor,
                         selectedColor = selectedColor,
@@ -149,7 +154,7 @@ fun DateTimeDialog(
                     // TIME PICKER
                     var selectedTime by remember { mutableStateOf(selectedDateTime.toLocalTime()) }
                     if (showTime){
-                        TimePicker(
+                        TimePickerComponent(
                             selectedTime = selectedTime,
                             primaryColor = primaryColor,
                             onTimeSelected = { selectedTime = it },
@@ -171,7 +176,7 @@ fun DateTimeDialog(
 }
 
 @Composable
-fun DatePicker(
+fun DatePickerComponent(
     selectedDate: LocalDate,
     primaryColor: Color,
     selectedColor: Color,
@@ -299,7 +304,7 @@ fun DatePicker(
 }
 
 @Composable
-fun TimePicker(
+fun TimePickerComponent(
     selectedTime: LocalTime,
     primaryColor: Color,
     onTimeSelected: (LocalTime) -> Unit
@@ -355,7 +360,7 @@ fun NumberPicker(
                     onValueChange(newValue)
                 }
         ) {
-            Icon(Icons.Filled.ExpandLess, contentDescription = "Up", tint = primaryColor)
+            Icon(Icons.Default.KeyboardArrowUp, contentDescription = "Up", tint = primaryColor)
         }
         // Value Text
         Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.width(50.dp)) {
@@ -379,7 +384,7 @@ fun NumberPicker(
                     onValueChange(newValue)
                 }
         ) {
-            Icon(Icons.Filled.ExpandMore, contentDescription = "Down", tint = primaryColor)
+            Icon(Icons.Default.KeyboardArrowDown, contentDescription = "Down", tint = primaryColor)
         }
     }
 }

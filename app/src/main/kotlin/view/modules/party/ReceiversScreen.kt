@@ -6,7 +6,9 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import config.IconPaths
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Light
+import com.adamglin.phosphoricons.light.HandArrowDown
 import core.enums.PartyType
 import view.modules.party.components.Body
 import view.shared.AddressView
@@ -28,7 +30,7 @@ fun ReceiversScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Row { AddressView(IconPaths.SYSTEM_ICONS + "receiver.svg", "Beneficiários") }
+                Row { AddressView(icon = PhosphorIcons.Light.HandArrowDown, value = "Beneficiários") }
                 SearchBar(onTuneClicked = { /* TO DO */ }, onSearchClicked = { /* TO DO */ })
             }
         }

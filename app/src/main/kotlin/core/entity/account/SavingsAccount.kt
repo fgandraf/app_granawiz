@@ -1,10 +1,10 @@
 package core.entity.account
 
+import core.entity.Group
+import core.enums.AccountType
 import jakarta.persistence.Column
 import jakarta.persistence.DiscriminatorValue
 import jakarta.persistence.Entity
-import core.entity.Group
-import core.enums.AccountType
 
 @Entity
 @DiscriminatorValue("SAVINGS")

@@ -1,4 +1,4 @@
-package view.shared
+package view.modules.categories.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -12,9 +12,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
@@ -26,13 +26,13 @@ import com.adamglin.phosphoricons.light.CaretRight
 import com.adamglin.phosphoricons.light.Check
 import com.adamglin.phosphoricons.light.Trash
 import com.adamglin.phosphoricons.light.X
-import view.modules.categories.components.DropDownIcons
+import view.shared.ClickableIcon
 import view.theme.Afacade
 
 @Composable
-fun ListItem(
+fun CategoryListItem(
     label: String = "",
-    icon: ImageVector? = null,
+    icon: String? = null,
     clickableIcon: Boolean = false,
     hasSubItem: Boolean = false,
     spaceBetween: Dp = 22.dp,
@@ -77,7 +77,7 @@ fun ListItem(
                         .width(30.dp)
                 ) {
                     Icon(
-                        imageVector = icon,
+                        painter = painterResource(icon),
                         contentDescription = null,
                         tint = if (valueChanged) Color.Blue else MaterialTheme.colors.primary,
                         modifier = Modifier.size(20.dp)

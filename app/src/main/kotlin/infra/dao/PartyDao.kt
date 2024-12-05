@@ -1,10 +1,10 @@
 package infra.dao
 
-import config.HibernateUtil
 import core.contracts.IPartyDao
 import core.entity.Party
 import core.entity.PartyName
 import core.enums.PartyType
+import infra.config.HibernateUtil
 
 class PartyDao : IPartyDao {
 

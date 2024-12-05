@@ -16,11 +16,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Light
+import com.adamglin.phosphoricons.light.Folders
+import com.adamglin.phosphoricons.light.ListBullets
+import com.adamglin.phosphoricons.light.Plus
 import config.IconPaths
 import core.entity.Transaction
 import core.entity.account.BankAccount
@@ -58,8 +62,8 @@ fun TransactionsScreen(
             Column{
                 if (account != null) {
                     Row(Modifier.padding(bottom = 12.dp)) {
-                        AddressView(IconPaths.SYSTEM_ICONS + "group.svg", account.group.name)
-                        AddressView(IconPaths.BANK_LOGOS + account.icon, account.name, DpSize(20.dp, 16.dp))
+                        AddressView(icon = PhosphorIcons.Light.Folders, value = account.group.name)
+                        AddressView(IconPaths.BANK_LOGOS + account.icon, value = account.name, iconSize = DpSize(20.dp, 16.dp))
                     }
                     TextPrimary(
                         text = account.description,
@@ -67,7 +71,7 @@ fun TransactionsScreen(
                         align = TextAlign.Start
                     )
                 } else{
-                    AddressView(IconPaths.SYSTEM_ICONS + "list.svg", "Todas as transações")
+                    AddressView(icon = PhosphorIcons.Light.ListBullets, value = "Todas as transações")
                 }
             }
 
@@ -142,7 +146,7 @@ fun TransactionsScreen(
                         .pointerHoverIcon(PointerIcon.Hand)
                         .clickable { showAddOrEditTransaction = true }
                 ){
-                    Icon(painter = painterResource(IconPaths.SYSTEM_ICONS + "plus.svg"), contentDescription = "Add transaction", tint = Color.White, modifier = Modifier
+                    Icon(imageVector = PhosphorIcons.Light.Plus, contentDescription = "Add transaction", tint = Color.White, modifier = Modifier
                         .size(25.dp).align(Alignment.Center))
                 }
             }

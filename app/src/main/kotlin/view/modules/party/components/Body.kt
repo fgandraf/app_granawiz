@@ -19,7 +19,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
-import config.IconPaths
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Light
+import com.adamglin.phosphoricons.light.HandArrowDown
+import com.adamglin.phosphoricons.light.HandArrowUp
 import core.enums.PartyType
 import view.shared.*
 import viewModel.PartyViewModel
@@ -66,11 +69,11 @@ fun Body(viewModel: PartyViewModel) {
                             },
                             deleteDialog = {
                                 val type = if (viewModel.selectedType == PartyType.RECEIVER) "recebedor" else "pagador"
-                                val iconResource = if (viewModel.selectedType == PartyType.RECEIVER) "receiver.svg" else "payer.svg"
+                                val iconResource = if (viewModel.selectedType == PartyType.RECEIVER) PhosphorIcons.Light.HandArrowDown else PhosphorIcons.Light.HandArrowUp
 
                                 DialogDelete(
                                     title = "Excluir $type",
-                                    iconResource = IconPaths.SYSTEM_ICONS + iconResource,
+                                    icon = iconResource,
                                     objectName = party.name,
                                     alertText = "Isso irá excluir permanentemente o $type ${party.name} e remover todas as associações feitas à ele.",
                                     onClickButton = { viewModel.deleteParty(party) },
@@ -125,7 +128,7 @@ fun Body(viewModel: PartyViewModel) {
                             deleteDialog = {
                                 DialogDelete(
                                     title = "Excluir nome",
-                                    iconResource = IconPaths.SYSTEM_ICONS + "payer.svg",
+                                    icon = PhosphorIcons.Light.HandArrowUp,
                                     objectName = payerName.name,
                                     alertText = "Isso irá excluir permanentemente o nome ${payerName.name} e remover todas as associações feitas à ele.",
                                     onClickButton = { viewModel.deletePartyName(payerName) },

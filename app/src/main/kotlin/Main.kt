@@ -13,7 +13,7 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
-import config.DatabaseConfig
+import infra.config.DatabaseConfig
 import view.modules.MainContent
 import view.modules.Screen
 import view.modules.sidebar.Sidebar

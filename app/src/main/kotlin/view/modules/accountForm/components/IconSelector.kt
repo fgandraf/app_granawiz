@@ -16,6 +16,9 @@ import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Light
+import com.adamglin.phosphoricons.light.PencilLine
 import config.IconPaths
 
 @Composable
@@ -45,7 +48,7 @@ fun IconSelector(
             )
             Image(
                 modifier = Modifier.size(14.dp).align(Alignment.BottomEnd),
-                painter = painterResource(IconPaths.SYSTEM_ICONS + "edit.svg"),
+                imageVector = PhosphorIcons.Light.PencilLine,
                 contentDescription = "",
                 alpha = 0.8f
             )

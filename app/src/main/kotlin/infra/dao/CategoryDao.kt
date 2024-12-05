@@ -1,10 +1,10 @@
 package infra.dao
 
-import config.HibernateUtil
 import core.contracts.ICategoryDao
 import core.entity.Category
 import core.entity.Subcategory
 import core.enums.CategoryType
+import infra.config.HibernateUtil
 import org.hibernate.Hibernate
 
 class CategoryDao : ICategoryDao {

@@ -19,21 +19,25 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import config.IconPaths
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Light
+import com.adamglin.phosphoricons.light.Check
+import com.adamglin.phosphoricons.light.Plus
+import com.adamglin.phosphoricons.light.X
 import view.theme.Afacade
 
 @Composable
 fun AddListItem(
     isVisible: MutableState<Boolean>,
     value: MutableState<String>,
-    icon: String? = null,
+    icon: ImageVector? = null,
     confirmationClick: () -> Unit,
     alertDialogContent: @Composable () -> Unit? = {}
 ){
@@ -57,7 +61,7 @@ fun AddListItem(
                                 modifier = Modifier.fillMaxHeight().width(40.dp)
                             ) {
                                 Icon(
-                                    painter = painterResource(IconPaths.SYSTEM_ICONS + icon),
+                                    imageVector = icon,
                                     contentDescription = null,
                                     tint = Color.Blue,
                                     modifier = Modifier.size(15.dp)
@@ -86,18 +90,16 @@ fun AddListItem(
                     }
                     Row(modifier = Modifier.padding(end = 10.dp)) {
                         ClickableIcon(
-                            icon = "close",
+                            icon = PhosphorIcons.Light.X,
                             color = Color.Blue,
                             shape = RoundedCornerShape(6.dp),
-                            iconSize = 12.dp,
                             padding = true,
                             onClick = { isVisible.value = false; value.value = "" }
                         )
                         ClickableIcon(
-                            icon = "check",
+                            icon = PhosphorIcons.Light.Check,
                             color = Color.Blue,
                             shape = RoundedCornerShape(6.dp),
-                            iconSize = 12.dp,
                             padding = true,
                             onClick = { confirmationClick(); isVisible.value = false; value.value = "" }
                         )
@@ -130,7 +132,7 @@ fun AddListItem(
                             .clickable { isVisible.value = true }
                     ) {
                         Icon(
-                            painter = painterResource(IconPaths.SYSTEM_ICONS + "plus.svg"),
+                            imageVector = PhosphorIcons.Light.Plus,
                             contentDescription = null,
                             tint = MaterialTheme.colors.primary,
                             modifier = Modifier.size(15.dp),

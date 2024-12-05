@@ -1,8 +1,8 @@
 package infra.dao
 
-import config.HibernateUtil
 import core.contracts.IAccountDao
 import core.entity.account.BankAccount
+import infra.config.HibernateUtil
 
 class AccountDao : IAccountDao {
 

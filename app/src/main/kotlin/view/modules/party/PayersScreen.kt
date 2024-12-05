@@ -6,7 +6,9 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import config.IconPaths
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Light
+import com.adamglin.phosphoricons.light.HandArrowUp
 import core.enums.PartyType
 import view.modules.party.components.Body
 import view.shared.AddressView
@@ -28,7 +30,7 @@ fun PayersScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Row { AddressView(IconPaths.SYSTEM_ICONS + "payer.svg", "Pagadores") }
+                Row { AddressView(icon = PhosphorIcons.Light.HandArrowUp, value = "Pagadores") }
                 SearchBar(onTuneClicked = { /* TO DO */ }, onSearchClicked = { /* TO DO */ })
             }
         }

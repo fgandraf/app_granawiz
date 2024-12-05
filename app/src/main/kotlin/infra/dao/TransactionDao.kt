@@ -1,9 +1,9 @@
 package infra.dao
 
-import config.HibernateUtil
 import core.contracts.ITransactionDao
 import core.entity.Transaction
 import core.entity.account.BankAccount
+import infra.config.HibernateUtil
 import org.hibernate.Hibernate
 import java.time.LocalDateTime
 

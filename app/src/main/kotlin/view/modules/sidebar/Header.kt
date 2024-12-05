@@ -10,6 +10,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Light
+import com.adamglin.phosphoricons.light.Gear
 import core.utils.brMoney
 import view.modules.settings.SettingsScreen
 import view.shared.ClickableIcon
@@ -24,10 +27,9 @@ fun Header(viewModel: SidebarViewModel) {
 
 
             var showDialog by remember { mutableStateOf(false) }
-            ClickableIcon(icon = "settings", iconSize = 20.dp, shape = CircleShape) { showDialog = true }
+            ClickableIcon(icon = PhosphorIcons.Light.Gear, iconSize = 22.dp, shape = CircleShape) { showDialog = true }
             if (showDialog)
                 SettingsScreen(onDismiss = { showDialog = false })
-
 
 
         }

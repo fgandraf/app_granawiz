@@ -9,12 +9,13 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import config.IconPaths
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Light
+import com.adamglin.phosphoricons.light.Folders
 import core.entity.Group
 import view.shared.DefaultButton
 import view.shared.DefaultTextField
@@ -50,7 +51,7 @@ fun GroupForm(
             ) {
                 Image(
                     modifier = Modifier.size(40.dp),
-                    painter = painterResource(IconPaths.SYSTEM_ICONS + "group.svg"),
+                    imageVector = PhosphorIcons.Light.Folders,
                     contentDescription = "Group logo"
                 )
                 TextPrimary(

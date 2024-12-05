@@ -8,8 +8,6 @@ import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,11 +18,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Light
+import com.adamglin.phosphoricons.light.Calendar
 import config.IconPaths
 import core.entity.Transaction
 import core.enums.TransactionType
 import core.utils.toBrMoney
-import view.modules.transactionForm.components.DateTimePicker
 import view.shared.*
 import view.theme.Lime400
 import view.theme.Purple600
@@ -118,10 +118,13 @@ fun TransactionForm(
                                 modifier = Modifier.weight(1f).padding(end = 10.dp),
                                 value = addTransactionViewModel.date,
                                 label = "Data e horário:",
-                                trailingIcon = Icons.Outlined.CalendarMonth,
+                                trailingIcon = PhosphorIcons.Light.Calendar,
                                 primaryColor = MaterialTheme.colors.primary,
                                 selectedColor = Purple600,
                                 fontFamily = Ubuntu,
+                                language = "pt",
+                                country = "br",
+                                weekDayNames = listOf("Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"),
                                 datePattern = "dd/MM/yyyy HH:mm",
                                 selectedDateTime = { addTransactionViewModel.date = it}
                             )

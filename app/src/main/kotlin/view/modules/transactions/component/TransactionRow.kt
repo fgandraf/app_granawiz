@@ -17,6 +17,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Light
+import com.adamglin.phosphoricons.light.Tag
 import config.IconPaths
 import core.entity.Transaction
 import core.enums.TransactionType
@@ -135,7 +138,7 @@ fun TransactionRow(
                         transaction.tags.forEach { tag ->
                             Row {
                                 Icon(
-                                    painter = painterResource(IconPaths.SYSTEM_ICONS + "tag.svg"),
+                                    imageVector = PhosphorIcons.Light.Tag,
                                     contentDescription = null,
                                     tint = MaterialTheme.colors.primary,
                                     modifier = Modifier.size(15.dp)

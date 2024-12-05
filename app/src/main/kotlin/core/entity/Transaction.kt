@@ -1,8 +1,8 @@
 package core.entity
 
-import jakarta.persistence.*
 import core.entity.account.BankAccount
 import core.enums.TransactionType
+import jakarta.persistence.*
 import java.time.LocalDateTime
 
 @Entity

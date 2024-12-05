@@ -13,11 +13,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import config.IconPaths
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Light
+import com.adamglin.phosphoricons.light.*
 import view.modules.accountForm.AccountForm
-import view.modules.accountForm.components.AccountType
-import view.modules.sidebar.components.ButtonFooterItem
 import view.modules.groupForm.GroupForm
+import view.modules.sidebar.components.AccountType
+import view.modules.sidebar.components.ButtonFooterItem
 import viewModel.SidebarViewModel
 
 @Composable
@@ -37,7 +39,7 @@ fun Footer(viewModel: SidebarViewModel) {
     ){
 
         var showNewGroupDialog by remember { mutableStateOf(false) }
-        ButtonFooterItem(Modifier.weight(1f), "group.svg", "Novo grupo") { showNewGroupDialog = true }
+        ButtonFooterItem(Modifier.weight(1f), PhosphorIcons.Light.Folders, "Novo grupo") { showNewGroupDialog = true }
         if (showNewGroupDialog) GroupForm(viewModel = viewModel, onDismiss = { showNewGroupDialog = false })
 
         Divider(modifier = Modifier.fillMaxHeight().width(1.dp))
@@ -45,7 +47,7 @@ fun Footer(viewModel: SidebarViewModel) {
         var showNewAccountMenu by remember { mutableStateOf(false) }
         ButtonFooterItem(
             modifier = Modifier.weight(1f),
-            iconResource = "account.svg",
+            icon = PhosphorIcons.Light.Wallet,
             label = "Nova conta",
             enabled = viewModel.groups.isNotEmpty()
         ) {
@@ -77,7 +79,7 @@ fun DropDownNewAccount(
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
                 AccountType(
-                    icon = IconPaths.SYSTEM_ICONS + "checking_account.svg",
+                    icon = PhosphorIcons.Light.Bank,
                     color = MaterialTheme.colors.primary,
                     label = "Conta Corrente",
                     onContainerClick = {
@@ -88,7 +90,7 @@ fun DropDownNewAccount(
                 )
 
                 AccountType(
-                    icon = IconPaths.SYSTEM_ICONS + "savings_account.svg",
+                    icon = PhosphorIcons.Light.PiggyBank,
                     color = MaterialTheme.colors.primary,
                     label = "Conta Poupança",
                     onContainerClick = {
@@ -99,7 +101,7 @@ fun DropDownNewAccount(
                 )
 
                 AccountType(
-                    icon = IconPaths.SYSTEM_ICONS + "credit_card.svg",
+                    icon = PhosphorIcons.Light.CreditCard,
                     color = MaterialTheme.colors.primary,
                     label = "Cartão de Crédito",
                     onContainerClick = {

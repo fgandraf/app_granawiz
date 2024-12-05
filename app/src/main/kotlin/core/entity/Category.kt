@@ -1,7 +1,7 @@
 package core.entity
 
-import jakarta.persistence.*
 import core.enums.CategoryType
+import jakarta.persistence.*
 
 @Entity
 @Table(name = "tbl_categories")

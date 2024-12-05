@@ -10,13 +10,17 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
-import config.IconPaths
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Light
+import com.adamglin.phosphoricons.light.Tag
 import view.shared.*
 import viewModel.TagViewModel
 
@@ -34,7 +38,7 @@ fun TagsScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Row { AddressView(IconPaths.SYSTEM_ICONS + "tag.svg", "Etiquetas") }
+                Row { AddressView(icon = PhosphorIcons.Light.Tag, value = "Etiquetas") }
                 SearchBar(onTuneClicked = { /* TO DO */ }, onSearchClicked = { /* TO DO */ })
             }
         }
@@ -64,7 +68,7 @@ fun TagsScreen(
                         val deleteDialogIsVisible = remember { mutableStateOf(false) }
                         ListItem(
                             label = tag.name,
-                            icon = IconPaths.SYSTEM_ICONS + "tag.svg",
+                            icon = PhosphorIcons.Light.Tag,
                             spaceBetween = 0.dp,
                             deleteDialogIsVisible = deleteDialogIsVisible,
                             onUpdateConfirmation = { tagViewModel.updateTag(tag, it) },
@@ -72,7 +76,7 @@ fun TagsScreen(
                             deleteDialog = {
                                 DialogDelete(
                                     title = "Excluir etiqueta",
-                                    iconResource = IconPaths.SYSTEM_ICONS + "tag.svg",
+                                    icon = PhosphorIcons.Light.Tag,
                                     objectName = tag.name,
                                     alertText = "Isso irá excluir permanentemente a etiquera ${tag.name} e remover todas as associações feitas à ela.",
                                     onClickButton = { tagViewModel.deleteTag(tag) },
@@ -87,7 +91,7 @@ fun TagsScreen(
                         AddListItem(
                             isVisible = isVisible,
                             value = value,
-                            icon = "tag.svg",
+                            icon = PhosphorIcons.Light.Tag,
                             confirmationClick = { tagViewModel.addTag(value.value) },
                         )
                     }

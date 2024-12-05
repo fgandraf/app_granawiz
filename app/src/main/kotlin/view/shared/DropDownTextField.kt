@@ -10,6 +10,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Light
+import com.adamglin.phosphoricons.light.CaretRight
 import config.IconPaths
 
 @Composable
@@ -54,7 +57,7 @@ fun DropDownTextField(
 
 
             Icon(
-                painter = painterResource(IconPaths.SYSTEM_ICONS + "toggle_right.svg"),
+                imageVector = PhosphorIcons.Light.CaretRight,
                 contentDescription = "click",
                 modifier = Modifier.align(Alignment.CenterEnd).padding(end = 10.dp)
             )

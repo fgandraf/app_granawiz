@@ -7,7 +7,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import config.IconPaths
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Light
+import com.adamglin.phosphoricons.light.Calendar
 import view.shared.AddressView
 
 @Composable
@@ -20,7 +22,7 @@ fun ScheduleScreen() {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Row { AddressView(IconPaths.SYSTEM_ICONS + "schedule.svg", "Agendamentos") }
+                Row { AddressView(icon = PhosphorIcons.Light.Calendar, value = "Agendamentos") }
             }
         }
 

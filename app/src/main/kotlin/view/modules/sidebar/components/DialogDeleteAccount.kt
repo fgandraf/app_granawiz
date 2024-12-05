@@ -1,4 +1,4 @@
-package view.shared
+package view.modules.sidebar.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -13,7 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -22,14 +22,18 @@ import androidx.compose.ui.window.Dialog
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.Warning
+import view.shared.DefaultButton
+import view.shared.DefaultTextField
+import view.shared.DialogTitleBar
+import view.shared.TextPrimary
 import view.theme.Red400
 import view.theme.Red800
 import view.theme.Ubuntu
 
 @Composable
-fun DialogDelete(
+fun DialogDeleteAccount(
     title: String = "",
-    icon: ImageVector,
+    icon: String,
     objectName: String,
     alertText: String,
     onClickButton: () -> Unit,
@@ -50,7 +54,7 @@ fun DialogDelete(
             Column(modifier = Modifier.fillMaxWidth().padding(vertical = 20.dp), horizontalAlignment = Alignment.CenterHorizontally) {
                 Image(
                     modifier = Modifier.size(40.dp),
-                    imageVector = icon,
+                    painter = painterResource(icon),
                     contentDescription = "Object icon"
                 )
                 Spacer(Modifier.height(15.dp))

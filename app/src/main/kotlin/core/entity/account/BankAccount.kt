@@ -1,8 +1,8 @@
 package core.entity.account
 
-import jakarta.persistence.*
 import core.entity.Group
 import core.enums.AccountType
+import jakarta.persistence.*
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)

@@ -3,8 +3,8 @@ package viewModel
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import infra.dao.TagDao
 import core.entity.Tag
+import infra.dao.TagDao
 
 class TagViewModel {
 
