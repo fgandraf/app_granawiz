@@ -14,11 +14,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import core.entity.account.SavingsAccount
-import core.utils.toBrMoney
+import utils.toBrMoney
 import view.modules.accountForm.components.IconSelector
 import view.shared.DefaultButton
 import view.shared.DefaultTextField
-import view.shared.GroupListComboBox
+import view.modules.accountForm.components.GroupListComboBox
 import viewModel.AddAccountViewModel
 import viewModel.SidebarViewModel
 

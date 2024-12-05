@@ -19,10 +19,10 @@ import androidx.compose.ui.unit.sp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.*
-import config.IconPaths
+import utils.IconPaths
 import core.entity.Group
 import core.entity.account.BankAccount
-import core.utils.brMoney
+import utils.brMoney
 import view.modules.Screen
 import view.modules.accountForm.AccountForm
 import view.shared.ClickableIcon

@@ -1,4 +1,4 @@
-package config
+package utils
 
 object IconPaths {
     const val CATEGORY_PACK = "assets/icons/categoryPack/"

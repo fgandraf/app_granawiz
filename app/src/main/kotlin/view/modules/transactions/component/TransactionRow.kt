@@ -20,10 +20,10 @@ import androidx.compose.ui.unit.sp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.Tag
-import config.IconPaths
+import utils.IconPaths
 import core.entity.Transaction
 import core.enums.TransactionType
-import core.utils.brMoney
+import utils.brMoney
 import view.shared.TextPrimary
 import view.theme.Gray400
 import view.theme.Lime400

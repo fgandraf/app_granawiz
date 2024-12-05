@@ -16,7 +16,7 @@ import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.*
 import core.entity.Group
-import core.utils.brMoney
+import utils.brMoney
 import view.modules.groupForm.GroupForm
 import view.shared.ClickableIcon
 import view.shared.ClickableRow

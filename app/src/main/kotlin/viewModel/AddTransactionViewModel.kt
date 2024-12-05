@@ -7,6 +7,7 @@ import core.entity.*
 import core.entity.account.BankAccount
 import core.enums.TransactionType
 import java.time.LocalDateTime
+import kotlin.math.abs
 
 class AddTransactionViewModel {
 
@@ -34,5 +35,13 @@ class AddTransactionViewModel {
             balance = it.balance
             type = it.type
         }
+    }
+
+    fun updateBalance(value: String = ""){
+        balance = if(value != "")
+            value.replace(".", "").replace(",", ".").toDouble()
+        else balance
+
+        balance = if (type == TransactionType.EXPENSE && balance != 0.0) -abs(balance) else abs(balance)
     }
 }

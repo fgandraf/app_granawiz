@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.sp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.CaretRight
-import config.IconPaths
+import utils.IconPaths
 
 @Composable
 fun DropDownTextField(

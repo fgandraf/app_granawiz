@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.sp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.Gear
-import core.utils.brMoney
+import utils.brMoney
 import view.modules.settings.SettingsScreen
 import view.shared.ClickableIcon
 import view.shared.TextPrimary

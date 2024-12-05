@@ -1,4 +1,4 @@
-package view.shared
+package view.modules.accountForm.components
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -20,6 +20,7 @@ import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.CaretDown
 import com.adamglin.phosphoricons.light.CaretRight
 import core.entity.Group
+import view.shared.TextPrimary
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable

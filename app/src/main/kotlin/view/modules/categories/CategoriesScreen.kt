@@ -22,7 +22,7 @@ import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.ChartLineUp
 import com.adamglin.phosphoricons.light.Invoice
 import com.adamglin.phosphoricons.light.Shapes
-import config.IconPaths
+import utils.IconPaths
 import core.enums.CategoryType
 import view.modules.categories.components.CategoryListItem
 import view.modules.categories.components.ListTypeItem

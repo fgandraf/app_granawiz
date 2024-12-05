@@ -21,10 +21,11 @@ import androidx.compose.ui.window.Dialog
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.Calendar
-import config.IconPaths
 import core.entity.Transaction
 import core.enums.TransactionType
-import core.utils.toBrMoney
+import utils.IconPaths
+import utils.toBrMoney
+import view.modules.transactionForm.components.TypeListComboBox
 import view.shared.*
 import view.theme.Lime400
 import view.theme.Purple600
@@ -32,6 +33,7 @@ import view.theme.Red400
 import view.theme.Ubuntu
 import viewModel.AddTransactionViewModel
 import viewModel.TransactionViewModel
+import kotlin.math.abs
 
 
 @Composable
@@ -42,9 +44,7 @@ fun TransactionForm(
     onDismiss: () -> Unit
 ) {
 
-    if (transaction != null) {
-        addTransactionViewModel.initializeFromTransaction(transaction)
-    }
+    if (transaction != null) addTransactionViewModel.initializeFromTransaction(transaction)
 
     Dialog(onDismissRequest = onDismiss) {
         Column(
@@ -62,8 +62,6 @@ fun TransactionForm(
                 verticalArrangement = Arrangement.Center,
                 modifier = Modifier.fillMaxWidth().padding(top = 40.dp).padding(horizontal = 50.dp)
             ) {
-
-                //if (transaction != null) { LaunchedEffect(transaction) { transactionViewModel.initializeFromTransaction(transaction) } }
 
                 var type by remember { mutableStateOf("")}
                 var color by remember { mutableStateOf(Color.Gray) }
@@ -93,9 +91,6 @@ fun TransactionForm(
                             fontFamily = Ubuntu
                         )
                     }
-
-                    //==== ACCOUNT TYPE
-                    TextPrimary(text = type, color = color, align = TextAlign.End, size = 10.sp)
                 }
 
 
@@ -110,8 +105,20 @@ fun TransactionForm(
 
                     Column(Modifier.fillMaxWidth().padding(30.dp)) {
 
-                        Row(modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp)) {
+                        //---type
+                        TypeListComboBox(
+                            modifier = Modifier.padding(bottom = 20.dp),
+                            value = type,
+                            label = "Tipo:",
+                            placeholder = "Selecione o tipo",
+                            onClickItem = { selectecType ->
+                                if (selectecType != addTransactionViewModel.type )
+                                    addTransactionViewModel.type = selectecType
+                                addTransactionViewModel.updateBalance()
+                            }
+                        )
 
+                        Row(modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp)) {
 
                             //---date
                             DateTimePicker(
@@ -131,7 +138,7 @@ fun TransactionForm(
 
 
                             //---balance
-                            var balance by remember { mutableStateOf(toBrMoney.format(addTransactionViewModel.balance)) }
+                            var balance by remember { mutableStateOf(toBrMoney.format(abs(addTransactionViewModel.balance))) }
                             DefaultTextField(
                                 modifier = Modifier.weight(1f).padding(start = 10.dp),
                                 value = balance,
@@ -140,7 +147,8 @@ fun TransactionForm(
                                 placeholder = "0.000,00"
                             ) {
                                 balance = it.filter { char -> char.isDigit() || char == ',' || char == '.' }
-                                //addAccountViewModel.limit = it.replace(".", "").replace(",", ".").toDoubleOrNull() ?: 0.0
+                                balance = if (balance.isNullOrEmpty() || balance == ".") "0.00" else balance
+                                addTransactionViewModel.updateBalance(balance)
                             }
                         }
 
@@ -189,13 +197,14 @@ fun TransactionForm(
                     }
                 }
 
-
+                val derivedBalance by remember{ derivedStateOf { addTransactionViewModel.balance }}
                 //==== FOOTER
                 Divider()
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 10.dp)
                 ) {
+                    Text(text = derivedBalance.toString(), fontSize = 20.sp)
                     //val confirmed by remember { derivedStateOf { transactionViewModel.name != "" && transactionViewModel.group.id != 0L } }
 
 //                        DefaultButton(confirmed = confirmed, buttonLabel) {
