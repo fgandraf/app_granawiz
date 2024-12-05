@@ -8,6 +8,8 @@ import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,8 +24,10 @@ import config.IconPaths
 import core.entity.Transaction
 import core.enums.TransactionType
 import core.utils.toBrMoney
+import view.modules.transactionForm.components.DateTimePicker
 import view.shared.*
 import view.theme.Lime400
+import view.theme.Purple600
 import view.theme.Red400
 import view.theme.Ubuntu
 import viewModel.AddTransactionViewModel
@@ -114,8 +118,14 @@ fun TransactionForm(
                                 modifier = Modifier.weight(1f).padding(end = 10.dp),
                                 value = addTransactionViewModel.date,
                                 label = "Data e horário:",
+                                trailingIcon = Icons.Outlined.CalendarMonth,
+                                primaryColor = MaterialTheme.colors.primary,
+                                selectedColor = Purple600,
+                                fontFamily = Ubuntu,
+                                datePattern = "dd/MM/yyyy HH:mm",
                                 selectedDateTime = { addTransactionViewModel.date = it}
                             )
+
 
                             //---balance
                             var balance by remember { mutableStateOf(toBrMoney.format(addTransactionViewModel.balance)) }

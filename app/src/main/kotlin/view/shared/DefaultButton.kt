@@ -18,7 +18,7 @@ import view.theme.Ubuntu
 
 @Composable
 fun DefaultButton(
-    confirmed: Boolean,
+    confirmed: Boolean = true,
     label: String,
     color: Color = Purple600,
     onClick: () -> Unit,

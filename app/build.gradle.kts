@@ -35,6 +35,8 @@ dependencies {
 
     // Logging
     implementation("ch.qos.logback:logback-classic:1.4.12")
+
+    implementation("androidx.compose.material:material-icons-extended:1.7.5")
 }
 
 compose.desktop {
