@@ -6,23 +6,23 @@ import androidx.compose.runtime.setValue
 import core.entity.Transaction
 import core.entity.account.BankAccount
 import infra.dao.TransactionDao
-import kotlinx.coroutines.flow.MutableStateFlow
 
 class TransactionViewModel(account: BankAccount? = null) {
 
     private val transactionDao = TransactionDao()
 
 
-    val selectedAccount = account
+    var selectedAccount = account
+    fun selectAccount(selAccount: BankAccount){ selectedAccount = selAccount }
 
     var transactions by mutableStateOf(emptyList<Transaction>()); private set
 
     var errorMessage: String? by mutableStateOf(null); private set
 
-    private val _selectedTransaction = MutableStateFlow(Transaction())
-    fun selectTransaction(transaction: Transaction) {
-        _selectedTransaction.value = transaction
-    }
+    //private val _selectedTransaction = MutableStateFlow(Transaction())
+//    fun selectTransaction(transaction: Transaction) {
+//        _selectedTransaction.value = transaction
+//    }
 
     fun clearError() {
         errorMessage = null
@@ -32,7 +32,7 @@ class TransactionViewModel(account: BankAccount? = null) {
         transactions = if (selectedAccount == null)
             transactionDao.getAll()
         else
-            transactionDao.getAllByAccount(selectedAccount)
+            transactionDao.getAllByAccount(selectedAccount!!)
     }
 
 

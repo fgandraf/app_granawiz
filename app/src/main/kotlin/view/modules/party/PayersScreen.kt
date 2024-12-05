@@ -12,7 +12,6 @@ import com.adamglin.phosphoricons.light.HandArrowUp
 import core.enums.PartyType
 import view.modules.party.components.Body
 import view.shared.AddressView
-import view.shared.SearchBar
 import viewModel.PartyViewModel
 
 @Composable
@@ -31,7 +30,6 @@ fun PayersScreen(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Row { AddressView(icon = PhosphorIcons.Light.HandArrowUp, value = "Pagadores") }
-                SearchBar(onTuneClicked = { /* TO DO */ }, onSearchClicked = { /* TO DO */ })
             }
         }
 

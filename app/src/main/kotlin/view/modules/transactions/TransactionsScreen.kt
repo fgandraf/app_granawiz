@@ -39,13 +39,13 @@ import viewModel.TransactionViewModel
 
 @Composable
 fun TransactionsScreen(
-    account: BankAccount?,
+    account: BankAccount? = null,
+    showAddButton: Boolean = true,
     viewModel: TransactionViewModel = TransactionViewModel(account),
 ) {
 
     var selectedTransaction by remember { mutableStateOf(Transaction()) }
     var showAddOrEditTransaction by remember { mutableStateOf(false) }
-
 
     Column(
         modifier = Modifier
@@ -136,24 +136,26 @@ fun TransactionsScreen(
             )
 
 
-            Box(modifier = Modifier.fillMaxSize().padding(bottom = 50.dp, end = 50.dp)) {
-                Box(
-                    modifier = Modifier
-                        .size(60.dp)
-                        .clip(CircleShape)
-                        .background(Blue500.copy(alpha = 0.8f)  )
-                        .align(Alignment.BottomEnd)
-                        .pointerHoverIcon(PointerIcon.Hand)
-                        .clickable { showAddOrEditTransaction = true }
-                ){
-                    Icon(imageVector = PhosphorIcons.Light.Plus, contentDescription = "Add transaction", tint = Color.White, modifier = Modifier
-                        .size(25.dp).align(Alignment.Center))
+            if (showAddButton){
+                Box(modifier = Modifier.fillMaxSize().padding(bottom = 50.dp, end = 50.dp)) {
+                    Box(
+                        modifier = Modifier
+                            .size(60.dp)
+                            .clip(CircleShape)
+                            .background(Blue500.copy(alpha = 0.8f)  )
+                            .align(Alignment.BottomEnd)
+                            .pointerHoverIcon(PointerIcon.Hand)
+                            .clickable { showAddOrEditTransaction = true }
+                    ){
+                        Icon(imageVector = PhosphorIcons.Light.Plus, contentDescription = "Add transaction", tint = Color.White, modifier = Modifier
+                            .size(25.dp).align(Alignment.Center))
+                    }
                 }
-            }
 
+            }
             if (showAddOrEditTransaction) {
                 TransactionForm(
-                    transactionViewModel = viewModel,
+                    transactionViewModel = if (account != null){ viewModel} else { viewModel.selectAccount(selectedTransaction.account); viewModel},
                     transaction = selectedTransaction,
                     onDismiss = {
                         selectedTransaction = Transaction()
@@ -161,6 +163,7 @@ fun TransactionsScreen(
                     }
                 )
             }
+
 
         }
     }

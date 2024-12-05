@@ -39,7 +39,6 @@ fun TagsScreen(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Row { AddressView(icon = PhosphorIcons.Light.Tag, value = "Etiquetas") }
-                SearchBar(onTuneClicked = { /* TO DO */ }, onSearchClicked = { /* TO DO */ })
             }
         }
 

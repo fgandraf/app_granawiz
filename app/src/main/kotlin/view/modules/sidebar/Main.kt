@@ -34,28 +34,28 @@ fun Main(
     Column(modifier = modifier.fillMaxWidth().verticalScroll(rememberScrollState())) {
 
         //=== STATIC MENU ITEMS
-        Spacer(modifier = Modifier.height(25.dp))
-        StaticMenuItem(
-            icon = PhosphorIcons.Light.SquaresFour,
-            label = "Dashboard",
-            screen = Screen.Dashboard,
-            currentScreen = currentScreen,
-            onClick = onScreenSelected
-        )
-        StaticMenuItem(
-            icon = PhosphorIcons.Light.Calendar,
-            label = "Agendamentos",
-            screen = Screen.Schedules,
-            currentScreen = currentScreen,
-            onClick = onScreenSelected
-        )
-        StaticMenuItem(
-            icon = PhosphorIcons.Light.Scroll,
-            label = "Relatórios",
-            screen = Screen.Reports,
-            currentScreen = currentScreen,
-            onClick = onScreenSelected
-        )
+        //Spacer(modifier = Modifier.height(25.dp))
+//        StaticMenuItem(
+//            icon = PhosphorIcons.Light.SquaresFour,
+//            label = "Dashboard",
+//            screen = Screen.Dashboard,
+//            currentScreen = currentScreen,
+//            onClick = onScreenSelected
+//        )
+//        StaticMenuItem(
+//            icon = PhosphorIcons.Light.Calendar,
+//            label = "Agendamentos",
+//            screen = Screen.Schedules,
+//            currentScreen = currentScreen,
+//            onClick = onScreenSelected
+//        )
+//        StaticMenuItem(
+//            icon = PhosphorIcons.Light.Scroll,
+//            label = "Relatórios",
+//            screen = Screen.Reports,
+//            currentScreen = currentScreen,
+//            onClick = onScreenSelected
+//        )
         SectionTitle("Base de dados")
         StaticMenuItem(
             icon = PhosphorIcons.Light.Shapes,
@@ -89,7 +89,7 @@ fun Main(
         StaticMenuItem(
             icon = PhosphorIcons.Light.ListBullets,
             label = "Todas as transações",
-            screen = Screen.Transactions(null),
+            screen = Screen.Transactions(),
             currentScreen = currentScreen,
             onClick = onScreenSelected
         )
@@ -128,7 +128,7 @@ fun Main(
                                 viewModel = viewModel,
                                 account = account,
                                 group = group,
-                                screen = Screen.Transactions(account),
+                                screen = Screen.Transactions(account, showAddButton = true),
                                 currentScreen = currentScreen,
                                 onClick = onScreenSelected
                             )

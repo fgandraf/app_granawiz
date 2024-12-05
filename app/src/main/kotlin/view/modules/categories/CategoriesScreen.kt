@@ -22,14 +22,13 @@ import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.ChartLineUp
 import com.adamglin.phosphoricons.light.Invoice
 import com.adamglin.phosphoricons.light.Shapes
-import utils.IconPaths
 import core.enums.CategoryType
+import utils.IconPaths
 import view.modules.categories.components.CategoryListItem
 import view.modules.categories.components.ListTypeItem
 import view.shared.AddListItem
 import view.shared.AddressView
 import view.shared.DialogDelete
-import view.shared.SearchBar
 import viewModel.CategoryViewModel
 
 @Composable
@@ -48,7 +47,6 @@ fun CategoriesScreen(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Row { AddressView(icon = PhosphorIcons.Light.Shapes, value = "Categorias" ) }
-                SearchBar(onTuneClicked = { /* TO DO */ }, onSearchClicked = { /* TO DO */ })
             }
         }
 

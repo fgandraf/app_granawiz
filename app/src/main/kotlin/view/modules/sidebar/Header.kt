@@ -24,14 +24,10 @@ fun Header(viewModel: SidebarViewModel) {
 
     Box(modifier = Modifier.fillMaxWidth().height(60.dp).padding(horizontal = 20.dp)) {
         Row(modifier = Modifier.fillMaxHeight(), verticalAlignment = Alignment.CenterVertically) {
-
-
             var showDialog by remember { mutableStateOf(false) }
             ClickableIcon(icon = PhosphorIcons.Light.Gear, iconSize = 22.dp, shape = CircleShape) { showDialog = true }
             if (showDialog)
                 SettingsScreen(onDismiss = { showDialog = false })
-
-
         }
         Column(modifier = Modifier.align(Alignment.Center)) {
             TextPrimary(text = brMoney.format(viewModel.totalAccounts), size = 16.sp, weight = FontWeight.Bold, modifier = Modifier.fillMaxWidth().padding(bottom = 3.dp), align = TextAlign.Center)

@@ -12,7 +12,6 @@ import com.adamglin.phosphoricons.light.HandArrowDown
 import core.enums.PartyType
 import view.modules.party.components.Body
 import view.shared.AddressView
-import view.shared.SearchBar
 import viewModel.PartyViewModel
 
 @Composable
@@ -31,7 +30,6 @@ fun ReceiversScreen(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Row { AddressView(icon = PhosphorIcons.Light.HandArrowDown, value = "Beneficiários") }
-                SearchBar(onTuneClicked = { /* TO DO */ }, onSearchClicked = { /* TO DO */ })
             }
         }
 

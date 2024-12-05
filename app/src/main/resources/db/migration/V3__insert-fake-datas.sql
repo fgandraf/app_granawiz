@@ -62,12 +62,12 @@ INSERT INTO tbl_transaction_tag VALUES (4, 5);
 
 
 INSERT INTO tbl_transactions VALUES (5,9,1,1, 3,'2024-10-20 07:53:01','Marmita Fitness',-26.12, 'EXPENSE');
-INSERT INTO tbl_transactions VALUES (6,9,1,1, 1,'2024-10-19 09:37:10','Doce de Leite Ninho', -17.50, 'EXPENSE');
+INSERT INTO tbl_transactions VALUES (6,9,2,1, 1,'2024-10-19 09:37:10','Doce de Leite Ninho', -17.50, 'EXPENSE');
 INSERT INTO tbl_transactions VALUES (7,3,1,12, null,'2024-09-08 23:04:21','Regularização da Construção', 350.00, 'GAIN');
 INSERT INTO tbl_transactions VALUES (8,10,1,1, 1,'2024-09-08 17:14:31','Salgados e café', -8.40, 'EXPENSE');
 
 INSERT INTO tbl_transactions VALUES (9,9,1,1, 3,'2024-09-20 14:10:38','Marmita Fitness',-23.50, 'EXPENSE');
-INSERT INTO tbl_transactions VALUES (10,9,1,1, 1,'2024-08-19 13:29:41','Paçoca', -8.00, 'EXPENSE');
+INSERT INTO tbl_transactions VALUES (10,9,2,1, 1,'2024-08-19 13:29:41','Paçoca', -8.00, 'EXPENSE');
 INSERT INTO tbl_transactions VALUES (11,3,1,12, null,'2024-07-08 19:49:48','Regularização da Construção', 200.00, 'GAIN');
 INSERT INTO tbl_transactions VALUES (12,10,1,1, 1,'2024-07-08 22:16:56','Salgados e café', -12.30, 'EXPENSE');
 

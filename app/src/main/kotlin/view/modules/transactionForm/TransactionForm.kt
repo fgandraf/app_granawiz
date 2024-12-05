@@ -83,7 +83,7 @@ fun TransactionForm(
                         )
                         Text(
                             modifier = Modifier.padding(horizontal = 5.dp),
-                            text = transactionViewModel.selectedAccount.name,
+                            text = transactionViewModel.selectedAccount!!.name,
                             fontSize = 12.sp,
                             color = MaterialTheme.colors.primary,
                             fontWeight = FontWeight.Normal,
@@ -197,14 +197,12 @@ fun TransactionForm(
                     }
                 }
 
-                val derivedBalance by remember{ derivedStateOf { addTransactionViewModel.balance }}
                 //==== FOOTER
                 Divider()
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 10.dp)
                 ) {
-                    Text(text = derivedBalance.toString(), fontSize = 20.sp)
                     //val confirmed by remember { derivedStateOf { transactionViewModel.name != "" && transactionViewModel.group.id != 0L } }
 
 //                        DefaultButton(confirmed = confirmed, buttonLabel) {

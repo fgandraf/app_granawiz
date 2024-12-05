@@ -40,7 +40,7 @@ fun main() = application {
 
         MaterialTheme(colors = LightColorScheme) {
 
-            var currentScreen by remember { mutableStateOf<Screen>(Screen.Dashboard) }
+            var currentScreen by remember { mutableStateOf<Screen>(Screen.Transactions()) }
 
             Row(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.background)) {
                 Sidebar(currentScreen = currentScreen) { screen -> currentScreen = screen }
