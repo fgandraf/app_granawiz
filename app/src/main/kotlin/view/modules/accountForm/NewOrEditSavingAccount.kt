@@ -19,24 +19,24 @@ import view.modules.accountForm.components.IconSelector
 import view.shared.DefaultButton
 import view.shared.DefaultTextField
 import view.modules.accountForm.components.GroupListComboBox
-import viewModel.AddAccountViewModel
+import viewModel.AccountFormViewModel
 import viewModel.SidebarViewModel
 
 @Composable
 fun NewOrEditSavingAccount(
     sidebarViewModel: SidebarViewModel,
-    addAccountViewModel: AddAccountViewModel,
+    accountFormViewModel: AccountFormViewModel,
     account: SavingsAccount? = null,
     onDismiss: () -> Unit
 ){
 
-    if (account != null) { LaunchedEffect(account) { addAccountViewModel.initializeFromAccount(account) } }
+    if (account != null) { LaunchedEffect(account) { accountFormViewModel.initializeFromAccount(account) } }
     val buttonLabel by remember { mutableStateOf(if (account == null) "Adicionar" else "Editar") }
 
     Column(Modifier.fillMaxWidth().padding(top = 30.dp), horizontalAlignment = Alignment.CenterHorizontally) {
 
         //==== ICON
-        IconSelector(addAccountViewModel.icon) { addAccountViewModel.icon = it }
+        IconSelector(accountFormViewModel.icon) { accountFormViewModel.icon = it }
 
         //==== FORM
         Column(
@@ -51,10 +51,10 @@ fun NewOrEditSavingAccount(
                 //---name
                 DefaultTextField(
                     modifier = Modifier.padding(bottom = 20.dp),
-                    value = addAccountViewModel.name,
+                    value = accountFormViewModel.name,
                     label = "Nome:",
                     placeholder = "Nome da conta"
-                ) { addAccountViewModel.name = it }
+                ) { accountFormViewModel.name = it }
 
 
                 //---open balance
@@ -67,26 +67,26 @@ fun NewOrEditSavingAccount(
                     placeholder = "0.000,00"
                 ) {
                     openBalanceText = it.filter { char -> char.isDigit() || char == ',' || char == '.' }
-                    addAccountViewModel.openBalance = it.replace(".", "").replace(",", ".").toDoubleOrNull() ?: 0.0
+                    accountFormViewModel.openBalance = it.replace(".", "").replace(",", ".").toDoubleOrNull() ?: 0.0
                 }
 
                 //---group
                 GroupListComboBox(
                     modifier = Modifier.padding(bottom = 20.dp),
-                    value = addAccountViewModel.group.name,
+                    value = accountFormViewModel.group.name,
                     label = "Grupo:",
                     placeholder = "Selecione o grupo",
                     groupList = sidebarViewModel.groups,
-                    onClickItem = { addAccountViewModel.group = it }
+                    onClickItem = { accountFormViewModel.group = it }
                 )
 
                 //---description
                 DefaultTextField(
-                    value = addAccountViewModel.description,
+                    value = accountFormViewModel.description,
                     label = "Descrição:",
                     boxSize = 80.dp,
                     placeholder = "Informações adicionais"
-                ) { addAccountViewModel.description = it }
+                ) { accountFormViewModel.description = it }
             }
         }
 
@@ -97,10 +97,10 @@ fun NewOrEditSavingAccount(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 10.dp)
         ) {
-            val confirmed by remember { derivedStateOf { addAccountViewModel.name != "" && addAccountViewModel.group.id != 0L } }
+            val confirmed by remember { derivedStateOf { accountFormViewModel.name != "" && accountFormViewModel.group.id != 0L } }
 
             DefaultButton(confirmed = confirmed, buttonLabel) {
-                addAccountViewModel.saveSavingAccount(account)
+                accountFormViewModel.saveSavingAccount(account)
                 sidebarViewModel.loadGroup()
                 onDismiss()
             }

@@ -1,15 +1,16 @@
 package viewModel
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
+import androidx.compose.ui.graphics.Color
 import core.entity.*
 import core.entity.account.BankAccount
 import core.enums.TransactionType
+import view.theme.Lime800
+import view.theme.Red800
 import java.time.LocalDateTime
 import kotlin.math.abs
 
-class AddTransactionViewModel {
+class TransactionFormViewModel {
 
     var id by mutableStateOf(0L)
     var party by mutableStateOf(Party())
@@ -44,4 +45,24 @@ class AddTransactionViewModel {
 
         balance = if (type == TransactionType.EXPENSE && balance != 0.0) -abs(balance) else abs(balance)
     }
+
+
+    val typeColor = derivedStateOf {
+        when (type) {
+            TransactionType.EXPENSE -> Red800
+            TransactionType.GAIN -> Lime800
+            TransactionType.NEUTRAL -> Color.Gray
+        }
+    }
+
+
+    val typeLabel = derivedStateOf {
+        when (type) {
+            TransactionType.EXPENSE -> "Despesa"
+            TransactionType.GAIN -> "Receita"
+            else -> ""
+        }
+    }
+
+
 }

@@ -34,7 +34,7 @@ import view.modules.transactions.component.TransactionRow
 import view.shared.AddressView
 import view.shared.SearchBar
 import view.shared.TextPrimary
-import view.theme.Blue500
+import view.theme.Purple600
 import viewModel.TransactionViewModel
 
 @Composable
@@ -142,7 +142,7 @@ fun TransactionsScreen(
                         modifier = Modifier
                             .size(60.dp)
                             .clip(CircleShape)
-                            .background(Blue500.copy(alpha = 0.8f)  )
+                            .background(Purple600.copy(alpha = 0.8f)  )
                             .align(Alignment.BottomEnd)
                             .pointerHoverIcon(PointerIcon.Hand)
                             .clickable { showAddOrEditTransaction = true }
@@ -154,8 +154,9 @@ fun TransactionsScreen(
 
             }
             if (showAddOrEditTransaction) {
+                if (viewModel.selectedAccount == null) viewModel.selectAccount(selectedTransaction.account)
                 TransactionForm(
-                    transactionViewModel = if (account != null){ viewModel} else { viewModel.selectAccount(selectedTransaction.account); viewModel},
+                    account = viewModel.selectedAccount!!,
                     transaction = selectedTransaction,
                     onDismiss = {
                         selectedTransaction = Transaction()
@@ -163,7 +164,6 @@ fun TransactionsScreen(
                     }
                 )
             }
-
 
         }
     }

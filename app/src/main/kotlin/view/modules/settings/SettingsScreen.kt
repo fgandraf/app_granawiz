@@ -35,7 +35,7 @@ fun SettingsScreen(
         ) {
 
             //===== Title Bar
-            DialogTitleBar("", onDismiss)
+            DialogTitleBar(title = "", onCloseRequest = onDismiss)
 
             //===== Logo
             Column(

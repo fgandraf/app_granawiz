@@ -17,16 +17,16 @@ class TransactionViewModel(account: BankAccount? = null) {
 
     var transactions by mutableStateOf(emptyList<Transaction>()); private set
 
-    var errorMessage: String? by mutableStateOf(null); private set
+    //var errorMessage: String? by mutableStateOf(null); private set
 
     //private val _selectedTransaction = MutableStateFlow(Transaction())
 //    fun selectTransaction(transaction: Transaction) {
 //        _selectedTransaction.value = transaction
 //    }
 
-    fun clearError() {
-        errorMessage = null
-    }
+//    fun clearError() {
+//        errorMessage = null
+//    }
 
     private fun loadTransaction() {
         transactions = if (selectedAccount == null)

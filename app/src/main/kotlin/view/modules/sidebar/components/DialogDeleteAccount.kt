@@ -47,7 +47,7 @@ fun DialogDeleteAccount(
         ) {
 
             //===== Title Bar
-            DialogTitleBar(title, onDismiss)
+            DialogTitleBar(title = title, onCloseRequest = onDismiss)
             Divider()
 
             //===== Information

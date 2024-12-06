@@ -11,7 +11,7 @@ import core.entity.account.SavingsAccount
 import core.enums.AccountType
 import infra.dao.AccountDao
 
-class AddAccountViewModel {
+class AccountFormViewModel {
 
     private val accountDao = AccountDao()
 

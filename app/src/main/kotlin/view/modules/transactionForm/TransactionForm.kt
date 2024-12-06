@@ -11,7 +11,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -22,29 +21,27 @@ import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.Calendar
 import core.entity.Transaction
+import core.entity.account.BankAccount
 import core.enums.TransactionType
 import utils.IconPaths
 import utils.toBrMoney
 import view.modules.transactionForm.components.TypeListComboBox
 import view.shared.*
-import view.theme.Lime400
 import view.theme.Purple600
-import view.theme.Red400
 import view.theme.Ubuntu
-import viewModel.AddTransactionViewModel
-import viewModel.TransactionViewModel
+import viewModel.TransactionFormViewModel
 import kotlin.math.abs
 
 
 @Composable
 fun TransactionForm(
-    addTransactionViewModel: AddTransactionViewModel = AddTransactionViewModel(),
-    transactionViewModel: TransactionViewModel,
+    transactionFormViewModel: TransactionFormViewModel = TransactionFormViewModel(),
+    account: BankAccount,
     transaction: Transaction? = null,
     onDismiss: () -> Unit
 ) {
 
-    if (transaction != null) addTransactionViewModel.initializeFromTransaction(transaction)
+    if (transaction != null) transactionFormViewModel.initializeFromTransaction(transaction)
 
     Dialog(onDismissRequest = onDismiss) {
         Column(
@@ -53,8 +50,8 @@ fun TransactionForm(
         ) {
 
             //===== Title Bar
-            val title = if (addTransactionViewModel.id == 0L) "Adicionar transação" else "Editar transação"
-            DialogTitleBar(title, onDismiss)
+            val title = if (transactionFormViewModel.id == 0L) "Adicionar transação" else "Editar transação"
+            DialogTitleBar(title = title, onCloseRequest = onDismiss)
             Divider()
 
             Column(
@@ -63,11 +60,8 @@ fun TransactionForm(
                 modifier = Modifier.fillMaxWidth().padding(top = 40.dp).padding(horizontal = 50.dp)
             ) {
 
-                var type by remember { mutableStateOf("")}
-                var color by remember { mutableStateOf(Color.Gray) }
-                if (addTransactionViewModel.type == TransactionType.EXPENSE) { type = "DESPESA"; color = Red400 }
-                else if (addTransactionViewModel.type == TransactionType.GAIN) { type = "RECEITA"; color = Lime400 }
-                else { type = ""; color = MaterialTheme.colors.primary }
+
+
 
                 Row(horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically,
@@ -76,14 +70,14 @@ fun TransactionForm(
                     //==== ACCOUNT ICON AND NAME
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
-                            painter = painterResource(IconPaths.BANK_LOGOS + transactionViewModel.selectedAccount!!.icon),
+                            painter = painterResource(IconPaths.BANK_LOGOS + account.icon),
                             contentDescription = null,
                             tint = MaterialTheme.colors.primary,
                             modifier = Modifier.size(20.dp),
                         )
                         Text(
                             modifier = Modifier.padding(horizontal = 5.dp),
-                            text = transactionViewModel.selectedAccount!!.name,
+                            text = account.name,
                             fontSize = 12.sp,
                             color = MaterialTheme.colors.primary,
                             fontWeight = FontWeight.Normal,
@@ -100,7 +94,7 @@ fun TransactionForm(
                         .fillMaxWidth()
                         .padding(top = 2.dp, bottom = 50.dp)
                         .background(MaterialTheme.colors.onPrimary, RoundedCornerShape(16.dp))
-                        .border(1.dp, color, RoundedCornerShape(8.dp))
+                        .border(1.dp, transactionFormViewModel.typeColor.value, RoundedCornerShape(8.dp))
                 ) {
 
                     Column(Modifier.fillMaxWidth().padding(30.dp)) {
@@ -108,13 +102,13 @@ fun TransactionForm(
                         //---type
                         TypeListComboBox(
                             modifier = Modifier.padding(bottom = 20.dp),
-                            value = type,
+                            value = transactionFormViewModel.typeLabel.value,
                             label = "Tipo:",
                             placeholder = "Selecione o tipo",
                             onClickItem = { selectecType ->
-                                if (selectecType != addTransactionViewModel.type )
-                                    addTransactionViewModel.type = selectecType
-                                addTransactionViewModel.updateBalance()
+                                if (selectecType != transactionFormViewModel.type )
+                                    transactionFormViewModel.type = selectecType
+                                transactionFormViewModel.updateBalance()
                             }
                         )
 
@@ -123,7 +117,7 @@ fun TransactionForm(
                             //---date
                             DateTimePicker(
                                 modifier = Modifier.weight(1f).padding(end = 10.dp),
-                                value = addTransactionViewModel.date,
+                                value = transactionFormViewModel.date,
                                 label = "Data e horário:",
                                 trailingIcon = PhosphorIcons.Light.Calendar,
                                 primaryColor = MaterialTheme.colors.primary,
@@ -133,12 +127,12 @@ fun TransactionForm(
                                 country = "br",
                                 weekDayNames = listOf("Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"),
                                 datePattern = "dd/MM/yyyy HH:mm",
-                                selectedDateTime = { addTransactionViewModel.date = it}
+                                selectedDateTime = { transactionFormViewModel.date = it}
                             )
 
 
                             //---balance
-                            var balance by remember { mutableStateOf(toBrMoney.format(abs(addTransactionViewModel.balance))) }
+                            var balance by remember { mutableStateOf(toBrMoney.format(abs(transactionFormViewModel.balance))) }
                             DefaultTextField(
                                 modifier = Modifier.weight(1f).padding(start = 10.dp),
                                 value = balance,
@@ -148,32 +142,32 @@ fun TransactionForm(
                             ) {
                                 balance = it.filter { char -> char.isDigit() || char == ',' || char == '.' }
                                 balance = if (balance.isNullOrEmpty() || balance == ".") "0.00" else balance
-                                addTransactionViewModel.updateBalance(balance)
+                                transactionFormViewModel.updateBalance(balance)
                             }
                         }
 
                         //---payer or receiver
                         DefaultTextField(
                             modifier = Modifier.padding(bottom = 20.dp),
-                            value = addTransactionViewModel.party.name,
-                            label = if (addTransactionViewModel.type == TransactionType.GAIN) "Pagador" else "Recebedor",
+                            value = transactionFormViewModel.party.name,
+                            label = if (transactionFormViewModel.type == TransactionType.GAIN) "Pagador" else "Recebedor",
                             placeholder = "Nome",
-                            onValueChange = { addTransactionViewModel.party.name = it }
+                            onValueChange = { transactionFormViewModel.party.name = it }
                         )
 
                         //---description
                         DefaultTextField(
                             modifier = Modifier.padding(bottom = 20.dp),
-                            value = addTransactionViewModel.description,
+                            value = transactionFormViewModel.description,
                             label = "Descrição:",
                             boxSize = 80.dp,
                             placeholder = "Informações adicionais"
-                        ) { addTransactionViewModel.description = it }
+                        ) { transactionFormViewModel.description = it }
 
 
 
-                        val category = addTransactionViewModel.category
-                        val subcategory = addTransactionViewModel.subCategory
+                        val category = transactionFormViewModel.category
+                        val subcategory = transactionFormViewModel.subCategory
                         //---category
                         DropDownTextField(
                             modifier = Modifier.padding(bottom = 20.dp),

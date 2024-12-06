@@ -20,24 +20,24 @@ import view.modules.accountForm.components.IconSelector
 import view.shared.DefaultButton
 import view.shared.DefaultTextField
 import view.modules.accountForm.components.GroupListComboBox
-import viewModel.AddAccountViewModel
+import viewModel.AccountFormViewModel
 import viewModel.SidebarViewModel
 
 @Composable
 fun NewOrEditCreditCard(
     sidebarViewModel: SidebarViewModel,
-    addAccountViewModel: AddAccountViewModel,
+    accountFormViewModel: AccountFormViewModel,
     account: CreditCardAccount? = null,
     onDismiss: () -> Unit
 ){
 
-    if (account != null) { LaunchedEffect(account) { addAccountViewModel.initializeFromAccount(account) } }
+    if (account != null) { LaunchedEffect(account) { accountFormViewModel.initializeFromAccount(account) } }
     val buttonLabel by remember { mutableStateOf(if (account == null) "Adicionar" else "Editar") }
 
     Column(Modifier.fillMaxWidth().padding(top = 30.dp), horizontalAlignment = Alignment.CenterHorizontally) {
 
         //==== ICON
-        IconSelector(addAccountViewModel.icon) { addAccountViewModel.icon = it }
+        IconSelector(accountFormViewModel.icon) { accountFormViewModel.icon = it }
 
         //==== FORM
         Column(
@@ -52,10 +52,10 @@ fun NewOrEditCreditCard(
                 //---name
                 DefaultTextField(
                     modifier = Modifier.padding(bottom = 20.dp),
-                    value = addAccountViewModel.name,
+                    value = accountFormViewModel.name,
                     label = "Nome:",
                     placeholder = "Nome da conta"
-                ) { addAccountViewModel.name = it }
+                ) { accountFormViewModel.name = it }
 
 
                 //---limite
@@ -68,7 +68,7 @@ fun NewOrEditCreditCard(
                     placeholder = "0.000,00"
                 ) {
                     limitText = it.filter { char -> char.isDigit() || char == ',' || char == '.' }
-                    addAccountViewModel.limit = it.replace(".", "").replace(",", ".").toDoubleOrNull() ?: 0.0
+                    accountFormViewModel.limit = it.replace(".", "").replace(",", ".").toDoubleOrNull() ?: 0.0
                 }
 
 
@@ -85,7 +85,7 @@ fun NewOrEditCreditCard(
                     ) {
                         val filteredInput = it.filter { char -> char.isDigit() }.take(2).toIntOrNull()
                         if (filteredInput != null && filteredInput in 1..31) {
-                            addAccountViewModel.closingDay = filteredInput
+                            accountFormViewModel.closingDay = filteredInput
                             closingDayText = filteredInput.toString()
                         }
                     }
@@ -101,7 +101,7 @@ fun NewOrEditCreditCard(
                     ) {
                         val filteredInput = it.filter { char -> char.isDigit() }.take(2).toIntOrNull()
                         if (filteredInput != null && filteredInput in 1..31) {
-                            addAccountViewModel.dueDay = filteredInput
+                            accountFormViewModel.dueDay = filteredInput
                             dueDayText = filteredInput.toString()
                         }
 
@@ -111,20 +111,20 @@ fun NewOrEditCreditCard(
                 //---group
                 GroupListComboBox(
                     modifier = Modifier.padding(bottom = 20.dp),
-                    value = addAccountViewModel.group.name,
+                    value = accountFormViewModel.group.name,
                     label = "Grupo:",
                     placeholder = "Selecione o grupo",
                     groupList = sidebarViewModel.groups,
-                    onClickItem = { addAccountViewModel.group = it }
+                    onClickItem = { accountFormViewModel.group = it }
                 )
 
                 //---description
                 DefaultTextField(
-                    value = addAccountViewModel.description,
+                    value = accountFormViewModel.description,
                     label = "Descrição:",
                     boxSize = 80.dp,
                     placeholder = "Informações adicionais"
-                ) { addAccountViewModel.description = it }
+                ) { accountFormViewModel.description = it }
             }
         }
 
@@ -135,10 +135,10 @@ fun NewOrEditCreditCard(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 10.dp)
         ) {
-            val confirmed by remember { derivedStateOf { addAccountViewModel.name != "" && addAccountViewModel.group.id != 0L } }
+            val confirmed by remember { derivedStateOf { accountFormViewModel.name != "" && accountFormViewModel.group.id != 0L } }
 
             DefaultButton(confirmed = confirmed, buttonLabel) {
-                addAccountViewModel.saveCreditCardAccount(account)
+                accountFormViewModel.saveCreditCardAccount(account)
                 sidebarViewModel.loadGroup()
                 onDismiss()
             }

@@ -115,9 +115,13 @@ fun DropDownNewAccount(
         }
     }
 
-    if (showNewAccountDialog) AccountForm(sidebarViewModel = viewModel, accountType = accountType) {
-        showNewAccountDialog = false
-        viewModel.loadGroup()
-        viewModel.fetchTotalAccounts()
-    }
+    if (showNewAccountDialog)
+        AccountForm(
+            sidebarViewModel = viewModel,
+            accountType = accountType,
+            onDismiss = {
+                showNewAccountDialog = false
+                viewModel.fetchTotalAccounts()
+            }
+        )
 }

@@ -19,13 +19,12 @@ import core.entity.account.CreditCardAccount
 import core.entity.account.SavingsAccount
 import core.enums.AccountType
 import view.shared.DialogTitleBar
-import viewModel.AddAccountViewModel
+import viewModel.AccountFormViewModel
 import viewModel.SidebarViewModel
 
 @Composable
 fun AccountForm(
     sidebarViewModel: SidebarViewModel,
-    addAccountViewModel: AddAccountViewModel = AddAccountViewModel(),
     accountType: AccountType? = null,
     account: BankAccount? = null,
     onDismiss: () -> Unit
@@ -50,7 +49,7 @@ fun AccountForm(
 
 
             //===== Title Bar
-            DialogTitleBar(title, onDismiss)
+            DialogTitleBar(title = title, onCloseRequest = onDismiss)
             Divider()
 
             Column(
@@ -60,22 +59,22 @@ fun AccountForm(
                 when (type) {
                     AccountType.SAVINGS -> NewOrEditSavingAccount(
                         sidebarViewModel = sidebarViewModel,
-                        addAccountViewModel = addAccountViewModel,
+                        accountFormViewModel = AccountFormViewModel(),
                         account = if (account != null) account as SavingsAccount else null,
                         onDismiss = onDismiss
                     )
 
                     AccountType.CHECKING -> NewOrEditCheckingAccount(
                         sidebarViewModel = sidebarViewModel,
+                        accountFormViewModel = AccountFormViewModel(),
                         account = if (account != null) account as CheckingAccount else null,
-                        addAccountViewModel = addAccountViewModel,
                         onDismiss = onDismiss
                     )
 
                     AccountType.CREDIT_CARD -> NewOrEditCreditCard(
                         sidebarViewModel = sidebarViewModel,
+                        accountFormViewModel = AccountFormViewModel(),
                         account = if (account != null) account as CreditCardAccount else null,
-                        addAccountViewModel = addAccountViewModel,
                         onDismiss = onDismiss
                     )
 

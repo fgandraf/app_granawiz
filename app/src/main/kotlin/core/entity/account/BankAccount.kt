@@ -29,5 +29,5 @@ open class BankAccount(
     @JoinColumn(name = "group_id", referencedColumnName = "group_id")
     open val group: Group
 ){
-    constructor(): this(0L, AccountType.CHECKING, "", "", "", 0.0, 0, Group())
+    constructor(): this(0L, AccountType.CHECKING, "", "", "_default.svg", 0.0, 0, Group())
 }

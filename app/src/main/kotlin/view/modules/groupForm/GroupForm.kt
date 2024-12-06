@@ -40,7 +40,7 @@ fun GroupForm(
             val buttonLabel by remember { mutableStateOf(if (group == null) "Adicionar" else "Editar") }
             var value by remember { mutableStateOf(group?.name ?: "") }
 
-            DialogTitleBar(title, onDismiss)
+            DialogTitleBar(title = title, onCloseRequest = onDismiss)
             Divider()
 
             //===== Main

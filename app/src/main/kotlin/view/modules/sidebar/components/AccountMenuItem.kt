@@ -94,7 +94,7 @@ fun AccountMenuItem(
             viewModel = viewModel,
             group = group,
             expanded = expanded,
-            onDismissRequest = { expanded = false },
+            onDismissRequest = { expanded = false; },
             account = account
         )
     }
@@ -131,7 +131,7 @@ fun DropDownAccountMenu(
             Divider(modifier = Modifier.padding(vertical = 3.dp))
 
             var showEditAccount by remember { mutableStateOf(false) }
-            ClickableRow(icon = PhosphorIcons.Light.PencilLine, label = "Editar") { showEditAccount = true }
+            ClickableRow(icon = PhosphorIcons.Light.PencilLine, label = "Editar") { showEditAccount = true; }
             if (showEditAccount) AccountForm(sidebarViewModel = viewModel, account = account, onDismiss = { showEditAccount = false; onDismissRequest() })
 
 
