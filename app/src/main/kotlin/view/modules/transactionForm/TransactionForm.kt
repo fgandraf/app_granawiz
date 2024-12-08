@@ -17,17 +17,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import com.adamglin.PhosphorIcons
-import com.adamglin.phosphoricons.Light
-import com.adamglin.phosphoricons.light.Calendar
 import core.entity.Transaction
 import core.entity.account.BankAccount
 import core.enums.TransactionType
 import utils.IconPaths
 import utils.toBrMoney
+import view.modules.transactionForm.components.CategoriesDialog
+import view.modules.transactionForm.components.DefaultPartyField
 import view.modules.transactionForm.components.TypeListComboBox
 import view.shared.*
-import view.theme.Purple600
 import view.theme.Ubuntu
 import viewModel.TransactionFormViewModel
 import kotlin.math.abs
@@ -96,7 +94,6 @@ fun TransactionForm(
                         .background(MaterialTheme.colors.onPrimary, RoundedCornerShape(16.dp))
                         .border(1.dp, transactionFormViewModel.typeColor.value, RoundedCornerShape(8.dp))
                 ) {
-
                     Column(Modifier.fillMaxWidth().padding(30.dp)) {
 
                         //---type
@@ -116,17 +113,8 @@ fun TransactionForm(
 
                             //---date
                             DateTimePicker(
-                                modifier = Modifier.weight(1f).padding(end = 10.dp),
+                                modifier = Modifier.weight(1f),
                                 value = transactionFormViewModel.date,
-                                label = "Data e horário:",
-                                trailingIcon = PhosphorIcons.Light.Calendar,
-                                primaryColor = MaterialTheme.colors.primary,
-                                selectedColor = Purple600,
-                                fontFamily = Ubuntu,
-                                language = "pt",
-                                country = "br",
-                                weekDayNames = listOf("Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"),
-                                datePattern = "dd/MM/yyyy HH:mm",
                                 selectedDateTime = { transactionFormViewModel.date = it}
                             )
 
@@ -147,13 +135,15 @@ fun TransactionForm(
                         }
 
                         //---payer or receiver
-                        DefaultTextField(
+                        DefaultPartyField(
                             modifier = Modifier.padding(bottom = 20.dp),
                             value = transactionFormViewModel.party.name,
                             label = if (transactionFormViewModel.type == TransactionType.GAIN) "Pagador" else "Recebedor",
                             placeholder = "Nome",
                             onValueChange = { transactionFormViewModel.party.name = it }
                         )
+
+
 
                         //---description
                         DefaultTextField(
@@ -166,26 +156,32 @@ fun TransactionForm(
 
 
 
+
+
+                        //---category
                         val category = transactionFormViewModel.category
                         val subcategory = transactionFormViewModel.subCategory
-                        //---category
+                        var showCategoriesDialog by remember { mutableStateOf(false) }
                         DropDownTextField(
                             modifier = Modifier.padding(bottom = 20.dp),
                             categoryIcon = category.icon,
                             value = category.name + if(subcategory?.name.isNullOrEmpty()) "" else " → ${subcategory?.name}",
                             label = "Categoria:",
                             placeholder = "Selecione a categoria",
-                            onClick = { }
+                            onClick = { showCategoriesDialog = true }
                         )
+                        if (showCategoriesDialog) CategoriesDialog(transactionFormViewModel) { showCategoriesDialog = false }
+
 
 
                         //---tags
-                        DefaultTextField(
-                            value = "",
+                        TagListView(
                             label = "Etiquetas:",
-                            boxSize = 60.dp,
-                            placeholder = "Etiquetas"
-                        ) { /*foreach tag*/  }
+                            placeholder = "Etiquetas",
+                            tags = transactionFormViewModel.tags,
+                            onClickTag = { },
+                            onClickAdd = { }
+                        )
 
 
                     }
@@ -209,7 +205,6 @@ fun TransactionForm(
                     DefaultButton(confirmed = true, title) { onDismiss() }
 
                 }
-
             }
         }
     }

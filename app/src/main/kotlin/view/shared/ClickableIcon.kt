@@ -24,13 +24,13 @@ fun ClickableIcon(
     icon: ImageVector,
     shape: Shape = RoundedCornerShape(6.dp),
     color: Color = MaterialTheme.colors.primary,
-    iconSize: Dp = 18.dp,
-    padding: Boolean = false,
+    boxSize: Dp = 30.dp,
+    iconSize: Dp = 15.dp,
     onClick: () -> Unit
     ) {
 
     Box(Modifier
-        .size(if (padding) iconSize * 1.25f else iconSize)
+        .size(boxSize)
         .clip(shape)
         .pointerHoverIcon(PointerIcon.Hand)
         .clickable(onClick = onClick)

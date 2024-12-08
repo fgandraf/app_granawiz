@@ -93,14 +93,12 @@ fun AddListItem(
                             icon = PhosphorIcons.Light.X,
                             color = Color.Blue,
                             shape = RoundedCornerShape(6.dp),
-                            padding = true,
                             onClick = { isVisible.value = false; value.value = "" }
                         )
                         ClickableIcon(
                             icon = PhosphorIcons.Light.Check,
                             color = Color.Blue,
                             shape = RoundedCornerShape(6.dp),
-                            padding = true,
                             onClick = { confirmationClick(); isVisible.value = false; value.value = "" }
                         )
                     }

@@ -86,7 +86,6 @@ fun AccountMenuItem(
         ClickableIcon(
             icon = PhosphorIcons.Light.DotsThree,
             shape = RoundedCornerShape(6.dp),
-            padding = true,
             onClick = {expanded = !expanded}
         )
 

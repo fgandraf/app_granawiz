@@ -55,11 +55,10 @@ fun DropDownTextField(
                 }
             }
 
-
             Icon(
                 imageVector = PhosphorIcons.Light.CaretRight,
                 contentDescription = "click",
-                modifier = Modifier.align(Alignment.CenterEnd).padding(end = 10.dp)
+                modifier = Modifier.size(15.dp).align(Alignment.CenterEnd)
             )
         }
     }

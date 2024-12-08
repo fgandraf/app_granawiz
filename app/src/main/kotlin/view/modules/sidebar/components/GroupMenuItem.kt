@@ -38,7 +38,7 @@ fun GroupMenuItem(
         modifier = Modifier
             .fillMaxWidth()
             .height(35.dp)
-            .padding(horizontal = 10.dp)
+            .padding(start = 5.dp, end = 10.dp)
 
     ) {
 
@@ -50,7 +50,6 @@ fun GroupMenuItem(
                 modifier = Modifier.size(16.dp),
                 icon = if (isExpanded) PhosphorIcons.Light.CaretDown else PhosphorIcons.Light.CaretRight,
                 shape = RoundedCornerShape(6.dp),
-                padding = true,
                 onClick = { toggleClick() },
             )
 
@@ -81,7 +80,6 @@ fun GroupMenuItem(
             ClickableIcon(
                 icon = PhosphorIcons.Light.DotsThree,
                 shape = RoundedCornerShape(6.dp),
-                padding = true,
                 onClick = { dropDownMenuExpanded = !dropDownMenuExpanded }
             )
 

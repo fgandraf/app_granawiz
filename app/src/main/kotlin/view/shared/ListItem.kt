@@ -107,18 +107,14 @@ fun ListItem(
             if (valueChanged){
                 ClickableIcon(
                     icon = PhosphorIcons.Light.X,
-                    iconSize = 18.dp,
                     color = Color.Blue,
                     shape = RoundedCornerShape(6.dp),
-                    padding = true,
                     onClick = { value = label },
                 )
                 ClickableIcon(
                     icon = PhosphorIcons.Light.Check,
-                    iconSize = 18.dp,
                     color = Color.Blue,
                     shape = RoundedCornerShape(6.dp),
-                    padding = true,
                     onClick = { onUpdateConfirmation(value) }
                 )
             }
@@ -128,8 +124,6 @@ fun ListItem(
                     ClickableIcon(
                         icon = PhosphorIcons.Light.Trash,
                         shape = RoundedCornerShape(6.dp),
-                        iconSize = 18.dp,
-                        padding = true,
                         onClick = { deleteDialogIsVisible.value = true }
                     )
                     Spacer(Modifier.width(if (hasSubItem) 0.dp else spaceBetween))

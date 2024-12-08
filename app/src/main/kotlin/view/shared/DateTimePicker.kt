@@ -1,15 +1,12 @@
 package view.shared
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.outlined.DateRange
@@ -17,18 +14,19 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
-import java.time.LocalDate
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Regular
+import com.adamglin.phosphoricons.regular.ArrowLeft
+import com.adamglin.phosphoricons.regular.ArrowRight
+import utils.generateWeeks
+import view.theme.Purple600
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.YearMonth
@@ -37,312 +35,156 @@ import java.time.format.TextStyle
 import java.util.*
 
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun DateTimePicker(
     modifier: Modifier = Modifier,
     value: LocalDateTime,
-    label: String = "Date and Time:",
-    trailingIcon: ImageVector = Icons.Outlined.DateRange,
-    primaryColor: Color = Color.Black,
-    selectedColor: Color = Color.Blue,
-    fontFamily: FontFamily = FontFamily.Default,
-    language: String = "en",
-    country: String = "us",
-    showTime: Boolean = true,
-    weekDayNames: List<String> = listOf("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"),
-    datePattern: String = "MM/dd/yyyy HH:mm",
     selectedDateTime: (LocalDateTime) -> Unit,
-){
-    val dialogPicker = remember { mutableStateOf(false) }
-    Column(modifier = modifier) {
-        Text(
-            text = label,
-            fontSize = 10.sp,
-            lineHeight = 0.sp,
-            color = primaryColor,
-            fontFamily = fontFamily,
-            modifier = Modifier.padding(bottom = 5.dp)
-        )
-
-        val secondaryColor = MaterialTheme.colors.secondary
-        var borderSize by remember { mutableStateOf(1.dp) }
-        var borderColor by remember { mutableStateOf(primaryColor) }
-
-        Box(contentAlignment = Alignment.CenterStart,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(35.dp)
-                .border(borderSize, borderColor, shape = RoundedCornerShape(5.dp))
-                .clip(RoundedCornerShape(5.dp))
-                .pointerHoverIcon(PointerIcon.Hand)
-                .onFocusChanged { focusState ->
-                    if (focusState.isFocused){ borderSize = 1.2.dp; borderColor = secondaryColor }
-                    else { borderSize = 1.dp; borderColor = primaryColor }
-                }
-                .clickable { dialogPicker.value = true }
-                .padding(horizontal = 10.dp)
-        ) {
-            Row(horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
-            ){
-                Text(
-                    text = value.format(DateTimeFormatter.ofPattern(datePattern)),
-                    fontSize = 12.sp,
-                    lineHeight = 0.sp,
-                    color = primaryColor,
-                    fontFamily = fontFamily
-                )
-                Icon(imageVector = trailingIcon, contentDescription = "Icon", tint = primaryColor, modifier = Modifier.size(20.dp))
-            }
-        }
-
-        if (dialogPicker.value){
-            DateTimeDialog(
-                expanded = dialogPicker.value,
-                showTime = showTime,
-                primaryColor = primaryColor,
-                selectedColor = selectedColor,
-                language = language,
-                country = country,
-                weekDayNames = weekDayNames,
-                fontFamily = fontFamily,
-                selectedDateTime = value,
-                onDateTimeSelected = {selectedDateTime(it)},
-                onDismissRequest = {dialogPicker.value = false}
-            )
-        }
-    }
-}
-
-@Composable
-fun DateTimeDialog(
-    expanded: Boolean,
-    showTime: Boolean,
-    primaryColor: Color,
-    selectedColor: Color,
-    language: String,
-    country: String,
-    weekDayNames: List<String>,
-    fontFamily: FontFamily,
-    onDismissRequest: () -> Unit,
-    selectedDateTime: LocalDateTime,
-    onDateTimeSelected: (LocalDateTime) -> Unit
 ) {
-    if (expanded) {
-        Dialog(onDismissRequest = onDismissRequest) {
-            Surface(
-                modifier = Modifier.width(300.dp),
-                shape = RoundedCornerShape(10.dp),
-                elevation = 8.dp
-            ) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(horizontal = 10.dp).padding(top = 10.dp, bottom = 5.dp)) {
 
-                    // DATE PICKER
-                    var selectedDate by remember { mutableStateOf(selectedDateTime.toLocalDate()) }
-                    DatePickerComponent(
-                        selectedDate = selectedDate,
-                        primaryColor = primaryColor,
-                        selectedColor = selectedColor,
-                        language = language,
-                        country = country,
-                        weekDayNames = weekDayNames,
-                        fontFamily = fontFamily,
-                        onDateSelected = { selectedDate = it }
+    Column(modifier = modifier) {
+        var expanded by remember { mutableStateOf(false) }
+
+        TextPrimary(modifier = Modifier.padding(bottom = 5.dp), text = "Data e horário:", size = 10.sp)
+
+        ExposedDropdownMenuBox(expanded = expanded, onExpandedChange = { expanded = true }) {
+
+            FocusableBox {
+                Row(Modifier.fillMaxWidth(), Arrangement.SpaceBetween, Alignment.CenterVertically) {
+                    TextPrimary(text = value.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")))
+                    Icon(
+                        imageVector = Icons.Outlined.DateRange,
+                        contentDescription = "Icon",
+                        tint = MaterialTheme.colors.primary,
+                        modifier = Modifier.size(20.dp)
                     )
+                }
+            }
+
+            ExposedDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }){
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.padding(horizontal = 10.dp).padding(top = 10.dp, bottom = 5.dp)
+                ) {
+                    // DATE PICKER
+                    var selectedDate by remember { mutableStateOf(value.toLocalDate()) }
+                    var currentMonth by remember { mutableStateOf(YearMonth.from(selectedDate)) }
+                    val weeks = remember(currentMonth) { generateWeeks(currentMonth) }
+
+                    Column{
+                        //--month selector
+                        val month = currentMonth.month.getDisplayName(TextStyle.FULL, Locale.of("pt", "br")).replaceFirstChar { it.uppercase() }
+                        Row(Modifier.fillMaxWidth().padding(bottom = 5.dp), Arrangement.SpaceBetween, Alignment.CenterVertically){
+                            TextPrimary(text = "$month ${currentMonth.year}", weight = FontWeight.Bold, align = TextAlign.Center)
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                ClickableIcon(
+                                    icon = PhosphorIcons.Regular.ArrowLeft,
+                                    iconSize = 15.dp, boxSize = 25.dp,
+                                    shape = CircleShape,
+                                    onClick = { currentMonth = currentMonth.minusMonths(1) }
+                                )
+                                ClickableIcon(
+                                    icon = PhosphorIcons.Regular.ArrowRight,
+                                    iconSize = 15.dp, boxSize = 25.dp,
+                                    shape = CircleShape,
+                                    onClick = { currentMonth = currentMonth.plusMonths(1) }
+                                )
+                            }
+                        }
+                        Divider()
+                        //--weekday header
+                        val weekDayNames = listOf("Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab")
+                        Row(modifier = Modifier.fillMaxWidth().padding(top = 10.dp)) {
+                            for (dayName in weekDayNames) {
+                                TextPrimary(
+                                    modifier = Modifier.weight(1f),
+                                    text = dayName,
+                                    size = 10.sp,
+                                    align = TextAlign.Center,
+                                    weight = FontWeight.Bold
+                                )
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(8.dp))
+                        //--days
+                        for (week in weeks) {
+                            Row(modifier = Modifier.fillMaxWidth()) {
+                                for (date in week) {
+                                    if (date != null) {
+                                        val isSelected = date == selectedDate
+                                        Box(
+                                            modifier = Modifier
+                                                .weight(1f)
+                                                .aspectRatio(1f)
+                                                .clip(CircleShape)
+                                                .pointerHoverIcon(PointerIcon.Hand)
+                                                .background(
+                                                    color = if (isSelected) Purple600 else Color.Transparent,
+                                                    shape = MaterialTheme.shapes.small
+                                                )
+                                                .clickable {
+                                                    selectedDate = date
+                                                    selectedDateTime(
+                                                        LocalDateTime.of(
+                                                            selectedDate,
+                                                            value.toLocalTime()
+                                                        )
+                                                    )
+                                                },
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            TextPrimary(
+                                                text = date.dayOfMonth.toString(),
+                                                color = if (isSelected) Color.White else MaterialTheme.colors.primary
+                                            )
+                                        }
+                                    } else
+                                        Spacer(modifier = Modifier.weight(1f).aspectRatio(1f))
+
+                                }
+                            }
+                        }
+                        Divider(Modifier.padding(top = 10.dp))
+                    }
 
                     // TIME PICKER
-                    var selectedTime by remember { mutableStateOf(selectedDateTime.toLocalTime()) }
-                    if (showTime){
-                        TimePickerComponent(
-                            selectedTime = selectedTime,
-                            primaryColor = primaryColor,
-                            onTimeSelected = { selectedTime = it },
-                        )
-                    }
-
-                    // FOOTER
-                    DefaultButton(
-                        label = "Confirmar",
-                        onClick = {
-                            onDateTimeSelected(LocalDateTime.of(selectedDate, selectedTime))
-                            onDismissRequest()
-                        }
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun DatePickerComponent(
-    selectedDate: LocalDate,
-    primaryColor: Color,
-    selectedColor: Color,
-    language: String,
-    country: String,
-    weekDayNames: List<String>,
-    fontFamily: FontFamily,
-    onDateSelected: (LocalDate) -> Unit
-) {
-    var currentMonth by remember { mutableStateOf(YearMonth.from(selectedDate)) }
-    val daysInMonth = currentMonth.lengthOfMonth()
-    val firstDayOfWeek = currentMonth.atDay(1).dayOfWeek.value % 7 // Ajuste para começar no domingo
-    val weeks = remember(currentMonth) {
-        mutableListOf<List<LocalDate?>>().apply {
-            var week = mutableListOf<LocalDate?>()
-            for (i in 0 until firstDayOfWeek) {
-                week.add(null)
-            }
-            for (day in 1..daysInMonth) {
-                week.add(currentMonth.atDay(day))
-                if (week.size == 7) {
-                    add(week)
-                    week = mutableListOf()
-                }
-            }
-            if (week.isNotEmpty()) {
-                while (week.size < 7) {
-                    week.add(null)
-                }
-                add(week)
-            }
-        }
-    }
-
-    Column(
-        modifier = Modifier.fillMaxWidth().padding(bottom = 5.dp)
-    ) {
-        // MONTH SELECTOR
-        val month = currentMonth.month.getDisplayName(TextStyle.FULL, Locale.of(language, country)).replaceFirstChar {it.uppercase()}
-        Row(
-            modifier = Modifier.fillMaxWidth().padding(bottom = 5.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "$month ${ currentMonth.year}",
-                fontSize = 12.sp,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
-                color = primaryColor,
-                fontFamily = fontFamily,
-                lineHeight = 0.sp
-            )
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                IconButton(
-                    modifier = Modifier.pointerHoverIcon(PointerIcon.Hand).clip(CircleShape).size(30.dp).padding(8.dp),
-                    onClick = { currentMonth = currentMonth.minusMonths(1) }
-                ) {
-                    Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Previous Month", tint = primaryColor)
-                }
-                IconButton(
-                    modifier = Modifier.pointerHoverIcon(PointerIcon.Hand).clip(CircleShape).size(30.dp).padding(8.dp),
-                    onClick = { currentMonth = currentMonth.plusMonths(1) }
-                ) {
-                    Icon(imageVector = Icons.AutoMirrored.Filled.ArrowForward, contentDescription = "Next Month", tint = primaryColor)
-                }
-            }
-        }
-        Divider()
-        // WEEKDAY HEADER
-        Row(modifier = Modifier.fillMaxWidth()) {
-            for (dayName in weekDayNames) {
-                Text(
-                    text = dayName,
-                    fontSize = 10.sp,
-                    textAlign = TextAlign.Center,
-                    color = primaryColor,
-                    fontFamily = fontFamily,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.weight(1f)
-                )
-
-            }
-        }
-        Spacer(modifier = Modifier.height(8.dp))
-        // DAYS
-        for (week in weeks) {
-            Row(modifier = Modifier.fillMaxWidth()) {
-                for (date in week) {
-                    if (date != null) {
-                        val isSelected = date == selectedDate
-                        Box(
-                            modifier = Modifier
-                                .weight(1f)
-                                .aspectRatio(1f)
-                                .clip(CircleShape)
-                                .pointerHoverIcon(PointerIcon.Hand)
-                                .background(
-                                    color = if (isSelected) selectedColor else Color.Transparent,
-                                    shape = MaterialTheme.shapes.small
-                                )
-                                .clickable { onDateSelected(date) },
-                            contentAlignment = Alignment.Center
+                    var selectedTime by remember { mutableStateOf(value.toLocalTime()) }
+                    var hours by remember { mutableStateOf(selectedTime.hour) }
+                    var minutes by remember { mutableStateOf(selectedTime.minute) }
+                    Column(modifier = Modifier.fillMaxWidth().padding(vertical = 5.dp)) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Text(
-                                text = date.dayOfMonth.toString(),
-                                fontSize = 12.sp,
-                                lineHeight = 0.sp,
-                                color = if (isSelected) Color.White else primaryColor,
-                                fontFamily = fontFamily
+                            // Hour selector UP
+                            NumberPicker(
+                                value = hours,
+                                range = 0..23,
+                                onValueChange = { hours = it },
+                            )
+                            TextPrimary(modifier = Modifier.padding(horizontal = 5.dp), text = ":", size = 14.sp)
+                            // Minute selector
+                            NumberPicker(
+                                value = minutes,
+                                range = 0..59,
+                                onValueChange = { minutes = it },
                             )
                         }
-                    } else {
-                        Spacer(
-                            modifier = Modifier
-                                .weight(1f)
-                                .aspectRatio(1f)
-                        )
                     }
+                    selectedTime = LocalTime.of(hours, minutes)
+                    selectedDateTime(LocalDateTime.of(selectedDate, selectedTime))
                 }
             }
         }
-        Divider(Modifier.padding(top = 10.dp))
     }
-}
-
-@Composable
-fun TimePickerComponent(
-    selectedTime: LocalTime,
-    primaryColor: Color,
-    onTimeSelected: (LocalTime) -> Unit
-){
-    var hours by remember { mutableStateOf(selectedTime.hour) }
-    var minutes by remember { mutableStateOf(selectedTime.minute) }
-    Column(modifier = Modifier.fillMaxWidth().padding(vertical = 5.dp)) {
-        Row(modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            // Hour selector UP
-            NumberPicker(
-                value = hours,
-                range = 0..23,
-                primaryColor = primaryColor,
-                onValueChange = { hours = it },
-            )
-            Text(":", fontSize = 14.sp, modifier = Modifier.padding(horizontal = 5.dp))
-            // Minute selector
-            NumberPicker(
-                value = minutes,
-                range = 0..59,
-                primaryColor = primaryColor,
-                onValueChange = { minutes = it },
-            )
-        }
-
-        Divider(Modifier.padding(top = 10.dp))
-    }
-    onTimeSelected(LocalTime.of(hours, minutes))
 }
 
 @Composable
 fun NumberPicker(
     value: Int,
     range: IntRange,
-    primaryColor: Color,
     onValueChange: (Int) -> Unit
 ) {
     Column {
@@ -360,15 +202,11 @@ fun NumberPicker(
                     onValueChange(newValue)
                 }
         ) {
-            Icon(Icons.Default.KeyboardArrowUp, contentDescription = "Up", tint = primaryColor)
+            Icon(Icons.Default.KeyboardArrowUp, contentDescription = "Up", tint = MaterialTheme.colors.primary)
         }
         // Value Text
         Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.width(50.dp)) {
-            Text(
-                text = value.toString().padStart(2, '0'),
-                fontSize = 14.sp,
-                textAlign = TextAlign.Center
-            )
+            TextPrimary(text = value.toString().padStart(2, '0'), size = 14.sp, align = TextAlign.Center)
         }
         // Selector Down
         Column(
@@ -384,7 +222,7 @@ fun NumberPicker(
                     onValueChange(newValue)
                 }
         ) {
-            Icon(Icons.Default.KeyboardArrowDown, contentDescription = "Down", tint = primaryColor)
+            Icon(Icons.Default.KeyboardArrowDown, contentDescription = "Down", tint = MaterialTheme.colors.primary)
         }
     }
 }
