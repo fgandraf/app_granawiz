@@ -32,7 +32,8 @@ fun DefaultPartyField(
     value: String,
     label: String = "",
     placeholder: String = "",
-    onValueChange: (String) -> Unit
+    onValueChange: (String) -> Unit,
+    onClick: () -> Unit
 ){
     val primaryColor = MaterialTheme.colors.primary
     val secondaryColor = MaterialTheme.colors.secondary
@@ -94,7 +95,7 @@ fun DefaultPartyField(
                 modifier = Modifier
                 .size(35.dp)
                 .pointerHoverIcon(PointerIcon.Hand)
-                .clickable { }
+                .clickable { onClick() }
             ) {
                 Icon(
                     imageVector = PhosphorIcons.Light.CaretRight,
