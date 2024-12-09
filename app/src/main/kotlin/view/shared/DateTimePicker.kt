@@ -9,7 +9,6 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material.icons.outlined.DateRange
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,7 +21,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.Regular
+import com.adamglin.phosphoricons.light.Calendar
 import com.adamglin.phosphoricons.regular.ArrowLeft
 import com.adamglin.phosphoricons.regular.ArrowRight
 import utils.generateWeeks
@@ -54,7 +55,7 @@ fun DateTimePicker(
                 Row(Modifier.fillMaxWidth(), Arrangement.SpaceBetween, Alignment.CenterVertically) {
                     TextPrimary(text = value.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")))
                     Icon(
-                        imageVector = Icons.Outlined.DateRange,
+                        imageVector = PhosphorIcons.Light.Calendar,
                         contentDescription = "Icon",
                         tint = MaterialTheme.colors.primary,
                         modifier = Modifier.size(20.dp)

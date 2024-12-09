@@ -52,13 +52,12 @@ fun TransactionForm(
             DialogTitleBar(title = title, onCloseRequest = onDismiss)
             Divider()
 
+
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
                 modifier = Modifier.fillMaxWidth().padding(top = 40.dp).padding(horizontal = 50.dp)
             ) {
-
-
 
 
                 Row(horizontalArrangement = Arrangement.SpaceBetween,
