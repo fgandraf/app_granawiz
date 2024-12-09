@@ -40,32 +40,30 @@ fun TransactionForm(
 ) {
 
     if (transaction != null) transactionFormViewModel.initializeFromTransaction(transaction)
+    val dialogWidth by remember { mutableStateOf(600.dp) }
+    val title by remember{ derivedStateOf { if (transactionFormViewModel.id == 0L) "Adicionar transação" else "Editar transação" }}
 
     Dialog(onDismissRequest = onDismiss) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.width(600.dp).background(MaterialTheme.colors.background, shape = RoundedCornerShape(8.dp))
+            modifier = Modifier.width(dialogWidth).background(MaterialTheme.colors.background, shape = RoundedCornerShape(8.dp))
         ) {
 
-            //===== Title Bar
-            val title = if (transactionFormViewModel.id == 0L) "Adicionar transação" else "Editar transação"
-            DialogTitleBar(title = title, onCloseRequest = onDismiss)
-            Divider()
+            DialogTitleBar(title, onDismiss)
 
 
+            //==== FORM
             Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxWidth().padding(top = 40.dp).padding(horizontal = 50.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(30.dp)
+                    .background(MaterialTheme.colors.onPrimary, RoundedCornerShape(8.dp))
+                    .border(1.dp, transactionFormViewModel.typeColor.value, RoundedCornerShape(8.dp))
             ) {
+                Column(Modifier.fillMaxWidth().padding(30.dp)) {
 
-
-                Row(horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 5.dp)
-                ) {
                     //==== ACCOUNT ICON AND NAME
-                    Row(verticalAlignment = Alignment.CenterVertically) {
+                    Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.End) {
                         Icon(
                             painter = painterResource(IconPaths.BANK_LOGOS + account.icon),
                             contentDescription = null,
@@ -82,117 +80,98 @@ fun TransactionForm(
                             fontFamily = Ubuntu
                         )
                     }
-                }
+                    Divider(Modifier.padding(top = 5.dp, bottom = 20.dp))
 
 
-                //==== FORM
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 2.dp, bottom = 50.dp)
-                        .background(MaterialTheme.colors.onPrimary, RoundedCornerShape(16.dp))
-                        .border(1.dp, transactionFormViewModel.typeColor.value, RoundedCornerShape(8.dp))
-                ) {
-                    Column(Modifier.fillMaxWidth().padding(30.dp)) {
-
-                        //---type
-                        TypeListComboBox(
-                            modifier = Modifier.padding(bottom = 20.dp),
-                            value = transactionFormViewModel.typeLabel.value,
-                            label = "Tipo:",
-                            placeholder = "Selecione o tipo",
-                            onClickItem = { selectecType ->
-                                if (selectecType != transactionFormViewModel.type )
-                                    transactionFormViewModel.type = selectecType
-                                transactionFormViewModel.updateBalance()
-                            }
-                        )
-
-                        Row(modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp)) {
-
-                            //---date
-                            DateTimePicker(
-                                modifier = Modifier.weight(1f),
-                                value = transactionFormViewModel.date,
-                                selectedDateTime = { transactionFormViewModel.date = it}
-                            )
-
-
-                            //---balance
-                            var balance by remember { mutableStateOf(toBrMoney.format(abs(transactionFormViewModel.balance))) }
-                            DefaultTextField(
-                                modifier = Modifier.weight(1f).padding(start = 10.dp),
-                                value = balance,
-                                label = "Valor:",
-                                textAlign = TextAlign.Right,
-                                placeholder = "0.000,00"
-                            ) {
-                                balance = it.filter { char -> char.isDigit() || char == ',' || char == '.' }
-                                balance = if (balance.isNullOrEmpty() || balance == ".") "0.00" else balance
-                                transactionFormViewModel.updateBalance(balance)
-                            }
+                    //---type
+                    TypeListComboBox(
+                        modifier = Modifier.padding(bottom = 20.dp),
+                        value = transactionFormViewModel.typeLabel.value,
+                        label = "Tipo:",
+                        placeholder = "Selecione o tipo",
+                        onClickItem = { selectecType ->
+                            if (selectecType != transactionFormViewModel.type)
+                                transactionFormViewModel.type = selectecType
+                            transactionFormViewModel.updateBalance()
                         }
+                    )
 
-                        //---payer or receiver
-                        DefaultPartyField(
-                            modifier = Modifier.padding(bottom = 20.dp),
-                            value = transactionFormViewModel.party.name,
-                            label = if (transactionFormViewModel.type == TransactionType.GAIN) "Pagador" else "Recebedor",
-                            placeholder = "Nome",
-                            onValueChange = { transactionFormViewModel.party.name = it }
+                    Row(modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp)) {
+
+                        //---date
+                        DateTimePicker(
+                            modifier = Modifier.weight(1f),
+                            value = transactionFormViewModel.date,
+                            selectedDateTime = { transactionFormViewModel.date = it }
                         )
 
-
-
-                        //---description
+                        //---balance
+                        var balance by remember { mutableStateOf(toBrMoney.format(abs(transactionFormViewModel.balance))) }
                         DefaultTextField(
-                            modifier = Modifier.padding(bottom = 20.dp),
-                            value = transactionFormViewModel.description,
-                            label = "Descrição:",
-                            boxSize = 80.dp,
-                            placeholder = "Informações adicionais"
-                        ) { transactionFormViewModel.description = it }
-
-
-
-
-
-                        //---category
-                        val category = transactionFormViewModel.category
-                        val subcategory = transactionFormViewModel.subCategory
-                        var showCategoriesDialog by remember { mutableStateOf(false) }
-                        DropDownTextField(
-                            modifier = Modifier.padding(bottom = 20.dp),
-                            categoryIcon = category.icon,
-                            value = category.name + if(subcategory?.name.isNullOrEmpty()) "" else " → ${subcategory?.name}",
-                            label = "Categoria:",
-                            placeholder = "Selecione a categoria",
-                            onClick = { showCategoriesDialog = true }
-                        )
-                        if (showCategoriesDialog) CategoriesDialog(transactionFormViewModel) { showCategoriesDialog = false }
-
-
-
-                        //---tags
-                        TagListView(
-                            label = "Etiquetas:",
-                            placeholder = "Etiquetas",
-                            tags = transactionFormViewModel.tags,
-                            onClickTag = { },
-                            onClickAdd = { }
-                        )
-
-
+                            modifier = Modifier.weight(1f).padding(start = 10.dp),
+                            value = balance,
+                            label = "Valor:",
+                            textAlign = TextAlign.Right,
+                            placeholder = "0.000,00"
+                        ) {
+                            balance = it.filter { char -> char.isDigit() || char == ',' || char == '.' }
+                            balance = if (balance.isNullOrEmpty() || balance == ".") "0.00" else balance
+                            transactionFormViewModel.updateBalance(balance)
+                        }
                     }
-                }
 
-                //==== FOOTER
-                Divider()
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 10.dp)
-                ) {
-                    //val confirmed by remember { derivedStateOf { transactionViewModel.name != "" && transactionViewModel.group.id != 0L } }
+                    //---party
+                    DefaultPartyField(
+                        modifier = Modifier.padding(bottom = 20.dp),
+                        value = transactionFormViewModel.party.name,
+                        label = if (transactionFormViewModel.type == TransactionType.GAIN) "Pagador" else "Recebedor",
+                        placeholder = "Nome",
+                        onValueChange = { transactionFormViewModel.party.name = it }
+                    )
+
+
+                    //---description
+                    DefaultTextField(
+                        modifier = Modifier.padding(bottom = 20.dp),
+                        value = transactionFormViewModel.description,
+                        label = "Descrição:",
+                        boxSize = 80.dp,
+                        placeholder = "Informações adicionais"
+                    ) { transactionFormViewModel.description = it }
+
+
+                    //---category
+                    val category = transactionFormViewModel.category
+                    val subcategory = transactionFormViewModel.subCategory
+                    var showCategoriesDialog by remember { mutableStateOf(false) }
+                    DropDownTextField(
+                        modifier = Modifier.padding(bottom = 20.dp),
+                        categoryIcon = category.icon,
+                        value = category.name + if (subcategory?.name.isNullOrEmpty()) "" else " → ${subcategory?.name}",
+                        label = "Categoria:",
+                        placeholder = "Selecione a categoria",
+                        onClick = { showCategoriesDialog = true }
+                    )
+                    if (showCategoriesDialog) CategoriesDialog(transactionFormViewModel) { showCategoriesDialog = false }
+
+
+                    //---tags
+                    TagListView(
+                        label = "Etiquetas:",
+                        placeholder = "Etiquetas",
+                        tags = transactionFormViewModel.tags,
+                        onClickTag = { },
+                        onClickAdd = { }
+                    )
+
+                }
+            }
+
+
+            //==== FOOTER
+            Divider()
+            Box(Modifier.padding(20.dp, vertical = 10.dp)) {
+                //val confirmed by remember { derivedStateOf { transactionViewModel.name != "" && transactionViewModel.group.id != 0L } }
 
 //                        DefaultButton(confirmed = confirmed, buttonLabel) {
 //                            addAccountViewModel.saveCheckingAccount(transaction)
@@ -200,10 +179,9 @@ fun TransactionForm(
 //                            onDismiss()
 //                        }
 
-                    // 👇🏻 Apagar depois
-                    DefaultButton(confirmed = true, title) { onDismiss() }
+                // 👇🏻 Apagar depois
+                DefaultButton(confirmed = true, title) { onDismiss() }
 
-                }
             }
         }
     }
