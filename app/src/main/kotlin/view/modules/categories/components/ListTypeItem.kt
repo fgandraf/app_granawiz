@@ -1,5 +1,6 @@
 package view.modules.categories.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,6 +26,7 @@ import view.theme.Afacade
 @Composable
 fun ListTypeItem(
     icon: ImageVector,
+    isActive: Boolean,
     color: Color,
     label: String,
     onClick: () -> Unit
@@ -35,6 +37,7 @@ fun ListTypeItem(
             .padding(horizontal = 10.dp)
             .height(30.dp)
             .clip(RoundedCornerShape(8.dp))
+            .background(if (isActive) Color.Cyan else Color.Transparent)
             .pointerHoverIcon(PointerIcon.Hand)
             .clickable { onClick() }
     ) {

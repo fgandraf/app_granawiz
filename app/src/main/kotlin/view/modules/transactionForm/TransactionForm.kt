@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.compose.ui.zIndex
 import core.entity.Transaction
 import core.entity.account.BankAccount
 import core.enums.TransactionType
@@ -48,7 +49,7 @@ fun TransactionForm(
     var sideType by remember{ mutableStateOf("") }
 
     val dialogWidth by animateDpAsState(
-        targetValue = if (showSide) 1130.dp else 530.dp,
+        targetValue = if (showSide) 1100.dp else 560.dp,
         animationSpec = tween(durationMillis = 800) // Duração de 500ms
     )
     val title by remember{ derivedStateOf { if (transactionFormViewModel.id == 0L) "Adicionar transação" else "Editar transação" }}
@@ -60,17 +61,15 @@ fun TransactionForm(
         ) {
             DialogTitleBar(title, onDismiss)
 
-            Row(
+            Row(verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
-                .padding(vertical = 30.dp).padding(start = 30.dp)
+                .padding(vertical = 30.dp).padding(horizontal = 30.dp)
                 .height(550.dp)
             ) {
 
-
-
                 Row(modifier = Modifier
                     .width(500.dp)
-                    .padding(end = 30.dp)
+                    .zIndex(2f)
                     .background(MaterialTheme.colors.onPrimary, RoundedCornerShape(10.dp))
                     .border(1.dp, transactionFormViewModel.typeColor.value, RoundedCornerShape(10.dp))
                 ) {
@@ -172,7 +171,7 @@ fun TransactionForm(
                             //---category
                             val category = transactionFormViewModel.category
                             val subcategory = transactionFormViewModel.subCategory
-                            var showCategoriesDialog by remember { mutableStateOf(false) }
+                            val showCategoriesDialog by remember { mutableStateOf(false) }
                             DropDownTextField(
                                 modifier = Modifier.padding(bottom = 20.dp),
                                 categoryIcon = category.icon,
@@ -222,10 +221,9 @@ fun TransactionForm(
 
 
                     Row(modifier = Modifier
-                        .fillMaxHeight()
-                        .padding(end = 30.dp)
-                        .background(MaterialTheme.colors.onPrimary, RoundedCornerShape(10.dp))
-                        .border(1.dp, MaterialTheme.colors.primaryVariant.copy(alpha = 0.5f), RoundedCornerShape(10.dp))
+                        .fillMaxHeight(0.9f)
+                        .offset (x = (-1).dp)
+                        .zIndex(1f)
                     ) {
                         when (sideType) {
                             "categories" -> CategoriesDialog(viewModel = transactionFormViewModel)

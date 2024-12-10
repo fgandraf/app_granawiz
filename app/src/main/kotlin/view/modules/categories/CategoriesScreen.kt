@@ -22,6 +22,7 @@ import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.ChartLineUp
 import com.adamglin.phosphoricons.light.Invoice
 import com.adamglin.phosphoricons.light.Shapes
+import core.entity.Category
 import core.enums.CategoryType
 import utils.IconPaths
 import view.modules.categories.components.CategoryListItem
@@ -65,21 +66,27 @@ fun CategoriesScreen(
                     .padding(30.dp)
             ) {
                 Row {
-
                     //===== FIRST COLUMN
+                    var activeType by remember { mutableStateOf<CategoryType?>(null) }
+                    LaunchedEffect(activeType) {
+                        activeType?.let { type ->
+                            viewModel.selectType(type)
+                            viewModel.loadCategories(type)
+                            addCategoryButton = true
+                            addSubcategoryButton = false
+                        }
+                    }
+
                     Row(modifier = Modifier.weight(2f).fillMaxHeight()) {
                         Column(modifier = Modifier.padding(20.dp)) {
-                            ListTypeItem(icon = PhosphorIcons.Light.Invoice, color = MaterialTheme.colors.primary, label = "Gastos") {
-                                viewModel.selectType(CategoryType.EXPENSE)
-                                viewModel.loadCategories(CategoryType.EXPENSE)
-                                addCategoryButton = true
-                                addSubcategoryButton = false
+                            ListTypeItem(icon = PhosphorIcons.Light.Invoice, color = MaterialTheme.colors.primary, isActive = activeType == CategoryType.EXPENSE, label = "Gastos") {
+                                activeType = CategoryType.EXPENSE
+
                             }
-                            ListTypeItem(icon = PhosphorIcons.Light.ChartLineUp, color = MaterialTheme.colors.primary, label = "Rendimentos") {
-                                viewModel.selectType(CategoryType.INCOME)
-                                viewModel.loadCategories(CategoryType.INCOME)
-                                addCategoryButton = true
-                                addSubcategoryButton = false
+                            ListTypeItem(icon = PhosphorIcons.Light.ChartLineUp, color = MaterialTheme.colors.primary, isActive = activeType == CategoryType.INCOME, label = "Rendimentos") {
+                                activeType = CategoryType.INCOME
+
+
                             }
                         }
                     }
@@ -96,6 +103,7 @@ fun CategoriesScreen(
                                 .padding(20.dp)
                         ) {
                             val listState = rememberLazyListState()
+                            var activeCategory by remember { mutableStateOf(Category()) }
 
                             LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
 
@@ -109,11 +117,13 @@ fun CategoriesScreen(
                                         clickableIcon = true,
                                         hasSubItem = category.subcategories.size > 0,
                                         deleteDialogIsVisible = deleteDialogIsVisible,
+                                        isActive = activeCategory == category,
                                         onUpdateConfirmation = { viewModel.updateCategory(category, it, category.icon) },
                                         onSelectIcon = {
                                            viewModel.updateCategory(category, category.name, it)
                                         },
                                         onContentClick = {
+                                            activeCategory = category
                                             viewModel.loadSubCategories(category)
                                             viewModel.selectCategory(category)
                                             addSubcategoryButton = true

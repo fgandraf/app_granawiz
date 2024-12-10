@@ -2,6 +2,7 @@ package view.modules.transactionForm.components
 
 import androidx.compose.foundation.VerticalScrollbar
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -10,43 +11,47 @@ import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.Shapes
+import core.entity.Subcategory
 import utils.IconPaths
 import view.modules.categories.components.CategoryListItem
 import view.shared.AddListItem
 import view.shared.DialogDelete
+import view.shared.ListItem
 import viewModel.TransactionFormViewModel
 
 
 @Composable
 fun CategoriesDialog(viewModel: TransactionFormViewModel) {
 
-    var addCategoryButton by remember { mutableStateOf<Boolean>(false) }
-    var addSubcategoryButton by remember { mutableStateOf<Boolean>(false) }
     viewModel.loadCategories()
-    addCategoryButton = true
-
-
+    val corner = 30.dp
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxWidth().fillMaxHeight().background(MaterialTheme.colors.onPrimary, shape = RoundedCornerShape(8.dp))
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colors.onPrimary, RoundedCornerShape(topEnd = corner, bottomEnd = corner))
+            .border(1.dp, MaterialTheme.colors.primaryVariant, RoundedCornerShape(topEnd = corner, bottomEnd = corner))
     ) {
 
-        Row {
+        Row(modifier = Modifier.padding(vertical = 20.dp, horizontal = 10.dp)) {
 
             //===== CATEGORIES
-            Row(modifier = Modifier.weight(1f).fillMaxHeight()) {
+            Row(modifier = Modifier.width(260.dp).fillMaxHeight()) {
 
                 Box(
                     modifier = Modifier.weight(1f).fillMaxHeight().padding(vertical = 10.dp)
                 ) {
                     val listState = rememberLazyListState()
+
 
                     LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
 
@@ -59,14 +64,19 @@ fun CategoriesDialog(viewModel: TransactionFormViewModel) {
                                 icon = IconPaths.CATEGORY_PACK + category.icon,
                                 clickableIcon = true,
                                 hasSubItem = category.subcategories.size > 0,
+                                isActive = viewModel.category.id == category.id,
                                 deleteDialogIsVisible = deleteDialogIsVisible,
                                 onUpdateConfirmation = { viewModel.updateCategory(category, it, category.icon) },
                                 onSelectIcon = { viewModel.updateCategory(category, category.name, it) },
                                 onContentClick = {
+                                    if (viewModel.category.id != category.id) {
+                                        viewModel.category = category
+                                        viewModel.subCategory = Subcategory()
+                                    }
+
                                     viewModel.loadSubCategories(category)
                                     viewModel.selectCategory(category)
-                                    addSubcategoryButton = true
-                                    Unit
+
                                 },
                                 deleteDialog = {
                                     DialogDelete(
@@ -83,16 +93,13 @@ fun CategoriesDialog(viewModel: TransactionFormViewModel) {
                         }
 
                         item {
-                            if (addCategoryButton) {
-                                val value = remember { mutableStateOf("") }
-                                val isVisible = remember { mutableStateOf(false) }
-                                AddListItem(
-                                    isVisible = isVisible,
-                                    value = value,
-                                    confirmationClick = { viewModel.addCategory(value.value, "question-mark.svg") },
-                                )
-                            }
-
+                            val value = remember { mutableStateOf("") }
+                            val isVisible = remember { mutableStateOf(false) }
+                            AddListItem(
+                                isVisible = isVisible,
+                                value = value,
+                                confirmationClick = { viewModel.addCategory(value.value, "question-mark.svg") },
+                            )
                         }
 
                     }
@@ -110,11 +117,11 @@ fun CategoriesDialog(viewModel: TransactionFormViewModel) {
 
                 Box(
                     modifier = Modifier
-                        .weight(1f)
                         .fillMaxHeight()
                         .padding(top = 10.dp)
                 ) {
                     val listState = rememberLazyListState()
+
 
 
                     LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
@@ -122,13 +129,14 @@ fun CategoriesDialog(viewModel: TransactionFormViewModel) {
                         items(viewModel.subCategories, key = { it.id }) { subcategory ->
 
                             val deleteDialogIsVisible = remember { mutableStateOf(false) }
-                            view.shared.ListItem(
+                            ListItem(
                                 label = subcategory.name,
                                 hasSubItem = false,
                                 spaceBetween = 0.dp,
+                                isActive = viewModel.subCategory?.id == subcategory.id,
                                 deleteDialogIsVisible = deleteDialogIsVisible,
                                 onUpdateConfirmation = { /*viewModel.updateSubcategory(subcategory, it)*/ },
-                                onContentClick = {},
+                                onContentClick = { viewModel.subCategory = subcategory; Unit },
                                 deleteDialog = {
                                     DialogDelete(
                                         title = "Excluir subcategoria",
@@ -144,16 +152,13 @@ fun CategoriesDialog(viewModel: TransactionFormViewModel) {
                         }
 
                         item {
-                            if (addSubcategoryButton){
-                                val value = remember { mutableStateOf("") }
-                                val isVisible = remember { mutableStateOf(false) }
-                                AddListItem(
-                                    isVisible = isVisible,
-                                    value = value,
-                                    confirmationClick = { viewModel.addSubcategory(value.value) }
-                                )
-                            }
-
+                            val value = remember { mutableStateOf("") }
+                            val isVisible = remember { mutableStateOf(false) }
+                            AddListItem(
+                                isVisible = isVisible,
+                                value = value,
+                                confirmationClick = { viewModel.addSubcategory(value.value) }
+                            )
                         }
 
                     }

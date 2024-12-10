@@ -1,5 +1,6 @@
 package view.shared
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -35,6 +36,7 @@ fun ListItem(
     icon: ImageVector? = null,
     clickableIcon: Boolean = false,
     hasSubItem: Boolean = false,
+    isActive: Boolean = false,
     spaceBetween: Dp = 22.dp,
     deleteDialogIsVisible: MutableState<Boolean> = remember { mutableStateOf(false) },
     onUpdateConfirmation: (String) -> Unit,
@@ -54,6 +56,7 @@ fun ListItem(
                 .padding(horizontal = 10.dp)
                 .height(30.dp)
                 .clip(RoundedCornerShape(8.dp))
+                .background(if (isActive) Color.Cyan else Color.Transparent)
                 .clickable{ onContentClick() }
                 .pointerHoverIcon(PointerIcon.Hand)
         else

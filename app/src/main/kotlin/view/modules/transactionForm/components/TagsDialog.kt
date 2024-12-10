@@ -1,6 +1,7 @@
 package view.modules.transactionForm.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,10 +22,14 @@ fun TagsDialog(
     viewModel: TransactionFormViewModel
 ) {
 
+    val corner = 30.dp
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
-        modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.onPrimary, shape = RoundedCornerShape(8.dp))
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colors.onPrimary, RoundedCornerShape(topEnd = corner, bottomEnd = corner))
+            .border(1.dp, MaterialTheme.colors.primaryVariant, RoundedCornerShape(topEnd = corner, bottomEnd = corner))
     ) {
         TextPrimary(text = "TAGS", weight = FontWeight.Bold, size = 22.sp)
     }

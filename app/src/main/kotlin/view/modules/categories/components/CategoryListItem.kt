@@ -1,5 +1,6 @@
 package view.modules.categories.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -17,7 +18,6 @@ import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.adamglin.PhosphorIcons
@@ -35,7 +35,7 @@ fun CategoryListItem(
     icon: String? = null,
     clickableIcon: Boolean = false,
     hasSubItem: Boolean = false,
-    spaceBetween: Dp = 22.dp,
+    isActive: Boolean = false,
     deleteDialogIsVisible: MutableState<Boolean> = remember { mutableStateOf(false) },
     onUpdateConfirmation: (String) -> Unit,
     onSelectIcon: (String) -> Unit = {},
@@ -54,6 +54,7 @@ fun CategoryListItem(
                 .padding(horizontal = 10.dp)
                 .height(30.dp)
                 .clip(RoundedCornerShape(8.dp))
+                .background(if (isActive) Color.Cyan else Color.Transparent)
                 .clickable{ onContentClick() }
                 .pointerHoverIcon(PointerIcon.Hand)
         else
@@ -126,9 +127,8 @@ fun CategoryListItem(
                         shape = RoundedCornerShape(6.dp),
                         onClick = { deleteDialogIsVisible.value = true }
                     )
-                    Spacer(Modifier.width(if (hasSubItem) 0.dp else spaceBetween))
+                    Spacer(Modifier.width(if (hasSubItem) 0.dp else 12.dp))
                     if (hasSubItem) {
-                        Spacer(Modifier.width(10.dp))
                         Icon(
                             imageVector = PhosphorIcons.Light.CaretRight,
                             contentDescription = null,
