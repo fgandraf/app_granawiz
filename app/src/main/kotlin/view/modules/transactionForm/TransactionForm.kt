@@ -16,6 +16,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -70,6 +71,7 @@ fun TransactionForm(
                 Row(modifier = Modifier
                     .width(500.dp)
                     .zIndex(2f)
+                    .shadow(2.dp, RoundedCornerShape(10.dp))
                     .background(MaterialTheme.colors.onPrimary, RoundedCornerShape(10.dp))
                     .border(1.dp, transactionFormViewModel.typeColor.value, RoundedCornerShape(10.dp))
                 ) {
@@ -169,9 +171,8 @@ fun TransactionForm(
 
 
                             //---category
-                            val category = transactionFormViewModel.category
-                            val subcategory = transactionFormViewModel.subCategory
-                            val showCategoriesDialog by remember { mutableStateOf(false) }
+                            val category by remember { derivedStateOf { transactionFormViewModel.category } }
+                            val subcategory by remember { derivedStateOf { transactionFormViewModel.subCategory } }
                             DropDownTextField(
                                 modifier = Modifier.padding(bottom = 20.dp),
                                 categoryIcon = category.icon,
@@ -190,7 +191,6 @@ fun TransactionForm(
                                     }
                                 }
                             )
-                            if (showCategoriesDialog) CategoriesDialog(transactionFormViewModel)
 
 
                             //---tags
@@ -225,8 +225,16 @@ fun TransactionForm(
                         .offset (x = (-1).dp)
                         .zIndex(1f)
                     ) {
+
                         when (sideType) {
-                            "categories" -> CategoriesDialog(viewModel = transactionFormViewModel)
+                            "categories" -> CategoriesDialog(
+                                category = transactionFormViewModel.category,
+                                subcategory = transactionFormViewModel.subCategory,
+                                onCategoryClick = { category, subcategory ->
+                                    transactionFormViewModel.selectCategory(category)
+                                    transactionFormViewModel.subCategory = subcategory
+                                }
+                            )
                             "parties" -> PartiesDialog(viewModel = transactionFormViewModel)
                             else -> TagsDialog(viewModel = transactionFormViewModel)
                         }

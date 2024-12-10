@@ -70,8 +70,8 @@ fun CategoriesScreen(
                     var activeType by remember { mutableStateOf<CategoryType?>(null) }
                     LaunchedEffect(activeType) {
                         activeType?.let { type ->
-                            viewModel.selectType(type)
-                            viewModel.loadCategories(type)
+                            viewModel.selectedType.value = type
+                            viewModel.service.loadCategories(type)
                             addCategoryButton = true
                             addSubcategoryButton = false
                         }
@@ -107,7 +107,7 @@ fun CategoriesScreen(
 
                             LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
 
-                                items(viewModel.categories, key = { it.id }) { category ->
+                                items(viewModel.categories.value, key = { it.id }) { category ->
 
                                     val deleteDialogIsVisible = remember { mutableStateOf(false) }
 
@@ -118,14 +118,14 @@ fun CategoriesScreen(
                                         hasSubItem = category.subcategories.size > 0,
                                         deleteDialogIsVisible = deleteDialogIsVisible,
                                         isActive = activeCategory == category,
-                                        onUpdateConfirmation = { viewModel.updateCategory(category, it, category.icon) },
+                                        onUpdateConfirmation = { viewModel.service.updateCategory(category, it, category.icon) },
                                         onSelectIcon = {
-                                           viewModel.updateCategory(category, category.name, it)
+                                           viewModel.service.updateCategory(category, category.name, it)
                                         },
                                         onContentClick = {
                                             activeCategory = category
-                                            viewModel.loadSubCategories(category)
-                                            viewModel.selectCategory(category)
+                                            viewModel.service.loadSubCategories(category)
+                                            viewModel.selectedCategory.value = category
                                             addSubcategoryButton = true
                                             Unit
                                         },
@@ -135,7 +135,7 @@ fun CategoriesScreen(
                                                 icon = PhosphorIcons.Light.Shapes,
                                                 objectName = category.name,
                                                 alertText = "Isso irá excluir permanentemente a categoria ${category.name} e remover todas as associações feitas à ela.",
-                                                onClickButton = { viewModel.deleteCategory(category) },
+                                                onClickButton = { viewModel.service.deleteCategory(category) },
                                                 onDismiss = { deleteDialogIsVisible.value = false }
                                             )
                                         }
@@ -150,7 +150,7 @@ fun CategoriesScreen(
                                         AddListItem(
                                             isVisible = isVisible,
                                             value = value,
-                                            confirmationClick = { viewModel.addCategory(value.value, "question-mark.svg") },
+                                            confirmationClick = { viewModel.service.addCategory(type = viewModel.selectedType.value, name = value.value, icon = "question-mark.svg") },
                                         )
                                     }
 
@@ -180,7 +180,7 @@ fun CategoriesScreen(
 
                             LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
 
-                                items(viewModel.subCategories, key = { it.id }) { subcategory ->
+                                items(viewModel.subCategories.value, key = { it.id }) { subcategory ->
 
                                     val deleteDialogIsVisible = remember { mutableStateOf(false) }
                                     view.shared.ListItem(
@@ -188,7 +188,7 @@ fun CategoriesScreen(
                                         hasSubItem = false,
                                         spaceBetween = 0.dp,
                                         deleteDialogIsVisible = deleteDialogIsVisible,
-                                        onUpdateConfirmation = { viewModel.updateSubcategory(subcategory, it) },
+                                        onUpdateConfirmation = { viewModel.service.updateSubcategory(subcategory, it) },
                                         onContentClick = {},
                                         deleteDialog = {
                                             DialogDelete(
@@ -196,7 +196,7 @@ fun CategoriesScreen(
                                                 icon = PhosphorIcons.Light.Shapes,
                                                 objectName = subcategory.name,
                                                 alertText = "Isso irá excluir permanentemente a subcategoria ${subcategory.name} e remover todas as associações feitas à ela.",
-                                                onClickButton = { viewModel.deleteSubcategory(subcategory) },
+                                                onClickButton = { viewModel.service.deleteSubcategory(subcategory) },
                                                 onDismiss = { deleteDialogIsVisible.value = false }
                                             )
                                         }
@@ -211,7 +211,7 @@ fun CategoriesScreen(
                                         AddListItem(
                                             isVisible = isVisible,
                                             value = value,
-                                            confirmationClick = { viewModel.addSubcategory(value.value) }
+                                            confirmationClick = { viewModel.service.addSubcategory(name = value.value, category = viewModel.selectedCategory.value) }
                                         )
                                     }
 

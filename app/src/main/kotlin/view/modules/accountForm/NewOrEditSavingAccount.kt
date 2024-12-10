@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import core.entity.account.SavingsAccount
+import core.enums.AccountType
 import utils.toBrMoney
 import view.modules.accountForm.components.IconSelector
 import view.shared.DefaultButton
@@ -100,7 +101,7 @@ fun NewOrEditSavingAccount(
             val confirmed by remember { derivedStateOf { accountFormViewModel.name != "" && accountFormViewModel.group.id != 0L } }
 
             DefaultButton(confirmed = confirmed, buttonLabel) {
-                accountFormViewModel.saveSavingAccount(account)
+                accountFormViewModel.service.saveAccount(AccountType.SAVINGS, account)
                 sidebarViewModel.loadGroup()
                 onDismiss()
             }

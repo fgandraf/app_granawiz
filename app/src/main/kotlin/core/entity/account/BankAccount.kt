@@ -27,7 +27,7 @@ open class BankAccount(
 
     @ManyToOne
     @JoinColumn(name = "group_id", referencedColumnName = "group_id")
-    open val group: Group
+    open var group: Group
 ){
     constructor(): this(0L, AccountType.CHECKING, "", "", "_default.svg", 0.0, 0, Group())
 }

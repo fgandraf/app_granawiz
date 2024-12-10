@@ -16,10 +16,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import core.entity.account.CheckingAccount
 import utils.toBrMoney
+import view.modules.accountForm.components.GroupListComboBox
 import view.modules.accountForm.components.IconSelector
 import view.shared.DefaultButton
 import view.shared.DefaultTextField
-import view.modules.accountForm.components.GroupListComboBox
 import viewModel.AccountFormViewModel
 import viewModel.SidebarViewModel
 
@@ -116,7 +116,7 @@ fun NewOrEditCheckingAccount(
             val confirmed by remember { derivedStateOf { accountFormViewModel.name != "" && accountFormViewModel.group.id != 0L } }
 
             DefaultButton(confirmed = confirmed, buttonLabel) {
-                accountFormViewModel.saveCheckingAccount(account)
+                accountFormViewModel.service.saveAccount(core.enums.AccountType.CHECKING, account)
                 sidebarViewModel.loadGroup()
                 onDismiss()
             }

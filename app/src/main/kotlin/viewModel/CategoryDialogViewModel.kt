@@ -1,12 +1,12 @@
 package viewModel
 
-import androidx.compose.runtime.*
+import androidx.compose.runtime.derivedStateOf
 import core.entity.Category
-import core.enums.CategoryType
+import core.entity.Subcategory
 import kotlinx.coroutines.flow.MutableStateFlow
 import service.CategoryService
 
-class CategoryViewModel {
+class CategoryDialogViewModel {
 
     val service: CategoryService = CategoryService()
 
@@ -14,5 +14,6 @@ class CategoryViewModel {
     val subCategories = derivedStateOf { service.subCategories }
 
     val selectedCategory = MutableStateFlow(Category())
-    val selectedType = MutableStateFlow(CategoryType.INCOME)
+    val selectedSubcategory = MutableStateFlow<Subcategory?>(null)
+
 }
