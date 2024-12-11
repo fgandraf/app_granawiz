@@ -73,7 +73,7 @@ fun GroupForm(
             ) {
 
                 DefaultButton(confirmed, buttonLabel){
-                    if (group == null) viewModel.addNewGroup(value) else viewModel.renameGroup(group, value)
+                    if (group == null) viewModel.groupService.addNewGroup(value) else viewModel.groupService.renameGroup(group, value)
                     onDismiss()
                 }
 

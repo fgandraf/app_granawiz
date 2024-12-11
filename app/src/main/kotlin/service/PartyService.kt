@@ -8,7 +8,9 @@ import core.entity.PartyName
 import core.enums.PartyType
 import infra.dao.PartyDao
 
-class PartyService(val dao: PartyDao = PartyDao()) {
+class PartyService {
+
+    private val dao: PartyDao = PartyDao()
 
     var parties by mutableStateOf(emptyList<Party>())
     var partyNames by mutableStateOf(emptyList<PartyName>())

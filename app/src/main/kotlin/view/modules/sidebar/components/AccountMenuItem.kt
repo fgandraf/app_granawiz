@@ -19,9 +19,8 @@ import androidx.compose.ui.unit.sp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.*
-import utils.IconPaths
-import core.entity.Group
 import core.entity.account.BankAccount
+import utils.IconPaths
 import utils.brMoney
 import view.modules.Screen
 import view.modules.accountForm.AccountForm
@@ -37,7 +36,6 @@ import viewModel.SidebarViewModel
 fun AccountMenuItem(
     viewModel: SidebarViewModel,
     account: BankAccount,
-    group: Group,
     screen: Screen,
     currentScreen: Screen,
     onClick: (Screen) -> Unit
@@ -91,7 +89,6 @@ fun AccountMenuItem(
 
         DropDownAccountMenu(
             viewModel = viewModel,
-            group = group,
             expanded = expanded,
             onDismissRequest = { expanded = false; },
             account = account
@@ -104,7 +101,6 @@ fun AccountMenuItem(
 @Composable
 fun DropDownAccountMenu(
     viewModel: SidebarViewModel,
-    group: Group,
     expanded: Boolean,
     onDismissRequest: () -> Unit,
     account: BankAccount
@@ -118,12 +114,12 @@ fun DropDownAccountMenu(
         ) {
 
             ClickableRow(icon = PhosphorIcons.Light.ArrowLineUp, label = "Mover para cima") {
-                viewModel.moveAccount(group, account,-1)
+                viewModel.groupService.moveAccountPosition(account,-1)
                 onDismissRequest()
             }
 
             ClickableRow(icon = PhosphorIcons.Light.ArrowLineDown, label = "Mover para baixo") {
-                viewModel.moveAccount(group, account,1)
+                viewModel.groupService.moveAccountPosition(account,1)
                 onDismissRequest()
             }
 
@@ -145,7 +141,11 @@ fun DropDownAccountMenu(
                     icon = IconPaths.BANK_LOGOS + account.icon,
                     objectName = "${account.group.name}/${account.name}",
                     alertText = "Isso irá excluir permanentemente a conta ${account.group.name} → ${account.name}, bem como todas as transações associadas a ela.",
-                    onClickButton = { viewModel.deleteAccount(account); onDismissRequest() },
+                    onClickButton = {
+                        viewModel.accountService.deleteAccount(account)
+                        viewModel.groupService.loadGroups()
+                        onDismissRequest()
+                    },
                     onDismiss = { onDismissRequest(); deleteDialog = false }
                 )
         }

@@ -63,7 +63,7 @@ fun GroupMenuItem(
                     fontFamily = Afacade
                 )
 
-                val totalGroup = viewModel.fetchTotalGroup(group)
+                val totalGroup = viewModel.groupService.fetchTotalGroup(group)
                 Text(
                     text = brMoney.format(totalGroup),
                     fontSize = 10.sp,
@@ -109,11 +109,11 @@ fun DropDownGroupMenu(
         ) {
 
             ClickableRow(icon = PhosphorIcons.Light.ArrowLineUp, label = "Mover para cima") {
-                viewModel.moveGroup(group, -1)
+                viewModel.groupService.moveGroup(group, -1)
                 onDismissRequest() }
 
             ClickableRow(icon = PhosphorIcons.Light.ArrowLineDown, label = "Mover para baixo") {
-                viewModel.moveGroup(group, 1)
+                viewModel.groupService.moveGroup(group, 1)
                 onDismissRequest() }
 
             Divider(modifier = Modifier.padding(vertical = 3.dp))
@@ -124,7 +124,7 @@ fun DropDownGroupMenu(
 
             Divider(modifier = Modifier.padding(vertical = 3.dp))
 
-            ClickableRow(icon = PhosphorIcons.Light.Trash, label = "Excluir", enabled = group.accounts.isEmpty()) { viewModel.deleteGroup(group) }
+            ClickableRow(icon = PhosphorIcons.Light.Trash, label = "Excluir", enabled = group.accounts.isEmpty()) { viewModel.groupService.deleteGroup(group) }
 
         }
     }

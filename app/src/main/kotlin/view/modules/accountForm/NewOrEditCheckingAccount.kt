@@ -92,7 +92,7 @@ fun NewOrEditCheckingAccount(
                     value = accountFormViewModel.group.name,
                     label = "Grupo:",
                     placeholder = "Selecione o grupo",
-                    groupList = sidebarViewModel.groups,
+                    groupList = sidebarViewModel.groups.value,
                     onClickItem = { accountFormViewModel.group = it }
                 )
 
@@ -117,7 +117,7 @@ fun NewOrEditCheckingAccount(
 
             DefaultButton(confirmed = confirmed, buttonLabel) {
                 accountFormViewModel.service.saveAccount(core.enums.AccountType.CHECKING, account)
-                sidebarViewModel.loadGroup()
+                sidebarViewModel.groupService.loadGroups()
                 onDismiss()
             }
         }

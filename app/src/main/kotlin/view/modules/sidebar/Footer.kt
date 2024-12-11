@@ -49,7 +49,7 @@ fun Footer(viewModel: SidebarViewModel) {
             modifier = Modifier.weight(1f),
             icon = PhosphorIcons.Light.Wallet,
             label = "Nova conta",
-            enabled = viewModel.groups.isNotEmpty()
+            enabled = viewModel.groups.value.isNotEmpty()
         ) {
             showNewAccountMenu = !showNewAccountMenu
         }
@@ -121,7 +121,7 @@ fun DropDownNewAccount(
             accountType = accountType,
             onDismiss = {
                 showNewAccountDialog = false
-                viewModel.fetchTotalAccounts()
+                viewModel.groupService.fetchTotalAccounts()
             }
         )
 }

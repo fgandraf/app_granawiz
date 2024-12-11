@@ -30,7 +30,7 @@ fun Header(viewModel: SidebarViewModel) {
                 SettingsScreen(onDismiss = { showDialog = false })
         }
         Column(modifier = Modifier.align(Alignment.Center)) {
-            TextPrimary(text = brMoney.format(viewModel.totalAccounts), size = 16.sp, weight = FontWeight.Bold, modifier = Modifier.fillMaxWidth().padding(bottom = 3.dp), align = TextAlign.Center)
+            TextPrimary(text = brMoney.format(viewModel.totalAccounts.value), size = 16.sp, weight = FontWeight.Bold, modifier = Modifier.fillMaxWidth().padding(bottom = 3.dp), align = TextAlign.Center)
             TextPrimary(text = "SALDO TOTAL", size = 8.sp, modifier = Modifier.fillMaxWidth(), align = TextAlign.Center)
         }
     }

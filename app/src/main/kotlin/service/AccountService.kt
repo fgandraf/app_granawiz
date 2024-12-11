@@ -8,7 +8,17 @@ import core.enums.AccountType
 import infra.dao.AccountDao
 import viewModel.AccountFormViewModel
 
-class AccountService(val dao: AccountDao = AccountDao(), val viewModel: AccountFormViewModel) {
+class AccountService {
+
+    private val dao: AccountDao = AccountDao()
+    private var viewModel: AccountFormViewModel
+
+    constructor(){ viewModel = AccountFormViewModel()}
+    constructor(viewModel: AccountFormViewModel){ this.viewModel = viewModel }
+
+    fun deleteAccount(account: BankAccount) {
+        dao.delete(account)
+    }
 
     fun saveAccount(type: AccountType, account: BankAccount? = null){
         val newOrUpdatedAccount = when (type) {
@@ -26,7 +36,6 @@ class AccountService(val dao: AccountDao = AccountDao(), val viewModel: AccountF
         if (account == null) dao.insert(newOrUpdatedAccount)
         else dao.update(newOrUpdatedAccount)
     }
-
 
     private fun buildAccount(viewModel: AccountFormViewModel, accountType: AccountType, id: Long? = null, position: Int? = null) : BankAccount{
         when(accountType){

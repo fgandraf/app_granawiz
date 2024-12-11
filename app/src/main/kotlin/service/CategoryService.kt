@@ -8,7 +8,9 @@ import core.entity.Subcategory
 import core.enums.CategoryType
 import infra.dao.CategoryDao
 
-class CategoryService(val dao: CategoryDao = CategoryDao()) {
+class CategoryService {
+
+    private val dao: CategoryDao = CategoryDao()
 
     var categories by mutableStateOf(emptyList<Category>())
     var subCategories by mutableStateOf(emptyList<Subcategory>())

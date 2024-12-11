@@ -115,7 +115,7 @@ fun NewOrEditCreditCard(
                     value = accountFormViewModel.group.name,
                     label = "Grupo:",
                     placeholder = "Selecione o grupo",
-                    groupList = sidebarViewModel.groups,
+                    groupList = sidebarViewModel.groups.value,
                     onClickItem = { accountFormViewModel.group = it }
                 )
 
@@ -140,7 +140,7 @@ fun NewOrEditCreditCard(
 
             DefaultButton(confirmed = confirmed, buttonLabel) {
                 accountFormViewModel.service.saveAccount(AccountType.CREDIT_CARD, account)
-                sidebarViewModel.loadGroup()
+                sidebarViewModel.groupService.loadGroups()
                 onDismiss()
             }
         }

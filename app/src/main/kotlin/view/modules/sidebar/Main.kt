@@ -97,7 +97,7 @@ fun Main(
 
 
         //=== DYNAMIC MENU ITEMS
-        if (viewModel.groups.isEmpty())
+        if (viewModel.groups.value.isEmpty())
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
@@ -107,7 +107,7 @@ fun Main(
             }
         else {
             val expandedGroups = remember { mutableStateMapOf<String, Boolean>() }
-            viewModel.groups.forEach { group ->
+            viewModel.groups.value.forEach { group ->
 
                 val isExpanded = expandedGroups[group.name] ?: true
                 GroupMenuItem(
@@ -127,7 +127,6 @@ fun Main(
                             AccountMenuItem(
                                 viewModel = viewModel,
                                 account = account,
-                                group = group,
                                 screen = Screen.Transactions(account, showAddButton = true),
                                 currentScreen = currentScreen,
                                 onClick = onScreenSelected

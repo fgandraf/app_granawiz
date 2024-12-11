@@ -77,7 +77,7 @@ fun NewOrEditSavingAccount(
                     value = accountFormViewModel.group.name,
                     label = "Grupo:",
                     placeholder = "Selecione o grupo",
-                    groupList = sidebarViewModel.groups,
+                    groupList = sidebarViewModel.groups.value,
                     onClickItem = { accountFormViewModel.group = it }
                 )
 
@@ -102,7 +102,7 @@ fun NewOrEditSavingAccount(
 
             DefaultButton(confirmed = confirmed, buttonLabel) {
                 accountFormViewModel.service.saveAccount(AccountType.SAVINGS, account)
-                sidebarViewModel.loadGroup()
+                sidebarViewModel.groupService.loadGroups()
                 onDismiss()
             }
         }
