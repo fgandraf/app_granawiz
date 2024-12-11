@@ -20,10 +20,7 @@ import utils.brMoney
 import view.modules.groupForm.GroupForm
 import view.shared.ClickableIcon
 import view.shared.ClickableRow
-import view.theme.Afacade
-import view.theme.Lime400
-import view.theme.Red400
-import view.theme.Ubuntu
+import view.theme.*
 import viewModel.SidebarViewModel
 
 @Composable
@@ -67,7 +64,7 @@ fun GroupMenuItem(
                 Text(
                     text = brMoney.format(totalGroup),
                     fontSize = 10.sp,
-                    color = if (totalGroup > 0f) Lime400 else if (totalGroup < 0f) Red400 else MaterialTheme.colors.primaryVariant,
+                    color = if (totalGroup > 0f) Lime200 else if (totalGroup < 0f) Red400 else MaterialTheme.colors.primaryVariant,
                     fontWeight = FontWeight.Normal,
                     lineHeight = 0.sp,
                     fontFamily = Ubuntu

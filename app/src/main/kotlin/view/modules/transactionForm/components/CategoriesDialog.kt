@@ -25,12 +25,12 @@ import view.modules.categories.components.CategoryListItem
 import view.shared.AddListItem
 import view.shared.DialogDelete
 import view.shared.ListItem
-import viewModel.CategoryDialogViewModel
+import viewModel.CategoryViewModel
 
 
 @Composable
 fun CategoriesDialog(
-    viewModel: CategoryDialogViewModel = CategoryDialogViewModel(),
+    viewModel: CategoryViewModel = CategoryViewModel(),
     category: Category,
     subcategory: Subcategory?,
     onCategoryClick: (Category, Subcategory?) -> Unit,

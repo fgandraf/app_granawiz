@@ -26,10 +26,7 @@ import view.modules.Screen
 import view.modules.accountForm.AccountForm
 import view.shared.ClickableIcon
 import view.shared.ClickableRow
-import view.theme.Afacade
-import view.theme.Lime400
-import view.theme.Red400
-import view.theme.Ubuntu
+import view.theme.*
 import viewModel.SidebarViewModel
 
 @Composable
@@ -74,7 +71,7 @@ fun AccountMenuItem(
             Text(
                 text = brMoney.format(account.balance),
                 fontSize = 10.sp,
-                color = if(account.balance > 0f) Lime400 else if (account.balance < 0f) Red400 else MaterialTheme.colors.primaryVariant,
+                color = if(account.balance > 0f) Lime200 else if (account.balance < 0f) Red400 else MaterialTheme.colors.primaryVariant,
                 fontWeight = FontWeight.Normal,
                 lineHeight = 0.sp,
                 fontFamily = Ubuntu
