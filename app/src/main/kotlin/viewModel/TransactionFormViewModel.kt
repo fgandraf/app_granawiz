@@ -14,7 +14,9 @@ import view.theme.Red800
 import java.time.LocalDateTime
 import kotlin.math.abs
 
-class TransactionFormViewModel(val categoryService: CategoryService = CategoryService()) {
+class TransactionFormViewModel {
+
+    private val categoryService: CategoryService = CategoryService()
 
     var id by mutableStateOf(0L)
     var party by mutableStateOf(Party())

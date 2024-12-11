@@ -90,7 +90,7 @@ fun TransactionsScreen(
                 modifier = Modifier.fillMaxSize()
             ) {
 
-                val groupedTransactions = viewModel.transactions.groupBy { it.date.month }
+                val groupedTransactions = viewModel.transactions.value.groupBy { it.date.month }
                 groupedTransactions.forEach { (month, transactions) ->
 
                     item {

@@ -12,8 +12,5 @@ class SidebarViewModel {
     var groups = derivedStateOf { groupService.groups }
     var totalAccounts = derivedStateOf { groupService.totalAccounts }
 
-    init {
-        groupService.loadGroups()
-        groupService.fetchTotalAccounts()
-    }
+    init { groupService.loadGroups(); groupService.fetchTotalAccounts() }
 }

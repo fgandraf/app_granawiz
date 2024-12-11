@@ -9,7 +9,5 @@ class TagViewModel {
 
     var tags = derivedStateOf { service.tags }
 
-    init {
-        service.loadTags()
-    }
+    init { service.loadTags() }
 }
