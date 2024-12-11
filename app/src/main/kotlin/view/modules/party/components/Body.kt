@@ -55,28 +55,29 @@ fun Body(viewModel: PartyViewModel) {
 
                 LazyColumn(state = listState, modifier = Modifier.fillMaxSize().padding(top = 30.dp)) {
 
-                    items(viewModel.parties, key = { it.id }) { party ->
+                    items(viewModel.parties.value, key = { it.id }) { party ->
 
                         val deleteDialogIsVisible = remember { mutableStateOf(false) }
                         ListItem(
                             label = party.name,
                             hasSubItem = party.partiesNames.size > 0,
                             deleteDialogIsVisible = deleteDialogIsVisible,
-                            onUpdateConfirmation = { viewModel.updateParty(party, it)},
+                            onUpdateConfirmation = { viewModel.service.updateParty(party, it)},
                             onContentClick = {
-                                viewModel.loadNames(party)
-                                viewModel.selectParty(party)
+                                viewModel.service.loadNames(party)
+                                viewModel.selectedParty.value = party
+                                Unit
                             },
                             deleteDialog = {
-                                val type = if (viewModel.selectedType == PartyType.RECEIVER) "recebedor" else "pagador"
-                                val iconResource = if (viewModel.selectedType == PartyType.RECEIVER) PhosphorIcons.Light.HandArrowDown else PhosphorIcons.Light.HandArrowUp
+                                val type = if (viewModel.selectedType.value == PartyType.RECEIVER) "recebedor" else "pagador"
+                                val iconResource = if (viewModel.selectedType.value == PartyType.RECEIVER) PhosphorIcons.Light.HandArrowDown else PhosphorIcons.Light.HandArrowUp
 
                                 DialogDelete(
                                     title = "Excluir $type",
                                     icon = iconResource,
                                     objectName = party.name,
                                     alertText = "Isso irá excluir permanentemente o $type ${party.name} e remover todas as associações feitas à ele.",
-                                    onClickButton = { viewModel.deleteParty(party) },
+                                    onClickButton = { viewModel.service.deleteParty(party) },
                                     onDismiss = { deleteDialogIsVisible.value = false }
                                 )
                             }
@@ -90,7 +91,7 @@ fun Body(viewModel: PartyViewModel) {
                         AddListItem(
                             isVisible = isVisible,
                             value = value,
-                            confirmationClick = { viewModel.addParty(value.value) }
+                            confirmationClick = { viewModel.service.addParty(name = value.value, type = viewModel.selectedType.value) }
                         )
                     }
 
@@ -115,7 +116,7 @@ fun Body(viewModel: PartyViewModel) {
 
                 LazyColumn(state = listState, modifier = Modifier.fillMaxSize().padding(top = 30.dp)) {
 
-                    items(viewModel.partiyNames, key = { it.id }) { payerName ->
+                    items(viewModel.partyNames.value, key = { it.id }) { payerName ->
 
                         val deleteDialogIsVisible = remember { mutableStateOf(false) }
                         ListItem(
@@ -123,7 +124,7 @@ fun Body(viewModel: PartyViewModel) {
                             hasSubItem = false,
                             spaceBetween = 0.dp,
                             deleteDialogIsVisible = deleteDialogIsVisible,
-                            onUpdateConfirmation = { viewModel.updatePartyName(payerName, it) },
+                            onUpdateConfirmation = { viewModel.service.updatePartyName(payerName, it) },
                             onContentClick = null,
                             deleteDialog = {
                                 DialogDelete(
@@ -131,7 +132,7 @@ fun Body(viewModel: PartyViewModel) {
                                     icon = PhosphorIcons.Light.HandArrowUp,
                                     objectName = payerName.name,
                                     alertText = "Isso irá excluir permanentemente o nome ${payerName.name} e remover todas as associações feitas à ele.",
-                                    onClickButton = { viewModel.deletePartyName(payerName) },
+                                    onClickButton = { viewModel.service.deletePartyName(payerName) },
                                     onDismiss = { deleteDialogIsVisible.value = false }
                                 )
                             }
@@ -145,14 +146,17 @@ fun Body(viewModel: PartyViewModel) {
                         AddListItem(
                             isVisible = isVisible,
                             value = value,
-                            confirmationClick = { viewModel.addPartyName(value.value) },
+                            confirmationClick = { viewModel.service.addPartyName(value.value, viewModel.selectedParty.value) },
                             alertDialogContent = {
-                                viewModel.errorMessage?.let { errorMessage ->
-                                    SimpleAlertDialog(
-                                        onDismissRequest = { viewModel.clearError() },
-                                        title = "Associação já existente",
-                                        message = errorMessage
-                                    )
+
+                                viewModel.errorMessage.value.let { message ->
+                                    if (message != null) {
+                                        SimpleAlertDialog(
+                                            onDismissRequest = { viewModel.service.clearError() },
+                                            title = "Associação já existente",
+                                            message = message
+                                        )
+                                    }
                                 }
                             }
                         )

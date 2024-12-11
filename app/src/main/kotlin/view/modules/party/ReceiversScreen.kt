@@ -19,7 +19,7 @@ fun ReceiversScreen(
     viewModel: PartyViewModel = PartyViewModel(PartyType.RECEIVER)
 ) {
 
-    viewModel.loadParties()
+    viewModel.service.loadParties(type = PartyType.RECEIVER)
 
     Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.background)) {
 
