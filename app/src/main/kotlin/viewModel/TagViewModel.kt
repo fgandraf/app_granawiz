@@ -1,39 +1,15 @@
 package viewModel
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import core.entity.Tag
-import infra.dao.TagDao
+import androidx.compose.runtime.derivedStateOf
+import service.TagService
 
 class TagViewModel {
 
-    var tags by mutableStateOf(emptyList<Tag>()); private set
-    private val tagDao = TagDao()
+    val service = TagService()
+
+    var tags = derivedStateOf { service.tags }
 
     init {
-        loadTags()
+        service.loadTags()
     }
-
-    private fun loadTags() {
-        tags = tagDao.getAll()
-    }
-
-    fun deleteTag(tag: Tag) {
-        tagDao.delete(tag)
-        loadTags()
-    }
-
-    fun addTag(name: String) {
-        val newTag = Tag(name = name)
-        tagDao.insert(newTag)
-        loadTags()
-    }
-
-    fun updateTag(tag: Tag, name: String) {
-        val updatedTag = Tag(id = tag.id, name = name)
-        tagDao.update(updatedTag)
-        loadTags()
-    }
-
 }

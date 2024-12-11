@@ -63,14 +63,14 @@ fun TagsScreen(
                     state = listState,
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    items(tagViewModel.tags, key = { it.id }) { tag ->
+                    items(tagViewModel.tags.value, key = { it.id }) { tag ->
                         val deleteDialogIsVisible = remember { mutableStateOf(false) }
                         ListItem(
                             label = tag.name,
                             icon = PhosphorIcons.Light.Tag,
                             spaceBetween = 0.dp,
                             deleteDialogIsVisible = deleteDialogIsVisible,
-                            onUpdateConfirmation = { tagViewModel.updateTag(tag, it) },
+                            onUpdateConfirmation = { tagViewModel.service.updateTag(tag, it) },
                             onContentClick = {},
                             deleteDialog = {
                                 DialogDelete(
@@ -78,7 +78,7 @@ fun TagsScreen(
                                     icon = PhosphorIcons.Light.Tag,
                                     objectName = tag.name,
                                     alertText = "Isso irá excluir permanentemente a etiquera ${tag.name} e remover todas as associações feitas à ela.",
-                                    onClickButton = { tagViewModel.deleteTag(tag) },
+                                    onClickButton = { tagViewModel.service.deleteTag(tag) },
                                     onDismiss = { deleteDialogIsVisible.value = false }
                                 )
                             }
@@ -91,7 +91,7 @@ fun TagsScreen(
                             isVisible = isVisible,
                             value = value,
                             icon = PhosphorIcons.Light.Tag,
-                            confirmationClick = { tagViewModel.addTag(value.value) },
+                            confirmationClick = { tagViewModel.service.addTag(value.value) },
                         )
                     }
                 }
