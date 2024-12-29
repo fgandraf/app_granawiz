@@ -5,9 +5,14 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.VerticalScrollbar
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
@@ -25,14 +30,22 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.zIndex
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Light
+import com.adamglin.phosphoricons.light.Shapes
 import core.entity.Transaction
 import core.entity.account.BankAccount
 import core.enums.TransactionType
 import utils.IconPaths
 import utils.toBrMoney
-import view.modules.transactionForm.components.*
+import view.modules.categories.components.CategoryListItem
+import view.modules.transactionForm.components.DefaultPartyField
+import view.modules.transactionForm.components.PartiesDialog
+import view.modules.transactionForm.components.TagsDialog
+import view.modules.transactionForm.components.TypeListComboBox
 import view.shared.*
 import view.theme.Ubuntu
+import viewModel.CategoryViewModel
 import viewModel.TransactionFormViewModel
 import kotlin.math.abs
 
@@ -227,14 +240,234 @@ fun TransactionForm(
                     ) {
 
                         when (sideType) {
-                            "categories" -> CategoriesDialog(
-                                category = transactionFormViewModel.category,
-                                subcategory = transactionFormViewModel.subCategory,
-                                onCategoryClick = { category, subcategory ->
-                                    transactionFormViewModel.selectCategory(category)
-                                    transactionFormViewModel.subCategory = subcategory
+                            "categories" -> {
+
+
+
+/************************************ CATEGORIES DIALOG ************************************/
+
+//                                CategoriesDialog(
+//                                    category = transactionFormViewModel.category,
+//                                    subcategory = transactionFormViewModel.subCategory,
+//                                    onCategoryClick = { category, subcategory ->
+//                                        transactionFormViewModel.selectCategory(category)
+//                                        transactionFormViewModel.subCategory = subcategory
+//                                    }
+//                                )
+
+
+                                val viewModel = remember { CategoryViewModel() }
+                                viewModel.service.loadCategories(transactionFormViewModel.category.type)
+                                viewModel.service.loadSubCategories(transactionFormViewModel.category)
+
+                                val corner = 30.dp
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .background(
+                                            MaterialTheme.colors.onPrimary,
+                                            RoundedCornerShape(topEnd = corner, bottomEnd = corner)
+                                        )
+                                        .border(
+                                            1.dp,
+                                            MaterialTheme.colors.primaryVariant,
+                                            RoundedCornerShape(topEnd = corner, bottomEnd = corner)
+                                        )
+                                ) {
+
+                                    Row(modifier = Modifier.padding(vertical = 20.dp, horizontal = 10.dp)) {
+
+                                        //===== CATEGORIES
+
+                                        val categories by viewModel.categories.collectAsState()
+                                        val subCategories by viewModel.subCategories.collectAsState()
+
+
+                                        Row(modifier = Modifier.width(260.dp).fillMaxHeight()) {
+
+                                            Box(
+                                                modifier = Modifier.weight(1f).fillMaxHeight().padding(vertical = 10.dp)
+                                            ) {
+                                                val listState = rememberLazyListState()
+
+
+                                                LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
+
+                                                    items(categories, key = { it.id }) { item ->
+
+                                                        val deleteDialogIsVisible = remember { mutableStateOf(false) }
+
+                                                        CategoryListItem(
+                                                            label = item.name,
+                                                            icon = IconPaths.CATEGORY_PACK + item.icon,
+                                                            clickableIcon = true,
+                                                            hasSubItem = item.subcategories.size > 0,
+                                                            isActive = item.id == transactionFormViewModel.category.id,
+                                                            deleteDialogIsVisible = deleteDialogIsVisible,
+                                                            onUpdateConfirmation = {
+                                                                viewModel.service.updateCategory(
+                                                                    item,
+                                                                    it,
+                                                                    item.icon
+                                                                )
+                                                            },
+                                                            onSelectIcon = {
+                                                                viewModel.service.updateCategory(
+                                                                    item,
+                                                                    item.name,
+                                                                    it
+                                                                )
+                                                            },
+                                                            /******************************** CATEGORY CLICK ********************************/
+                                                            onContentClick = {
+                                                                //Set selected Category and clean the selected Subcategory
+                                                                transactionFormViewModel.selectCategory(item)
+                                                                transactionFormViewModel.subCategory = null
+
+
+                                                                //load subcategories list
+                                                                viewModel.service.loadSubCategories(item)
+                                                            },
+                                                            /********************************************************************************/
+                                                            deleteDialog = {
+                                                                DialogDelete(
+                                                                    title = "Excluir categoria",
+                                                                    icon = PhosphorIcons.Light.Shapes,
+                                                                    objectName = item.name,
+                                                                    alertText = "Isso irá excluir permanentemente a categoria ${item.name} e remover todas as associações feitas à ela.",
+                                                                    onClickButton = {
+                                                                        viewModel.service.deleteCategory(
+                                                                            item
+                                                                        )
+                                                                    },
+                                                                    onDismiss = { deleteDialogIsVisible.value = false }
+                                                                )
+                                                            }
+                                                        )
+
+                                                    }
+
+                                                    item {
+                                                        val value = remember { mutableStateOf("") }
+                                                        val isVisible = remember { mutableStateOf(false) }
+                                                        AddListItem(
+                                                            isVisible = isVisible,
+                                                            value = value,
+                                                            confirmationClick = {
+                                                                viewModel.service.addCategory(
+                                                                    type = viewModel.selectedCategory.value.type,
+                                                                    name = value.value,
+                                                                    icon = "question-mark.svg"
+                                                                )
+                                                            },
+                                                        )
+                                                    }
+
+                                                }
+                                                VerticalScrollbar(
+                                                    adapter = rememberScrollbarAdapter(listState),
+                                                    modifier = Modifier.align(Alignment.CenterEnd)
+                                                )
+                                            }
+                                        }
+                                        Divider(modifier = Modifier.width(2.dp).fillMaxHeight())
+
+
+                                        //===== SUBCATEGORIES
+                                        Row(modifier = Modifier.weight(1f).fillMaxHeight()) {
+
+                                            Box(
+                                                modifier = Modifier
+                                                    .fillMaxHeight()
+                                                    .padding(top = 10.dp)
+                                            ) {
+                                                val listState = rememberLazyListState()
+
+                                                LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
+
+                                                    /******************************** LOAD SUBCATEGORIES LIST ********************************/
+                                                    items(subCategories,
+                                                        key = { it.id }) { subcategory ->
+
+                                                        val deleteDialogIsVisible = remember { mutableStateOf(false) }
+                                                        ListItem(
+                                                            label = subcategory.name,
+                                                            hasSubItem = false,
+                                                            spaceBetween = 0.dp,
+                                                            isActive = transactionFormViewModel.subCategory?.id == subcategory.id,
+                                                            deleteDialogIsVisible = deleteDialogIsVisible,
+                                                            onUpdateConfirmation = { /*viewModel.updateSubcategory(subcategory, it)*/ },
+                                                            onContentClick = {
+                                                                transactionFormViewModel.subCategory = subcategory; Unit
+                                                            },
+                                                            deleteDialog = {
+                                                                DialogDelete(
+                                                                    title = "Excluir subcategoria",
+                                                                    icon = PhosphorIcons.Light.Shapes,
+                                                                    objectName = subcategory.name,
+                                                                    alertText = "Isso irá excluir permanentemente a subcategoria ${subcategory.name} e remover todas as associações feitas à ela.",
+                                                                    onClickButton = {
+                                                                        viewModel.service.deleteSubcategory(
+                                                                            subcategory
+                                                                        )
+                                                                    },
+                                                                    onDismiss = { deleteDialogIsVisible.value = false }
+                                                                )
+                                                            }
+                                                        )
+
+                                                    }
+
+                                                    item {
+                                                        val value = remember { mutableStateOf("") }
+                                                        val isVisible = remember { mutableStateOf(false) }
+                                                        AddListItem(
+                                                            isVisible = isVisible,
+                                                            value = value,
+                                                            confirmationClick = {
+                                                                viewModel.service.addSubcategory(
+                                                                    name = value.value,
+                                                                    category = viewModel.selectedCategory.value
+                                                                )
+                                                            },
+                                                        )
+                                                    }
+
+                                                }
+                                                VerticalScrollbar(
+                                                    adapter = rememberScrollbarAdapter(listState),
+                                                    modifier = Modifier.align(Alignment.CenterEnd)
+                                                )
+                                            }
+                                        }
+
+                                    }
                                 }
-                            )
+
+                            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+/************************************ END CATEGORIES DIALOG ************************************/
+
+
+
+
+
+
+
+
                             "parties" -> PartiesDialog(viewModel = transactionFormViewModel)
                             else -> TagsDialog(viewModel = transactionFormViewModel)
                         }
