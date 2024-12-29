@@ -8,15 +8,12 @@ import androidx.compose.ui.graphics.Color
 import core.entity.*
 import core.entity.account.BankAccount
 import core.enums.TransactionType
-import service.CategoryService
 import view.theme.Lime800
 import view.theme.Red800
 import java.time.LocalDateTime
 import kotlin.math.abs
 
 class TransactionFormViewModel {
-
-    private val categoryService: CategoryService = CategoryService()
 
     var id by mutableStateOf(0L)
     var party by mutableStateOf(Party())
@@ -68,11 +65,5 @@ class TransactionFormViewModel {
             TransactionType.GAIN -> "Receita"
             else -> ""
         }
-    }
-
-    val categories = derivedStateOf { categoryService.categories }
-
-    fun selectCategory(category: Category){
-        this.category = category
     }
 }
