@@ -35,6 +35,7 @@ fun CategoriesPicker(
     subcategory: Subcategory?,
     onCategoryClick: (Category, Subcategory?) -> Unit,
 ) {
+
     viewModel.selectedCategory.value = category
     viewModel.selectedSubcategory.value = subcategory
     viewModel.getCategories(category.type)

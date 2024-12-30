@@ -13,7 +13,7 @@ import view.theme.Red800
 import java.time.LocalDateTime
 import kotlin.math.abs
 
-class TransactionFormViewModel {
+class TransactionFormViewModel(transaction: Transaction? = null) {
 
     var id by mutableStateOf(0L)
     var party by mutableStateOf(Party())
@@ -26,8 +26,8 @@ class TransactionFormViewModel {
     var balance by mutableStateOf(0.0)
     var type by mutableStateOf(TransactionType.NEUTRAL)
 
-    fun initializeFromTransaction(transaction: Transaction){
-        transaction.let {
+    init {
+        transaction?.let {
             id = it.id
             party = it.party
             account = it.account

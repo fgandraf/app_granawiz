@@ -25,9 +25,9 @@ import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.Folders
 import com.adamglin.phosphoricons.light.ListBullets
 import com.adamglin.phosphoricons.light.Plus
-import utils.IconPaths
 import core.entity.Transaction
 import core.entity.account.BankAccount
+import utils.IconPaths
 import view.modules.transactionForm.TransactionForm
 import view.modules.transactions.component.MonthHeader
 import view.modules.transactions.component.TransactionRow

@@ -39,13 +39,11 @@ import kotlin.math.abs
 
 @Composable
 fun TransactionForm(
-    transactionFormViewModel: TransactionFormViewModel = TransactionFormViewModel(),
     account: BankAccount,
     transaction: Transaction? = null,
+    transactionFormViewModel: TransactionFormViewModel = remember { TransactionFormViewModel(transaction) },
     onDismiss: () -> Unit
 ) {
-
-    if (transaction != null) transactionFormViewModel.initializeFromTransaction(transaction)
     var showSide by remember { mutableStateOf(false) }
     var sideType by remember{ mutableStateOf("") }
 
@@ -171,8 +169,8 @@ fun TransactionForm(
 
 
                             //---category
-                            val category by remember { derivedStateOf { transactionFormViewModel.category } }
-                            val subcategory by remember { derivedStateOf { transactionFormViewModel.subCategory } }
+                            val category = transactionFormViewModel.category
+                            val subcategory = transactionFormViewModel.subCategory
                             DropDownTextField(
                                 modifier = Modifier.padding(bottom = 20.dp),
                                 categoryIcon = category.icon,
@@ -262,8 +260,18 @@ fun TransactionForm(
 //                            onDismiss()
 //                        }
 
+                var showAlertDialog by remember { mutableStateOf(false) }
                 // 👇🏻 Apagar depois
-                DefaultButton(confirmed = true, title) { onDismiss() }
+                DefaultButton(confirmed = true, title) {
+                    showAlertDialog = true
+                    //onDismiss()
+                }
+                if (showAlertDialog)
+                    SimpleAlertDialog(
+                        onDismissRequest = {showAlertDialog = false},
+                        title = "",
+                        message = transactionFormViewModel.category.name + " / " + transactionFormViewModel.subCategory?.name,
+                    )
 
             }
         }
