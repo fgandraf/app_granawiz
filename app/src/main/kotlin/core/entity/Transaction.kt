@@ -36,7 +36,7 @@ open class Transaction(
         joinColumns = [JoinColumn(name = "transaction_id")],
         inverseJoinColumns = [JoinColumn(name = "tag_id")]
     )
-    val tags: MutableSet<Tag>? = mutableSetOf(),
+    val tags: List<Tag>? = listOf(),
 
     @Column(name = "date", columnDefinition = "DATETIME")
     open val date: LocalDateTime,

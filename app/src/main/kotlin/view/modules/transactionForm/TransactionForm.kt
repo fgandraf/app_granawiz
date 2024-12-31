@@ -42,8 +42,12 @@ fun TransactionForm(
     account: BankAccount,
     transaction: Transaction? = null,
     transactionFormViewModel: TransactionFormViewModel = remember { TransactionFormViewModel(transaction) },
+    transactionType: TransactionType? = null,
     onDismiss: () -> Unit
 ) {
+
+    if (transaction == null && transactionType != null)  transactionFormViewModel.type = transactionType
+
     var showSide by remember { mutableStateOf(false) }
     var sideType by remember{ mutableStateOf("") }
 
@@ -99,19 +103,6 @@ fun TransactionForm(
                             }
                             Divider(Modifier.padding(top = 5.dp, bottom = 20.dp))
 
-
-                            //---type
-                            TypeListComboBox(
-                                modifier = Modifier.padding(bottom = 20.dp),
-                                value = transactionFormViewModel.typeLabel.value,
-                                label = "Tipo:",
-                                placeholder = "Selecione o tipo",
-                                onClickItem = { selectecType ->
-                                    if (selectecType != transactionFormViewModel.type)
-                                        transactionFormViewModel.type = selectecType
-                                    transactionFormViewModel.updateBalance()
-                                }
-                            )
 
                             Row(modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp)) {
 
@@ -219,7 +210,7 @@ fun TransactionForm(
 
 
                     Row(modifier = Modifier
-                        .fillMaxHeight(0.9f)
+                        .fillMaxHeight(0.8f)
                         .offset (x = (-1).dp)
                         .zIndex(1f)
                     ) {
@@ -236,7 +227,11 @@ fun TransactionForm(
                                 )
 
                             "parties" -> PartiesDialog(viewModel = transactionFormViewModel)
-                            else -> TagsDialog(viewModel = transactionFormViewModel)
+                            else ->
+                                TagsPicker(
+                                    transaction = transaction,
+                                    onTagClick = {}
+                                )
                         }
 
                     }

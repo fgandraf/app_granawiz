@@ -22,7 +22,7 @@ import core.entity.Tag
 @Composable
 fun TagListView(
     modifier: Modifier = Modifier,
-    tags: MutableSet<Tag>?,
+    tags: List<Tag>?,
     label: String? = null,
     placeholder: String = "",
     onClickTag: () -> Unit,

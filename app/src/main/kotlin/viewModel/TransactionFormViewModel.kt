@@ -20,7 +20,7 @@ class TransactionFormViewModel(transaction: Transaction? = null) {
     var account by mutableStateOf(BankAccount())
     var category by mutableStateOf(Category())
     var subCategory by mutableStateOf<Subcategory?>(null)
-    var tags by mutableStateOf<MutableSet<Tag>?>(mutableSetOf())
+    var tags by mutableStateOf<List<Tag>?>(null)
     var date by mutableStateOf(LocalDateTime.now())
     var description by mutableStateOf("")
     var balance by mutableStateOf(0.0)

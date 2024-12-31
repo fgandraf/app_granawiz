@@ -11,6 +11,7 @@ import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -29,7 +30,9 @@ fun TagsScreen(
     tagViewModel: TagViewModel = TagViewModel(),
 ) {
 
+    tagViewModel.loadTags()
 
+    val tags = tagViewModel.tags.collectAsState()
     Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.background)) {
 
         //===== HEADER
@@ -63,14 +66,14 @@ fun TagsScreen(
                     state = listState,
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    items(tagViewModel.tags.value, key = { it.id }) { tag ->
+                    items(tags.value, key = { it.id }) { tag ->
                         val deleteDialogIsVisible = remember { mutableStateOf(false) }
                         ListItem(
                             label = tag.name,
                             icon = PhosphorIcons.Light.Tag,
                             spaceBetween = 0.dp,
                             deleteDialogIsVisible = deleteDialogIsVisible,
-                            onUpdateConfirmation = { tagViewModel.service.updateTag(tag, it) },
+                            onUpdateConfirmation = { tagViewModel.updateTag(tag, it) },
                             onContentClick = {},
                             deleteDialog = {
                                 DialogDelete(
@@ -78,7 +81,7 @@ fun TagsScreen(
                                     icon = PhosphorIcons.Light.Tag,
                                     objectName = tag.name,
                                     alertText = "Isso irá excluir permanentemente a etiquera ${tag.name} e remover todas as associações feitas à ela.",
-                                    onClickButton = { tagViewModel.service.deleteTag(tag) },
+                                    onClickButton = { tagViewModel.deleteTag(tag) },
                                     onDismiss = { deleteDialogIsVisible.value = false }
                                 )
                             }
@@ -91,7 +94,7 @@ fun TagsScreen(
                             isVisible = isVisible,
                             value = value,
                             icon = PhosphorIcons.Light.Tag,
-                            confirmationClick = { tagViewModel.service.addTag(value.value) },
+                            confirmationClick = { tagViewModel.addTag(value.value) },
                         )
                     }
                 }
