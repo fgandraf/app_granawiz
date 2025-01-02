@@ -90,23 +90,34 @@ fun TransactionForm(
                         Column(Modifier.fillMaxWidth().padding(30.dp)) {
 
                             //==== ACCOUNT ICON AND NAME
-                            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.End) {
-                                Icon(
-                                    painter = painterResource(IconPaths.BANK_LOGOS + account.icon),
-                                    contentDescription = null,
-                                    tint = MaterialTheme.colors.primary,
-                                    modifier = Modifier.size(20.dp),
-                                )
-                                Text(
-                                    modifier = Modifier.padding(horizontal = 5.dp),
-                                    text = account.name,
-                                    fontSize = 12.sp,
-                                    color = MaterialTheme.colors.primary,
-                                    fontWeight = FontWeight.Normal,
-                                    lineHeight = 0.sp,
-                                    fontFamily = Ubuntu
-                                )
+                            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                                Row{
+                                    TextPrimary(
+                                        text = transactionFormViewModel.typeLabel.value,
+                                        color = transactionFormViewModel.typeColor.value,
+                                        size = 11.sp,
+                                        weight = FontWeight.Bold,
+                                    )
+                                }
+                                Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.End) {
+                                    Icon(
+                                        painter = painterResource(IconPaths.BANK_LOGOS + account.icon),
+                                        contentDescription = null,
+                                        tint = MaterialTheme.colors.primary,
+                                        modifier = Modifier.size(20.dp),
+                                    )
+                                    Text(
+                                        modifier = Modifier.padding(horizontal = 5.dp),
+                                        text = account.name,
+                                        fontSize = 12.sp,
+                                        color = MaterialTheme.colors.primary,
+                                        fontWeight = FontWeight.Normal,
+                                        lineHeight = 0.sp,
+                                        fontFamily = Ubuntu
+                                    )
+                                }
                             }
+
                             Divider(Modifier.padding(top = 5.dp, bottom = 20.dp))
 
 

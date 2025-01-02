@@ -58,4 +58,12 @@ class TransactionFormViewModel(transaction: Transaction? = null) {
             TransactionType.NEUTRAL -> Color.Gray
         }
     }
+
+    val typeLabel = derivedStateOf {
+        when (type) {
+            TransactionType.EXPENSE -> "Despesa"
+            TransactionType.GAIN -> "Receita"
+            else -> ""
+        }
+    }
 }
