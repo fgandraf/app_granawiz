@@ -9,9 +9,10 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import config.IconPaths
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Light
+import com.adamglin.phosphoricons.light.Warning
 
 @Composable
 fun SimpleAlertDialog(
@@ -26,7 +27,7 @@ fun SimpleAlertDialog(
             text = {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Image(
-                        painter = painterResource(IconPaths.SYSTEM_ICONS + "alert.svg"),
+                        imageVector = PhosphorIcons.Light.Warning,
                         contentDescription = "Alert"
                     )
                     Text(text = message, modifier = Modifier.padding(start = 20.dp))

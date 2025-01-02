@@ -10,7 +10,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import model.utils.brMoney
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Light
+import com.adamglin.phosphoricons.light.Gear
+import utils.brMoney
 import view.modules.settings.SettingsScreen
 import view.shared.ClickableIcon
 import view.shared.TextPrimary
@@ -21,18 +24,13 @@ fun Header(viewModel: SidebarViewModel) {
 
     Box(modifier = Modifier.fillMaxWidth().height(60.dp).padding(horizontal = 20.dp)) {
         Row(modifier = Modifier.fillMaxHeight(), verticalAlignment = Alignment.CenterVertically) {
-
-
             var showDialog by remember { mutableStateOf(false) }
-            ClickableIcon(icon = "settings", iconSize = 20.dp, shape = CircleShape) { showDialog = true }
+            ClickableIcon(icon = PhosphorIcons.Light.Gear, iconSize = 22.dp, shape = CircleShape) { showDialog = true }
             if (showDialog)
                 SettingsScreen(onDismiss = { showDialog = false })
-
-
-
         }
         Column(modifier = Modifier.align(Alignment.Center)) {
-            TextPrimary(text = brMoney.format(viewModel.totalAccounts), size = 16.sp, weight = FontWeight.Bold, modifier = Modifier.fillMaxWidth().padding(bottom = 3.dp), align = TextAlign.Center)
+            TextPrimary(text = brMoney.format(viewModel.totalAccounts.value), size = 16.sp, weight = FontWeight.Bold, modifier = Modifier.fillMaxWidth().padding(bottom = 3.dp), align = TextAlign.Center)
             TextPrimary(text = "SALDO TOTAL", size = 8.sp, modifier = Modifier.fillMaxWidth(), align = TextAlign.Center)
         }
     }

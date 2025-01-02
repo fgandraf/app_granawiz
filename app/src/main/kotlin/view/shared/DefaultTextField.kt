@@ -20,6 +20,7 @@ import view.theme.Ubuntu
 @Composable
 fun DefaultTextField(
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
     boxSize: Dp = 35.dp,
     textAlign: TextAlign = TextAlign.Start,
     value: String,
@@ -46,6 +47,7 @@ fun DefaultTextField(
                 .padding(10.dp)
         ) {
             BasicTextField(
+                enabled = enabled,
                 modifier = Modifier
                     .fillMaxSize()
                     .onFocusChanged { focusState ->

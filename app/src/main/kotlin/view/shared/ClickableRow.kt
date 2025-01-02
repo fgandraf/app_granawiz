@@ -13,21 +13,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import config.IconPaths
 import view.theme.Afacade
 
 @Composable
 fun ClickableRow(
-    iconResource: String = "",
+    icon: ImageVector? = null,
     roundedBorder: Boolean = false,
     iconSize: DpSize = DpSize(12.dp, 12.dp),
     enabled: Boolean = true,
@@ -54,13 +53,13 @@ fun ClickableRow(
             .clip(RoundedCornerShape(8.dp))
     ) {
 
-        if (iconResource != "") {
+        if (icon != null) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.padding(horizontal = 10.dp)
             ) {
                 Icon(
-                    painter = painterResource(IconPaths.SYSTEM_ICONS + iconResource + ".svg"),
+                    imageVector = icon,
                     contentDescription = null,
                     tint = if (enabled) MaterialTheme.colors.primary else MaterialTheme.colors.primaryVariant,
                     modifier = Modifier.size(iconSize),

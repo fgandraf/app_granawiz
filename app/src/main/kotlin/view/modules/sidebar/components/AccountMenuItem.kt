@@ -16,26 +16,23 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import config.IconPaths
-import model.entity.Group
-import model.entity.account.BankAccount
-import model.utils.brMoney
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Light
+import com.adamglin.phosphoricons.light.*
+import core.entity.account.BankAccount
+import utils.IconPaths
+import utils.brMoney
 import view.modules.Screen
-import view.modules.addAccount.AddAccount
+import view.modules.accountForm.AccountForm
 import view.shared.ClickableIcon
 import view.shared.ClickableRow
-import view.shared.DialogDelete
-import view.theme.Afacade
-import view.theme.Lime700
-import view.theme.Red400
-import view.theme.Ubuntu
+import view.theme.*
 import viewModel.SidebarViewModel
 
 @Composable
 fun AccountMenuItem(
     viewModel: SidebarViewModel,
     account: BankAccount,
-    group: Group,
     screen: Screen,
     currentScreen: Screen,
     onClick: (Screen) -> Unit
@@ -74,7 +71,7 @@ fun AccountMenuItem(
             Text(
                 text = brMoney.format(account.balance),
                 fontSize = 10.sp,
-                color = if(account.balance > 0f) Lime700 else if (account.balance < 0f) Red400 else MaterialTheme.colors.primaryVariant,
+                color = if(account.balance > 0f) Lime200 else if (account.balance < 0f) Red400 else MaterialTheme.colors.primaryVariant,
                 fontWeight = FontWeight.Normal,
                 lineHeight = 0.sp,
                 fontFamily = Ubuntu
@@ -82,18 +79,15 @@ fun AccountMenuItem(
         }
 
         ClickableIcon(
-            icon = "dots",
+            icon = PhosphorIcons.Light.DotsThree,
             shape = RoundedCornerShape(6.dp),
-            iconSize = 16.dp,
-            padding = true,
             onClick = {expanded = !expanded}
         )
 
         DropDownAccountMenu(
             viewModel = viewModel,
-            group = group,
             expanded = expanded,
-            onDismissRequest = { expanded = false },
+            onDismissRequest = { expanded = false; },
             account = account
         )
     }
@@ -104,7 +98,6 @@ fun AccountMenuItem(
 @Composable
 fun DropDownAccountMenu(
     viewModel: SidebarViewModel,
-    group: Group,
     expanded: Boolean,
     onDismissRequest: () -> Unit,
     account: BankAccount
@@ -117,35 +110,39 @@ fun DropDownAccountMenu(
             onDismissRequest = { onDismissRequest() }
         ) {
 
-            ClickableRow(iconResource = "move_up", label = "Mover para cima") {
-                viewModel.moveAccount(group, account,-1)
+            ClickableRow(icon = PhosphorIcons.Light.ArrowLineUp, label = "Mover para cima") {
+                viewModel.groupService.moveAccountPosition(account,-1)
                 onDismissRequest()
             }
 
-            ClickableRow(iconResource = "move_down", label = "Mover para baixo") {
-                viewModel.moveAccount(group, account,1)
+            ClickableRow(icon = PhosphorIcons.Light.ArrowLineDown, label = "Mover para baixo") {
+                viewModel.groupService.moveAccountPosition(account,1)
                 onDismissRequest()
             }
 
             Divider(modifier = Modifier.padding(vertical = 3.dp))
 
             var showEditAccount by remember { mutableStateOf(false) }
-            ClickableRow(iconResource = "edit", label = "Editar") { showEditAccount = true }
-            if (showEditAccount) AddAccount(sidebarViewModel = viewModel, account = account, onDismiss = { showEditAccount = false; onDismissRequest() })
+            ClickableRow(icon = PhosphorIcons.Light.PencilLine, label = "Editar") { showEditAccount = true; }
+            if (showEditAccount) AccountForm(sidebarViewModel = viewModel, account = account, onDismiss = { showEditAccount = false; onDismissRequest() })
 
 
             Divider(modifier = Modifier.padding(vertical = 3.dp))
 
 
             var deleteDialog by remember { mutableStateOf(false) }
-            ClickableRow(iconResource = "trash", label = "Excluir") { deleteDialog = true }
+            ClickableRow(icon = PhosphorIcons.Light.Trash, label = "Excluir") { deleteDialog = true }
             if (deleteDialog)
-                DialogDelete(
+                DialogDeleteAccount(
                     title = "Excluir conta",
-                    iconResource = IconPaths.BANK_LOGOS + account.icon,
+                    icon = IconPaths.BANK_LOGOS + account.icon,
                     objectName = "${account.group.name}/${account.name}",
                     alertText = "Isso irá excluir permanentemente a conta ${account.group.name} → ${account.name}, bem como todas as transações associadas a ela.",
-                    onClickButton = { viewModel.deleteAccount(account); onDismissRequest() },
+                    onClickButton = {
+                        viewModel.accountService.deleteAccount(account)
+                        viewModel.groupService.loadGroups()
+                        onDismissRequest()
+                    },
                     onDismiss = { onDismissRequest(); deleteDialog = false }
                 )
         }

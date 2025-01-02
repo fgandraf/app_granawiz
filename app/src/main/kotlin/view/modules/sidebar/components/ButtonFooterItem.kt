@@ -8,19 +8,18 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import config.IconPaths
 import view.theme.Afacade
 
 @Composable
 fun ButtonFooterItem(
     modifier: Modifier = Modifier,
-    iconResource: String,
+    icon: ImageVector,
     label: String,
     enabled: Boolean = true,
     onClick: () -> Unit
@@ -34,7 +33,7 @@ fun ButtonFooterItem(
         modifier = newModifier.fillMaxHeight()
     ) {
         Icon(
-            painter = painterResource(IconPaths.SYSTEM_ICONS + iconResource),
+            imageVector = icon,
             contentDescription = null,
             tint = color,
             modifier = Modifier.size(18.dp)

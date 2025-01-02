@@ -1,0 +1,38 @@
+INSERT INTO tbl_tags VALUES (1, 'Emergência');
+INSERT INTO tbl_tags VALUES (2, 'Black Friday');
+INSERT INTO tbl_tags VALUES (3, 'Parcelado');
+INSERT INTO tbl_tags VALUES (4, 'Impulso');
+INSERT INTO tbl_tags VALUES (5, 'Planejado');
+INSERT INTO tbl_tags VALUES (6, 'Cashback');
+INSERT INTO tbl_tags VALUES (7, 'Viagem');
+
+INSERT INTO tbl_categories VALUES (1, 'EXPENSE', 'Alimentação', 'pizza.svg');
+INSERT INTO tbl_categories VALUES (2, 'EXPENSE', 'Compra', 'shopping-cart.svg');
+INSERT INTO tbl_categories VALUES (3, 'EXPENSE', 'Educação', 'graduation-cap.svg');
+INSERT INTO tbl_categories VALUES (4, 'EXPENSE', 'Lazer', 'mask-happy.svg');
+INSERT INTO tbl_categories VALUES (5, 'EXPENSE', 'Moradia', 'house-line.svg');
+INSERT INTO tbl_categories VALUES (6, 'EXPENSE', 'Outro', 'question-mark.svg');
+INSERT INTO tbl_categories VALUES (7, 'EXPENSE', 'Saúde', 'first-aid.svg');
+INSERT INTO tbl_categories VALUES (8, 'EXPENSE', 'Taxa e Imposto', 'scales.svg');
+INSERT INTO tbl_categories VALUES (9, 'EXPENSE', 'Transporte', 'car-profile.svg');
+INSERT INTO tbl_categories VALUES (10, 'EXPENSE', 'Vestimenta', 't-shirt.svg');
+INSERT INTO tbl_categories VALUES (11, 'INCOME', 'Salário', 'money.svg');
+INSERT INTO tbl_categories VALUES (12, 'INCOME', 'Prestação de Serviço', 'call-bell.svg');
+INSERT INTO tbl_categories VALUES (13, 'INCOME', 'Rendimento', 'chart-line-up.svg');
+INSERT INTO tbl_categories VALUES (14, 'INCOME', 'Empréstimo', 'bank.svg');
+INSERT INTO tbl_categories VALUES (15, 'INCOME', 'Venda', 'handshake.svg');
+
+INSERT INTO tbl_subcategories VALUES (1, 1, 'Conveniência');
+INSERT INTO tbl_subcategories VALUES (2, 1, 'Lanchonete');
+INSERT INTO tbl_subcategories VALUES (3, 1, 'Restaurante');
+INSERT INTO tbl_subcategories VALUES (4, 1, 'Outros');
+INSERT INTO tbl_subcategories VALUES (5, 3, 'Livros');
+INSERT INTO tbl_subcategories VALUES (6, 3, 'Mensalidade');
+INSERT INTO tbl_subcategories VALUES (7, 9, 'Combustível');
+INSERT INTO tbl_subcategories VALUES (8, 9, 'Translado');
+INSERT INTO tbl_subcategories VALUES (9, 7, 'Consulta');
+INSERT INTO tbl_subcategories VALUES (10, 7, 'Medicamento');
+INSERT INTO tbl_subcategories VALUES (11, 12, 'Contrato');
+INSERT INTO tbl_subcategories VALUES (12, 12, 'Particular');
+INSERT INTO tbl_subcategories VALUES (13, 14, 'Bancário');
+INSERT INTO tbl_subcategories VALUES (14, 14, 'Pessoal');

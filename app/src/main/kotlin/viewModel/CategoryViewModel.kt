@@ -1,78 +1,59 @@
 package viewModel
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import core.entity.Category
+import core.entity.Subcategory
+import core.enums.CategoryType
 import kotlinx.coroutines.flow.MutableStateFlow
-import model.dao.CategoryDao
-import model.entity.Category
-import model.entity.SubCategory
-import model.enums.CategoryType
+import service.CategoryService
 
 class CategoryViewModel {
 
-    var categories by mutableStateOf(emptyList<Category>()); private set
-    var subCategories by mutableStateOf(emptyList<SubCategory>()); private set
+    val service: CategoryService = CategoryService()
 
-    private val _selectedCategory = MutableStateFlow(Category())
-    fun selectCategory(category: Category) {
-        _selectedCategory.value = category
-    }
+    val categories = MutableStateFlow(emptyList<Category>())
+    fun getCategories(type: CategoryType) {
+        categories.value = service.loadCategoriesList(type) }
 
-    private val _selectedType = MutableStateFlow(CategoryType.INCOME)
-    fun selectType(type: CategoryType) {
-        _selectedType.value = type
-    }
+    val subcategories = MutableStateFlow(emptyList<Subcategory>())
+    fun getSubcategories(category: Category) {
+        subcategories.value = service.loadSubCategoriesList(category) }
 
-    private val categoryDao = CategoryDao()
-
-    fun loadCategories(type: CategoryType) {
-        categories = categoryDao.getAll(type)
-        subCategories = emptyList()
-    }
-
-    fun loadSubCategories(category: Category) {
-        subCategories = categories.find{ x -> x == category}?.subcategories!!
-    }
+    val selectedCategory = MutableStateFlow(Category())
+    val selectedSubcategory = MutableStateFlow<Subcategory?>(null)
+    val selectedType = MutableStateFlow(CategoryType.INCOME)
 
     fun deleteCategory(category: Category) {
-        categoryDao.delete(category)
-        loadCategories(category.type)
+        service.deleteCategory(category)
+        getCategories(category.type)
     }
 
-    fun deleteSubcategory(subcategory: SubCategory) {
-        val categoryId = subcategory.category.id
-        categoryDao.deleteSubcategory(subcategory)
-
-        loadCategories(subcategory.category.type)
-        subCategories = categories.find { x -> x.id == categoryId }?.subcategories ?: emptyList()
+    fun deleteSubcategory(subcategory: Subcategory) {
+        service.deleteSubcategory(subcategory)
+        getCategories(subcategory.category.type)
+        getSubcategories(subcategory.category)
     }
 
-    fun addCategory(name: String, icon: String) {
-        val newCategory = Category(name = name, icon = icon, type = _selectedType.value)
-        categoryDao.insert(newCategory)
-        loadCategories(newCategory.type)
+    fun addCategory(category: Category) {
+        service.addCategory(category)
+        getCategories(category.type)
     }
 
-    fun addSubcategory(name: String) {
-        val newSubcategory = SubCategory(name = name, category = _selectedCategory.value)
-        categoryDao.insertSubcategory(newSubcategory)
-        loadCategories(_selectedType.value)
-        subCategories = categories.find { x -> x.id == newSubcategory.category.id }?.subcategories ?: emptyList()
+    fun addSubcategory(subcategory: Subcategory) {
+        service.addSubcategory(subcategory)
+        getCategories(subcategory.category.type)
+        getSubcategories(subcategory.category)
     }
 
-    fun updateCategory(category: Category, name: String, icon: String) {
-        val updatedCategory = Category(id = category.id, name = name, type = category.type, icon = icon, subcategories = category.subcategories)
-        categoryDao.update(updatedCategory)
-        loadCategories(category.type)
+    fun updateCategory(category: Category, name: String? = null, icon: String? = null) {
+        val updatedCategory = Category(id = category.id, name = name ?: category.name, type = category.type, icon = icon ?: category.icon, subcategories = category.subcategories)
+        service.updateCategory(updatedCategory)
+        getCategories(category.type)
     }
 
-    fun updateSubcategory(subcategory: SubCategory, name: String) {
-        val categoryId = subcategory.category.id
-        val updatedSubcategory = SubCategory(subcategory.id, name, subcategory.category)
-        categoryDao.updateSubcategory(updatedSubcategory)
-        loadCategories(subcategory.category.type)
-        subCategories = categories.find { x -> x.id == categoryId }?.subcategories ?: emptyList()
+    fun updateSubcategory(subcategory: Subcategory, name: String) {
+        val updatedSubcategory = Subcategory(subcategory.id, name, subcategory.category)
+        service.updateSubcategory(updatedSubcategory)
+        getSubcategories(subcategory.category)
     }
 
 }

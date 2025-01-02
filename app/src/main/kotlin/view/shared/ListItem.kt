@@ -1,5 +1,6 @@
 package view.shared
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -12,29 +13,35 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import config.IconPaths
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Light
+import com.adamglin.phosphoricons.light.CaretRight
+import com.adamglin.phosphoricons.light.Check
+import com.adamglin.phosphoricons.light.Trash
+import com.adamglin.phosphoricons.light.X
 import view.modules.categories.components.DropDownIcons
 import view.theme.Afacade
 
 @Composable
 fun ListItem(
     label: String = "",
-    icon: String? = null,
+    icon: ImageVector? = null,
     clickableIcon: Boolean = false,
     hasSubItem: Boolean = false,
+    isActive: Boolean = false,
     spaceBetween: Dp = 22.dp,
     deleteDialogIsVisible: MutableState<Boolean> = remember { mutableStateOf(false) },
     onUpdateConfirmation: (String) -> Unit,
     onSelectIcon: (String) -> Unit = {},
-    onContentClick: (() -> Unit?)?,
+    onContentClick: (() -> Unit?)? = null,
     deleteDialog: @Composable () -> Unit,
 ){
     var value by remember { mutableStateOf(label) }
@@ -49,6 +56,7 @@ fun ListItem(
                 .padding(horizontal = 10.dp)
                 .height(30.dp)
                 .clip(RoundedCornerShape(8.dp))
+                .background(if (isActive) Color.Cyan else Color.Transparent)
                 .clickable{ onContentClick() }
                 .pointerHoverIcon(PointerIcon.Hand)
         else
@@ -72,7 +80,7 @@ fun ListItem(
                         .width(30.dp)
                 ) {
                     Icon(
-                        painter = painterResource(icon),
+                        imageVector = icon,
                         contentDescription = null,
                         tint = if (valueChanged) Color.Blue else MaterialTheme.colors.primary,
                         modifier = Modifier.size(20.dp)
@@ -101,19 +109,15 @@ fun ListItem(
         Row(modifier = Modifier.padding(end = 10.dp)) {
             if (valueChanged){
                 ClickableIcon(
-                    icon = "close",
+                    icon = PhosphorIcons.Light.X,
                     color = Color.Blue,
                     shape = RoundedCornerShape(6.dp),
-                    iconSize = 12.dp,
-                    padding = true,
                     onClick = { value = label },
                 )
                 ClickableIcon(
-                    icon = "check",
+                    icon = PhosphorIcons.Light.Check,
                     color = Color.Blue,
                     shape = RoundedCornerShape(6.dp),
-                    iconSize = 12.dp,
-                    padding = true,
                     onClick = { onUpdateConfirmation(value) }
                 )
             }
@@ -121,17 +125,15 @@ fun ListItem(
             if (!valueChanged) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     ClickableIcon(
-                        icon = "trash",
+                        icon = PhosphorIcons.Light.Trash,
                         shape = RoundedCornerShape(6.dp),
-                        iconSize = 12.dp,
-                        padding = true,
                         onClick = { deleteDialogIsVisible.value = true }
                     )
                     Spacer(Modifier.width(if (hasSubItem) 0.dp else spaceBetween))
                     if (hasSubItem) {
                         Spacer(Modifier.width(10.dp))
                         Icon(
-                            painter = painterResource(IconPaths.SYSTEM_ICONS + "toggle_right.svg"),
+                            imageVector = PhosphorIcons.Light.CaretRight,
                             contentDescription = null,
                             modifier = Modifier.size(12.dp)
                         )

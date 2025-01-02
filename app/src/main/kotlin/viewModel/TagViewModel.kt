@@ -1,38 +1,43 @@
 package viewModel
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import model.dao.TagDao
-import model.entity.Tag
+import core.entity.Tag
+import kotlinx.coroutines.flow.MutableStateFlow
+import service.TagService
 
-class TagViewModel {
+class TagViewModel() {
 
-    var tags by mutableStateOf(emptyList<Tag>()); private set
-    private val tagDao = TagDao()
+    val service = TagService()
 
-    init {
-        loadTags()
+    var tags = MutableStateFlow(emptyList<Tag>())
+    fun loadTags(){
+        tags.value = service.loadTagsList()
     }
 
-    private fun loadTags() {
-        tags = tagDao.getAll()
+    var selectedTags = MutableStateFlow(emptyList<Tag>())
+
+    fun toggleTagSelection(tag: Tag) {
+        selectedTags.value = if (selectedTags.value.any { it.id == tag.id }) {
+            // Remove the tag if it is already selected
+            selectedTags.value.filter { it.id != tag.id }
+        } else {
+            // Add the tag if it is not selected
+            selectedTags.value + tag
+        }
     }
 
     fun deleteTag(tag: Tag) {
-        tagDao.delete(tag)
+        service.deleteTag(tag)
         loadTags()
     }
 
-    fun addTag(name: String) {
-        val newTag = Tag(name = name)
-        tagDao.insert(newTag)
+    fun addTag(name: String){
+        service.addTag(Tag(name = name))
         loadTags()
     }
 
-    fun updateTag(tag: Tag, name: String) {
+    fun updateTag(tag: Tag, name: String){
         val updatedTag = Tag(id = tag.id, name = name)
-        tagDao.update(updatedTag)
+        service.updateTag(updatedTag)
         loadTags()
     }
 

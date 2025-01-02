@@ -36,6 +36,9 @@ dependencies {
     // Logging
     implementation("ch.qos.logback:logback-classic:1.4.12")
 
+    // Phosphor Icons
+    implementation("com.adamglin:phosphor-icon:1.0.0")
+
 }
 
 compose.desktop {

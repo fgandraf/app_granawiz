@@ -12,15 +12,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import model.entity.Group
-import model.utils.brMoney
-import view.modules.addGroup.AddGroup
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Light
+import com.adamglin.phosphoricons.light.*
+import core.entity.Group
+import utils.brMoney
+import view.modules.groupForm.GroupForm
 import view.shared.ClickableIcon
 import view.shared.ClickableRow
-import view.theme.Afacade
-import view.theme.Lime700
-import view.theme.Red400
-import view.theme.Ubuntu
+import view.theme.*
 import viewModel.SidebarViewModel
 
 @Composable
@@ -35,7 +35,7 @@ fun GroupMenuItem(
         modifier = Modifier
             .fillMaxWidth()
             .height(35.dp)
-            .padding(horizontal = 10.dp)
+            .padding(start = 5.dp, end = 10.dp)
 
     ) {
 
@@ -45,10 +45,8 @@ fun GroupMenuItem(
         Row(modifier = Modifier.padding(start = 5.dp)){
             ClickableIcon(
                 modifier = Modifier.size(16.dp),
-                icon = if (isExpanded) "toggle_down" else "toggle_right",
+                icon = if (isExpanded) PhosphorIcons.Light.CaretDown else PhosphorIcons.Light.CaretRight,
                 shape = RoundedCornerShape(6.dp),
-                iconSize = 12.dp,
-                padding = true,
                 onClick = { toggleClick() },
             )
 
@@ -62,11 +60,11 @@ fun GroupMenuItem(
                     fontFamily = Afacade
                 )
 
-                val totalGroup = viewModel.fetchTotalGroup(group)
+                val totalGroup = viewModel.groupService.fetchTotalGroup(group)
                 Text(
                     text = brMoney.format(totalGroup),
                     fontSize = 10.sp,
-                    color = if (totalGroup > 0f) Lime700 else if (totalGroup < 0f) Red400 else MaterialTheme.colors.primaryVariant,
+                    color = if (totalGroup > 0f) Lime200 else if (totalGroup < 0f) Red400 else MaterialTheme.colors.primaryVariant,
                     fontWeight = FontWeight.Normal,
                     lineHeight = 0.sp,
                     fontFamily = Ubuntu
@@ -77,10 +75,8 @@ fun GroupMenuItem(
         var dropDownMenuExpanded by remember { mutableStateOf(false) }
         Row {
             ClickableIcon(
-                icon = "dots",
+                icon = PhosphorIcons.Light.DotsThree,
                 shape = RoundedCornerShape(6.dp),
-                iconSize = 16.dp,
-                padding = true,
                 onClick = { dropDownMenuExpanded = !dropDownMenuExpanded }
             )
 
@@ -109,23 +105,23 @@ fun DropDownGroupMenu(
             onDismissRequest = { onDismissRequest() }
         ) {
 
-            ClickableRow(iconResource = "move_up", label = "Mover para cima") {
-                viewModel.moveGroup(group, -1)
+            ClickableRow(icon = PhosphorIcons.Light.ArrowLineUp, label = "Mover para cima") {
+                viewModel.groupService.moveGroup(group, -1)
                 onDismissRequest() }
 
-            ClickableRow(iconResource = "move_down", label = "Mover para baixo") {
-                viewModel.moveGroup(group, 1)
+            ClickableRow(icon = PhosphorIcons.Light.ArrowLineDown, label = "Mover para baixo") {
+                viewModel.groupService.moveGroup(group, 1)
                 onDismissRequest() }
 
             Divider(modifier = Modifier.padding(vertical = 3.dp))
 
             var showNewGroupDialog by remember { mutableStateOf(false) }
-            ClickableRow(iconResource = "edit", label = "Editar") { showNewGroupDialog = true }
-            if (showNewGroupDialog) AddGroup(viewModel = viewModel, group = group, onDismiss = { showNewGroupDialog = false; onDismissRequest() })
+            ClickableRow(icon = PhosphorIcons.Light.PencilLine, label = "Editar") { showNewGroupDialog = true }
+            if (showNewGroupDialog) GroupForm(viewModel = viewModel, group = group, onDismiss = { showNewGroupDialog = false; onDismissRequest() })
 
             Divider(modifier = Modifier.padding(vertical = 3.dp))
 
-            ClickableRow(iconResource = "trash", label = "Excluir", enabled = group.accounts.isEmpty()) { viewModel.deleteGroup(group) }
+            ClickableRow(icon = PhosphorIcons.Light.Trash, label = "Excluir", enabled = group.accounts.isEmpty()) { viewModel.groupService.deleteGroup(group) }
 
         }
     }

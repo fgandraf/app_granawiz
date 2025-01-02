@@ -13,11 +13,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import config.IconPaths
-import view.modules.addAccount.AddAccount
-import view.modules.addAccount.components.AccountType
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Light
+import com.adamglin.phosphoricons.light.*
+import view.modules.accountForm.AccountForm
+import view.modules.groupForm.GroupForm
+import view.modules.sidebar.components.AccountType
 import view.modules.sidebar.components.ButtonFooterItem
-import view.modules.addGroup.AddGroup
 import viewModel.SidebarViewModel
 
 @Composable
@@ -37,17 +39,17 @@ fun Footer(viewModel: SidebarViewModel) {
     ){
 
         var showNewGroupDialog by remember { mutableStateOf(false) }
-        ButtonFooterItem(Modifier.weight(1f), "group.svg", "Novo grupo") { showNewGroupDialog = true }
-        if (showNewGroupDialog) AddGroup(viewModel = viewModel, onDismiss = { showNewGroupDialog = false })
+        ButtonFooterItem(Modifier.weight(1f), PhosphorIcons.Light.Folders, "Novo grupo") { showNewGroupDialog = true }
+        if (showNewGroupDialog) GroupForm(viewModel = viewModel, onDismiss = { showNewGroupDialog = false })
 
         Divider(modifier = Modifier.fillMaxHeight().width(1.dp))
 
         var showNewAccountMenu by remember { mutableStateOf(false) }
         ButtonFooterItem(
             modifier = Modifier.weight(1f),
-            iconResource = "account.svg",
+            icon = PhosphorIcons.Light.Wallet,
             label = "Nova conta",
-            enabled = viewModel.groups.isNotEmpty()
+            enabled = viewModel.groups.value.isNotEmpty()
         ) {
             showNewAccountMenu = !showNewAccountMenu
         }
@@ -65,7 +67,7 @@ fun DropDownNewAccount(
 ) {
 
     var showNewAccountDialog by remember { mutableStateOf(false) }
-    var accountType by remember { mutableStateOf(model.enums.AccountType.CHECKING) }
+    var accountType by remember { mutableStateOf(core.enums.AccountType.CHECKING) }
 
     Row(verticalAlignment = Alignment.CenterVertically) {
         DropdownMenu(
@@ -77,33 +79,33 @@ fun DropDownNewAccount(
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
                 AccountType(
-                    icon = IconPaths.SYSTEM_ICONS + "checking_account.svg",
+                    icon = PhosphorIcons.Light.Bank,
                     color = MaterialTheme.colors.primary,
                     label = "Conta Corrente",
                     onContainerClick = {
-                        accountType = model.enums.AccountType.CHECKING
+                        accountType = core.enums.AccountType.CHECKING
                         showNewAccountDialog = true
                         onDismissRequest()
                     }
                 )
 
                 AccountType(
-                    icon = IconPaths.SYSTEM_ICONS + "savings_account.svg",
+                    icon = PhosphorIcons.Light.PiggyBank,
                     color = MaterialTheme.colors.primary,
                     label = "Conta Poupança",
                     onContainerClick = {
-                        accountType = model.enums.AccountType.SAVINGS
+                        accountType = core.enums.AccountType.SAVINGS
                         showNewAccountDialog = true
                         onDismissRequest()
                     }
                 )
 
                 AccountType(
-                    icon = IconPaths.SYSTEM_ICONS + "credit_card.svg",
+                    icon = PhosphorIcons.Light.CreditCard,
                     color = MaterialTheme.colors.primary,
                     label = "Cartão de Crédito",
                     onContainerClick = {
-                        accountType = model.enums.AccountType.CREDIT_CARD
+                        accountType = core.enums.AccountType.CREDIT_CARD
                         showNewAccountDialog = true
                         onDismissRequest()
                     }
@@ -113,9 +115,13 @@ fun DropDownNewAccount(
         }
     }
 
-    if (showNewAccountDialog) AddAccount(sidebarViewModel = viewModel, accountType = accountType) {
-        showNewAccountDialog = false
-        viewModel.loadGroup()
-        viewModel.fetchTotalAccounts()
-    }
+    if (showNewAccountDialog)
+        AccountForm(
+            sidebarViewModel = viewModel,
+            accountType = accountType,
+            onDismiss = {
+                showNewAccountDialog = false
+                viewModel.groupService.fetchTotalAccounts()
+            }
+        )
 }

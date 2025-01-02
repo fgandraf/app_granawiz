@@ -10,13 +10,18 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
-import config.IconPaths
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Light
+import com.adamglin.phosphoricons.light.Tag
 import view.shared.*
 import viewModel.TagViewModel
 
@@ -24,8 +29,10 @@ import viewModel.TagViewModel
 fun TagsScreen(
     tagViewModel: TagViewModel = TagViewModel(),
 ) {
-    val listState = rememberLazyListState()
 
+    tagViewModel.loadTags()
+
+    val tags = tagViewModel.tags.collectAsState()
     Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.background)) {
 
         //===== HEADER
@@ -34,8 +41,7 @@ fun TagsScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Row { AddressView(IconPaths.SYSTEM_ICONS + "tag.svg", "Etiquetas") }
-                SearchBar(onTuneClicked = { /* TO DO */ }, onSearchClicked = { /* TO DO */ })
+                Row { AddressView(icon = PhosphorIcons.Light.Tag, value = "Etiquetas") }
             }
         }
 
@@ -55,23 +61,23 @@ fun TagsScreen(
                     .background(MaterialTheme.colors.onPrimary)
                     .padding(30.dp)
             ) {
+                val listState = rememberLazyListState()
                 LazyColumn(
                     state = listState,
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    items(tagViewModel.tags, key = { it.id }) { tag ->
+                    items(tags.value, key = { it.id }) { tag ->
                         val deleteDialogIsVisible = remember { mutableStateOf(false) }
                         ListItem(
                             label = tag.name,
-                            icon = IconPaths.SYSTEM_ICONS + "tag.svg",
+                            icon = PhosphorIcons.Light.Tag,
                             spaceBetween = 0.dp,
                             deleteDialogIsVisible = deleteDialogIsVisible,
                             onUpdateConfirmation = { tagViewModel.updateTag(tag, it) },
-                            onContentClick = {},
                             deleteDialog = {
                                 DialogDelete(
                                     title = "Excluir etiqueta",
-                                    iconResource = IconPaths.SYSTEM_ICONS + "tag.svg",
+                                    icon = PhosphorIcons.Light.Tag,
                                     objectName = tag.name,
                                     alertText = "Isso irá excluir permanentemente a etiquera ${tag.name} e remover todas as associações feitas à ela.",
                                     onClickButton = { tagViewModel.deleteTag(tag) },
@@ -86,7 +92,7 @@ fun TagsScreen(
                         AddListItem(
                             isVisible = isVisible,
                             value = value,
-                            icon = "tag.svg",
+                            icon = PhosphorIcons.Light.Tag,
                             confirmationClick = { tagViewModel.addTag(value.value) },
                         )
                     }

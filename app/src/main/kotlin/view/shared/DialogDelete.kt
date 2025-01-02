@@ -13,21 +13,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import config.IconPaths
-import view.theme.Red200
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Light
+import com.adamglin.phosphoricons.light.Warning
 import view.theme.Red400
+import view.theme.Red800
 import view.theme.Ubuntu
 
 @Composable
 fun DialogDelete(
     title: String = "",
-    iconResource: String = "",
+    icon: ImageVector,
     objectName: String,
     alertText: String,
     onClickButton: () -> Unit,
@@ -41,14 +43,14 @@ fun DialogDelete(
         ) {
 
             //===== Title Bar
-            DialogTitleBar(title, onDismiss)
+            DialogTitleBar(title = title, onCloseRequest = onDismiss)
             Divider()
 
             //===== Information
             Column(modifier = Modifier.fillMaxWidth().padding(vertical = 20.dp), horizontalAlignment = Alignment.CenterHorizontally) {
                 Image(
                     modifier = Modifier.size(40.dp),
-                    painter = painterResource(iconResource),
+                    imageVector = icon,
                     contentDescription = "Object icon"
                 )
                 Spacer(Modifier.height(15.dp))
@@ -75,12 +77,12 @@ fun DialogDelete(
                         .fillMaxWidth()
                         .padding(horizontal = 30.dp)
                         .clip(RoundedCornerShape(5.dp))
-                        .border(1.dp, Red200.copy(0.5f), shape = RoundedCornerShape(5.dp))
+                        .border(1.dp, Red800.copy(0.5f), shape = RoundedCornerShape(5.dp))
                         .background(Color.Yellow.copy(alpha = 0.2F))
                 ){
                     Image(
                         modifier = Modifier.size(16.dp),
-                        painter = painterResource(IconPaths.SYSTEM_ICONS + "alert.svg"),
+                        imageVector = PhosphorIcons.Light.Warning,
                         contentDescription = "Exclamation icon"
                     )
                     TextPrimary(

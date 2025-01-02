@@ -13,7 +13,7 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
-import config.DatabaseConfig
+import infra.config.DatabaseConfig
 import view.modules.MainContent
 import view.modules.Screen
 import view.modules.sidebar.Sidebar
@@ -27,8 +27,8 @@ fun main() = application {
     DatabaseConfig.runMigrations()
 
     val screenSize = Toolkit.getDefaultToolkit().screenSize
-    val windowsWidth = (screenSize.width * 0.8).toInt().dp
-    val windowsHeight = (screenSize.height * 0.8).toInt().dp
+    val windowsWidth = (screenSize.width * 0.75).toInt().dp
+    val windowsHeight = (screenSize.height * 0.75).toInt().dp
 
     Locale.setDefault(Locale.forLanguageTag("pt-BR"))
 
@@ -40,7 +40,7 @@ fun main() = application {
 
         MaterialTheme(colors = LightColorScheme) {
 
-            var currentScreen by remember { mutableStateOf<Screen>(Screen.Dashboard) }
+            var currentScreen by remember { mutableStateOf<Screen>(Screen.Transactions()) }
 
             Row(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.background)) {
                 Sidebar(currentScreen = currentScreen) { screen -> currentScreen = screen }

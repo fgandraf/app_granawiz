@@ -20,6 +20,6 @@ fun MainContent(screen: Screen) {
         is Screen.Tags -> TagsScreen()
         is Screen.Receivers -> ReceiversScreen()
         is Screen.Payers -> PayersScreen()
-        is Screen.Transactions -> TransactionsScreen(screen.account)
+        is Screen.Transactions -> TransactionsScreen(screen.account, screen.showAddButton)
     }
 }

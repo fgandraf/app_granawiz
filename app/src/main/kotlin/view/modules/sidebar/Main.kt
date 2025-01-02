@@ -11,6 +11,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Light
+import com.adamglin.phosphoricons.light.*
 import view.modules.Screen
 import view.modules.sidebar.components.AccountMenuItem
 import view.modules.sidebar.components.GroupMenuItem
@@ -31,52 +34,52 @@ fun Main(
     Column(modifier = modifier.fillMaxWidth().verticalScroll(rememberScrollState())) {
 
         //=== STATIC MENU ITEMS
-        Spacer(modifier = Modifier.height(25.dp))
-        StaticMenuItem(
-            iconResource = "dashboard",
-            label = "Dashboard",
-            screen = Screen.Dashboard,
-            currentScreen = currentScreen,
-            onClick = onScreenSelected
-        )
-        StaticMenuItem(
-            iconResource = "schedule",
-            label = "Agendamentos",
-            screen = Screen.Schedules,
-            currentScreen = currentScreen,
-            onClick = onScreenSelected
-        )
-        StaticMenuItem(
-            iconResource = "report",
-            label = "Relatórios",
-            screen = Screen.Reports,
-            currentScreen = currentScreen,
-            onClick = onScreenSelected
-        )
+        //Spacer(modifier = Modifier.height(25.dp))
+//        StaticMenuItem(
+//            icon = PhosphorIcons.Light.SquaresFour,
+//            label = "Dashboard",
+//            screen = Screen.Dashboard,
+//            currentScreen = currentScreen,
+//            onClick = onScreenSelected
+//        )
+//        StaticMenuItem(
+//            icon = PhosphorIcons.Light.Calendar,
+//            label = "Agendamentos",
+//            screen = Screen.Schedules,
+//            currentScreen = currentScreen,
+//            onClick = onScreenSelected
+//        )
+//        StaticMenuItem(
+//            icon = PhosphorIcons.Light.Scroll,
+//            label = "Relatórios",
+//            screen = Screen.Reports,
+//            currentScreen = currentScreen,
+//            onClick = onScreenSelected
+//        )
         SectionTitle("Base de dados")
         StaticMenuItem(
-            iconResource = "category",
+            icon = PhosphorIcons.Light.Shapes,
             label = "Categorias",
             screen = Screen.Categories,
             currentScreen = currentScreen,
             onClick = onScreenSelected
         )
         StaticMenuItem(
-            iconResource = "tag",
+            icon = PhosphorIcons.Light.Tag,
             label = "Etiquetas",
             screen = Screen.Tags,
             currentScreen = currentScreen,
             onClick = onScreenSelected
         )
         StaticMenuItem(
-            iconResource = "receiver",
+            icon = PhosphorIcons.Light.HandArrowDown,
             label = "Beneficiários",
             screen = Screen.Receivers,
             currentScreen = currentScreen,
             onClick = onScreenSelected
         )
         StaticMenuItem(
-            iconResource = "payer",
+            icon = PhosphorIcons.Light.HandArrowUp,
             label = "Pagadores",
             screen = Screen.Payers,
             currentScreen = currentScreen,
@@ -84,9 +87,9 @@ fun Main(
         )
         SectionTitle("Transações")
         StaticMenuItem(
-            iconResource = "list",
+            icon = PhosphorIcons.Light.ListBullets,
             label = "Todas as transações",
-            screen = Screen.Transactions(null),
+            screen = Screen.Transactions(),
             currentScreen = currentScreen,
             onClick = onScreenSelected
         )
@@ -94,7 +97,7 @@ fun Main(
 
 
         //=== DYNAMIC MENU ITEMS
-        if (viewModel.groups.isEmpty())
+        if (viewModel.groups.value.isEmpty())
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
@@ -104,7 +107,7 @@ fun Main(
             }
         else {
             val expandedGroups = remember { mutableStateMapOf<String, Boolean>() }
-            viewModel.groups.forEach { group ->
+            viewModel.groups.value.forEach { group ->
 
                 val isExpanded = expandedGroups[group.name] ?: true
                 GroupMenuItem(
@@ -124,8 +127,7 @@ fun Main(
                             AccountMenuItem(
                                 viewModel = viewModel,
                                 account = account,
-                                group = group,
-                                screen = Screen.Transactions(account),
+                                screen = Screen.Transactions(account, showAddButton = true),
                                 currentScreen = currentScreen,
                                 onClick = onScreenSelected
                             )

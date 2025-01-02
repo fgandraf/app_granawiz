@@ -18,7 +18,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -26,6 +25,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Light
+import com.adamglin.phosphoricons.light.Faders
+import com.adamglin.phosphoricons.light.MagnifyingGlass
 import view.theme.Ubuntu
 
 @Composable
@@ -53,7 +56,7 @@ fun SearchBar(
         ) {
             Icon(
                 modifier = Modifier.fillMaxSize().padding(10.dp).align(Alignment.Center),
-                painter = painterResource("assets/icons/systemIcons/tune.svg"),
+                imageVector = PhosphorIcons.Light.Faders,
                 contentDescription = "",
                 tint = MaterialTheme.colors.secondary,
             )
@@ -103,7 +106,7 @@ fun SearchBar(
         ) {
             Icon(
                 modifier = Modifier.size(40.dp).padding(10.dp).align(Alignment.Center),
-                painter = painterResource("assets/icons/systemIcons/search.svg"),
+                imageVector = PhosphorIcons.Light.MagnifyingGlass,
                 contentDescription = "",
                 tint = MaterialTheme.colors.secondary,
             )

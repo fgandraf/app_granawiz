@@ -11,21 +11,30 @@ import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
-import config.IconPaths
-import model.enums.PartyType
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Light
+import com.adamglin.phosphoricons.light.HandArrowDown
+import com.adamglin.phosphoricons.light.HandArrowUp
+import core.enums.PartyType
 import view.shared.*
 import viewModel.PartyViewModel
 
 @Composable
-fun Body(viewModel: PartyViewModel) {
+fun Body(
+    partyType: PartyType,
+    viewModel: PartyViewModel = PartyViewModel(partyType),
+) {
+
+    viewModel.getParties()
+
+    val parties by viewModel.parties.collectAsState()
+    val names by viewModel.partyNames.collectAsState()
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -52,7 +61,7 @@ fun Body(viewModel: PartyViewModel) {
 
                 LazyColumn(state = listState, modifier = Modifier.fillMaxSize().padding(top = 30.dp)) {
 
-                    items(viewModel.parties, key = { it.id }) { party ->
+                    items(parties, key = { it.id }) { party ->
 
                         val deleteDialogIsVisible = remember { mutableStateOf(false) }
                         ListItem(
@@ -61,16 +70,17 @@ fun Body(viewModel: PartyViewModel) {
                             deleteDialogIsVisible = deleteDialogIsVisible,
                             onUpdateConfirmation = { viewModel.updateParty(party, it)},
                             onContentClick = {
-                                viewModel.loadNames(party)
-                                viewModel.selectParty(party)
+                                viewModel.selectedParty.value = party
+                                viewModel.getNames()
+                                Unit
                             },
                             deleteDialog = {
-                                val type = if (viewModel.selectedType == PartyType.RECEIVER) "recebedor" else "pagador"
-                                val iconResource = if (viewModel.selectedType == PartyType.RECEIVER) "receiver.svg" else "payer.svg"
+                                val type = if (viewModel.selectedType.value == PartyType.RECEIVER) "recebedor" else "pagador"
+                                val iconResource = if (viewModel.selectedType.value == PartyType.RECEIVER) PhosphorIcons.Light.HandArrowDown else PhosphorIcons.Light.HandArrowUp
 
                                 DialogDelete(
                                     title = "Excluir $type",
-                                    iconResource = IconPaths.SYSTEM_ICONS + iconResource,
+                                    icon = iconResource,
                                     objectName = party.name,
                                     alertText = "Isso irá excluir permanentemente o $type ${party.name} e remover todas as associações feitas à ele.",
                                     onClickButton = { viewModel.deleteParty(party) },
@@ -87,7 +97,7 @@ fun Body(viewModel: PartyViewModel) {
                         AddListItem(
                             isVisible = isVisible,
                             value = value,
-                            confirmationClick = { viewModel.addParty(value.value) }
+                            confirmationClick = { viewModel.addParty(name = value.value) }
                         )
                     }
 
@@ -112,7 +122,7 @@ fun Body(viewModel: PartyViewModel) {
 
                 LazyColumn(state = listState, modifier = Modifier.fillMaxSize().padding(top = 30.dp)) {
 
-                    items(viewModel.partiyNames, key = { it.id }) { payerName ->
+                    items(names, key = { it.id }) { payerName ->
 
                         val deleteDialogIsVisible = remember { mutableStateOf(false) }
                         ListItem(
@@ -125,10 +135,10 @@ fun Body(viewModel: PartyViewModel) {
                             deleteDialog = {
                                 DialogDelete(
                                     title = "Excluir nome",
-                                    iconResource = IconPaths.SYSTEM_ICONS + "payer.svg",
+                                    icon = PhosphorIcons.Light.HandArrowUp,
                                     objectName = payerName.name,
                                     alertText = "Isso irá excluir permanentemente o nome ${payerName.name} e remover todas as associações feitas à ele.",
-                                    onClickButton = { viewModel.deletePartyName(payerName) },
+                                    onClickButton = { viewModel.deleteName(payerName) },
                                     onDismiss = { deleteDialogIsVisible.value = false }
                                 )
                             }
@@ -142,14 +152,17 @@ fun Body(viewModel: PartyViewModel) {
                         AddListItem(
                             isVisible = isVisible,
                             value = value,
-                            confirmationClick = { viewModel.addPartyName(value.value) },
+                            confirmationClick = { viewModel.addName(value.value) },
                             alertDialogContent = {
-                                viewModel.errorMessage?.let { errorMessage ->
-                                    SimpleAlertDialog(
-                                        onDismissRequest = { viewModel.clearError() },
-                                        title = "Associação já existente",
-                                        message = errorMessage
-                                    )
+
+                                viewModel.errorMessage.value.let { message ->
+                                    if (message != null) {
+                                        SimpleAlertDialog(
+                                            onDismissRequest = { viewModel.clearError() },
+                                            title = "Associação já existente",
+                                            message = message
+                                        )
+                                    }
                                 }
                             }
                         )

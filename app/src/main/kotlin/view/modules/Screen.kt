@@ -1,6 +1,6 @@
 package view.modules
 
-import model.entity.account.BankAccount
+import core.entity.account.BankAccount
 
 sealed class Screen {
     data object Dashboard : Screen()
@@ -10,5 +10,5 @@ sealed class Screen {
     data object Tags : Screen()
     data object Receivers : Screen()
     data object Payers : Screen()
-    data class Transactions(val account: BankAccount?) : Screen()
+    data class Transactions(val account: BankAccount? = null, val showAddButton: Boolean = false) : Screen()
 }
