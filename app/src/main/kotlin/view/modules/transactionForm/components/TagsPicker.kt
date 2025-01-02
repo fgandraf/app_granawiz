@@ -10,10 +10,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -21,7 +18,6 @@ import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.Tag
 import core.entity.Tag
-import core.entity.Transaction
 import view.shared.AddListItem
 import view.shared.DialogDelete
 import view.shared.ListItem
@@ -30,14 +26,16 @@ import viewModel.TagViewModel
 
 @Composable
 fun TagsPicker(
-    transaction: Transaction? = null,
-    viewModel: TagViewModel = TagViewModel(),
+    viewModel: TagViewModel = remember { TagViewModel()},
+    selected: List<Tag>,
     onTagClick: (List<Tag>) -> Unit
 ) {
 
     viewModel.loadTags()
-    if (transaction != null) { viewModel.selectedTags.value = transaction.tags ?: emptyList() }
+    viewModel.selectedTags.value = selected
 
+    val tags = viewModel.tags.collectAsState()
+    val selectedTags by viewModel.selectedTags.collectAsState()
 
     val corner = 30.dp
     Column(
@@ -48,11 +46,6 @@ fun TagsPicker(
             .background(MaterialTheme.colors.onPrimary, RoundedCornerShape(topEnd = corner, bottomEnd = corner))
             .border(1.dp, MaterialTheme.colors.primaryVariant, RoundedCornerShape(topEnd = corner, bottomEnd = corner))
     ) {
-        val tags = viewModel.tags.collectAsState()
-
-
-
-
 
 
         Box(
@@ -67,27 +60,28 @@ fun TagsPicker(
 
                     val deleteDialogIsVisible = remember { mutableStateOf(false) }
 
-                    transaction?.tags?.let {
-                        ListItem(
-                            label = tag.name,
-                            isActive = viewModel.selectedTags.value.any{ it.id == tag.id },
-                            icon = PhosphorIcons.Light.Tag,
-                            spaceBetween = 0.dp,
-                            deleteDialogIsVisible = deleteDialogIsVisible,
-                            onUpdateConfirmation = { viewModel.updateTag(tag, it) },
-                            onContentClick = {},
-                            deleteDialog = {
-                                DialogDelete(
-                                    title = "Excluir etiqueta",
-                                    icon = PhosphorIcons.Light.Tag,
-                                    objectName = tag.name,
-                                    alertText = "Isso irá excluir permanentemente a etiquera ${tag.name} e remover todas as associações feitas à ela.",
-                                    onClickButton = { viewModel.deleteTag(tag) },
-                                    onDismiss = { deleteDialogIsVisible.value = false }
-                                )
-                            }
-                        )
-                    }
+                    ListItem(
+                        label = tag.name,
+                        isActive = selectedTags.any { it.id == tag.id },
+                        icon = PhosphorIcons.Light.Tag,
+                        spaceBetween = 0.dp,
+                        deleteDialogIsVisible = deleteDialogIsVisible,
+                        onUpdateConfirmation = { viewModel.updateTag(tag, it) },
+                        onContentClick = {
+                            viewModel.toggleTagSelection(tag)
+                            onTagClick(viewModel.selectedTags.value)
+                        },
+                        deleteDialog = {
+                            DialogDelete(
+                                title = "Excluir etiqueta",
+                                icon = PhosphorIcons.Light.Tag,
+                                objectName = tag.name,
+                                alertText = "Isso irá excluir permanentemente a etiqueta ${tag.name} e remover todas as associações feitas à ela.",
+                                onClickButton = { viewModel.deleteTag(tag) },
+                                onDismiss = { deleteDialogIsVisible.value = false }
+                            )
+                        }
+                    )
 
                 }
 
@@ -107,15 +101,6 @@ fun TagsPicker(
                 modifier = Modifier.align(Alignment.CenterEnd)
             )
         }
-
-
-
-
-//        tags.forEach { tag ->
-//            TextPrimary(text = tag.name, weight = FontWeight.Bold, size = 16.sp)
-//        }
-
-
 
     }
 }

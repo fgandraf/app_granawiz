@@ -41,7 +41,7 @@ fun ListItem(
     deleteDialogIsVisible: MutableState<Boolean> = remember { mutableStateOf(false) },
     onUpdateConfirmation: (String) -> Unit,
     onSelectIcon: (String) -> Unit = {},
-    onContentClick: (() -> Unit?)?,
+    onContentClick: (() -> Unit?)? = null,
     deleteDialog: @Composable () -> Unit,
 ){
     var value by remember { mutableStateOf(label) }

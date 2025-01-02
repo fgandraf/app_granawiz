@@ -45,6 +45,7 @@ fun TransactionForm(
     transactionType: TransactionType? = null,
     onDismiss: () -> Unit
 ) {
+    val tags = transactionFormViewModel.tags.collectAsState()
 
     if (transaction == null && transactionType != null)  transactionFormViewModel.type = transactionType
 
@@ -183,10 +184,11 @@ fun TransactionForm(
 
 
                             //---tags
+
                             TagListView(
                                 label = "Etiquetas:",
                                 placeholder = "Etiquetas",
-                                tags = transactionFormViewModel.tags,
+                                tags = tags.value,
                                 onClickTag = { },
                                 onClickAdd = {
                                     if (showSide && sideType == "tags")
@@ -229,19 +231,15 @@ fun TransactionForm(
                             "parties" -> PartiesDialog(viewModel = transactionFormViewModel)
                             else ->
                                 TagsPicker(
-                                    transaction = transaction,
-                                    onTagClick = {}
+                                    selected = tags.value,
+                                    onTagClick = { transactionFormViewModel.tags.value = it.toList()}
                                 )
                         }
 
                     }
 
                 }
-
             }
-
-
-
 
 
             //==== FOOTER

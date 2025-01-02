@@ -40,39 +40,39 @@ fun TagListView(
                 .height(40.dp)
                 .padding(start = 5.dp)
         ) {
-            if (tags.isNullOrEmpty())
-                TextPrimary(text = placeholder, size = 10.sp, color = primaryColor.copy(alpha = 0.75f), modifier = Modifier.fillMaxWidth())
-            else{
 
                 Row(verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween,
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth()
                 ) {
-
-                    Row {
-                        tags.forEach { tag ->
-                            Box(
-                                modifier = Modifier
-                                    .padding(end = 5.dp)
-                                    .clip(CircleShape)
-                                    .pointerHoverIcon(PointerIcon.Hand)
-                                    .clickable { onClickTag() },
-                            ) {
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    modifier = Modifier.padding(horizontal = 10.dp, vertical = 3.dp)
+                    if (tags.isNullOrEmpty())
+                        TextPrimary(text = placeholder, size = 10.sp, color = primaryColor.copy(alpha = 0.75f))
+                    else {
+                        Row {
+                            tags.forEach { tag ->
+                                Box(
+                                    modifier = Modifier
+                                        .padding(end = 5.dp)
+                                        .clip(CircleShape)
+                                        .pointerHoverIcon(PointerIcon.Hand)
+                                        .clickable { onClickTag() },
                                 ) {
-                                    Icon(
-                                        modifier = Modifier.size(16.dp),
-                                        imageVector = PhosphorIcons.Light.Tag,
-                                        contentDescription = null,
-                                        tint = primaryColor.copy(alpha = 0.75f)
-                                    )
-                                    TextPrimary(
-                                        modifier = Modifier.padding(start = 5.dp),
-                                        text = tag.name,
-                                        size = 10.sp
-                                    )
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 3.dp)
+                                    ) {
+                                        Icon(
+                                            modifier = Modifier.size(16.dp),
+                                            imageVector = PhosphorIcons.Light.Tag,
+                                            contentDescription = null,
+                                            tint = primaryColor.copy(alpha = 0.75f)
+                                        )
+                                        TextPrimary(
+                                            modifier = Modifier.padding(start = 5.dp),
+                                            text = tag.name,
+                                            size = 10.sp
+                                        )
+                                    }
                                 }
                             }
                         }
@@ -85,7 +85,10 @@ fun TagListView(
                             .clip(CircleShape)
                             .clickable { onClickAdd() }
                     ) {
-                        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(horizontal = 10.dp, vertical = 3.dp)) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 3.dp)
+                        ) {
                             Icon(
                                 imageVector = PhosphorIcons.Light.Plus,
                                 contentDescription = null,
@@ -99,8 +102,22 @@ fun TagListView(
                         }
 
                     }
+
+
+
+
+
+
+
                 }
-            }
+
+
+
+
+
+
+
+
         }
     }
 }

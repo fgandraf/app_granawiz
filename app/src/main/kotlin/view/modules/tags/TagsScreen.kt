@@ -74,7 +74,6 @@ fun TagsScreen(
                             spaceBetween = 0.dp,
                             deleteDialogIsVisible = deleteDialogIsVisible,
                             onUpdateConfirmation = { tagViewModel.updateTag(tag, it) },
-                            onContentClick = {},
                             deleteDialog = {
                                 DialogDelete(
                                     title = "Excluir etiqueta",
