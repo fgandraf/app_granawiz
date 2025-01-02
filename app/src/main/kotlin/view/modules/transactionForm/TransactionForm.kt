@@ -51,9 +51,12 @@ fun TransactionForm(
 
     var showSide by remember { mutableStateOf(false) }
     var sideType by remember{ mutableStateOf("") }
+    val targetSize by derivedStateOf {
+        if (sideType == "categories") 1100.dp else 850.dp
+    }
 
     val dialogWidth by animateDpAsState(
-        targetValue = if (showSide) 1100.dp else 560.dp,
+        targetValue = if (showSide) targetSize else 560.dp,
         animationSpec = tween(durationMillis = 800) // Duração de 500ms
     )
     val title by remember{ derivedStateOf { if (transactionFormViewModel.id == 0L) "Adicionar transação" else "Editar transação" }}
