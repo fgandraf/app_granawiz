@@ -27,6 +27,7 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.zIndex
 import core.entity.Transaction
 import core.entity.account.BankAccount
+import core.enums.PartyType
 import core.enums.TransactionType
 import utils.IconPaths
 import utils.toBrMoney
@@ -46,13 +47,14 @@ fun TransactionForm(
     onDismiss: () -> Unit
 ) {
     val tags = transactionFormViewModel.tags.collectAsState()
+    val party = transactionFormViewModel.party.collectAsState()
 
     if (transaction == null && transactionType != null)  transactionFormViewModel.type = transactionType
 
     var showSide by remember { mutableStateOf(false) }
     var sideType by remember{ mutableStateOf("") }
     val targetSize by derivedStateOf {
-        if (sideType == "categories") 1100.dp else 850.dp
+        if (sideType == "tags") 850.dp else 1200.dp
     }
 
     val dialogWidth by animateDpAsState(
@@ -135,10 +137,10 @@ fun TransactionForm(
                             //---party
                             DefaultPartyField(
                                 modifier = Modifier.padding(bottom = 20.dp),
-                                value = transactionFormViewModel.party.name,
+                                value = party.value.name,
                                 label = if (transactionFormViewModel.type == TransactionType.GAIN) "Pagador" else "Recebedor",
                                 placeholder = "Nome",
-                                onValueChange = { transactionFormViewModel.party.name = it },
+                                onValueChange = { transactionFormViewModel.party.value.name = it },
                                 onClick = {
                                     if (showSide && sideType == "parties")
                                         showSide = false
@@ -187,7 +189,6 @@ fun TransactionForm(
 
 
                             //---tags
-
                             TagListView(
                                 label = "Etiquetas:",
                                 placeholder = "Etiquetas",
@@ -231,16 +232,19 @@ fun TransactionForm(
                                     }
                                 )
 
-                            "parties" -> PartiesDialog(viewModel = transactionFormViewModel)
+                            "parties" ->
+                                PartiesPicker(
+                                    partyType = if (transactionFormViewModel.type == TransactionType.GAIN) PartyType.PAYER else PartyType.RECEIVER,
+                                    party = party.value,
+                                    onPartyClick = { transactionFormViewModel.party.value = it }
+                                )
                             else ->
                                 TagsPicker(
                                     selected = tags.value,
                                     onTagClick = { transactionFormViewModel.tags.value = it.toList()}
                                 )
                         }
-
                     }
-
                 }
             }
 
@@ -248,27 +252,14 @@ fun TransactionForm(
             //==== FOOTER
             Divider()
             Box(Modifier.padding(20.dp, vertical = 10.dp)) {
-                //val confirmed by remember { derivedStateOf { transactionViewModel.name != "" && transactionViewModel.group.id != 0L } }
-
+                DefaultButton(confirmed = true, onClick = {}, label = title)
+//                val confirmed by remember { derivedStateOf { transactionViewModel.name != "" && transactionViewModel.group.id != 0L } }
+//
 //                        DefaultButton(confirmed = confirmed, buttonLabel) {
 //                            addAccountViewModel.saveCheckingAccount(transaction)
 //                            transactionViewModel.loadGroup()
 //                            onDismiss()
 //                        }
-
-                var showAlertDialog by remember { mutableStateOf(false) }
-                // 👇🏻 Apagar depois
-                DefaultButton(confirmed = true, title) {
-                    showAlertDialog = true
-                    //onDismiss()
-                }
-                if (showAlertDialog)
-                    SimpleAlertDialog(
-                        onDismissRequest = {showAlertDialog = false},
-                        title = "",
-                        message = transactionFormViewModel.category.name + " / " + transactionFormViewModel.subCategory?.name,
-                    )
-
             }
         }
     }

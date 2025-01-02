@@ -12,76 +12,44 @@ class PartyService {
 
     private val dao: PartyDao = PartyDao()
 
-    var parties by mutableStateOf(emptyList<Party>())
-    var partyNames by mutableStateOf(emptyList<PartyName>())
-
     var errorMessage: String? by mutableStateOf(null); private set
 
-    fun loadParties(type: PartyType) {
-        parties = dao.getAll(type)
+    fun loadPartiesList(type: PartyType): List<Party> {
+        return dao.getAll(type)
     }
 
-    fun loadNames(party: Party) {
-        partyNames = parties.find{ x -> x == party}?.partiesNames!!
+    fun loadNamesList(party: Party): List<PartyName> {
+        val parties = dao.getAll(party.type)
+        return parties.find{ x -> x.id == party.id}?.partiesNames!!
     }
 
-    fun clearError() {
-        errorMessage = null
-    }
+    fun clearError() { errorMessage = null }
 
-    fun deleteParty(party: Party) {
-        val type = party.type
-        dao.delete(party)
-        loadParties(type)
-    }
+    fun deleteParty(party: Party) { dao.delete(party) }
 
-    fun deletePartyName(partyName: PartyName) {
-        val type = partyName.party.type
-        val partyId = partyName.party.id
-        dao.deleteName(partyName)
+    fun deletePartyName(partyName: PartyName) { dao.deleteName(partyName) }
 
-        loadParties(type)
-        partyNames = parties.find { x -> x.id == partyId }?.partiesNames ?: emptyList()
-    }
+    fun addParty(party: Party) { dao.insert(party) }
 
-    fun addParty(name: String, type: PartyType) {
-        val newParty = Party(name = name, type = type)
-        dao.insert(newParty)
-        loadParties(type)
-    }
-
-    fun addPartyName(name: String, party: Party): Boolean {
-        val existingName = dao.getPartyNameByName(name)
+    fun addPartyName(partyName: PartyName): Boolean {
+        val existingName = dao.getPartyNameByName(partyName.name)
         if (existingName != null) {
-            errorMessage = "O nome \"$name\" já está vinculado à \"${existingName.party.name}\"."
+            errorMessage = "O nome \"${partyName.name}\" já está vinculado à \"${existingName.party.name}\"."
             return false
         }
-
-        val newPartyName = PartyName(name = name, party = party)
-        dao.insertName(newPartyName)
-        loadParties(party.type)
-        partyNames = parties.find { x -> x.id == newPartyName.party.id }?.partiesNames ?: emptyList()
+        dao.insertName(partyName)
         return true
     }
 
-    fun updateParty(party: Party, name: String) {
-        val updatedParty = Party(id = party.id, name = name, type = party.type, partiesNames = party.partiesNames)
-        dao.update(updatedParty)
-        loadParties(party.type)
-    }
+    fun updateParty(party: Party) { dao.update(party) }
 
-    fun updatePartyName(partyName: PartyName, name: String): Boolean {
-        val existingName = dao.getPartyNameByName(name)
+    fun updatePartyName(partyName: PartyName): Boolean {
+        val existingName = dao.getPartyNameByName(partyName.name)
         if (existingName != null) {
-            errorMessage = "O nome \"$name\" já está vinculado à \"${existingName.party.name}\"."
+            errorMessage = "O nome \"${partyName.name}\" já está vinculado à \"${existingName.party.name}\"."
             return false
         }
-
-        val partyId = partyName.party.id
-        val updatedPartyName = PartyName(partyName.id, name, partyName.party)
-        dao.updateName(updatedPartyName)
-        loadParties(partyName.party.type)
-        partyNames = parties.find { x -> x.id == partyId }?.partiesNames ?: emptyList()
+        dao.updateName(partyName)
         return true
     }
 }

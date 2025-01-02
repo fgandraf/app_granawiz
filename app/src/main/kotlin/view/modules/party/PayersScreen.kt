@@ -12,15 +12,9 @@ import com.adamglin.phosphoricons.light.HandArrowUp
 import core.enums.PartyType
 import view.modules.party.components.Body
 import view.shared.AddressView
-import viewModel.PartyViewModel
 
 @Composable
-fun PayersScreen(
-    viewModel: PartyViewModel = PartyViewModel(PartyType.PAYER)
-) {
-
-    viewModel.service.loadParties(type = PartyType.PAYER)
-
+fun PayersScreen() {
     Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.background)) {
 
         //===== HEADER
@@ -34,7 +28,7 @@ fun PayersScreen(
         }
 
         //===== BODY
-        Body(viewModel)
+        Body(PartyType.PAYER)
 
     }
 }

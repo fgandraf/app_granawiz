@@ -17,7 +17,7 @@ import kotlin.math.abs
 class TransactionFormViewModel(transaction: Transaction? = null) {
 
     var id by mutableStateOf(0L)
-    var party by mutableStateOf(Party())
+    var party = MutableStateFlow(Party())
     var account by mutableStateOf(BankAccount())
     var category by mutableStateOf(Category())
     var subCategory by mutableStateOf<Subcategory?>(null)
@@ -30,7 +30,7 @@ class TransactionFormViewModel(transaction: Transaction? = null) {
     init {
         transaction?.let {
             id = it.id
-            party = it.party
+            party.value = it.party
             account = it.account
             category = it.category
             subCategory = it.subcategory ?: Subcategory()

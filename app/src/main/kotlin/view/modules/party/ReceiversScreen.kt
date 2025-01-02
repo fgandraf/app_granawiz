@@ -12,14 +12,9 @@ import com.adamglin.phosphoricons.light.HandArrowDown
 import core.enums.PartyType
 import view.modules.party.components.Body
 import view.shared.AddressView
-import viewModel.PartyViewModel
 
 @Composable
-fun ReceiversScreen(
-    viewModel: PartyViewModel = PartyViewModel(PartyType.RECEIVER)
-) {
-
-    viewModel.service.loadParties(type = PartyType.RECEIVER)
+fun ReceiversScreen() {
 
     Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.background)) {
 
@@ -34,7 +29,6 @@ fun ReceiversScreen(
         }
 
         //===== BODY
-        Body(viewModel)
-
+        Body(PartyType.RECEIVER)
     }
 }

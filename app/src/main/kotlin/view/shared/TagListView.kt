@@ -35,89 +35,62 @@ fun TagListView(
             TextPrimary(text = label, modifier = Modifier.padding(bottom = 5.dp), size = 10.sp)
 
         Box(contentAlignment = Alignment.CenterStart,
-            modifier = modifier
-                .fillMaxWidth()
-                .height(40.dp)
-                .padding(start = 5.dp)
+            modifier = modifier.fillMaxWidth().padding(start = 5.dp, top = 10.dp)
         ) {
-
-                Row(verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
+            Row(verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Row(modifier = Modifier.weight(0.7f)) {
                     if (tags.isNullOrEmpty())
                         TextPrimary(text = placeholder, size = 10.sp, color = primaryColor.copy(alpha = 0.75f))
                     else {
-                        Row {
-                            tags.forEach { tag ->
-                                Box(
-                                    modifier = Modifier
-                                        .padding(end = 5.dp)
-                                        .clip(CircleShape)
-                                        .pointerHoverIcon(PointerIcon.Hand)
-                                        .clickable { onClickTag() },
+                        tags.forEach { tag ->
+                            Box(
+                                modifier = Modifier
+                                    .padding(end = 5.dp)
+                                    .clip(CircleShape)
+                                    .pointerHoverIcon(PointerIcon.Hand)
+                                    .clickable { onClickTag() },
+                            ) {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    modifier = Modifier.padding(horizontal = 10.dp, vertical = 3.dp)
                                 ) {
-                                    Row(
-                                        verticalAlignment = Alignment.CenterVertically,
-                                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 3.dp)
-                                    ) {
-                                        Icon(
-                                            modifier = Modifier.size(16.dp),
-                                            imageVector = PhosphorIcons.Light.Tag,
-                                            contentDescription = null,
-                                            tint = primaryColor.copy(alpha = 0.75f)
-                                        )
-                                        TextPrimary(
-                                            modifier = Modifier.padding(start = 5.dp),
-                                            text = tag.name,
-                                            size = 10.sp
-                                        )
-                                    }
+                                    Icon(
+                                        modifier = Modifier.size(16.dp),
+                                        imageVector = PhosphorIcons.Light.Tag,
+                                        contentDescription = null,
+                                        tint = primaryColor.copy(alpha = 0.75f)
+                                    )
+                                    TextPrimary(
+                                        modifier = Modifier.padding(start = 5.dp),
+                                        text = tag.name,
+                                        size = 10.sp
+                                    )
                                 }
                             }
                         }
                     }
-
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center,
-                        modifier = Modifier
-                            .pointerHoverIcon(PointerIcon.Hand)
-                            .clip(CircleShape)
-                            .clickable { onClickAdd() }
-                    ) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 3.dp)
-                        ) {
-                            Icon(
-                                imageVector = PhosphorIcons.Light.Plus,
-                                contentDescription = null,
-                                modifier = Modifier.size(15.dp)
-                            )
-                            TextPrimary(
-                                modifier = Modifier.padding(start = 5.dp),
-                                text = "Adicionar",
-                                size = 10.sp
-                            )
-                        }
-
-                    }
-
-
-
-
-
-
-
                 }
 
-
-
-
-
-
-
-
+                Row(
+                    verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier.pointerHoverIcon(PointerIcon.Hand).clip(CircleShape).clickable { onClickAdd() }
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(horizontal = 10.dp, vertical = 3.dp)) {
+                        Icon(
+                            imageVector = PhosphorIcons.Light.Plus,
+                            contentDescription = null,
+                            modifier = Modifier.size(15.dp)
+                        )
+                        TextPrimary(
+                            modifier = Modifier.padding(start = 5.dp),
+                            text = "Adicionar",
+                            size = 10.sp
+                        )
+                    }
+                }
+            }
         }
     }
 }
