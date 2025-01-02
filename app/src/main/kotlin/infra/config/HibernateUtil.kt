@@ -33,6 +33,7 @@ object HibernateUtil {
         settings["hibernate.connection.driver_class"] = "org.sqlite.JDBC"
         settings["hibernate.connection.url"] = "jdbc:sqlite:granawiz.db"
         settings["hibernate.dialect"] = "org.hibernate.community.dialect.SQLiteDialect"
+        settings["hibernate.jdbc.time_zone"] = "UTC"
         settings["hibernate.show_sql"] = "true"
         settings["hibernate.format_sql"] = "true"
         settings["hibernate.hbm2ddl.auto"] = "validate"

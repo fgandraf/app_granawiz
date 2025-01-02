@@ -18,4 +18,7 @@ class TransactionService {
         else dao.getAllByAccount(account)
     }
 
+    fun addTransaction(transaction: Transaction) { dao.insert(transaction) }
+
+    fun updateTransaction(transaction: Transaction) { dao.update(transaction) }
 }

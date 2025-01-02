@@ -9,12 +9,15 @@ import core.entity.*
 import core.entity.account.BankAccount
 import core.enums.TransactionType
 import kotlinx.coroutines.flow.MutableStateFlow
+import service.TransactionService
 import view.theme.Lime800
 import view.theme.Red800
 import java.time.LocalDateTime
 import kotlin.math.abs
 
 class TransactionFormViewModel(transaction: Transaction? = null) {
+
+    val service: TransactionService = TransactionService()
 
     var id by mutableStateOf(0L)
     var party = MutableStateFlow(Party())
@@ -33,7 +36,7 @@ class TransactionFormViewModel(transaction: Transaction? = null) {
             party.value = it.party
             account = it.account
             category = it.category
-            subCategory = it.subcategory ?: Subcategory()
+            subCategory = it.subcategory
             tags.value = it.tags?: listOf()
             date = it.date
             description = it.description
@@ -66,4 +69,24 @@ class TransactionFormViewModel(transaction: Transaction? = null) {
             else -> ""
         }
     }
+
+    fun saveTransaction(){
+        val transaction = Transaction(
+            id = this.id,
+            party = party.value,
+            account = account,
+            category = category,
+            subcategory = subCategory,
+            tags = tags.value,
+            date = date,
+            description = description,
+            balance = balance,
+            type = type,
+        )
+
+        if (id == 0L) service.addTransaction(transaction)
+        else service.updateTransaction(transaction)
+    }
+
+
 }

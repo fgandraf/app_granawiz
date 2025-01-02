@@ -38,6 +38,7 @@ dependencies {
 
     // Phosphor Icons
     implementation("com.adamglin:phosphor-icon:1.0.0")
+
 }
 
 compose.desktop {

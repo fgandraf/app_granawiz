@@ -59,7 +59,7 @@ fun TransactionForm(
 
     val dialogWidth by animateDpAsState(
         targetValue = if (showSide) targetSize else 560.dp,
-        animationSpec = tween(durationMillis = 800) // Duração de 500ms
+        animationSpec = tween(durationMillis = 800)
     )
     val title by remember{ derivedStateOf { if (transactionFormViewModel.id == 0L) "Adicionar transação" else "Editar transação" }}
 
@@ -263,14 +263,13 @@ fun TransactionForm(
             //==== FOOTER
             Divider()
             Box(Modifier.padding(20.dp, vertical = 10.dp)) {
-                DefaultButton(confirmed = true, onClick = {}, label = title)
-//                val confirmed by remember { derivedStateOf { transactionViewModel.name != "" && transactionViewModel.group.id != 0L } }
-//
-//                        DefaultButton(confirmed = confirmed, buttonLabel) {
-//                            addAccountViewModel.saveCheckingAccount(transaction)
-//                            transactionViewModel.loadGroup()
-//                            onDismiss()
-//                        }
+                DefaultButton(
+                    confirmed = true,
+                    label = title,
+                    onClick = {
+                        transactionFormViewModel.saveTransaction()
+                        onDismiss()
+                    })
             }
         }
     }

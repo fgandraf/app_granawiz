@@ -2,6 +2,7 @@ package core.entity
 
 import core.entity.account.BankAccount
 import core.enums.TransactionType
+import infra.config.LocalDateTimeConverter
 import jakarta.persistence.*
 import java.time.LocalDateTime
 
@@ -12,7 +13,7 @@ open class Transaction(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "transaction_id", columnDefinition = "INTEGER")
-    open var id: Long = 0,
+    open val id: Long = 0,
 
     @ManyToOne
     @JoinColumn(name = "party_id", referencedColumnName = "party_id")
@@ -39,6 +40,7 @@ open class Transaction(
     val tags: List<Tag>? = listOf(),
 
     @Column(name = "date", columnDefinition = "DATETIME")
+    @Convert(converter = LocalDateTimeConverter::class)
     open val date: LocalDateTime,
 
     open val description: String,

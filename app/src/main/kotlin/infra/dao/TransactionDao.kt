@@ -55,9 +55,24 @@ class TransactionDao : ITransactionDao {
         return transactions
     }
 
+    fun update(transaction: Transaction) {
+        val session = sessionFactory.openSession()
+        session.beginTransaction()
+        session.merge(transaction)
+        session.transaction.commit()
+        session.close()
+    }
+
+    fun insert(transaction: Transaction) {
+        val session = sessionFactory.openSession()
+        session.beginTransaction()
+        session.persist(transaction)
+        session.transaction.commit()
+        session.close()
+    }
 
 
-//    fun delete(group: Group) {
+    //    fun delete(group: Group) {
 //        val session = sessionFactory.openSession()
 //
 //        session.beginTransaction()
@@ -79,20 +94,6 @@ class TransactionDao : ITransactionDao {
 //        }
 //    }
 //
-//    fun update(group: Group) {
-//        val session = sessionFactory.openSession()
-//        session.beginTransaction()
-//        session.merge(group)
-//        session.transaction.commit()
-//        session.close()
-//    }
-//
-//    fun insert(group: Group) {
-//        val session = sessionFactory.openSession()
-//        session.beginTransaction()
-//        session.persist(group)
-//        session.transaction.commit()
-//        session.close()
-//    }
+
 
 }
