@@ -54,7 +54,7 @@ fun DropDownEditTransaction(
                         viewModel.deleteTransaction(selectedTransaction)
                         showDeleteTransaction = false
                         onDismissRequest()
-                        viewModel.service.loadTransactions()
+                        viewModel.service.loadTransactions(viewModel.selectedAccount)
                     },
                     onDismissRequest = { showDeleteTransaction = false; onDismissRequest() },
                 )
