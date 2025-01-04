@@ -146,12 +146,11 @@ fun TransactionForm(
                             }
 
                             //---party
-                            DefaultPartyField(
+                            DropDownTextField(
                                 modifier = Modifier.padding(bottom = 20.dp),
-                                value = party.value.name,
+                                value = party.value?.name?: "",
                                 label = if (transactionFormViewModel.type == TransactionType.GAIN) "Pagador" else "Recebedor",
                                 placeholder = "Nome",
-                                onValueChange = { transactionFormViewModel.party.value.name = it },
                                 onClick = {
                                     if (showSide && sideType == "parties")
                                         showSide = false
@@ -164,6 +163,28 @@ fun TransactionForm(
                                     }
                                 }
                             )
+
+
+
+
+//                            DefaultPartyField(
+//                                modifier = Modifier.padding(bottom = 20.dp),
+//                                value = party.value.name,
+//                                label = if (transactionFormViewModel.type == TransactionType.GAIN) "Pagador" else "Recebedor",
+//                                placeholder = "Nome",
+//                                onValueChange = { transactionFormViewModel.party.value.name = it },
+//                                onClick = {
+//                                    if (showSide && sideType == "parties")
+//                                        showSide = false
+//                                    else if (showSide)
+//                                        sideType = "parties"
+//                                    else
+//                                    {
+//                                        sideType = "parties"
+//                                        showSide = true
+//                                    }
+//                                }
+//                            )
 
 
                             //---description
@@ -181,7 +202,7 @@ fun TransactionForm(
                             val subcategory = transactionFormViewModel.subCategory
                             DropDownTextField(
                                 modifier = Modifier.padding(bottom = 20.dp),
-                                categoryIcon = category.icon,
+                                icon = category.icon,
                                 value = category.name + if (subcategory?.name.isNullOrEmpty()) "" else " → ${subcategory?.name}",
                                 label = "Categoria:",
                                 placeholder = "Selecione a categoria",
@@ -264,6 +285,7 @@ fun TransactionForm(
             Divider()
             Box(Modifier.padding(20.dp, vertical = 10.dp)) {
                 DefaultButton(
+                    modifier = Modifier.fillMaxWidth(),
                     confirmed = true,
                     label = title,
                     onClick = {

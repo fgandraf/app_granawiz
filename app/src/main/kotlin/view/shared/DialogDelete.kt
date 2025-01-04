@@ -135,7 +135,7 @@ fun DialogDelete(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxWidth().padding(vertical = 10.dp, horizontal = 20.dp)
             ){
-                DefaultButton(confirmed = confirmed, color = Red400, label = title){
+                DefaultButton(modifier = Modifier.fillMaxWidth(), confirmed = confirmed, color = Red400, label = title){
                     onClickButton()
                     onDismiss()
                 }

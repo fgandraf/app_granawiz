@@ -71,16 +71,14 @@ class TransactionDao : ITransactionDao {
         session.close()
     }
 
+    fun delete(transaction: Transaction) {
+        val session = sessionFactory.openSession()
+        session.beginTransaction()
+        session.remove(transaction)
+        session.transaction.commit()
+        session.close()
+    }
 
-    //    fun delete(group: Group) {
-//        val session = sessionFactory.openSession()
-//
-//        session.beginTransaction()
-//        session.remove(group)
-//        session.transaction.commit()
-//
-//        session.close()
-//    }
 //
 //
 //

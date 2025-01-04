@@ -7,7 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.adamglin.PhosphorIcons
@@ -18,8 +17,8 @@ import utils.IconPaths
 @Composable
 fun DropDownTextField(
     modifier: Modifier = Modifier,
-    categoryIcon: String? = null,
-    textAlign: TextAlign = TextAlign.Center,
+    icon: String? = null,
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.Center,
     value: String,
     label: String? = null,
     placeholder: String = "",
@@ -35,21 +34,21 @@ fun DropDownTextField(
                 TextPrimary(
                     text = placeholder,
                     size = 10.sp,
-                    align = textAlign,
                     color = MaterialTheme.colors.primary.copy(alpha = 0.75f),
                     modifier = Modifier.fillMaxWidth())
             else
             {
                 Row(modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center,
+                    horizontalArrangement = horizontalArrangement,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Icon(
-                        painter = painterResource(IconPaths.CATEGORY_PACK + categoryIcon),
-                        contentDescription = "Category Icon",
-                        tint = MaterialTheme.colors.primary,
-                        modifier = Modifier.size(15.dp)
-                    )
+                    if (icon != null)
+                        Icon(
+                            painter = painterResource(IconPaths.CATEGORY_PACK + icon),
+                            contentDescription = "Category Icon",
+                            tint = MaterialTheme.colors.primary,
+                            modifier = Modifier.size(15.dp)
+                        )
 
                     TextPrimary(text = value, modifier = Modifier.padding(start = 5.dp))
                 }

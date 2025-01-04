@@ -21,4 +21,6 @@ class TransactionService {
     fun addTransaction(transaction: Transaction) { dao.insert(transaction) }
 
     fun updateTransaction(transaction: Transaction) { dao.update(transaction) }
+
+    fun deleteTransaction(transaction: Transaction) { dao.delete(transaction) }
 }

@@ -20,7 +20,7 @@ class TransactionFormViewModel(transaction: Transaction? = null) {
     val service: TransactionService = TransactionService()
 
     var id by mutableStateOf(0L)
-    var party = MutableStateFlow(Party())
+    var party : MutableStateFlow<Party?> = MutableStateFlow(null)
     var account by mutableStateOf(BankAccount())
     var category by mutableStateOf(Category())
     var subCategory by mutableStateOf<Subcategory?>(null)
@@ -73,7 +73,7 @@ class TransactionFormViewModel(transaction: Transaction? = null) {
     fun saveTransaction(){
         val transaction = Transaction(
             id = this.id,
-            party = party.value,
+            party = party.value!!,
             account = account,
             category = category,
             subcategory = subCategory,

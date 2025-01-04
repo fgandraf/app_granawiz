@@ -7,7 +7,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,11 +30,13 @@ import view.shared.TextPrimary
 import view.theme.Gray400
 import view.theme.Lime400
 import view.theme.Red400
+import viewModel.TransactionViewModel
 import java.time.format.TextStyle
 import java.util.*
 
 @Composable
 fun TransactionRow(
+    viewModel: TransactionViewModel,
     transaction: Transaction,
     onClick: () -> Unit
 ){
@@ -152,7 +154,8 @@ fun TransactionRow(
 
 
 
-
+            // DropDown
+            var showEditTransaction by remember { mutableStateOf(false) }
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.End,
@@ -163,9 +166,18 @@ fun TransactionRow(
                 ClickableIcon(
                     icon = PhosphorIcons.Light.DotsThree,
                     shape = RoundedCornerShape(6.dp),
-                    onClick = { }
+                    onClick = { showEditTransaction = true },
                 )
 
+            }
+
+            if (showEditTransaction) {
+                DropDownEditTransaction(
+                    viewModel = viewModel,
+                    expanded = showEditTransaction,
+                    selectedTransaction = transaction,
+                    onDismissRequest = { showEditTransaction = false },
+                )
             }
 
 

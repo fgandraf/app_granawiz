@@ -100,7 +100,7 @@ fun NewOrEditSavingAccount(
         ) {
             val confirmed by remember { derivedStateOf { accountFormViewModel.name != "" && accountFormViewModel.group.id != 0L } }
 
-            DefaultButton(confirmed = confirmed, buttonLabel) {
+            DefaultButton(modifier = Modifier.fillMaxWidth(), confirmed = confirmed, label = buttonLabel) {
                 accountFormViewModel.service.saveAccount(AccountType.SAVINGS, account)
                 sidebarViewModel.groupService.loadGroups()
                 onDismiss()

@@ -115,7 +115,7 @@ fun NewOrEditCheckingAccount(
         ) {
             val confirmed by remember { derivedStateOf { accountFormViewModel.name != "" && accountFormViewModel.group.id != 0L } }
 
-            DefaultButton(confirmed = confirmed, buttonLabel) {
+            DefaultButton(modifier = Modifier.fillMaxWidth(), confirmed = confirmed, label = buttonLabel) {
                 accountFormViewModel.service.saveAccount(core.enums.AccountType.CHECKING, account)
                 sidebarViewModel.groupService.loadGroups()
                 onDismiss()

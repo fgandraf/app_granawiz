@@ -1,6 +1,5 @@
 package view.shared
 
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -18,6 +17,7 @@ import view.theme.Ubuntu
 
 @Composable
 fun DefaultButton(
+    modifier: Modifier = Modifier,
     confirmed: Boolean = true,
     label: String,
     color: Color = Purple600,
@@ -28,8 +28,7 @@ fun DefaultButton(
         colors = ButtonDefaults.buttonColors(backgroundColor = color),
         onClick = onClick,
         shape = RoundedCornerShape(12.dp),
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = modifier
             .pointerHoverIcon(if(confirmed) PointerIcon.Hand else PointerIcon.Default),
     ){
         Text(

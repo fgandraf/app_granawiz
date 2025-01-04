@@ -23,6 +23,7 @@ class PartyViewModel(type: PartyType) {
 
     var partyNames = MutableStateFlow(emptyList<PartyName>())
     fun getNames() {
+        if (selectedParty.value != null)
         partyNames.value = service.loadNamesList(selectedParty.value!!)
     }
 

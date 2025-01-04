@@ -72,7 +72,7 @@ fun GroupForm(
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 30.dp, vertical = 10.dp)
             ) {
 
-                DefaultButton(confirmed, buttonLabel){
+                DefaultButton(modifier = Modifier.fillMaxWidth(), confirmed = confirmed, label = buttonLabel){
                     if (group == null) viewModel.groupService.addNewGroup(value) else viewModel.groupService.renameGroup(group, value)
                     onDismiss()
                 }

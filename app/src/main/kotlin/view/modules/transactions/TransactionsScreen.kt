@@ -29,6 +29,7 @@ import core.entity.Transaction
 import core.entity.account.BankAccount
 import utils.IconPaths
 import view.modules.transactionForm.TransactionForm
+import view.modules.transactions.component.DropDownAddTransaction
 import view.modules.transactions.component.MonthHeader
 import view.modules.transactions.component.TransactionRow
 import view.shared.AddressView
@@ -45,7 +46,7 @@ fun TransactionsScreen(
 ) {
 
     var selectedTransaction by remember { mutableStateOf(Transaction()) }
-    var showAddOrEditTransaction by remember { mutableStateOf(false) }
+    var showEditTransaction by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -113,10 +114,11 @@ fun TransactionsScreen(
                             var count = transactions.count()
                             transactions.forEach { transaction ->
                                 TransactionRow(
+                                    viewModel = viewModel,
                                     transaction = transaction,
                                     onClick = {
                                         selectedTransaction = transaction
-                                        showAddOrEditTransaction = true
+                                        showEditTransaction = true
                                     }
                                 )
                                 count--
@@ -137,6 +139,7 @@ fun TransactionsScreen(
 
 
             if (showAddButton){
+                var showNewTransaction by remember { mutableStateOf(false) }
                 Box(modifier = Modifier.fillMaxSize().padding(bottom = 50.dp, end = 50.dp)) {
                     Box(
                         modifier = Modifier
@@ -145,25 +148,43 @@ fun TransactionsScreen(
                             .background(Purple600.copy(alpha = 0.8f)  )
                             .align(Alignment.BottomEnd)
                             .pointerHoverIcon(PointerIcon.Hand)
-                            .clickable { showAddOrEditTransaction = true }
+                            .clickable { showNewTransaction = true }
                     ){
-                        Icon(imageVector = PhosphorIcons.Light.Plus, contentDescription = "Add transaction", tint = Color.White, modifier = Modifier
-                            .size(25.dp).align(Alignment.Center))
+                        Icon(
+                            modifier = Modifier
+                                .size(25.dp)
+                                .align(Alignment.Center),
+                            imageVector = PhosphorIcons.Light.Plus,
+                            contentDescription = "Add transaction",
+                            tint = Color.White
+                        )
+
+                        if (showNewTransaction) {
+                            DropDownAddTransaction(
+                                expanded = showNewTransaction,
+                                selectedAccount = viewModel.selectedAccount!!,
+                                onDismissRequest = {
+                                    selectedTransaction = Transaction()
+                                    showNewTransaction = false
+                                }
+                            )
+                        }
                     }
                 }
-
             }
-            if (showAddOrEditTransaction) {
+
+            if (showEditTransaction) {
                 if (viewModel.selectedAccount == null) viewModel.selectAccount(selectedTransaction.account)
                 TransactionForm(
                     account = viewModel.selectedAccount!!,
                     transaction = selectedTransaction,
                     onDismiss = {
                         selectedTransaction = Transaction()
-                        showAddOrEditTransaction = false
+                        showEditTransaction = false
                     }
                 )
             }
+
 
         }
     }

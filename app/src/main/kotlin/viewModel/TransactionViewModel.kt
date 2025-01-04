@@ -1,6 +1,7 @@
 package viewModel
 
 import androidx.compose.runtime.derivedStateOf
+import core.entity.Transaction
 import core.entity.account.BankAccount
 import service.TransactionService
 
@@ -14,4 +15,8 @@ class TransactionViewModel(account: BankAccount? = null) {
     var transactions = derivedStateOf { service.transactions }
 
     init { service.loadTransactions(selectedAccount) }
+
+    fun deleteTransaction(transaction: Transaction){
+        service.deleteTransaction(transaction)
+    }
 }
