@@ -48,8 +48,7 @@ fun DropDownEditTransaction(
             ClickableRow(icon = PhosphorIcons.Light.Trash, label = "Excluir") { showDeleteTransaction = true }
             if (showDeleteTransaction) {
                 SimpleQuestionDialog(
-                    title = "GranaWiz",
-                    message = "Tem certeza que seja excluir essa transação?",
+                    message = "Tem certeza que deseja excluir essa transação?",
                     onConfirmRequest = {
                         viewModel.deleteTransaction(selectedTransaction)
                         showDeleteTransaction = false

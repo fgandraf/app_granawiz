@@ -39,7 +39,7 @@ fun SimpleAlertDialog(
                     modifier = Modifier.fillMaxWidth(),
                     confirmed = true,
                     onClick = { onDismissRequest() },
-                    label = "OK"
+                    text = "OK"
                 )
             }
         )

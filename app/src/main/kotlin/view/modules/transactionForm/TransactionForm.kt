@@ -287,7 +287,7 @@ fun TransactionForm(
                 DefaultButton(
                     modifier = Modifier.fillMaxWidth(),
                     confirmed = true,
-                    label = title,
+                    text = title,
                     onClick = {
                         transactionFormViewModel.saveTransaction()
                         onDismiss()
