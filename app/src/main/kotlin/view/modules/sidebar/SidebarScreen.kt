@@ -9,6 +9,7 @@ import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import view.modules.Screen
 import view.theme.Gray200
@@ -23,7 +24,7 @@ fun Sidebar(
 
     Row {
 
-        Column(modifier = Modifier.width(259.5.dp).fillMaxHeight().background(Gray200)) {
+        Column(modifier = Modifier.width(229.5.dp).fillMaxHeight().background(Color.White)) {
             Header(viewModel)
             Main(Modifier.weight(1f), viewModel, currentScreen, onScreenSelected)
             Footer(viewModel)

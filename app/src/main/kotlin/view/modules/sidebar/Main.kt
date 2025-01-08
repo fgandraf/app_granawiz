@@ -56,6 +56,14 @@ fun Main(
 //            currentScreen = currentScreen,
 //            onClick = onScreenSelected
 //        )
+        Spacer(modifier = Modifier.height(25.dp))
+        StaticMenuItem(
+            icon = PhosphorIcons.Light.Database,
+            label = "Banco de Dados",
+            screen = Screen.Database,
+            currentScreen = currentScreen,
+            onClick = onScreenSelected
+        )
         SectionTitle("Base de dados")
         StaticMenuItem(
             icon = PhosphorIcons.Light.Shapes,
@@ -72,14 +80,14 @@ fun Main(
             onClick = onScreenSelected
         )
         StaticMenuItem(
-            icon = PhosphorIcons.Light.HandArrowDown,
+            icon = PhosphorIcons.Light.HandArrowUp,
             label = "Beneficiários",
             screen = Screen.Receivers,
             currentScreen = currentScreen,
             onClick = onScreenSelected
         )
         StaticMenuItem(
-            icon = PhosphorIcons.Light.HandArrowUp,
+            icon = PhosphorIcons.Light.HandArrowDown,
             label = "Pagadores",
             screen = Screen.Payers,
             currentScreen = currentScreen,

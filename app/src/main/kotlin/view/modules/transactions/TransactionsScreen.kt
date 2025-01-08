@@ -13,6 +13,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
@@ -35,7 +37,7 @@ import view.modules.transactions.component.TransactionRow
 import view.shared.AddressView
 import view.shared.SearchBar
 import view.shared.TextPrimary
-import view.theme.Purple600
+import view.theme.*
 import viewModel.TransactionViewModel
 
 @Composable
@@ -51,7 +53,7 @@ fun TransactionsScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colors.background)
+            .background(Brush.verticalGradient(listOf(MaterialTheme.colors.background, Color.LightGray)))
     ) {
 
 
@@ -101,13 +103,19 @@ fun TransactionsScreen(
                             if (transaction.balance >= 0) positiveBalance += transaction.balance
                             else negativeBalnce -= transaction.balance
                         }
-                        MonthHeader(month, incomeBalance = positiveBalance, outcomeBalance = negativeBalnce)
+                        Spacer(Modifier.height(50.dp))
+                        Box(Modifier.fillMaxWidth().padding(horizontal = 90.dp)) {
+                            MonthHeader(month, incomeBalance = positiveBalance, outcomeBalance = negativeBalnce)
+                            //Divider(Modifier.align(Alignment.TopStart).background(MaterialTheme.colors.primaryVariant))
+                            Divider(Modifier.padding(horizontal = 5.dp).align(Alignment.BottomStart).background(MaterialTheme.colors.primaryVariant.copy(alpha = 0.2f)))
+                        }
 
                         Column(modifier = Modifier
-                            .padding(horizontal = 30.dp)
-                            .clip(RoundedCornerShape(10.dp))
-                            .background(MaterialTheme.colors.onPrimary, RoundedCornerShape(10.dp))
-                            .border(0.5.dp, MaterialTheme.colors.primaryVariant.copy(0.8f), RoundedCornerShape(10.dp))
+                            .padding(horizontal = 90.dp)
+                            .clip(RoundedCornerShape(bottomStart = 10.dp, bottomEnd = 10.dp))
+                            .background(MaterialTheme.colors.onPrimary)//, RoundedCornerShape(bottomEnd = 4.dp, bottomStart = 4.dp))
+                            //.offset(y = (-1).dp)
+                            //.border(0.5.dp, MaterialTheme.colors.primary, RoundedCornerShape(bottomEnd = 4.dp, bottomStart = 4.dp))
                         ) {
                             Spacer(Modifier.height(10.dp))
 
