@@ -1,6 +1,5 @@
 package view.modules.transactions.component
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -28,19 +27,16 @@ fun TotalFooter(
     val corners = RoundedCornerShape(bottomEnd = 10.dp, bottomStart = 10.dp)
     var boxWidth by remember { mutableStateOf(0) }
 
-
-    Box(Modifier.fillMaxWidth().offset(y = (-1).dp)
-        //.zIndex(30f)
-        .padding(end = 90.dp)) {
-
-
+    Box(Modifier.fillMaxWidth().offset(y = (-0.5).dp)
+        .zIndex(30f)
+        .padding(end = 90.dp)
+    ) {
         Box(Modifier
+            .zIndex(1f)
             .align(Alignment.BottomEnd)
             .clip(corners)
-            .background(MaterialTheme.colors.background, corners)
-            .border(1.dp, MaterialTheme.colors.primaryVariant, corners)
+            .border(0.5.dp, MaterialTheme.colors.primary, corners)
             .onGloballyPositioned { boxWidth = it.size.width }
-            .zIndex(1f)
         ) {
             Row(modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
                 verticalAlignment = Alignment.CenterVertically,
@@ -69,35 +65,5 @@ fun TotalFooter(
                 )
             }
         }
-
-
-//
-//        Box(modifier = Modifier
-//            .padding(end = 0.5.dp)
-//            .width(with(LocalDensity.current) { boxWidth.toDp() - 1.dp })
-//            .height(2.dp)
-//            .background(Color.White)
-//            .align(Alignment.TopEnd)
-//            .zIndex(3f)
-//        ) { }
-//
-//
-//
-//        Box(modifier = Modifier
-//            .padding(end = 8.dp)
-//            .width(with(LocalDensity.current) { boxWidth.toDp() - 16.dp })
-//            .height(0.5.dp)
-//            .background(MaterialTheme.colors.primaryVariant)
-//            .align(Alignment.TopEnd)
-//            .zIndex(3f)
-//        ) { }
-
-
-
-
-
     }
-
-
-
 }

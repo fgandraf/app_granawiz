@@ -1,6 +1,5 @@
 package view.modules.transactions.component
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
@@ -29,18 +28,15 @@ fun MonthHeader(
     val formatedMonth = month.getDisplayName(TextStyle.FULL, Locale.of("pt", "br")).replaceFirstChar { it.uppercase() }
     val monthTitle = if (month != LocalDate.now().month) formatedMonth else "Esse mês"
     val corners = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp)
-
     var boxWidth by remember { mutableStateOf(0) }
 
     Box(Modifier
-        .offset(y = 1.dp)
-        //.zIndex(30f)
+        .offset(y = 0.5.dp)
         .padding(start = 90.dp)
     ) {
         Box(Modifier
             .clip(corners)
-            .background(MaterialTheme.colors.background, corners)
-            .border(1.dp, MaterialTheme.colors.primaryVariant, corners)
+            .border(0.5.dp, MaterialTheme.colors.primary, corners)
             .onGloballyPositioned { boxWidth = it.size.width }
             .zIndex(1f)
         ) {
@@ -52,26 +48,5 @@ fun MonthHeader(
                 size = 26.sp,
             )
         }
-
-//        Box(modifier = Modifier
-//            .padding(start = 0.5.dp)
-//            .width(with(LocalDensity.current) { boxWidth.toDp() - 1.dp })
-//            .height(2.dp)
-//            .background(Color.White)
-//            .align(Alignment.BottomStart)
-//            .zIndex(3f)
-//        ) { }
-//
-//        Box(modifier = Modifier
-//            .padding(start = 8.dp)
-//            .width(with(LocalDensity.current) { boxWidth.toDp() - 16.dp })
-//            .height(0.5.dp)
-//            .background(MaterialTheme.colors.primaryVariant)
-//            .align(Alignment.BottomStart)
-//            .zIndex(3f)
-//        ) { }
-
     }
-
-
 }

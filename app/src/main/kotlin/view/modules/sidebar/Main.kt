@@ -34,7 +34,10 @@ fun Main(
     Column(modifier = modifier.fillMaxWidth().verticalScroll(rememberScrollState())) {
 
         //=== STATIC MENU ITEMS
-        //Spacer(modifier = Modifier.height(25.dp))
+
+
+        // TODO: Implements Dashboard
+//        Spacer(modifier = Modifier.height(25.dp))
 //        StaticMenuItem(
 //            icon = PhosphorIcons.Light.SquaresFour,
 //            label = "Dashboard",
@@ -42,6 +45,9 @@ fun Main(
 //            currentScreen = currentScreen,
 //            onClick = onScreenSelected
 //        )
+
+
+        // TODO: Implements Schedules
 //        StaticMenuItem(
 //            icon = PhosphorIcons.Light.Calendar,
 //            label = "Agendamentos",
@@ -49,6 +55,9 @@ fun Main(
 //            currentScreen = currentScreen,
 //            onClick = onScreenSelected
 //        )
+
+
+        // TODO: Implements Reports
 //        StaticMenuItem(
 //            icon = PhosphorIcons.Light.Scroll,
 //            label = "Relatórios",
@@ -56,6 +65,8 @@ fun Main(
 //            currentScreen = currentScreen,
 //            onClick = onScreenSelected
 //        )
+
+
         SectionTitle("Base de dados")
         StaticMenuItem(
             icon = PhosphorIcons.Light.Shapes,

@@ -17,6 +17,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -165,28 +166,6 @@ fun TransactionForm(
                             )
 
 
-
-
-//                            DefaultPartyField(
-//                                modifier = Modifier.padding(bottom = 20.dp),
-//                                value = party.value.name,
-//                                label = if (transactionFormViewModel.type == TransactionType.GAIN) "Pagador" else "Recebedor",
-//                                placeholder = "Nome",
-//                                onValueChange = { transactionFormViewModel.party.value.name = it },
-//                                onClick = {
-//                                    if (showSide && sideType == "parties")
-//                                        showSide = false
-//                                    else if (showSide)
-//                                        sideType = "parties"
-//                                    else
-//                                    {
-//                                        sideType = "parties"
-//                                        showSide = true
-//                                    }
-//                                }
-//                            )
-
-
                             //---description
                             DefaultTextField(
                                 modifier = Modifier.padding(bottom = 20.dp),
@@ -238,6 +217,8 @@ fun TransactionForm(
                                     }
                                 }
                             )
+                            // TODO: Fix tag's bug when save new transaction
+
 
                         }
                     }
@@ -288,11 +269,14 @@ fun TransactionForm(
                     modifier = Modifier.fillMaxWidth(),
                     confirmed = true,
                     text = title,
+                    textColor = Color.White,
                     onClick = {
                         transactionFormViewModel.saveTransaction()
                         onDismiss()
                     })
             }
+            // TODO: Implements validation to the button
+
         }
     }
 }

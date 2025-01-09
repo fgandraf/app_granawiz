@@ -2,16 +2,13 @@ package view.modules.transactions.component
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Divider
 import androidx.compose.material.DropdownMenu
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Fill
-import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.fill.Circle
-import com.adamglin.phosphoricons.light.Download
 import core.entity.account.BankAccount
 import core.enums.TransactionType
 import view.modules.transactionForm.TransactionForm
@@ -49,9 +46,10 @@ fun DropDownAddTransaction(
                     onDismiss = onDismissRequest
                 )
 
-            Divider()
 
-            ClickableRow(enabled = false, icon = PhosphorIcons.Light.Download, label = "Importar"){}
+            // TODO: Implements import tranasction
+            // Divider()
+            // ClickableRow(enabled = false, icon = PhosphorIcons.Light.Download, label = "Importar"){}
         }
 
     }

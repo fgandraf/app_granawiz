@@ -34,7 +34,6 @@ import view.modules.transactions.component.MonthHeader
 import view.modules.transactions.component.TotalFooter
 import view.modules.transactions.component.TransactionRow
 import view.shared.AddressView
-import view.shared.SearchBar
 import view.shared.TextPrimary
 import view.theme.Purple600
 import viewModel.TransactionViewModel
@@ -53,7 +52,6 @@ fun TransactionsScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colors.background)
-            //.background(Brush.horizontalGradient(listOf(MaterialTheme.colors.background, Color.White)))
     ) {
 
 
@@ -78,8 +76,8 @@ fun TransactionsScreen(
                 }
             }
 
-            //Searchbar
-            SearchBar(onTuneClicked = {}, onSearchClicked = {})
+            //TODO: Imoplements Searchbar
+            //SearchBar(onTuneClicked = {}, onSearchClicked = {})
         }
 
 
@@ -95,31 +93,28 @@ fun TransactionsScreen(
                 item { Spacer(modifier = Modifier.height(30.dp)) }
 
                 val groupedTransactions = viewModel.transactions.value.groupBy { it.date.month }
+
                 groupedTransactions.forEach { (month, transactions) ->
 
                     item {
 
-                        MonthHeader(month = month)
 
+                        MonthHeader(month = month)
                         var negativeBalnce = 0.0
                         var positiveBalance = 0.0
-                        val corners = RoundedCornerShape(topEnd = 20.dp, bottomStart = 20.dp)
-
-                        Column(modifier = Modifier
-                            .zIndex(1f)
-                            .padding(horizontal = 90.dp)
-                            .clip(corners)
-                            .background(MaterialTheme.colors.onPrimary, corners)
-                            .border(0.5.dp, MaterialTheme.colors.primary, corners)
+                        val corners = RoundedCornerShape(topEnd = 0.dp, bottomStart = 0.dp)
+                        Column(
+                            modifier = Modifier
+                                .padding(horizontal = 90.dp)
+                                .zIndex(1f)
+                                .clip(corners)
+                                .background(MaterialTheme.colors.onPrimary, corners)
+                                .border(0.5.dp, MaterialTheme.colors.primary, corners)
                         ) {
                             Spacer(Modifier.height(20.dp))
-
-                            var count = transactions.count()
-                            //Divider(modifier = Modifier.padding(horizontal = 30.dp), color = MaterialTheme.colors.primaryVariant.copy(0.4f))
                             transactions.forEach { transaction ->
                                 if (transaction.balance >= 0) positiveBalance += transaction.balance
                                 else negativeBalnce -= transaction.balance
-
                                 TransactionRow(
                                     viewModel = viewModel,
                                     transaction = transaction,
@@ -128,16 +123,15 @@ fun TransactionsScreen(
                                         showEditTransaction = true
                                     }
                                 )
-                                count--
-                                //if (count > 0) Divider(modifier = Modifier.padding(horizontal = 30.dp), color = MaterialTheme.colors.primaryVariant.copy(0.4f))
-                                //Divider(modifier = Modifier.padding(horizontal = 30.dp), color = MaterialTheme.colors.primaryVariant.copy(0.4f))
                             }
                             Spacer(Modifier.height(20.dp))
                         }
-
                         TotalFooter(incomeBalance = positiveBalance, outcomeBalance = negativeBalnce)
                         Spacer(Modifier.height(30.dp))
+
+
                     }
+
                 }
 
                 item { Spacer(Modifier.height(50.dp)) }
