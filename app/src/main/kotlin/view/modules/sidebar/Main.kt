@@ -56,14 +56,6 @@ fun Main(
 //            currentScreen = currentScreen,
 //            onClick = onScreenSelected
 //        )
-        Spacer(modifier = Modifier.height(25.dp))
-        StaticMenuItem(
-            icon = PhosphorIcons.Light.Database,
-            label = "Banco de Dados",
-            screen = Screen.Database,
-            currentScreen = currentScreen,
-            onClick = onScreenSelected
-        )
         SectionTitle("Base de dados")
         StaticMenuItem(
             icon = PhosphorIcons.Light.Shapes,

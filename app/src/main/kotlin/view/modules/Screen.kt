@@ -6,7 +6,6 @@ sealed class Screen {
     data object Dashboard : Screen()
     data object Schedules : Screen()
     data object Reports : Screen()
-    data object Database : Screen()
     data object Categories : Screen()
     data object Tags : Screen()
     data object Receivers : Screen()

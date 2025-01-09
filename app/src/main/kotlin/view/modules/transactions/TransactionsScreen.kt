@@ -6,15 +6,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
@@ -22,6 +19,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.Folders
@@ -33,11 +31,12 @@ import utils.IconPaths
 import view.modules.transactionForm.TransactionForm
 import view.modules.transactions.component.DropDownAddTransaction
 import view.modules.transactions.component.MonthHeader
+import view.modules.transactions.component.TotalFooter
 import view.modules.transactions.component.TransactionRow
 import view.shared.AddressView
 import view.shared.SearchBar
 import view.shared.TextPrimary
-import view.theme.*
+import view.theme.Purple600
 import viewModel.TransactionViewModel
 
 @Composable
@@ -53,7 +52,8 @@ fun TransactionsScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Brush.verticalGradient(listOf(MaterialTheme.colors.background, Color.LightGray)))
+            .background(MaterialTheme.colors.background)
+            //.background(Brush.horizontalGradient(listOf(MaterialTheme.colors.background, Color.White)))
     ) {
 
 
@@ -90,37 +90,36 @@ fun TransactionsScreen(
 
             LazyColumn(
                 state = listState,
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize(),
             ) {
+                item { Spacer(modifier = Modifier.height(30.dp)) }
 
                 val groupedTransactions = viewModel.transactions.value.groupBy { it.date.month }
                 groupedTransactions.forEach { (month, transactions) ->
 
                     item {
+
+                        MonthHeader(month = month)
+
                         var negativeBalnce = 0.0
                         var positiveBalance = 0.0
-                        transactions.forEach { transaction ->
-                            if (transaction.balance >= 0) positiveBalance += transaction.balance
-                            else negativeBalnce -= transaction.balance
-                        }
-                        Spacer(Modifier.height(50.dp))
-                        Box(Modifier.fillMaxWidth().padding(horizontal = 90.dp)) {
-                            MonthHeader(month, incomeBalance = positiveBalance, outcomeBalance = negativeBalnce)
-                            //Divider(Modifier.align(Alignment.TopStart).background(MaterialTheme.colors.primaryVariant))
-                            Divider(Modifier.padding(horizontal = 5.dp).align(Alignment.BottomStart).background(MaterialTheme.colors.primaryVariant.copy(alpha = 0.2f)))
-                        }
+                        val corners = RoundedCornerShape(topEnd = 20.dp, bottomStart = 20.dp)
 
                         Column(modifier = Modifier
+                            .zIndex(1f)
                             .padding(horizontal = 90.dp)
-                            .clip(RoundedCornerShape(bottomStart = 10.dp, bottomEnd = 10.dp))
-                            .background(MaterialTheme.colors.onPrimary)//, RoundedCornerShape(bottomEnd = 4.dp, bottomStart = 4.dp))
-                            //.offset(y = (-1).dp)
-                            //.border(0.5.dp, MaterialTheme.colors.primary, RoundedCornerShape(bottomEnd = 4.dp, bottomStart = 4.dp))
+                            .clip(corners)
+                            .background(MaterialTheme.colors.onPrimary, corners)
+                            .border(0.5.dp, MaterialTheme.colors.primary, corners)
                         ) {
-                            Spacer(Modifier.height(10.dp))
+                            Spacer(Modifier.height(20.dp))
 
                             var count = transactions.count()
+                            //Divider(modifier = Modifier.padding(horizontal = 30.dp), color = MaterialTheme.colors.primaryVariant.copy(0.4f))
                             transactions.forEach { transaction ->
+                                if (transaction.balance >= 0) positiveBalance += transaction.balance
+                                else negativeBalnce -= transaction.balance
+
                                 TransactionRow(
                                     viewModel = viewModel,
                                     transaction = transaction,
@@ -130,12 +129,15 @@ fun TransactionsScreen(
                                     }
                                 )
                                 count--
-                                if (count > 0) Divider(modifier = Modifier.padding(horizontal = 20.dp), color = MaterialTheme.colors.primaryVariant.copy(0.4f))
+                                //if (count > 0) Divider(modifier = Modifier.padding(horizontal = 30.dp), color = MaterialTheme.colors.primaryVariant.copy(0.4f))
+                                //Divider(modifier = Modifier.padding(horizontal = 30.dp), color = MaterialTheme.colors.primaryVariant.copy(0.4f))
                             }
-                            Spacer(Modifier.height(10.dp))
+                            Spacer(Modifier.height(20.dp))
                         }
-                    }
 
+                        TotalFooter(incomeBalance = positiveBalance, outcomeBalance = negativeBalnce)
+                        Spacer(Modifier.height(30.dp))
+                    }
                 }
 
                 item { Spacer(Modifier.height(50.dp)) }
@@ -192,7 +194,6 @@ fun TransactionsScreen(
                     }
                 )
             }
-
 
         }
     }

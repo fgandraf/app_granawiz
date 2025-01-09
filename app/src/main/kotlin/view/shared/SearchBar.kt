@@ -43,7 +43,7 @@ fun SearchBar(
         .height(35.dp)
         .width(360.dp)
         .border(1.dp, MaterialTheme.colors.primaryVariant, shape = RoundedCornerShape(8.dp))
-        .background(Color(0xFFF5F5F7)),
+        .background(MaterialTheme.colors.onPrimary),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(

@@ -46,9 +46,9 @@ fun TransactionRow(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 10.dp)
+                //.padding(horizontal = 20.dp)
                 .height(45.dp)
-                .clip(RoundedCornerShape(6.dp))
+                .clip(RoundedCornerShape(0.dp))
                 .pointerHoverIcon(PointerIcon.Hand)
                 .clickable { onClick() }
         ) {
@@ -58,7 +58,7 @@ fun TransactionRow(
             Row(
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxHeight().padding(start = 20.dp, end = 20.dp)
+                modifier = Modifier.fillMaxHeight().padding(start = 40.dp, end = 20.dp)
             ) {
                 Box(
                     modifier = Modifier
@@ -146,7 +146,6 @@ fun TransactionRow(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxHeight()
-                    //.weight(0.3f)
                     .padding(end = 20.dp)
             ) {
                 TextPrimary(text = brMoney.format(transaction.balance), size = 11.sp)
@@ -161,7 +160,7 @@ fun TransactionRow(
                 horizontalArrangement = Arrangement.End,
                 modifier = Modifier
                     .fillMaxHeight()
-                    .padding(end = 10.dp)
+                    .padding(end = 30.dp)
             ) {
                 ClickableIcon(
                     icon = PhosphorIcons.Light.DotsThree,

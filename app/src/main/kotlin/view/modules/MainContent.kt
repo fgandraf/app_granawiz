@@ -3,7 +3,6 @@ package view.modules
 import androidx.compose.runtime.Composable
 import view.modules.categories.CategoriesScreen
 import view.modules.dashboard.DashboardScreen
-import view.modules.database.DatabaseScreen
 import view.modules.party.PayersScreen
 import view.modules.party.ReceiversScreen
 import view.modules.reports.ReportsScreen
@@ -17,7 +16,6 @@ fun MainContent(screen: Screen) {
         is Screen.Dashboard -> DashboardScreen()
         is Screen.Schedules -> ScheduleScreen()
         is Screen.Reports -> ReportsScreen()
-        is Screen.Database -> DatabaseScreen()
         is Screen.Categories -> CategoriesScreen()
         is Screen.Tags -> TagsScreen()
         is Screen.Receivers -> ReceiversScreen()
