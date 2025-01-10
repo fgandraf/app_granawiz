@@ -35,72 +35,70 @@ fun TagsPicker(
     viewModel.selectedTags.value = selected
 
     val tags = viewModel.tags.collectAsState()
-    val selectedTags by viewModel.selectedTags.collectAsState()
 
-    val corner = 30.dp
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
+
+    // EXTERNAL
+    val corner = 10.dp
+    Box(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colors.onPrimary, RoundedCornerShape(topEnd = corner, bottomEnd = corner))
-            .border(1.dp, MaterialTheme.colors.primaryVariant, RoundedCornerShape(topEnd = corner, bottomEnd = corner))
+            .border(1.dp, MaterialTheme.colors.primaryVariant, RoundedCornerShape(topEnd = corner, bottomEnd = corner)),
+        contentAlignment = Alignment.Center
     ) {
 
-
-        Box(
-            modifier = Modifier.weight(1f).fillMaxHeight().padding(vertical = 30.dp, horizontal = 10.dp),
-        ) {
+        // TAGS
+        Box(modifier = Modifier.padding(vertical = 30.dp, horizontal = 10.dp),) {
             val listState = rememberLazyListState()
-
-
             LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
-
-                items(tags.value, key = { it.id  }) { tag ->
-
-                    val deleteDialogIsVisible = remember { mutableStateOf(false) }
-
-                    ListItem(
-                        label = tag.name,
-                        isActive = selectedTags.any { it.id == tag.id },
-                        icon = PhosphorIcons.Light.Tag,
-                        spaceBetween = 0.dp,
-                        deleteDialogIsVisible = deleteDialogIsVisible,
-                        onUpdateConfirmation = { viewModel.updateTag(tag, it) },
-                        onContentClick = {
-                            viewModel.toggleTagSelection(tag)
-                            onTagClick(viewModel.selectedTags.value)
-                        },
-                        deleteDialog = {
-                            DialogDelete(
-                                title = "Excluir etiqueta",
-                                icon = PhosphorIcons.Light.Tag,
-                                objectName = tag.name,
-                                alertText = "Isso irá excluir permanentemente a etiqueta ${tag.name} e remover todas as associações feitas à ela.",
-                                onClickButton = { viewModel.deleteTag(tag) },
-                                onDismiss = { deleteDialogIsVisible.value = false }
-                            )
-                        }
-                    )
-
-                }
-
-                item {
-                    val value = remember { mutableStateOf("") }
-                    val isVisible = remember { mutableStateOf(false) }
-                    AddListItem(
-                        isVisible = isVisible,
-                        value = value,
-                        confirmationClick = { viewModel.addTag(value.value) },
-                    )
-                }
-
+                items(tags.value, key = { it.id  }) { item -> AddTagItem(viewModel, item) { onTagClick(it) } }
+                item { AddTagButton(viewModel) }
             }
-            VerticalScrollbar(
-                adapter = rememberScrollbarAdapter(listState),
-                modifier = Modifier.align(Alignment.CenterEnd)
-            )
+            VerticalScrollbar(adapter = rememberScrollbarAdapter(listState), modifier = Modifier.align(Alignment.CenterEnd))
         }
 
     }
+
+}
+
+@Composable
+fun AddTagItem(
+    viewModel: TagViewModel,
+    item: Tag,
+    onClick: (List<Tag>) -> Unit
+){
+    val deleteDialogIsVisible = remember { mutableStateOf(false) }
+    ListItem(
+        label = item.name,
+        isActive = viewModel.selectedTags.value.any { it.id == item.id },
+        icon = PhosphorIcons.Light.Tag,
+        spaceBetween = 0.dp,
+        deleteDialogIsVisible = deleteDialogIsVisible,
+        onUpdateConfirmation = { viewModel.updateTag(item, it) },
+        onContentClick = {
+            viewModel.toggleTagSelection(item)
+            onClick(viewModel.selectedTags.value)
+        },
+        deleteDialog = {
+            DialogDelete(
+                title = "Excluir etiqueta",
+                icon = PhosphorIcons.Light.Tag,
+                objectName = item.name,
+                alertText = "Isso irá excluir permanentemente a etiqueta ${item.name} e remover todas as associações feitas à ela.",
+                onClickButton = { viewModel.deleteTag(item) },
+                onDismiss = { deleteDialogIsVisible.value = false }
+            )
+        }
+    )
+}
+
+@Composable
+fun AddTagButton(viewModel: TagViewModel){
+    val value = remember { mutableStateOf("") }
+    val isVisible = remember { mutableStateOf(false) }
+    AddListItem(
+        isVisible = isVisible,
+        value = value,
+        confirmationClick = { viewModel.addTag(value.value) },
+    )
 }
