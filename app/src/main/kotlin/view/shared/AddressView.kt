@@ -22,17 +22,21 @@ fun AddressView(
     iconResource: String? = null,
     icon: ImageVector? = null,
     value: String,
-    iconSize: DpSize = DpSize(17.dp, 17.dp)
+    iconSize: DpSize = DpSize(17.dp, 17.dp),
+    rootPath: Boolean? = false
 ){
     Row(modifier = Modifier, verticalAlignment = Alignment.CenterVertically) {
-        Text(modifier = Modifier.padding(end = 10.dp),
-            text = "/",
-            fontSize  = 14.sp,
-            color = MaterialTheme.colors.primary,
-            fontWeight = FontWeight.Normal,
-            lineHeight = 0.sp,
-            fontFamily = Ubuntu
-        )
+
+        if (rootPath == false)
+            Text(modifier = Modifier.padding(end = 5.dp),
+                text = "/",
+                fontSize  = 13.sp,
+                color = MaterialTheme.colors.primaryVariant,
+                fontWeight = FontWeight.Normal,
+                lineHeight = 0.sp,
+                fontFamily = Ubuntu
+            )
+
         if (icon != null)
             Icon(
                 imageVector = icon,
@@ -47,13 +51,15 @@ fun AddressView(
                 tint = MaterialTheme.colors.primary,
                 modifier = Modifier.size(iconSize),
             )
-        Text(modifier = Modifier.padding(horizontal = 10.dp),
+        Text(modifier = Modifier.padding(horizontal = 5.dp),
             text = value,
-            fontSize  = 14.sp,
+            fontSize  = 13.sp,
             color = MaterialTheme.colors.primary,
-            fontWeight = FontWeight.Medium,
+            fontWeight = FontWeight.Normal,
             lineHeight = 0.sp,
             fontFamily = Ubuntu
         )
+
+
     }
 }

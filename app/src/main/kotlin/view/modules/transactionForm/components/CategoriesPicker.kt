@@ -20,6 +20,7 @@ import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.Shapes
 import core.entity.Category
 import core.entity.Subcategory
+import core.enums.CategoryType
 import utils.IconPaths
 import view.modules.categories.components.CategoryListItem
 import view.shared.AddListItem
@@ -30,15 +31,17 @@ import viewModel.CategoryViewModel
 
 @Composable
 fun CategoriesPicker(
-    viewModel: CategoryViewModel = CategoryViewModel(), // Se não selecionar categorias, o problema está aqui!
+    viewModel: CategoryViewModel = CategoryViewModel(),
     category: Category,
     subcategory: Subcategory?,
+    type: CategoryType? = null,
     onCategoryClick: (Category, Subcategory?) -> Unit,
 ) {
 
     viewModel.selectedCategory.value = category
     viewModel.selectedSubcategory.value = subcategory
-    viewModel.getCategories(category.type)
+
+    viewModel.getCategories(if (category.id != 0L) category.type else type!!)
     viewModel.getSubcategories(category)
 
 

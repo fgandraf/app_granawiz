@@ -22,23 +22,27 @@ import androidx.compose.ui.unit.dp
 fun ClickableIcon(
     modifier: Modifier = Modifier,
     icon: ImageVector,
-    shape: Shape = RoundedCornerShape(6.dp),
+    shape: Shape? = null,
     color: Color = MaterialTheme.colors.primary,
     boxSize: Dp = 30.dp,
     iconSize: Dp = 15.dp,
+    enabled: Boolean? = true,
     onClick: () -> Unit
     ) {
 
-    Box(Modifier
+    val stateModifier = if (enabled!!)
+        modifier.clip(shape?: RoundedCornerShape(6.dp)).clickable(onClick = onClick).pointerHoverIcon(PointerIcon.Hand)
+    else
+        modifier.clip(shape?: RoundedCornerShape(6.dp))
+
+
+    Box(stateModifier
         .size(boxSize)
-        .clip(shape)
-        .pointerHoverIcon(PointerIcon.Hand)
-        .clickable(onClick = onClick)
     ) {
         Icon(
             imageVector = icon,
             contentDescription = null,
-            tint = color,
+            tint = if (enabled) color else MaterialTheme.colors.primaryVariant,
             modifier = modifier.size(iconSize).align(Alignment.Center)
         )
     }

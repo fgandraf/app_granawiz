@@ -23,16 +23,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.zIndex
 import core.entity.Transaction
 import core.entity.account.BankAccount
+import core.enums.CategoryType
 import core.enums.PartyType
 import core.enums.TransactionType
 import utils.IconPaths
 import utils.toBrMoney
-import view.modules.transactionForm.components.*
+import view.modules.transactionForm.components.CategoriesPicker
+import view.modules.transactionForm.components.PartiesPicker
+import view.modules.transactionForm.components.TagsPicker
 import view.shared.*
 import view.theme.Ubuntu
 import viewModel.TransactionFormViewModel
@@ -64,35 +65,44 @@ fun TransactionForm(
     )
     val title by remember{ derivedStateOf { if (transactionFormViewModel.id == 0L) "Adicionar transação" else "Editar transação" }}
 
-    Dialog(onDismissRequest = onDismiss, properties = DialogProperties(usePlatformDefaultWidth = false)) {
+
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.width(dialogWidth).background(MaterialTheme.colors.background, shape = RoundedCornerShape(8.dp))
+            modifier = Modifier.width(dialogWidth)
+                .background(MaterialTheme.colors.background, shape = RoundedCornerShape(8.dp))
         ) {
-            DialogTitleBar(title, onDismiss)
 
-            Row(verticalAlignment = Alignment.CenterVertically,
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
-                .padding(vertical = 30.dp).padding(horizontal = 30.dp)
-                .height(550.dp)
+                    .padding(vertical = 30.dp).padding(horizontal = 30.dp)
+                    .height(550.dp)
             ) {
 
-                Row(modifier = Modifier
-                    .width(500.dp)
-                    .zIndex(2f)
-                    .shadow(2.dp, RoundedCornerShape(10.dp))
-                    .background(MaterialTheme.colors.onPrimary, RoundedCornerShape(10.dp))
-                    .border(1.dp, transactionFormViewModel.typeColor.value, RoundedCornerShape(10.dp))
+                Row(
+                    modifier = Modifier
+                        .width(500.dp)
+                        .zIndex(2f)
+                        .shadow(2.dp, RoundedCornerShape(10.dp))
+                        .background(MaterialTheme.colors.onPrimary, RoundedCornerShape(10.dp))
+                        .border(1.dp, transactionFormViewModel.typeColor.value, RoundedCornerShape(10.dp))
                 ) {
                     //==== FORM
-                    Column(modifier = Modifier.fillMaxWidth()
+                    Column(
+                        modifier = Modifier.fillMaxWidth()
 
                     ) {
                         Column(Modifier.fillMaxWidth().padding(30.dp)) {
 
                             //==== ACCOUNT ICON AND NAME
-                            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                                Row{
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Row {
                                     TextPrimary(
                                         text = transactionFormViewModel.typeLabel.value,
                                         color = transactionFormViewModel.typeColor.value,
@@ -100,7 +110,11 @@ fun TransactionForm(
                                         weight = FontWeight.Bold,
                                     )
                                 }
-                                Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.End) {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.End
+                                ) {
                                     Icon(
                                         painter = painterResource(IconPaths.BANK_LOGOS + account.icon),
                                         contentDescription = null,
@@ -132,7 +146,15 @@ fun TransactionForm(
                                 )
 
                                 //---balance
-                                var balance by remember { mutableStateOf(toBrMoney.format(abs(transactionFormViewModel.balance))) }
+                                var balance by remember {
+                                    mutableStateOf(
+                                        toBrMoney.format(
+                                            abs(
+                                                transactionFormViewModel.balance
+                                            )
+                                        )
+                                    )
+                                }
                                 DefaultTextField(
                                     modifier = Modifier.weight(1f).padding(start = 10.dp),
                                     value = balance,
@@ -149,7 +171,7 @@ fun TransactionForm(
                             //---party
                             DropDownTextField(
                                 modifier = Modifier.padding(bottom = 20.dp),
-                                value = party.value?.name?: "",
+                                value = party.value?.name ?: "",
                                 label = if (transactionFormViewModel.type == TransactionType.GAIN) "Pagador" else "Recebedor",
                                 placeholder = "Nome",
                                 onClick = {
@@ -157,8 +179,7 @@ fun TransactionForm(
                                         showSide = false
                                     else if (showSide)
                                         sideType = "parties"
-                                    else
-                                    {
+                                    else {
                                         sideType = "parties"
                                         showSide = true
                                     }
@@ -190,8 +211,7 @@ fun TransactionForm(
                                         showSide = false
                                     else if (showSide)
                                         sideType = "categories"
-                                    else
-                                    {
+                                    else {
                                         sideType = "categories"
                                         showSide = true
                                     }
@@ -210,8 +230,7 @@ fun TransactionForm(
                                         showSide = false
                                     else if (showSide)
                                         sideType = "tags"
-                                    else
-                                    {
+                                    else {
                                         sideType = "tags"
                                         showSide = true
                                     }
@@ -228,10 +247,11 @@ fun TransactionForm(
                 AnimatedVisibility(visible = showSide, enter = fadeIn(tween(800)), exit = fadeOut(tween(800))) {
 
 
-                    Row(modifier = Modifier
-                        .fillMaxHeight(0.8f)
-                        .offset (x = (-1).dp)
-                        .zIndex(1f)
+                    Row(
+                        modifier = Modifier
+                            .fillMaxHeight(0.8f)
+                            .offset(x = (-1).dp)
+                            .zIndex(1f)
                     ) {
 
                         when (sideType) {
@@ -239,6 +259,7 @@ fun TransactionForm(
                                 CategoriesPicker(
                                     category = transactionFormViewModel.category,
                                     subcategory = transactionFormViewModel.subCategory,
+                                    type = if (transactionType == TransactionType.GAIN) CategoryType.INCOME else CategoryType.EXPENSE,
                                     onCategoryClick = { category, subcategory ->
                                         transactionFormViewModel.category = category
                                         transactionFormViewModel.subCategory = subcategory
@@ -251,10 +272,11 @@ fun TransactionForm(
                                     party = party.value,
                                     onPartyClick = { transactionFormViewModel.party.value = it }
                                 )
+
                             else ->
                                 TagsPicker(
                                     selected = tags.value,
-                                    onTagClick = { transactionFormViewModel.tags.value = it.toList()}
+                                    onTagClick = { transactionFormViewModel.tags.value = it.toList() }
                                 )
                         }
                     }
@@ -279,4 +301,5 @@ fun TransactionForm(
 
         }
     }
+
 }
