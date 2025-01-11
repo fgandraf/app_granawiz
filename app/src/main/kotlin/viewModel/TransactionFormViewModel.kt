@@ -15,14 +15,14 @@ import view.theme.Red800
 import java.time.LocalDateTime
 import kotlin.math.abs
 
-class TransactionFormViewModel(transaction: Transaction? = null) {
+class TransactionFormViewModel {
 
     val service: TransactionService = TransactionService()
 
     var id by mutableStateOf(0L)
-    var party = MutableStateFlow(Party())
+    var party : MutableStateFlow<Party?> = MutableStateFlow(null)
     var account by mutableStateOf(BankAccount())
-    var category by mutableStateOf(Category())
+    var category : MutableStateFlow<Category?> = MutableStateFlow(null)
     var subCategory by mutableStateOf<Subcategory?>(null)
     var tags = MutableStateFlow(listOf<Tag>())
     var date by mutableStateOf(LocalDateTime.now())
@@ -30,12 +30,12 @@ class TransactionFormViewModel(transaction: Transaction? = null) {
     var balance by mutableStateOf(0.0)
     var type by mutableStateOf(TransactionType.NEUTRAL)
 
-    init {
-        transaction?.let {
+    fun loadFromTransaction(transaction: Transaction) {
+        transaction.let {
             id = it.id
             party.value = it.party
             account = it.account
-            category = it.category
+            category.value = if(it.category.id != 0L) it.category else null
             subCategory = it.subcategory
             tags.value = it.tags?: listOf()
             date = it.date
@@ -43,6 +43,19 @@ class TransactionFormViewModel(transaction: Transaction? = null) {
             balance = it.balance
             type = it.type
         }
+    }
+
+    fun clear(){
+        id = 0L
+        party.value = null
+        account = BankAccount()
+        category.value = null
+        subCategory = null
+        tags.value = listOf()
+        date = LocalDateTime.now()
+        description = ""
+        balance = 0.0
+        type = TransactionType.NEUTRAL
     }
 
     fun updateBalance(value: String = ""){
@@ -73,9 +86,9 @@ class TransactionFormViewModel(transaction: Transaction? = null) {
     fun saveTransaction(){
         val transaction = Transaction(
             id = this.id,
-            party = party.value,
+            party = party.value!!,
             account = account,
-            category = category,
+            category = category.value!!,
             subcategory = subCategory,
             tags = tags.value,
             date = date,

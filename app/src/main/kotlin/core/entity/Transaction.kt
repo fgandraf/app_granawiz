@@ -52,5 +52,22 @@ open class Transaction(
     open val type: TransactionType
 
     ){
+
     constructor() : this(0, Party(), BankAccount(), Category(), null, null, LocalDateTime.now(), "", 0.0, TransactionType.NEUTRAL)
+
+    fun copy(
+        id: Long = this.id,
+        party: Party = this.party,
+        account: BankAccount = this.account,
+        category: Category = this.category,
+        subcategory: Subcategory? = this.subcategory,
+        tags: List<Tag>? = this.tags,
+        date: LocalDateTime = this.date,
+        description: String = this.description,
+        balance: Double = this.balance,
+        type: TransactionType = this.type
+    ): Transaction {
+        return Transaction(id, party, account, category, subcategory, tags, date, description, balance, type)
+    }
+
 }

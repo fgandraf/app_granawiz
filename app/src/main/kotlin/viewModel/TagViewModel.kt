@@ -16,13 +16,9 @@ class TagViewModel() {
     var selectedTags = MutableStateFlow(emptyList<Tag>())
 
     fun toggleTagSelection(tag: Tag) {
-        selectedTags.value = if (selectedTags.value.any { it.id == tag.id }) {
-            // Remove the tag if it is already selected
-            selectedTags.value.filter { it.id != tag.id }
-        } else {
-            // Add the tag if it is not selected
-            selectedTags.value + tag
-        }
+        selectedTags.value =
+            if (selectedTags.value.any { it.id == tag.id }) selectedTags.value.filter { it.id != tag.id }
+            else if(selectedTags.value.size < 3) selectedTags.value + tag else selectedTags.value
     }
 
     fun deleteTag(tag: Tag) {

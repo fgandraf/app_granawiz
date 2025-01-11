@@ -25,7 +25,6 @@ fun TagListView(
     tags: List<Tag>?,
     label: String? = null,
     placeholder: String = "",
-    onClickTag: () -> Unit,
     onClickAdd: () -> Unit = {}
 ){
     val primaryColor = MaterialTheme.colors.primary
@@ -45,13 +44,7 @@ fun TagListView(
                         TextPrimary(text = placeholder, size = 10.sp, color = primaryColor.copy(alpha = 0.75f))
                     else {
                         tags.forEach { tag ->
-                            Box(
-                                modifier = Modifier
-                                    .padding(end = 5.dp)
-                                    .clip(CircleShape)
-                                    .pointerHoverIcon(PointerIcon.Hand)
-                                    .clickable { onClickTag() },
-                            ) {
+                            Box(modifier = Modifier.padding(end = 5.dp).clip(CircleShape)) {
                                 Row(
                                     verticalAlignment = Alignment.CenterVertically,
                                     modifier = Modifier.padding(horizontal = 10.dp, vertical = 3.dp)

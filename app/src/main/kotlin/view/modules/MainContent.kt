@@ -21,5 +21,6 @@ fun MainContent(screen: Screen) {
         is Screen.Receivers -> ReceiversScreen()
         is Screen.Payers -> PayersScreen()
         is Screen.Transactions -> TransactionsScreen(screen.account, screen.showAddButton)
+        is Screen.NewTransactionForm -> Screen.NewTransactionForm(screen.transactions)
     }
 }

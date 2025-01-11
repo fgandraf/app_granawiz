@@ -27,6 +27,7 @@ import view.theme.Afacade
 @Composable
 fun ClickableRow(
     icon: ImageVector? = null,
+    iconColor: Color? = MaterialTheme.colors.primary,
     roundedBorder: Boolean = false,
     iconSize: DpSize = DpSize(12.dp, 12.dp),
     enabled: Boolean = true,
@@ -61,7 +62,7 @@ fun ClickableRow(
                 Icon(
                     imageVector = icon,
                     contentDescription = null,
-                    tint = if (enabled) MaterialTheme.colors.primary else MaterialTheme.colors.primaryVariant,
+                    tint = if (enabled) iconColor!! else MaterialTheme.colors.primaryVariant,
                     modifier = Modifier.size(iconSize),
                 )
 

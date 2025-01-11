@@ -20,6 +20,7 @@ import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.Shapes
 import core.entity.Category
 import core.entity.Subcategory
+import core.enums.CategoryType
 import utils.IconPaths
 import view.modules.categories.components.CategoryListItem
 import view.shared.AddListItem
@@ -30,175 +31,167 @@ import viewModel.CategoryViewModel
 
 @Composable
 fun CategoriesPicker(
-    viewModel: CategoryViewModel = CategoryViewModel(), // Se não selecionar categorias, o problema está aqui!
+    viewModel: CategoryViewModel = CategoryViewModel(),
     category: Category,
     subcategory: Subcategory?,
+    type: CategoryType? = null,
     onCategoryClick: (Category, Subcategory?) -> Unit,
 ) {
 
     viewModel.selectedCategory.value = category
     viewModel.selectedSubcategory.value = subcategory
-    viewModel.getCategories(category.type)
-    viewModel.getSubcategories(category)
+    viewModel.selectedType.value = if (category.id == 0L) type!! else category.type
 
+    viewModel.getCategories(viewModel.selectedType.value)
+    viewModel.getSubcategories(category)
 
     val categories by viewModel.categories.collectAsState()
     val subCategories by viewModel.subcategories.collectAsState()
 
-    val selectedCategory by viewModel.selectedCategory.collectAsState()
-    val selectedSubcategory by viewModel.selectedSubcategory.collectAsState()
 
-
-    val corner = 30.dp
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
+    // EXTERNAL
+    val corner = 10.dp
+    Box(
         modifier = Modifier
-            .fillMaxSize()
+            .width(600.dp)
             .background(MaterialTheme.colors.onPrimary, RoundedCornerShape(topEnd = corner, bottomEnd = corner))
-            .border(1.dp, MaterialTheme.colors.primaryVariant, RoundedCornerShape(topEnd = corner, bottomEnd = corner))
+            .border(1.dp, MaterialTheme.colors.primaryVariant, RoundedCornerShape(topEnd = corner, bottomEnd = corner)),
+        contentAlignment = Alignment.Center
     ) {
 
-        Row(modifier = Modifier.padding(vertical = 20.dp, horizontal = 10.dp)) {
+        // CONTENT BOX
+        Row(modifier = Modifier.padding(vertical = 30.dp, horizontal = 10.dp)) {
 
-            //===== CATEGORIES
-            Row(modifier = Modifier.width(260.dp).fillMaxHeight()) {
-
-                Box(
-                    modifier = Modifier.weight(1f).fillMaxHeight().padding(vertical = 10.dp)
-                ) {
-                    val listState = rememberLazyListState()
-
-
-                    LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
-
-                        items(categories, key = { it.id  }) { item ->
-
-                            val deleteDialogIsVisible = remember { mutableStateOf(false) }
-
-                            CategoryListItem(
-                                label = item.name,
-                                icon = IconPaths.CATEGORY_PACK + item.icon,
-                                clickableIcon = true,
-                                hasSubItem = item.subcategories.size > 0,
-                                isActive =  item.id == selectedCategory.id,
-                                deleteDialogIsVisible = deleteDialogIsVisible,
-                                onUpdateConfirmation = { viewModel.updateCategory(category = item, name = it) },
-                                onSelectIcon = { viewModel.updateCategory(category = item, icon = it) },
-                                onContentClick = {
-                                    viewModel.selectedCategory.value = item
-                                    viewModel.selectedSubcategory.value = null
-                                    viewModel.getSubcategories(item)
-                                    onCategoryClick(item, null)
-                                },
-                                deleteDialog = {
-                                    DialogDelete(
-                                        title = "Excluir categoria",
-                                        icon = PhosphorIcons.Light.Shapes,
-                                        objectName = item.name,
-                                        alertText = "Isso irá excluir permanentemente a categoria ${item.name} e remover todas as associações feitas à ela.",
-                                        onClickButton = { viewModel.deleteCategory(item) },
-                                        onDismiss = { deleteDialogIsVisible.value = false }
-                                    )
-                                }
-                            )
-
-                        }
-
-                        item {
-                            val value = remember { mutableStateOf("") }
-                            val isVisible = remember { mutableStateOf(false) }
-                            AddListItem(
-                                isVisible = isVisible,
-                                value = value,
-                                confirmationClick = {
-                                    viewModel.addCategory(
-                                        Category(
-                                            type = viewModel.selectedType.value,
-                                            name = value.value,
-                                            icon = "question-mark.svg"
-                                        )
-                                    )
-                                },
-                            )
-                        }
-
-                    }
-                    VerticalScrollbar(
-                        adapter = rememberScrollbarAdapter(listState),
-                        modifier = Modifier.align(Alignment.CenterEnd)
-                    )
+            // CATEGORIES
+            Box(modifier = Modifier.weight(1f)){
+                val listState = rememberLazyListState()
+                LazyColumn(state = listState) {
+                    items(categories, key = { it.id  }) { item -> AddCategoryItem(viewModel, item) { onCategoryClick(it, null) } }
+                    item { AddCategoryButton(viewModel) }
                 }
+                VerticalScrollbar(adapter = rememberScrollbarAdapter(listState), modifier = Modifier.align(Alignment.CenterEnd))
             }
+
+            // DIVIDER
             Divider(modifier = Modifier.width(2.dp).fillMaxHeight())
 
-
-            //===== SUBCATEGORIES
-            Row(modifier = Modifier.weight(1f).fillMaxHeight()) {
-
-                Box(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .padding(top = 10.dp)
-                ) {
-                    val listState = rememberLazyListState()
-
-
-
-                    LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
-
-                        items(subCategories, key = { it.id }) { subcategory ->
-
-                            val deleteDialogIsVisible = remember { mutableStateOf(false) }
-                            ListItem(
-                                label = subcategory.name,
-                                hasSubItem = false,
-                                spaceBetween = 0.dp,
-                                isActive = selectedSubcategory?.id == subcategory.id,
-                                deleteDialogIsVisible = deleteDialogIsVisible,
-                                onUpdateConfirmation = { viewModel.updateSubcategory(subcategory, it) },
-                                onContentClick = {
-                                    viewModel.selectedSubcategory.value = subcategory
-                                    onCategoryClick(viewModel.selectedCategory.value, subcategory)
-                                                 },
-                                deleteDialog = {
-                                    DialogDelete(
-                                        title = "Excluir subcategoria",
-                                        icon = PhosphorIcons.Light.Shapes,
-                                        objectName = subcategory.name,
-                                        alertText = "Isso irá excluir permanentemente a subcategoria ${subcategory.name} e remover todas as associações feitas à ela.",
-                                        onClickButton = { viewModel.deleteSubcategory(subcategory) },
-                                        onDismiss = { deleteDialogIsVisible.value = false }
-                                    )
-                                }
-                            )
-
-                        }
-
-                        item {
-                            val value = remember { mutableStateOf("") }
-                            val isVisible = remember { mutableStateOf(false) }
-                            AddListItem(
-                                isVisible = isVisible,
-                                value = value,
-                                confirmationClick = {
-                                    viewModel.addSubcategory(
-                                        Subcategory(
-                                            name = value.value,
-                                            category = viewModel.selectedCategory.value
-                                        )
-                                    )
-                                }
-                            )
-                        }
-
-                    }
-                    VerticalScrollbar(
-                        adapter = rememberScrollbarAdapter(listState),
-                        modifier = Modifier.align(Alignment.CenterEnd)
-                    )
+            // SUBCATEGORIES
+            Box(modifier = Modifier.weight(1f)){
+                val listState = rememberLazyListState()
+                LazyColumn(state = listState) {
+                    items(subCategories, key = { it.id  }) { item -> AddSubcategoryItem(viewModel, item) { onCategoryClick(viewModel.selectedCategory.value, it) } }
+                    item { AddSubcategoryButton(viewModel) }
                 }
+                VerticalScrollbar(adapter = rememberScrollbarAdapter(listState),modifier = Modifier.align(Alignment.CenterEnd))
             }
 
         }
+
     }
+
+}
+
+
+
+@Composable
+fun AddCategoryItem(
+    viewModel: CategoryViewModel,
+    item: Category,
+    onClick: (Category) -> Unit
+){
+    val deleteDialogIsVisible = remember { mutableStateOf(false) }
+    CategoryListItem(
+        label = item.name,
+        icon = IconPaths.CATEGORY_PACK + item.icon,
+        clickableIcon = true,
+        hasSubItem = item.subcategories.size > 0,
+        isActive =  item.id == viewModel.selectedCategory.value.id,
+        deleteDialogIsVisible = deleteDialogIsVisible,
+        onUpdateConfirmation = { viewModel.updateCategory(category = item, name = it) },
+        onSelectIcon = { viewModel.updateCategory(category = item, icon = it) },
+        onContentClick = {
+            viewModel.selectedCategory.value = item
+            viewModel.selectedSubcategory.value = null
+            viewModel.getSubcategories(item)
+            onClick(item)
+        },
+        deleteDialog = {
+            DialogDelete(
+                title = "Excluir categoria",
+                icon = PhosphorIcons.Light.Shapes,
+                objectName = item.name,
+                alertText = "Isso irá excluir permanentemente a categoria ${item.name} e remover todas as associações feitas à ela.",
+                onClickButton = { viewModel.deleteCategory(item) },
+                onDismiss = { deleteDialogIsVisible.value = false }
+            )
+        }
+    )
+}
+
+@Composable
+fun AddCategoryButton(viewModel: CategoryViewModel){
+    val value = remember { mutableStateOf("") }
+    val isVisible = remember { mutableStateOf(false) }
+    AddListItem(
+        isVisible = isVisible,
+        value = value,
+        confirmationClick = {
+            viewModel.addCategory(
+                Category(
+                    type = viewModel.selectedType.value,
+                    name = value.value,
+                    icon = "question-mark.svg"
+                )
+            )
+        },
+    )
+}
+
+@Composable
+fun AddSubcategoryItem(
+    viewModel: CategoryViewModel,
+    item: Subcategory,
+    onClick: (Subcategory) -> Unit
+){
+    val deleteDialogIsVisible = remember { mutableStateOf(false) }
+    ListItem(
+        label = item.name,
+        hasSubItem = false,
+        spaceBetween = 0.dp,
+        isActive = viewModel.selectedSubcategory.value?.id == item.id,
+        deleteDialogIsVisible = deleteDialogIsVisible,
+        onUpdateConfirmation = { viewModel.updateSubcategory(item, it) },
+        onContentClick = {
+            viewModel.selectedSubcategory.value = item
+            onClick(item)
+        },
+        deleteDialog = {
+            DialogDelete(
+                title = "Excluir subcategoria",
+                icon = PhosphorIcons.Light.Shapes,
+                objectName = item.name,
+                alertText = "Isso irá excluir permanentemente a subcategoria ${item.name} e remover todas as associações feitas à ela.",
+                onClickButton = { viewModel.deleteSubcategory(item) },
+                onDismiss = { deleteDialogIsVisible.value = false }
+            )
+        }
+    )
+}
+
+@Composable
+fun AddSubcategoryButton(viewModel: CategoryViewModel){
+    val value = remember { mutableStateOf("") }
+    val isVisible = remember { mutableStateOf(false) }
+    AddListItem(
+        isVisible = isVisible,
+        value = value,
+        confirmationClick = {
+            viewModel.addSubcategory(
+                Subcategory(
+                    name = value.value,
+                    category = viewModel.selectedCategory.value
+                )
+            )
+        }
+    )
 }

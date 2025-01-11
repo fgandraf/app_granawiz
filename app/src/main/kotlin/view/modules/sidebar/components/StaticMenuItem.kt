@@ -35,7 +35,7 @@ fun StaticMenuItem(
             .padding(horizontal = 10.dp)
             .height(35.dp)
             .clip(RoundedCornerShape(8.dp))
-            .background(if (currentScreen == screen) Color.LightGray else Color.Transparent )
+            .background(if (currentScreen == screen) MaterialTheme.colors.primaryVariant.copy(alpha = 0.5f) else Color.Transparent )
             .pointerHoverIcon(PointerIcon.Hand)
             .clickable { onClick(screen) }
     ) {

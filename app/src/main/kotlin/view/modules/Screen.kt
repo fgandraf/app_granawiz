@@ -11,4 +11,5 @@ sealed class Screen {
     data object Receivers : Screen()
     data object Payers : Screen()
     data class Transactions(val account: BankAccount? = null, val showAddButton: Boolean = false) : Screen()
+    data class NewTransactionForm(val transactions: Transactions) : Screen()
 }

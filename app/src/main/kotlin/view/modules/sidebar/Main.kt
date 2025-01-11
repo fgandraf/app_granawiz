@@ -4,9 +4,7 @@ import androidx.compose.animation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateMapOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -30,11 +28,15 @@ fun Main(
     onScreenSelected: (Screen) -> Unit,
     ){
 
+    var activeAccountId by remember { mutableStateOf(0L) }
 
     Column(modifier = modifier.fillMaxWidth().verticalScroll(rememberScrollState())) {
 
         //=== STATIC MENU ITEMS
-        //Spacer(modifier = Modifier.height(25.dp))
+
+
+        // TODO: Implements Dashboard
+//        Spacer(modifier = Modifier.height(25.dp))
 //        StaticMenuItem(
 //            icon = PhosphorIcons.Light.SquaresFour,
 //            label = "Dashboard",
@@ -42,6 +44,9 @@ fun Main(
 //            currentScreen = currentScreen,
 //            onClick = onScreenSelected
 //        )
+
+
+        // TODO: Implements Schedules
 //        StaticMenuItem(
 //            icon = PhosphorIcons.Light.Calendar,
 //            label = "Agendamentos",
@@ -49,6 +54,9 @@ fun Main(
 //            currentScreen = currentScreen,
 //            onClick = onScreenSelected
 //        )
+
+
+        // TODO: Implements Reports
 //        StaticMenuItem(
 //            icon = PhosphorIcons.Light.Scroll,
 //            label = "Relatórios",
@@ -56,34 +64,36 @@ fun Main(
 //            currentScreen = currentScreen,
 //            onClick = onScreenSelected
 //        )
+
+
         SectionTitle("Base de dados")
         StaticMenuItem(
             icon = PhosphorIcons.Light.Shapes,
             label = "Categorias",
             screen = Screen.Categories,
             currentScreen = currentScreen,
-            onClick = onScreenSelected
+            onClick = { onScreenSelected(it); activeAccountId = 0L }
         )
         StaticMenuItem(
             icon = PhosphorIcons.Light.Tag,
             label = "Etiquetas",
             screen = Screen.Tags,
             currentScreen = currentScreen,
-            onClick = onScreenSelected
-        )
-        StaticMenuItem(
-            icon = PhosphorIcons.Light.HandArrowDown,
-            label = "Beneficiários",
-            screen = Screen.Receivers,
-            currentScreen = currentScreen,
-            onClick = onScreenSelected
+            onClick = { onScreenSelected(it); activeAccountId = 0L }
         )
         StaticMenuItem(
             icon = PhosphorIcons.Light.HandArrowUp,
+            label = "Beneficiários",
+            screen = Screen.Receivers,
+            currentScreen = currentScreen,
+            onClick = { onScreenSelected(it); activeAccountId = 0L }
+        )
+        StaticMenuItem(
+            icon = PhosphorIcons.Light.HandArrowDown,
             label = "Pagadores",
             screen = Screen.Payers,
             currentScreen = currentScreen,
-            onClick = onScreenSelected
+            onClick = { onScreenSelected(it); activeAccountId = 0L }
         )
         SectionTitle("Transações")
         StaticMenuItem(
@@ -91,7 +101,7 @@ fun Main(
             label = "Todas as transações",
             screen = Screen.Transactions(),
             currentScreen = currentScreen,
-            onClick = onScreenSelected
+            onClick = { onScreenSelected(it); activeAccountId = 0L }
         )
         Spacer(Modifier.height(10.dp))
 
@@ -117,19 +127,21 @@ fun Main(
                     toggleClick = { expandedGroups[group.name] = !isExpanded }
                 )
 
+
                 AnimatedVisibility(
                     visible = isExpanded,
                     enter = expandVertically() + fadeIn(),
                     exit = shrinkVertically() + fadeOut()
                 ) {
+
                     Column {
                         group.accounts.forEach { account ->
                             AccountMenuItem(
                                 viewModel = viewModel,
                                 account = account,
+                                isActive = activeAccountId == account.id,
                                 screen = Screen.Transactions(account, showAddButton = true),
-                                currentScreen = currentScreen,
-                                onClick = onScreenSelected
+                                onClick =  {onScreenSelected(it); activeAccountId = account.id }
                             )
                         }
                     }
