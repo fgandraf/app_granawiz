@@ -22,7 +22,7 @@ class TransactionFormViewModel {
     var id by mutableStateOf(0L)
     var party : MutableStateFlow<Party?> = MutableStateFlow(null)
     var account by mutableStateOf(BankAccount())
-    var category by mutableStateOf(Category())
+    var category : MutableStateFlow<Category?> = MutableStateFlow(null)
     var subCategory by mutableStateOf<Subcategory?>(null)
     var tags = MutableStateFlow(listOf<Tag>())
     var date by mutableStateOf(LocalDateTime.now())
@@ -35,7 +35,7 @@ class TransactionFormViewModel {
             id = it.id
             party.value = it.party
             account = it.account
-            category = it.category
+            category.value = if(it.category.id != 0L) it.category else null
             subCategory = it.subcategory
             tags.value = it.tags?: listOf()
             date = it.date
@@ -49,7 +49,7 @@ class TransactionFormViewModel {
         id = 0L
         party.value = null
         account = BankAccount()
-        category = Category()
+        category.value = null
         subCategory = null
         tags.value = listOf()
         date = LocalDateTime.now()
@@ -88,7 +88,7 @@ class TransactionFormViewModel {
             id = this.id,
             party = party.value!!,
             account = account,
-            category = category,
+            category = category.value!!,
             subcategory = subCategory,
             tags = tags.value,
             date = date,

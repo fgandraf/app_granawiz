@@ -51,7 +51,10 @@ fun TagsPicker(
         Box(modifier = Modifier.padding(vertical = 30.dp, horizontal = 10.dp),) {
             val listState = rememberLazyListState()
             LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
-                items(tags.value, key = { it.id  }) { item -> AddTagItem(viewModel, item) { onTagClick(it) } }
+                items(tags.value, key = { it.id  }) { item ->
+
+                    AddTagItem(viewModel, item) { onTagClick(it) }
+                }
                 item { AddTagButton(viewModel) }
             }
             VerticalScrollbar(adapter = rememberScrollbarAdapter(listState), modifier = Modifier.align(Alignment.CenterEnd))
@@ -75,10 +78,7 @@ fun AddTagItem(
         spaceBetween = 0.dp,
         deleteDialogIsVisible = deleteDialogIsVisible,
         onUpdateConfirmation = { viewModel.updateTag(item, it) },
-        onContentClick = {
-            viewModel.toggleTagSelection(item)
-            onClick(viewModel.selectedTags.value)
-        },
+        onContentClick = { viewModel.toggleTagSelection(item); onClick(viewModel.selectedTags.value) },
         deleteDialog = {
             DialogDelete(
                 title = "Excluir etiqueta",

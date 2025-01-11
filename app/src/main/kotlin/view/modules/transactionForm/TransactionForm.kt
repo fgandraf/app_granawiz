@@ -7,18 +7,13 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Divider
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerIcon
@@ -32,6 +27,7 @@ import androidx.compose.ui.zIndex
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.Check
+import core.entity.Category
 import core.entity.Transaction
 import core.entity.account.BankAccount
 import core.enums.CategoryType
@@ -68,12 +64,15 @@ fun TransactionForm(
 
     val tags = transactionFormViewModel.tags.collectAsState()
     val party = transactionFormViewModel.party.collectAsState()
+    val category = transactionFormViewModel.category.collectAsState()
+    val subcategory = transactionFormViewModel.subCategory
 
+    val saveButtonActive by remember { derivedStateOf { party.value != null && category.value != null } }
 
-    // FUNDO TOTAL
+    // BACKGROUND
     Box(modifier = Modifier.fillMaxSize()) {
 
-        // CAIXA GERAL DO FOMULARIO
+        // FORM BOX
         var showSide by remember { mutableStateOf(false) }
         var sideType by remember{ mutableStateOf("") }
         val targetSize by derivedStateOf {
@@ -83,18 +82,10 @@ fun TransactionForm(
             targetValue = if (showSide) targetSize else 500.dp,
             animationSpec = tween(durationMillis = 800)
         )
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .width(dialogWidth)
-                .align(Alignment.TopCenter)
-                .padding(top = 50.dp)
-        ) {
+        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.width(dialogWidth).align(Alignment.TopCenter).padding(top = 50.dp)) {
 
 
-
-
-            // PRIMEIRA COLUNA: FORMULARIO
+            // FIRST COLUMN: FORM
             Row(
                 modifier = Modifier
                     .width(500.dp)
@@ -201,12 +192,11 @@ fun TransactionForm(
 
 
                     //---category
-                    val category = transactionFormViewModel.category
-                    val subcategory = transactionFormViewModel.subCategory
+
                     DropDownTextField(
                         modifier = Modifier.padding(bottom = 20.dp),
-                        icon = category.icon,
-                        value = category.name + if (subcategory?.name.isNullOrEmpty()) "" else " → ${subcategory?.name}",
+                        icon = category.value?.icon,
+                        value = if (category.value?.name.isNullOrEmpty()) "" else category.value!!.name + if (subcategory?.name.isNullOrEmpty()) "" else " → ${subcategory?.name}",
                         label = "Categoria:",
                         placeholder = "Selecione a categoria",
                         onClick = {
@@ -247,25 +237,18 @@ fun TransactionForm(
 
 
 
-
-
-            // SEGUNDA COLUNA: SIDE
+            // SECOND COLUMN: SIDE
             AnimatedVisibility(visible = showSide, enter = fadeIn(tween(800)), exit = fadeOut(tween(800))) {
-                Row(
-                    modifier = Modifier
-                        .height(450.dp)
-                        .offset(x = (-1).dp)
-                        .zIndex(1f)
-                ) {
+                Row(modifier = Modifier.height(450.dp).offset(x = (-1).dp).zIndex(1f)) {
 
                     when (sideType) {
                         "categories" ->
                             CategoriesPicker(
-                                category = transactionFormViewModel.category,
+                                category = transactionFormViewModel.category.value ?: Category(),
                                 subcategory = transactionFormViewModel.subCategory,
                                 type = if (transactionType == TransactionType.GAIN) CategoryType.INCOME else CategoryType.EXPENSE,
                                 onCategoryClick = { category, subcategory ->
-                                    transactionFormViewModel.category = category
+                                    transactionFormViewModel.category.value = category
                                     transactionFormViewModel.subCategory = subcategory
                                 }
                             )
@@ -285,33 +268,29 @@ fun TransactionForm(
                     }
                 }
             }
-        } // FIM: "CAIXA GERAL DO FOMULARIO"
+        } // END: "FORM BOX"
 
 
 
         //==== FOOTER
-        Box(
+        Button(
+            enabled = saveButtonActive,
+            colors = ButtonDefaults.buttonColors(backgroundColor = Lime800),
+            onClick = {transactionFormViewModel.saveTransaction(); onDismiss()},
+            shape = CircleShape,
             modifier = Modifier
-                .padding(bottom = 50.dp, end = 50.dp)
-                .size(60.dp)
-                .clip(CircleShape)
-                .background(Lime800)
-                .pointerHoverIcon(PointerIcon.Hand)
-                .clickable { transactionFormViewModel.saveTransaction(); onDismiss() }
-                .align(Alignment.BottomEnd)
+                .padding(bottom = 50.dp, end = 50.dp).size(60.dp).align(Alignment.BottomEnd)
+                .pointerHoverIcon(if(saveButtonActive) PointerIcon.Hand else PointerIcon.Default)
         ){
             Icon(
-                modifier = Modifier
-                    .size(25.dp)
-                    .align(Alignment.Center),
+                modifier = Modifier.size(25.dp),
                 imageVector = PhosphorIcons.Light.Check,
-                contentDescription = "Add transaction",
+                contentDescription = "Save transaction",
                 tint = Color.White
             )
-
         }
-        // TODO: Implements validation to the button
 
-    }
+
+    } // END "BACKGROUND"
 
 }

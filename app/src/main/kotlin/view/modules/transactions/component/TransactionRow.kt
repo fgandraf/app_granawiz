@@ -51,7 +51,6 @@ fun TransactionRow(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
-                //.padding(horizontal = 20.dp)
                 .height(45.dp)
                 .clip(RoundedCornerShape(0.dp))
                 .pointerHoverIcon(PointerIcon.Hand)
@@ -63,7 +62,7 @@ fun TransactionRow(
             Row(
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxHeight().padding(start = 40.dp, end = 20.dp)
+                modifier = Modifier.fillMaxHeight().padding(start = 30.dp, end = 20.dp)
             ) {
                 Box(
                     modifier = Modifier
@@ -80,7 +79,7 @@ fun TransactionRow(
                 modifier = Modifier
                     .fillMaxHeight()
                     .weight(0.8f)
-                    .padding(end = 20.dp)
+                    .padding(end = 10.dp)
             ) {
                 TextPrimary(
                     modifier = Modifier.padding(bottom = 2.dp),
@@ -99,7 +98,7 @@ fun TransactionRow(
                 modifier = Modifier
                     .fillMaxHeight()
                     .weight(0.9f)
-                    .padding(end = 20.dp)
+                    .padding(end = 10.dp)
             ) {
 
                 Icon(
@@ -126,6 +125,7 @@ fun TransactionRow(
                 modifier = Modifier
                     .fillMaxHeight()
                     .weight(0.9f)
+                    .padding(end = 10.dp)
             ) {
                 if (transaction.tags?.isNotEmpty()!!) {
                     transaction.tags.forEach { tag ->
@@ -151,7 +151,8 @@ fun TransactionRow(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxHeight()
-                    .padding(end = 20.dp)
+                    .padding(end = 10.dp)
+                    .weight(0.4f)
             ) {
                 TextPrimary(text = brMoney.format(transaction.balance), size = 11.sp)
             }
@@ -159,7 +160,7 @@ fun TransactionRow(
 
             // ...
             var showEditTransaction by remember { mutableStateOf(false) }
-            Row(Modifier.fillMaxHeight().padding(end = 30.dp), Arrangement.End, Alignment.CenterVertically) {
+            Row(Modifier.fillMaxHeight().padding(end = 20.dp), Arrangement.End, Alignment.CenterVertically) {
                 ClickableIcon(
                     icon = PhosphorIcons.Light.DotsThree,
                     shape = RoundedCornerShape(6.dp),
