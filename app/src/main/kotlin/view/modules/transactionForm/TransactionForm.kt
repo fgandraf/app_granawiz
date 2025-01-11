@@ -96,7 +96,7 @@ fun TransactionForm(
             ) {
 
                 //==== FORM
-                Column(Modifier.fillMaxWidth().padding(30.dp)) {
+                Column(Modifier.fillMaxWidth().padding(horizontal = 30.dp, vertical = 40.dp)) {
 
                     //==== ACCOUNT ICON AND NAME
                     Row(
@@ -135,7 +135,7 @@ fun TransactionForm(
                         }
                     }
 
-                    Divider(Modifier.padding(top = 5.dp, bottom = 20.dp))
+                    Divider(Modifier.padding(top = 5.dp, bottom = 40.dp))
 
 
                     Row(modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp)) {
@@ -217,7 +217,6 @@ fun TransactionForm(
                         label = "Etiquetas:",
                         placeholder = "Etiquetas",
                         tags = tags.value,
-                        onClickTag = { },
                         onClickAdd = {
                             if (showSide && sideType == "tags")
                                 showSide = false
