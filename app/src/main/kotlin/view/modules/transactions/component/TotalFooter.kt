@@ -20,6 +20,7 @@ import view.theme.Red200
 
 @Composable
 fun TotalFooter(
+    modifier: Modifier = Modifier,
     incomeBalance: Double,
     outcomeBalance: Double,
 ){
@@ -27,8 +28,7 @@ fun TotalFooter(
     val corners = RoundedCornerShape(bottomEnd = 10.dp, bottomStart = 10.dp)
     var boxWidth by remember { mutableStateOf(0) }
 
-    Box(Modifier.fillMaxWidth().offset(y = (-0.5).dp)
-        .zIndex(30f)
+    Box(modifier.fillMaxWidth().offset(y = (-1).dp)
         .padding(end = 90.dp)
     ) {
         Box(Modifier

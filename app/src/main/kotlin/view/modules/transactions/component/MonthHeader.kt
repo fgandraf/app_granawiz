@@ -23,6 +23,7 @@ import java.util.*
 
 @Composable
 fun MonthHeader(
+    modifier: Modifier = Modifier,
     month: Month
 ){
     val formatedMonth = month.getDisplayName(TextStyle.FULL, Locale.of("pt", "br")).replaceFirstChar { it.uppercase() }
@@ -30,7 +31,7 @@ fun MonthHeader(
     val corners = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp)
     var boxWidth by remember { mutableStateOf(0) }
 
-    Box(Modifier
+    Box(modifier
         .offset(y = 0.5.dp)
         .padding(start = 90.dp)
     ) {

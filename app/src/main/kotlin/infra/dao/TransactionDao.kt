@@ -66,7 +66,7 @@ class TransactionDao : ITransactionDao {
     fun insert(transaction: Transaction) {
         val session = sessionFactory.openSession()
         session.beginTransaction()
-        session.persist(transaction)
+        session.merge(transaction)
         session.transaction.commit()
         session.close()
     }
@@ -78,20 +78,6 @@ class TransactionDao : ITransactionDao {
         session.transaction.commit()
         session.close()
     }
-
-//
-//
-//
-//    fun updateGroupPositions(accounts: List<Group>) {
-//        accounts.forEach { group ->
-//            val session = sessionFactory.openSession()
-//            session.beginTransaction()
-//            session.merge(group)
-//            session.transaction.commit()
-//            session.close()
-//        }
-//    }
-//
 
 
 }

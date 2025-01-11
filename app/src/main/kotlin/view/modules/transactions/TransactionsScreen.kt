@@ -63,7 +63,7 @@ fun TransactionsScreen(
             listOf(PageAddress(iconVector = PhosphorIcons.Bold.ListBullets, iconSize = DpSize(21.dp, 18.dp), name = "Todas as transações", rootPath = true))
 
 
-    var selectedTransaction by remember { mutableStateOf(Transaction()) }
+    var selectedTransaction by remember { mutableStateOf<Transaction?>(null) }
     var showEditTransaction by remember { mutableStateOf(false) }
     var backIcon by remember { mutableStateOf(false) }
     var showTransactionsList by remember { mutableStateOf(true) }
@@ -72,12 +72,12 @@ fun TransactionsScreen(
     LaunchedEffect(account) {
         addresses = initialAddress
         showEditTransaction = false
-        selectedTransaction = Transaction()
+        selectedTransaction = null
         backIcon = false
         showTransactionsList = true
     }
 
-    var transactionType by remember { mutableStateOf(selectedTransaction.type) }
+    var transactionType by remember { mutableStateOf(selectedTransaction?.type) }
 
     Column(modifier = Modifier.fillMaxSize().background(NotionGray)) {
 
@@ -90,7 +90,7 @@ fun TransactionsScreen(
                 Row(Modifier.fillMaxWidth().padding(bottom = 12.dp), verticalAlignment = Alignment.CenterVertically) {
                     ClickableIcon(enabled = backIcon, icon = PhosphorIcons.Bold.ArrowLeft, iconSize = 22.dp, boxSize = 25.dp){
                         addresses = initialAddress
-                        selectedTransaction = Transaction()
+                        selectedTransaction = null
                         showEditTransaction = false
                         backIcon = false
                         showTransactionsList = true
@@ -119,13 +119,13 @@ fun TransactionsScreen(
                     monthTransactions.forEach { (month, transactions) ->
 
                         item {
-                            MonthHeader(month = month)
+                            MonthHeader(modifier = Modifier.zIndex(1f), month = month)
                             var negativeBalnce = 0.0
                             var positiveBalance = 0.0
                             Column(
                                 modifier = Modifier
                                     .padding(horizontal = 90.dp)
-                                    .zIndex(1f)
+                                    .zIndex(2f)
                                     .clip(RoundedCornerShape(topEnd = 0.dp, bottomStart = 0.dp))
                                     .background(MaterialTheme.colors.onPrimary, RoundedCornerShape(topEnd = 0.dp, bottomStart = 0.dp))
                                     .border(0.5.dp, MaterialTheme.colors.primary, RoundedCornerShape(topEnd = 0.dp, bottomStart = 0.dp))
@@ -134,9 +134,17 @@ fun TransactionsScreen(
                                 transactions.forEach { transaction ->
                                     if (transaction.balance >= 0) positiveBalance += transaction.balance
                                     else negativeBalnce -= transaction.balance
+
+
                                     TransactionRow(
                                         viewModel = viewModel,
                                         transaction = transaction,
+
+
+
+
+
+
                                         onClick = {
                                             addresses = addresses + PageAddress(
                                                 iconVector = PhosphorIcons.Fill.Pencil,
@@ -148,12 +156,18 @@ fun TransactionsScreen(
                                             backIcon = true
                                             showTransactionsList = false
                                         }
+
+
+
+
+
+
                                     )
                                 }
                                 Spacer(Modifier.height(20.dp))
                             }
 
-                            TotalFooter(incomeBalance = positiveBalance, outcomeBalance = negativeBalnce)
+                            TotalFooter(modifier = Modifier.zIndex(1f), incomeBalance = positiveBalance, outcomeBalance = negativeBalnce)
                             Spacer(Modifier.height(30.dp))
                         }
 
@@ -191,7 +205,7 @@ fun TransactionsScreen(
                             backIcon = true
                         },
                         onDismiss = {
-                            selectedTransaction = Transaction()
+                            selectedTransaction = null
                             showEditTransaction = false
                             showTransactionsList = true
                             backIcon = false
@@ -202,14 +216,17 @@ fun TransactionsScreen(
             }
         }
         if (showEditTransaction) {
-            if (viewModel.selectedAccount == null) viewModel.selectAccount(selectedTransaction.account)
+            if (viewModel.selectedAccount == null) viewModel.selectAccount(selectedTransaction!!.account)
             TransactionForm(
                 account = viewModel.selectedAccount!!,
-                transaction = if (selectedTransaction.id == 0L) null else selectedTransaction,
+                transaction = selectedTransaction,
                 transactionType = transactionType,
                 onDismiss = {
                     backIcon = false
                     showEditTransaction = false
+                    showTransactionsList = true
+                    addresses = initialAddress
+                    selectedTransaction = null
                 }
             )
         }

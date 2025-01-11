@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.DropdownMenu
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
@@ -20,12 +21,16 @@ import androidx.compose.ui.unit.sp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.DotsThree
+import com.adamglin.phosphoricons.light.Pen
 import com.adamglin.phosphoricons.light.Tag
+import com.adamglin.phosphoricons.light.Trash
 import core.entity.Transaction
 import core.enums.TransactionType
 import utils.IconPaths
 import utils.brMoney
 import view.shared.ClickableIcon
+import view.shared.ClickableRow
+import view.shared.SimpleQuestionDialog
 import view.shared.TextPrimary
 import view.theme.Gray400
 import view.theme.Lime400
@@ -152,37 +157,45 @@ fun TransactionRow(
             }
 
 
-
-            // DropDown
+            // ...
             var showEditTransaction by remember { mutableStateOf(false) }
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.End,
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .padding(end = 30.dp)
-            ) {
+            Row(Modifier.fillMaxHeight().padding(end = 30.dp), Arrangement.End, Alignment.CenterVertically) {
                 ClickableIcon(
                     icon = PhosphorIcons.Light.DotsThree,
                     shape = RoundedCornerShape(6.dp),
                     onClick = { showEditTransaction = true },
                 )
 
-            }
+                if (showEditTransaction) {
+                    DropdownMenu(
+                        modifier = Modifier.padding(horizontal = 10.dp),
+                        expanded = showEditTransaction,
+                        onDismissRequest = { showEditTransaction = false }
+                    ) {
+                        var showForm by remember { mutableStateOf(false) }
+                        ClickableRow(icon = PhosphorIcons.Light.Pen, label = "Editar") { showForm = true }
+                        if (showForm) onClick()
 
-            if (showEditTransaction) {
-                DropDownEditTransaction(
-                    viewModel = viewModel,
-                    expanded = showEditTransaction,
-                    selectedTransaction = transaction,
-                    onDismissRequest = { showEditTransaction = false },
-                )
+                        var showDeleteTransaction by remember { mutableStateOf(false) }
+                        ClickableRow(icon = PhosphorIcons.Light.Trash, label = "Excluir") { showDeleteTransaction = true }
+                        if (showDeleteTransaction) {
+                            SimpleQuestionDialog(
+                                message = "Tem certeza que deseja excluir essa transação?",
+                                onConfirmRequest = {
+                                    viewModel.deleteTransaction(transaction)
+                                    showDeleteTransaction = false
+                                    showEditTransaction = false
+                                    viewModel.service.loadTransactions(viewModel.selectedAccount)
+                                },
+                                onDismissRequest = { showDeleteTransaction = false; showEditTransaction = false },
+                            )
+                        }
+                    }
+                }
             }
-
 
 
         }
-
 
     }
 

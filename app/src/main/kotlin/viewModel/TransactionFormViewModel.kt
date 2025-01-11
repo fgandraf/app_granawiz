@@ -15,7 +15,7 @@ import view.theme.Red800
 import java.time.LocalDateTime
 import kotlin.math.abs
 
-class TransactionFormViewModel(transaction: Transaction? = null) {
+class TransactionFormViewModel {
 
     val service: TransactionService = TransactionService()
 
@@ -30,8 +30,8 @@ class TransactionFormViewModel(transaction: Transaction? = null) {
     var balance by mutableStateOf(0.0)
     var type by mutableStateOf(TransactionType.NEUTRAL)
 
-    init {
-        transaction?.let {
+    fun loadFromTransaction(transaction: Transaction) {
+        transaction.let {
             id = it.id
             party.value = it.party
             account = it.account
@@ -43,6 +43,19 @@ class TransactionFormViewModel(transaction: Transaction? = null) {
             balance = it.balance
             type = it.type
         }
+    }
+
+    fun clear(){
+        id = 0L
+        party.value = null
+        account = BankAccount()
+        category = Category()
+        subCategory = null
+        tags.value = listOf()
+        date = LocalDateTime.now()
+        description = ""
+        balance = 0.0
+        type = TransactionType.NEUTRAL
     }
 
     fun updateBalance(value: String = ""){

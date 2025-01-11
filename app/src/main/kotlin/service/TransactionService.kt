@@ -9,18 +9,18 @@ import infra.dao.TransactionDao
 
 class TransactionService {
 
-    private val dao : TransactionDao = TransactionDao()
+    private val transactionDao : TransactionDao = TransactionDao()
 
     var transactions by mutableStateOf(emptyList<Transaction>())
 
     fun loadTransactions(account: BankAccount? = null) {
-        transactions = if (account == null) dao.getAll()
-        else dao.getAllByAccount(account)
+        transactions = if (account == null) transactionDao.getAll()
+        else transactionDao.getAllByAccount(account)
     }
 
-    fun addTransaction(transaction: Transaction) { dao.insert(transaction) }
+    fun addTransaction(transaction: Transaction) { transactionDao.insert(transaction) }
 
-    fun updateTransaction(transaction: Transaction) { dao.update(transaction) }
+    fun updateTransaction(transaction: Transaction) { transactionDao.update(transaction) }
 
-    fun deleteTransaction(transaction: Transaction) { dao.delete(transaction) }
+    fun deleteTransaction(transaction: Transaction) { transactionDao.delete(transaction) }
 }

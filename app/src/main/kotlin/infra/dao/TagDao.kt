@@ -21,7 +21,6 @@ class TagDao : ITagDao {
         return tags
     }
 
-
     override fun delete(tag: Tag) {
         val session = sessionFactory.openSession()
 
