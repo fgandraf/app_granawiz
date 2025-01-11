@@ -56,7 +56,7 @@ fun ListItem(
                 .padding(horizontal = 10.dp)
                 .height(30.dp)
                 .clip(RoundedCornerShape(8.dp))
-                .background(if (isActive) Color.Cyan else Color.Transparent)
+                .background(if (isActive) MaterialTheme.colors.primaryVariant.copy(alpha = 0.5f) else Color.Transparent)
                 .clickable{ onContentClick() }
                 .pointerHoverIcon(PointerIcon.Hand)
         else

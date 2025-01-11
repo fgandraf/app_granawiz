@@ -36,6 +36,8 @@ fun Body(
     val parties by viewModel.parties.collectAsState()
     val names by viewModel.partyNames.collectAsState()
 
+    val selectedParty by viewModel.selectedParty.collectAsState()
+
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -66,6 +68,7 @@ fun Body(
                         val deleteDialogIsVisible = remember { mutableStateOf(false) }
                         ListItem(
                             label = party.name,
+                            isActive = selectedParty?.id == party.id,
                             hasSubItem = party.partiesNames.size > 0,
                             deleteDialogIsVisible = deleteDialogIsVisible,
                             onUpdateConfirmation = { viewModel.updateParty(party, it)},

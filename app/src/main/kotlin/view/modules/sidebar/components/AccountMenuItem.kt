@@ -34,7 +34,7 @@ fun AccountMenuItem(
     viewModel: SidebarViewModel,
     account: BankAccount,
     screen: Screen,
-    currentScreen: Screen,
+    isActive: Boolean,
     onClick: (Screen) -> Unit
 ) {
 
@@ -46,7 +46,7 @@ fun AccountMenuItem(
             .padding(horizontal = 10.dp)
             .clip(RoundedCornerShape(8.dp))
             .height(40.dp)
-            .background(if (currentScreen == screen) Color.LightGray else Color.Transparent )
+            .background(if (isActive) MaterialTheme.colors.primaryVariant.copy(alpha = 0.5f) else Color.Transparent )
             .pointerHoverIcon(PointerIcon.Hand)
             .clickable { onClick(screen) }
     ) {
