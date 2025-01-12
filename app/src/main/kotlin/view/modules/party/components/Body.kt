@@ -49,9 +49,9 @@ fun Body(
                 .fillMaxHeight(0.85f)
                 .fillMaxWidth(0.75f)
                 .shadow(elevation = 1.dp, shape = RoundedCornerShape(20.dp))
-                .border(0.5.dp, MaterialTheme.colors.primaryVariant, shape = RoundedCornerShape(20.dp))
+                .border(0.5.dp, MaterialTheme.colors.onSurface, shape = RoundedCornerShape(20.dp))
                 .clip(RoundedCornerShape(20.dp))
-                .background(MaterialTheme.colors.onPrimary)
+                .background(MaterialTheme.colors.surface)
         ) {
             Box(
                 modifier = Modifier
@@ -111,7 +111,7 @@ fun Body(
                 )
             }
 
-            Divider(Modifier.fillMaxHeight(0.95f).width(1.dp))
+            Divider(modifier = Modifier.width(1.dp).fillMaxHeight(0.95f).background(MaterialTheme.colors.onSurface.copy(0.1f)))
 
             Box(
                 modifier = Modifier

@@ -54,8 +54,8 @@ fun CategoriesPicker(
     Box(
         modifier = Modifier
             .width(600.dp)
-            .background(MaterialTheme.colors.onPrimary, RoundedCornerShape(topEnd = corner, bottomEnd = corner))
-            .border(1.dp, MaterialTheme.colors.primaryVariant, RoundedCornerShape(topEnd = corner, bottomEnd = corner)),
+            .background(MaterialTheme.colors.surface, RoundedCornerShape(topEnd = corner, bottomEnd = corner))
+            .border(0.5.dp, MaterialTheme.colors.onSurface, RoundedCornerShape(topEnd = corner, bottomEnd = corner)),
         contentAlignment = Alignment.Center
     ) {
 
@@ -73,7 +73,7 @@ fun CategoriesPicker(
             }
 
             // DIVIDER
-            Divider(modifier = Modifier.width(2.dp).fillMaxHeight())
+            Divider(modifier = Modifier.width(1.dp).fillMaxHeight().background(MaterialTheme.colors.onSurface.copy(0.1f)))
 
             // SUBCATEGORIES
             Box(modifier = Modifier.weight(1f)){

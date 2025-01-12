@@ -1,7 +1,9 @@
 package view.modules.sidebar
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Divider
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,5 +33,5 @@ fun Header(viewModel: SidebarViewModel) {
             TextPrimary(text = "SALDO TOTAL", size = 8.sp, modifier = Modifier.fillMaxWidth(), align = TextAlign.Center)
         }
     }
-    Divider()
+    Divider(Modifier.height(0.5.dp).background(MaterialTheme.colors.onSurface))
 }

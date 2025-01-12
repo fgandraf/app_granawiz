@@ -132,7 +132,8 @@ fun CategoryListItem(
                         Icon(
                             imageVector = PhosphorIcons.Light.CaretRight,
                             contentDescription = null,
-                            modifier = Modifier.size(12.dp)
+                            modifier = Modifier.size(12.dp),
+                            tint = MaterialTheme.colors.primary
                         )
                     }
                 }
@@ -148,5 +149,5 @@ fun CategoryListItem(
         onDismissRequest = { expandedIcons = false },
         onIconSelected = {onSelectIcon(it); expandedIcons = false}
     )
-    Divider(modifier = Modifier.padding(horizontal = 15.dp), thickness = 1.dp)
+    Divider(modifier = Modifier.padding(horizontal = 15.dp).background(MaterialTheme.colors.onSurface.copy(0.5f)), thickness = 0.5.dp)
 }

@@ -64,7 +64,7 @@ fun GroupMenuItem(
                 Text(
                     text = brMoney.format(totalGroup),
                     fontSize = 10.sp,
-                    color = if (totalGroup > 0f) Lime200 else if (totalGroup < 0f) Red400 else MaterialTheme.colors.primaryVariant,
+                    color = if (totalGroup > 0f) MaterialTheme.colors.onPrimary else if (totalGroup < 0f) MaterialTheme.colors.onError else MaterialTheme.colors.primaryVariant,
                     fontWeight = FontWeight.Normal,
                     lineHeight = 0.sp,
                     fontFamily = Ubuntu

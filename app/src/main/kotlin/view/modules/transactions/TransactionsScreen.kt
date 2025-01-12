@@ -24,12 +24,14 @@ import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Bold
 import com.adamglin.phosphoricons.Fill
 import com.adamglin.phosphoricons.Light
-import com.adamglin.phosphoricons.bold.*
-import com.adamglin.phosphoricons.fill.Folders
+import com.adamglin.phosphoricons.Regular
+import com.adamglin.phosphoricons.bold.ArrowLeft
+import com.adamglin.phosphoricons.bold.ListBullets
 import com.adamglin.phosphoricons.fill.Pencil
 import com.adamglin.phosphoricons.fill.Plus
-import com.adamglin.phosphoricons.fill.Wallet
-import com.adamglin.phosphoricons.light.*
+import com.adamglin.phosphoricons.light.Plus
+import com.adamglin.phosphoricons.regular.Folders
+import com.adamglin.phosphoricons.regular.Wallet
 import core.entity.Transaction
 import core.entity.account.BankAccount
 import core.enums.TransactionType
@@ -42,8 +44,7 @@ import view.modules.transactions.component.TransactionRow
 import view.shared.AddressView
 import view.shared.ClickableIcon
 import view.shared.TextPrimary
-import view.theme.NotionGray
-import view.theme.Purple600
+import view.theme.ButtonPurple
 import viewModel.TransactionViewModel
 
 
@@ -57,8 +58,8 @@ fun TransactionsScreen(
     val initialAddress =
         if (account != null)
             listOf(
-                PageAddress(iconVector = PhosphorIcons.Fill.Folders, iconSize = DpSize(21.dp, 18.dp), name = account.group.name, rootPath = true),
-                PageAddress(iconVector = PhosphorIcons.Fill.Wallet, iconSize = DpSize(21.dp, 18.dp), name = account.name))
+                PageAddress(iconVector = PhosphorIcons.Regular.Folders, iconSize = DpSize(21.dp, 18.dp), name = account.group.name, rootPath = true),
+                PageAddress(iconVector = PhosphorIcons.Regular.Wallet, iconSize = DpSize(21.dp, 18.dp), name = account.name))
         else
             listOf(PageAddress(iconVector = PhosphorIcons.Bold.ListBullets, iconSize = DpSize(21.dp, 18.dp), name = "Todas as transações", rootPath = true))
 
@@ -79,7 +80,7 @@ fun TransactionsScreen(
 
     var transactionType by remember { mutableStateOf(selectedTransaction?.type) }
 
-    Column(modifier = Modifier.fillMaxSize().background(NotionGray)) {
+    Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.background)) {
 
         // ********** HEADER **********
         Row(horizontalArrangement = Arrangement.SpaceBetween,
@@ -127,24 +128,16 @@ fun TransactionsScreen(
                                     .padding(horizontal = 90.dp)
                                     .zIndex(2f)
                                     .clip(RoundedCornerShape(topEnd = 0.dp, bottomStart = 0.dp))
-                                    .background(MaterialTheme.colors.onPrimary, RoundedCornerShape(topEnd = 0.dp, bottomStart = 0.dp))
-                                    .border(0.5.dp, MaterialTheme.colors.primary, RoundedCornerShape(topEnd = 0.dp, bottomStart = 0.dp))
+                                    .background(MaterialTheme.colors.surface, RoundedCornerShape(topEnd = 0.dp, bottomStart = 0.dp))
+                                    .border(0.5.dp, MaterialTheme.colors.onSurface, RoundedCornerShape(topEnd = 0.dp, bottomStart = 0.dp))
                             ) {
                                 Spacer(Modifier.height(20.dp))
                                 transactions.forEach { transaction ->
                                     if (transaction.balance >= 0) positiveBalance += transaction.balance
                                     else negativeBalnce -= transaction.balance
-
-
                                     TransactionRow(
                                         viewModel = viewModel,
                                         transaction = transaction,
-
-
-
-
-
-
                                         onClick = {
                                             addresses = addresses + PageAddress(
                                                 iconVector = PhosphorIcons.Fill.Pencil,
@@ -156,12 +149,6 @@ fun TransactionsScreen(
                                             backIcon = true
                                             showTransactionsList = false
                                         }
-
-
-
-
-
-
                                     )
                                 }
                                 Spacer(Modifier.height(20.dp))
@@ -247,7 +234,7 @@ fun AddTransactionButton(
             modifier = Modifier
                 .size(60.dp)
                 .clip(CircleShape)
-                .background(Purple600.copy(alpha = 0.8f))
+                .background(ButtonPurple)
                 .pointerHoverIcon(PointerIcon.Hand)
                 .clickable { showAddTransactionDropDownMenu = true }
                 .align(Alignment.BottomEnd)

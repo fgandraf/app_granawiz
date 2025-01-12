@@ -39,7 +39,7 @@ import view.modules.transactionForm.components.CategoriesPicker
 import view.modules.transactionForm.components.PartiesPicker
 import view.modules.transactionForm.components.TagsPicker
 import view.shared.*
-import view.theme.Lime800
+import view.theme.ButtonGreen
 import view.theme.Ubuntu
 import viewModel.TransactionFormViewModel
 import kotlin.math.abs
@@ -69,6 +69,19 @@ fun TransactionForm(
 
     val saveButtonActive by remember { derivedStateOf { party.value != null && category.value != null } }
 
+    val incomeGreen = MaterialTheme.colors.onPrimary
+    val expenseRed = MaterialTheme.colors.onError
+
+    val typeColor = derivedStateOf {
+        when (transaction?.type) {
+            TransactionType.EXPENSE -> expenseRed
+            TransactionType.GAIN -> incomeGreen
+            TransactionType.NEUTRAL -> Color.Gray
+            null -> Color.White
+        }
+    }
+
+
     // BACKGROUND
     Box(modifier = Modifier.fillMaxSize()) {
 
@@ -91,8 +104,8 @@ fun TransactionForm(
                     .width(500.dp)
                     .zIndex(2f)
                     .shadow(2.dp, RoundedCornerShape(10.dp))
-                    .background(MaterialTheme.colors.onPrimary, RoundedCornerShape(10.dp))
-                    .border(1.dp, transactionFormViewModel.typeColor.value, RoundedCornerShape(10.dp))
+                    .background(MaterialTheme.colors.surface, RoundedCornerShape(10.dp))
+                    .border(0.5.dp, MaterialTheme.colors.onSurface, RoundedCornerShape(10.dp))
             ) {
 
                 //==== FORM
@@ -107,9 +120,9 @@ fun TransactionForm(
                         Row {
                             TextPrimary(
                                 text = transactionFormViewModel.typeLabel.value,
-                                color = transactionFormViewModel.typeColor.value,
+                                color = typeColor.value,
                                 size = 11.sp,
-                                weight = FontWeight.Bold,
+                                weight = FontWeight.Medium,
                             )
                         }
                         Row(
@@ -135,7 +148,7 @@ fun TransactionForm(
                         }
                     }
 
-                    Divider(Modifier.padding(top = 5.dp, bottom = 40.dp))
+                    Divider(Modifier.padding(top = 5.dp, bottom = 40.dp).background(typeColor.value))
 
 
                     Row(modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp)) {
@@ -274,7 +287,7 @@ fun TransactionForm(
         //==== FOOTER
         Button(
             enabled = saveButtonActive,
-            colors = ButtonDefaults.buttonColors(backgroundColor = Lime800),
+            colors = ButtonDefaults.buttonColors(backgroundColor = ButtonGreen),
             onClick = {transactionFormViewModel.saveTransaction(); onDismiss()},
             shape = CircleShape,
             modifier = Modifier

@@ -6,6 +6,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -26,8 +27,7 @@ import view.shared.DefaultButton
 import view.shared.DefaultTextField
 import view.shared.DialogTitleBar
 import view.shared.TextPrimary
-import view.theme.Red400
-import view.theme.Red800
+import view.theme.RedWarning
 import view.theme.Ubuntu
 
 @Composable
@@ -52,10 +52,11 @@ fun DialogDeleteAccount(
 
             //===== Information
             Column(modifier = Modifier.fillMaxWidth().padding(vertical = 20.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                Image(
+                Icon(
                     modifier = Modifier.size(40.dp),
                     painter = painterResource(icon),
-                    contentDescription = "Object icon"
+                    contentDescription = "Object icon",
+                    tint = MaterialTheme.colors.primary
                 )
                 Spacer(Modifier.height(15.dp))
                 Text(
@@ -66,7 +67,7 @@ fun DialogDeleteAccount(
                     fontSize = 16.sp,
                 )
             }
-            Divider(Modifier.padding(horizontal = 10.dp))
+            Divider(Modifier.padding(horizontal = 10.dp).background(MaterialTheme.colors.onSurface))
 
             //===== Alert
             Column(
@@ -81,7 +82,7 @@ fun DialogDeleteAccount(
                         .fillMaxWidth()
                         .padding(horizontal = 30.dp)
                         .clip(RoundedCornerShape(5.dp))
-                        .border(1.dp, Red800.copy(0.5f), shape = RoundedCornerShape(5.dp))
+                        .border(1.dp, MaterialTheme.colors.onSurface, shape = RoundedCornerShape(5.dp))
                         .background(Color.Yellow.copy(alpha = 0.2F))
                 ){
                     Image(
@@ -92,7 +93,7 @@ fun DialogDeleteAccount(
                     TextPrimary(
                         modifier = Modifier.padding(start = 10.dp),
                         text = "Esta ação é irreversível! Leia com atenção!",
-                        color = Red400,
+                        color = RedWarning,
                         weight = FontWeight.Medium
                     )
                 }
@@ -101,7 +102,7 @@ fun DialogDeleteAccount(
                 Row(verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.fillMaxWidth().padding(horizontal = 40.dp)
                 ) {
-                    Divider(Modifier.height(50.dp).width(3.dp))
+                    Divider(Modifier.height(50.dp).width(3.dp).background(MaterialTheme.colors.onSurface))
                     Spacer(Modifier.width(25.dp))
                     TextPrimary(
                         text = alertText,
@@ -111,7 +112,7 @@ fun DialogDeleteAccount(
                     )
                 }
             }
-            Divider(Modifier.padding(horizontal = 10.dp))
+            Divider(Modifier.padding(horizontal = 10.dp).background(MaterialTheme.colors.onSurface))
 
             //===== Confirmation
             var value by remember{mutableStateOf("")}
@@ -131,7 +132,7 @@ fun DialogDeleteAccount(
                     onValueChange = { value = it },
                 )
             }
-            Divider()
+            Divider(Modifier.background(MaterialTheme.colors.onSurface))
 
             //===== Delete Button
             Column(
@@ -139,7 +140,7 @@ fun DialogDeleteAccount(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxWidth().padding(vertical = 10.dp, horizontal = 20.dp)
             ){
-                DefaultButton(modifier = Modifier.fillMaxWidth(), confirmed = confirmed, color = Red400, text = title){
+                DefaultButton(modifier = Modifier.fillMaxWidth(), confirmed = confirmed, color = RedWarning, text = title, textColor = Color.White){
                     onClickButton()
                     onDismiss()
                 }

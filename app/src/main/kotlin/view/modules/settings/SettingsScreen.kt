@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import view.shared.DialogTitleBar
 import view.theme.Afacade
-import view.theme.Gray200
 
 @Composable
 fun SettingsScreen(
@@ -76,7 +75,7 @@ fun SettingsScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(top = 20.dp, end = 30.dp, bottom = 30.dp, start = 30.dp)
-                    .background(Gray200)
+                    .background(MaterialTheme.colors.background)
             ) {
                 //Implements
             }

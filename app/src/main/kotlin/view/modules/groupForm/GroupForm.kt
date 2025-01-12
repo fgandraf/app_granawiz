@@ -1,10 +1,10 @@
 package view.modules.groupForm
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -49,10 +49,11 @@ fun GroupForm(
                 verticalArrangement = Arrangement.Center,
                 modifier = Modifier.fillMaxWidth().padding(40.dp)
             ) {
-                Image(
+                Icon(
                     modifier = Modifier.size(40.dp),
                     imageVector = PhosphorIcons.Light.Folders,
-                    contentDescription = "Group logo"
+                    contentDescription = "Group logo",
+                    tint = MaterialTheme.colors.primary
                 )
                 TextPrimary(
                     modifier = Modifier.padding(top = 20.dp, bottom = 5.dp),

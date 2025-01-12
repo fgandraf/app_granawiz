@@ -27,7 +27,7 @@ import com.adamglin.phosphoricons.light.Calendar
 import com.adamglin.phosphoricons.regular.ArrowLeft
 import com.adamglin.phosphoricons.regular.ArrowRight
 import utils.generateWeeks
-import view.theme.Purple600
+import view.theme.ButtonPurple
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.YearMonth
@@ -121,7 +121,7 @@ fun DateTimePicker(
                                                 .clip(CircleShape)
                                                 .pointerHoverIcon(PointerIcon.Hand)
                                                 .background(
-                                                    color = if (isSelected) Purple600 else Color.Transparent,
+                                                    color = if (isSelected) ButtonPurple else Color.Transparent,
                                                     shape = MaterialTheme.shapes.small
                                                 )
                                                 .clickable {

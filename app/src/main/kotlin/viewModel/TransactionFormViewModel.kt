@@ -4,14 +4,11 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.graphics.Color
 import core.entity.*
 import core.entity.account.BankAccount
 import core.enums.TransactionType
 import kotlinx.coroutines.flow.MutableStateFlow
 import service.TransactionService
-import view.theme.Lime800
-import view.theme.Red800
 import java.time.LocalDateTime
 import kotlin.math.abs
 
@@ -66,14 +63,6 @@ class TransactionFormViewModel {
         balance = if (type == TransactionType.EXPENSE && balance != 0.0) -abs(balance) else abs(balance)
     }
 
-
-    val typeColor = derivedStateOf {
-        when (type) {
-            TransactionType.EXPENSE -> Red800
-            TransactionType.GAIN -> Lime800
-            TransactionType.NEUTRAL -> Color.Gray
-        }
-    }
 
     val typeLabel = derivedStateOf {
         when (type) {

@@ -44,8 +44,8 @@ fun NewOrEditCheckingAccount(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 60.dp, end = 60.dp, top = 35.dp, bottom = 50.dp)
-                .background(MaterialTheme.colors.onPrimary, RoundedCornerShape(16.dp))
-                .border(0.5.dp, MaterialTheme.colors.primaryVariant, RoundedCornerShape(8.dp))
+                .background(MaterialTheme.colors.surface, RoundedCornerShape(16.dp))
+                .border(0.5.dp, MaterialTheme.colors.onSurface, RoundedCornerShape(8.dp))
         ) {
             Column(Modifier.fillMaxWidth().padding(40.dp)) {
 

@@ -71,7 +71,7 @@ fun AccountMenuItem(
             Text(
                 text = brMoney.format(account.balance),
                 fontSize = 10.sp,
-                color = if(account.balance > 0f) Lime200 else if (account.balance < 0f) Red400 else MaterialTheme.colors.primaryVariant,
+                color = if(account.balance > 0f) MaterialTheme.colors.onPrimary else if (account.balance < 0f) MaterialTheme.colors.onError else MaterialTheme.colors.primaryVariant,
                 fontWeight = FontWeight.Normal,
                 lineHeight = 0.sp,
                 fontFamily = Ubuntu

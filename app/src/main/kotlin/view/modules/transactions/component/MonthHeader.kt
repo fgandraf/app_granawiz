@@ -37,7 +37,7 @@ fun MonthHeader(
     ) {
         Box(Modifier
             .clip(corners)
-            .border(0.5.dp, MaterialTheme.colors.primary, corners)
+            .border(0.5.dp, MaterialTheme.colors.onSurface, corners)
             .onGloballyPositioned { boxWidth = it.size.width }
             .zIndex(1f)
         ) {

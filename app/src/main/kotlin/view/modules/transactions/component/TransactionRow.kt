@@ -32,9 +32,6 @@ import view.shared.ClickableIcon
 import view.shared.ClickableRow
 import view.shared.SimpleQuestionDialog
 import view.shared.TextPrimary
-import view.theme.Gray400
-import view.theme.Lime400
-import view.theme.Red400
 import viewModel.TransactionViewModel
 import java.time.format.TextStyle
 import java.util.*
@@ -67,7 +64,7 @@ fun TransactionRow(
                 Box(
                     modifier = Modifier
                         .clip(CircleShape)
-                        .background(if (transaction.type == TransactionType.GAIN) Lime400 else if (transaction.type == TransactionType.EXPENSE) Red400 else Gray400)
+                        .background(if (transaction.type == TransactionType.GAIN) MaterialTheme.colors.onPrimary else if (transaction.type == TransactionType.EXPENSE) MaterialTheme.colors.onError else MaterialTheme.colors.primaryVariant)
                         .size(10.dp)
                 )
             }

@@ -16,7 +16,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import view.theme.Purple600
+import view.theme.ButtonPurple
 import view.theme.Ubuntu
 
 @Composable
@@ -27,7 +27,7 @@ fun DefaultButton(
     textColor: Color = MaterialTheme.colors.primary,
     textPadding: Dp = 5.dp,
     shape: Shape = RoundedCornerShape(6.dp),
-    color: Color = Purple600,
+    color: Color = ButtonPurple,
     onClick: () -> Unit,
 ){
     Button(

@@ -1,11 +1,11 @@
 package view.shared
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.AlertDialog
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -17,8 +17,7 @@ import androidx.compose.ui.unit.sp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.Warning
-import view.theme.Gray200
-import view.theme.Red200
+import view.theme.RedWarning
 
 @Composable
 fun SimpleQuestionDialog(
@@ -36,16 +35,17 @@ fun SimpleQuestionDialog(
         title = { Text(title) },
         text = {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Image(
+                Icon(
                     imageVector = PhosphorIcons.Light.Warning,
-                    contentDescription = "Alert"
+                    contentDescription = "Alert",
+                    tint = MaterialTheme.colors.primary
                 )
                 TextPrimary(text = message, modifier = Modifier.padding(start = 15.dp), size = 14.sp)
             }
         },
         dismissButton = {
             DefaultButton(
-                color = Gray200,
+                color = MaterialTheme.colors.secondaryVariant,
                 text = "Não",
                 textPadding = 20.dp,
                 onClick = onDismissRequest
@@ -54,7 +54,7 @@ fun SimpleQuestionDialog(
         confirmButton = {
             DefaultButton(
                 modifier = Modifier.padding(start = 5.dp),
-                color = Red200,
+                color = RedWarning,
                 textColor = Color.White,
                 textPadding = 20.dp,
                 text = "Sim",
