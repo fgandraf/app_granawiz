@@ -40,8 +40,8 @@ fun Main(
 //        StaticMenuItem(
 //            icon = PhosphorIcons.Light.SquaresFour,
 //            label = "Dashboard",
+//            isActive = currentScreen == Screen.Dashboard,
 //            screen = Screen.Dashboard,
-//            currentScreen = currentScreen,
 //            onClick = onScreenSelected
 //        )
 
@@ -50,8 +50,8 @@ fun Main(
 //        StaticMenuItem(
 //            icon = PhosphorIcons.Light.Calendar,
 //            label = "Agendamentos",
+//            isActive = currentScreen == Schedules.Dashboard,
 //            screen = Screen.Schedules,
-//            currentScreen = currentScreen,
 //            onClick = onScreenSelected
 //        )
 
@@ -60,8 +60,8 @@ fun Main(
 //        StaticMenuItem(
 //            icon = PhosphorIcons.Light.Scroll,
 //            label = "Relatórios",
+//            isActive = currentScreen == Schedules.Reports,
 //            screen = Screen.Reports,
-//            currentScreen = currentScreen,
 //            onClick = onScreenSelected
 //        )
 
@@ -70,37 +70,37 @@ fun Main(
         StaticMenuItem(
             icon = PhosphorIcons.Light.Shapes,
             label = "Categorias",
+            isActive = currentScreen == Screen.Categories,
             screen = Screen.Categories,
-            currentScreen = currentScreen,
             onClick = { onScreenSelected(it); activeAccountId = 0L }
         )
         StaticMenuItem(
             icon = PhosphorIcons.Light.Tag,
             label = "Etiquetas",
+            isActive = currentScreen == Screen.Tags,
             screen = Screen.Tags,
-            currentScreen = currentScreen,
             onClick = { onScreenSelected(it); activeAccountId = 0L }
         )
         StaticMenuItem(
             icon = PhosphorIcons.Light.HandArrowUp,
             label = "Beneficiários",
+            isActive = currentScreen == Screen.Receivers,
             screen = Screen.Receivers,
-            currentScreen = currentScreen,
             onClick = { onScreenSelected(it); activeAccountId = 0L }
         )
         StaticMenuItem(
             icon = PhosphorIcons.Light.HandArrowDown,
             label = "Pagadores",
+            isActive = currentScreen == Screen.Payers,
             screen = Screen.Payers,
-            currentScreen = currentScreen,
             onClick = { onScreenSelected(it); activeAccountId = 0L }
         )
         SectionTitle("Transações")
         StaticMenuItem(
             icon = PhosphorIcons.Light.ListBullets,
             label = "Todas as transações",
+            isActive = currentScreen == Screen.Transactions(),
             screen = Screen.Transactions(),
-            currentScreen = currentScreen,
             onClick = { onScreenSelected(it); activeAccountId = 0L }
         )
         Spacer(Modifier.height(10.dp))
