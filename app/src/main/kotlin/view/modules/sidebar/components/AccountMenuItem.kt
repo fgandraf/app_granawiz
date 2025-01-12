@@ -4,7 +4,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Divider
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -13,9 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.*
@@ -26,7 +27,8 @@ import view.modules.Screen
 import view.modules.accountForm.AccountForm
 import view.shared.ClickableIcon
 import view.shared.ClickableRow
-import view.theme.*
+import view.shared.TextH3
+import view.shared.TextSmall
 import viewModel.SidebarViewModel
 
 @Composable
@@ -60,21 +62,12 @@ fun AccountMenuItem(
 
 
         Column(modifier = Modifier.padding(start = 40.dp).weight(1f)) {
-            Text(
+            TextH3(
                 text = account.name,
-                fontSize = 14.sp,
-                color = MaterialTheme.colors.primary,
-                fontWeight = FontWeight.Medium,
-                lineHeight = 0.sp,
-                fontFamily = Afacade
             )
-            Text(
+            TextSmall(
                 text = brMoney.format(account.balance),
-                fontSize = 10.sp,
                 color = if(account.balance > 0f) MaterialTheme.colors.onPrimary else if (account.balance < 0f) MaterialTheme.colors.onError else MaterialTheme.colors.primaryVariant,
-                fontWeight = FontWeight.Normal,
-                lineHeight = 0.sp,
-                fontFamily = Ubuntu
             )
         }
 

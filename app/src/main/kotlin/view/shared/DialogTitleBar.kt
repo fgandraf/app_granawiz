@@ -14,7 +14,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.X
@@ -32,9 +31,8 @@ fun DialogTitleBar(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth().padding(5.dp).padding(start = 5.dp)
             ) {
-                TextPrimary(
+                TextNormal(
                     text = title,
-                    size = 12.sp,
                     color = MaterialTheme.colors.secondary,
                 )
                 Box(

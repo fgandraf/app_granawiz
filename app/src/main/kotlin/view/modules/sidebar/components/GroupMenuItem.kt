@@ -5,13 +5,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.*
@@ -20,7 +17,8 @@ import utils.brMoney
 import view.modules.groupForm.GroupForm
 import view.shared.ClickableIcon
 import view.shared.ClickableRow
-import view.theme.*
+import view.shared.TextH3
+import view.shared.TextSmall
 import viewModel.SidebarViewModel
 
 @Composable
@@ -51,23 +49,15 @@ fun GroupMenuItem(
             )
 
             Column(modifier = Modifier.padding(start = 7.dp)) {
-                Text(
+                TextH3(
                     text = groupName,
-                    fontSize = 14.sp,
                     color = MaterialTheme.colors.primary,
-                    fontWeight = FontWeight.Medium,
-                    lineHeight = 0.sp,
-                    fontFamily = Afacade
                 )
 
                 val totalGroup = viewModel.groupService.fetchTotalGroup(group)
-                Text(
+                TextSmall(
                     text = brMoney.format(totalGroup),
-                    fontSize = 10.sp,
-                    color = if (totalGroup > 0f) MaterialTheme.colors.onPrimary else if (totalGroup < 0f) MaterialTheme.colors.onError else MaterialTheme.colors.primaryVariant,
-                    fontWeight = FontWeight.Normal,
-                    lineHeight = 0.sp,
-                    fontFamily = Ubuntu
+                    color = if (totalGroup > 0f) MaterialTheme.colors.onPrimary else if (totalGroup < 0f) MaterialTheme.colors.onError else MaterialTheme.colors.primaryVariant
                 )
             }
         }

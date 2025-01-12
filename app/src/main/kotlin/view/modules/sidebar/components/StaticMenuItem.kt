@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -15,11 +14,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import view.modules.Screen
-import view.theme.Afacade
+import view.shared.TextH3
 
 @Composable
 fun StaticMenuItem(
@@ -45,13 +42,9 @@ fun StaticMenuItem(
             tint = MaterialTheme.colors.primary,
             modifier = Modifier.size(20.dp).offset(x = 10.dp),
         )
-        Text(modifier = Modifier.offset(x = 22.dp),
-            text = label,
-            fontSize  = 14.sp,
-            color = MaterialTheme.colors.primary,
-            fontWeight = FontWeight.Medium,
-            lineHeight = 0.sp,
-            fontFamily = Afacade
+        TextH3(
+            modifier = Modifier.offset(x = 22.dp),
+            text = label
         )
     }
 }

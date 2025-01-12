@@ -87,11 +87,10 @@ fun DialogDelete(
                         imageVector = PhosphorIcons.Light.Warning,
                         contentDescription = "Exclamation icon"
                     )
-                    TextPrimary(
+                    TextMedium(
                         modifier = Modifier.padding(start = 10.dp),
                         text = "Esta ação é irreversível! Leia com atenção!",
-                        color = RedWarning,
-                        weight = FontWeight.Medium
+                        color = RedWarning
                     )
                 }
                 Spacer(Modifier.height(20.dp))
@@ -101,11 +100,10 @@ fun DialogDelete(
                 ) {
                     Divider(Modifier.height(50.dp).width(3.dp).background(MaterialTheme.colors.onSurface))
                     Spacer(Modifier.width(25.dp))
-                    TextPrimary(
+                    TextNormal(
                         text = alertText,
                         color = MaterialTheme.colors.secondary,
                         align = TextAlign.Justify,
-                        lineHeight = 16.sp
                     )
                 }
             }
@@ -118,10 +116,9 @@ fun DialogDelete(
                 verticalArrangement = Arrangement.Center,
                 modifier = Modifier.fillMaxWidth().padding(vertical = 20.dp, horizontal = 40.dp)
             ){
-                TextPrimary(
+                TextNormal(
                     modifier = Modifier.padding(bottom = 5.dp),
                     text = "Digite \"${objectName}\"",
-                    size = 12.sp,
                     align = TextAlign.Start
                 )
                 DefaultTextField(

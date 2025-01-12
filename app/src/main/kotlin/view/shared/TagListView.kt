@@ -12,7 +12,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.Plus
@@ -31,7 +30,7 @@ fun TagListView(
 
     Column(modifier = modifier) {
         if (label != null)
-            TextPrimary(text = label, modifier = Modifier.padding(bottom = 5.dp), size = 10.sp)
+            TextSmall(text = label, modifier = Modifier.padding(bottom = 5.dp))
 
         Box(contentAlignment = Alignment.CenterStart,
             modifier = modifier.fillMaxWidth().padding(start = 5.dp, top = 10.dp)
@@ -41,7 +40,7 @@ fun TagListView(
             ) {
                 Row(modifier = Modifier.weight(0.7f)) {
                     if (tags.isNullOrEmpty())
-                        TextPrimary(text = placeholder, size = 10.sp, color = primaryColor.copy(alpha = 0.75f))
+                        TextSmall(text = placeholder, color = primaryColor.copy(alpha = 0.75f))
                     else {
                         tags.forEach { tag ->
                             Box(modifier = Modifier.padding(end = 5.dp).clip(CircleShape)) {
@@ -55,10 +54,9 @@ fun TagListView(
                                         contentDescription = null,
                                         tint = primaryColor.copy(alpha = 0.75f)
                                     )
-                                    TextPrimary(
+                                    TextSmall(
                                         modifier = Modifier.padding(start = 5.dp),
                                         text = tag.name,
-                                        size = 10.sp
                                     )
                                 }
                             }
@@ -76,10 +74,9 @@ fun TagListView(
                             contentDescription = null,
                             modifier = Modifier.size(15.dp)
                         )
-                        TextPrimary(
+                        TextSmall(
                             modifier = Modifier.padding(start = 5.dp),
                             text = "Adicionar",
-                            size = 10.sp
                         )
                     }
                 }

@@ -10,12 +10,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
-import view.shared.TextPrimary
-import view.theme.Afacade
+import view.shared.TextH1
 import java.time.LocalDate
 import java.time.Month
 import java.time.format.TextStyle
@@ -41,12 +38,9 @@ fun MonthHeader(
             .onGloballyPositioned { boxWidth = it.size.width }
             .zIndex(1f)
         ) {
-            TextPrimary(
+            TextH1(
                 modifier = Modifier.padding(start = 20.dp, end = 20.dp),
-                text = monthTitle,
-                fontFamily = Afacade,
-                weight = FontWeight.Bold,
-                size = 26.sp,
+                text = monthTitle
             )
         }
     }

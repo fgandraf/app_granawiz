@@ -73,7 +73,7 @@ fun CategoriesPicker(
             }
 
             // DIVIDER
-            Divider(modifier = Modifier.width(1.dp).fillMaxHeight().background(MaterialTheme.colors.onSurface.copy(0.1f)))
+            Divider(modifier = Modifier.width(1.dp).fillMaxHeight().background(MaterialTheme.colors.onSurface))
 
             // SUBCATEGORIES
             Box(modifier = Modifier.weight(1f)){

@@ -111,7 +111,7 @@ fun Body(
                 )
             }
 
-            Divider(modifier = Modifier.width(1.dp).fillMaxHeight(0.95f).background(MaterialTheme.colors.onSurface.copy(0.1f)))
+            Divider(modifier = Modifier.width(1.dp).fillMaxHeight(0.95f).background(MaterialTheme.colors.onSurface))
 
             Box(
                 modifier = Modifier
@@ -119,7 +119,7 @@ fun Body(
                     .fillMaxHeight()
                     .padding(35.dp)
             ) {
-                TextPrimary(text = "Nomes associados:")
+                TextNormal(text = "Nomes associados:")
 
                 val listState = rememberLazyListState()
 

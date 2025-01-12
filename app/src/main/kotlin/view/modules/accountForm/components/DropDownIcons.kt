@@ -12,9 +12,8 @@ import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import view.shared.FlowLayout
-import view.shared.TextPrimary
+import view.shared.TextSmall
 import java.io.File
 import javax.xml.parsers.DocumentBuilderFactory
 
@@ -54,7 +53,7 @@ fun DropDownIcons(
                             )
                             val document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file)
                             val title = document.getElementsByTagName("title").item(0)
-                            TextPrimary(text = title.textContent, size = 10.sp)
+                            TextSmall(text = title.textContent)
                         }
                     }
                 }

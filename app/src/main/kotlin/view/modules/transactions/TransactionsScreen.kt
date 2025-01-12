@@ -18,7 +18,6 @@ import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Bold
@@ -43,7 +42,7 @@ import view.modules.transactions.component.TotalFooter
 import view.modules.transactions.component.TransactionRow
 import view.shared.AddressView
 import view.shared.ClickableIcon
-import view.shared.TextPrimary
+import view.shared.TextNormal
 import view.theme.ButtonPurple
 import viewModel.TransactionViewModel
 
@@ -99,7 +98,7 @@ fun TransactionsScreen(
                     Spacer(Modifier.width(10.dp))
                     addresses.forEach { AddressView(icon = it.iconVector, iconSize = it.iconSize!!, value = it.name, rootPath = it.rootPath) }
                 }
-                TextPrimary(text = account?.description ?: "", size = 12.sp, align = TextAlign.Start)
+                TextNormal(text = account?.description ?: "", align = TextAlign.Start)
             }
 
             // TODO: Imoplements Searchbar

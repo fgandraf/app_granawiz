@@ -92,7 +92,7 @@ fun TransactionForm(
             if (sideType == "tags") 850.dp else 1100.dp
         }
         val dialogWidth by animateDpAsState(
-            targetValue = if (showSide) targetSize else 500.dp,
+            targetValue = if (showSide) targetSize else 550.dp,
             animationSpec = tween(durationMillis = 800)
         )
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.width(dialogWidth).align(Alignment.TopCenter).padding(top = 50.dp)) {
@@ -101,7 +101,7 @@ fun TransactionForm(
             // FIRST COLUMN: FORM
             Row(
                 modifier = Modifier
-                    .width(500.dp)
+                    .width(550.dp)
                     .zIndex(2f)
                     .shadow(2.dp, RoundedCornerShape(10.dp))
                     .background(MaterialTheme.colors.surface, RoundedCornerShape(10.dp))
@@ -118,11 +118,9 @@ fun TransactionForm(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Row {
-                            TextPrimary(
+                            TextSmall(
                                 text = transactionFormViewModel.typeLabel.value,
-                                color = typeColor.value,
-                                size = 11.sp,
-                                weight = FontWeight.Medium,
+                                color = typeColor.value
                             )
                         }
                         Row(

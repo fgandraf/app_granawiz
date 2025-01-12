@@ -36,7 +36,7 @@ fun DefaultTextField(
 
     Column(modifier = modifier) {
         if (label != null)
-            TextPrimary(text = label, modifier = Modifier.padding(bottom = 5.dp), size = 10.sp)
+            TextSmall(text = label, modifier = Modifier.padding(bottom = 5.dp))
 
         Box(contentAlignment = Alignment.Center,
             modifier = Modifier
@@ -67,9 +67,8 @@ fun DefaultTextField(
                 decorationBox = { innerTextField ->
                     Box(modifier = Modifier.fillMaxSize()) {
                         if (value.isEmpty())
-                            TextPrimary(
+                            TextSmall(
                                 text = placeholder,
-                                size = 10.sp,
                                 align = textAlign,
                                 color = primaryColor.copy(alpha = 0.75f),
                                 modifier = Modifier.fillMaxWidth())

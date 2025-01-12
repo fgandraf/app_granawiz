@@ -15,9 +15,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.DotsThree
@@ -28,10 +26,7 @@ import core.entity.Transaction
 import core.enums.TransactionType
 import utils.IconPaths
 import utils.brMoney
-import view.shared.ClickableIcon
-import view.shared.ClickableRow
-import view.shared.SimpleQuestionDialog
-import view.shared.TextPrimary
+import view.shared.*
 import viewModel.TransactionViewModel
 import java.time.format.TextStyle
 import java.util.*
@@ -78,14 +73,13 @@ fun TransactionRow(
                     .weight(0.8f)
                     .padding(end = 10.dp)
             ) {
-                TextPrimary(
+                TextNormal(
                     modifier = Modifier.padding(bottom = 2.dp),
-                    text = transaction.party.name,
-                    weight = FontWeight.Medium
+                    text = transaction.party.name
                 )
                 val day = transaction.date.dayOfMonth
                 val month = transaction.date.month.getDisplayName(TextStyle.FULL, Locale.of("pt", "BR"))
-                TextPrimary(text = "$day $month", size = 10.sp)
+                TextSmall(text = "$day $month")
             }
 
 
@@ -106,13 +100,13 @@ fun TransactionRow(
                 )
 
                 Spacer(Modifier.width(10.dp))
-                TextPrimary(text = transaction.category.name, size = 11.sp)
+                TextNormal(text = transaction.category.name)
 
                 if (transaction.subcategory != null) {
                     Spacer(Modifier.width(5.dp))
-                    TextPrimary(text = "→")
+                    TextNormal(text = "→")
                     Spacer(Modifier.width(5.dp))
-                    TextPrimary(text = transaction.subcategory!!.name, size = 11.sp)
+                    TextNormal(text = transaction.subcategory!!.name)
                 }
             }
 
@@ -134,7 +128,7 @@ fun TransactionRow(
                                 modifier = Modifier.size(15.dp)
                             )
                             Spacer(Modifier.width(5.dp))
-                            TextPrimary(text = tag.name, size = 10.sp)
+                            TextNormal(text = tag.name)
                             Spacer(Modifier.width(15.dp))
                         }
                     }
@@ -151,7 +145,7 @@ fun TransactionRow(
                     .padding(end = 10.dp)
                     .weight(0.4f)
             ) {
-                TextPrimary(text = brMoney.format(transaction.balance), size = 11.sp)
+                TextNormal(text = brMoney.format(transaction.balance))
             }
 
 

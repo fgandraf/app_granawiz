@@ -13,7 +13,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.Warning
@@ -40,7 +39,7 @@ fun SimpleQuestionDialog(
                     contentDescription = "Alert",
                     tint = MaterialTheme.colors.primary
                 )
-                TextPrimary(text = message, modifier = Modifier.padding(start = 15.dp), size = 14.sp)
+                TextNormal(text = message, modifier = Modifier.padding(start = 15.dp))
             }
         },
         dismissButton = {

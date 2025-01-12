@@ -7,12 +7,11 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import utils.brMoney
-import view.shared.TextPrimary
+import view.shared.TextH4
+import view.shared.TextH2
 import viewModel.SidebarViewModel
 
 @Composable
@@ -29,8 +28,8 @@ fun Header(viewModel: SidebarViewModel) {
 //        }
 
         Column(modifier = Modifier.align(Alignment.Center)) {
-            TextPrimary(text = brMoney.format(viewModel.totalAccounts.value), size = 16.sp, weight = FontWeight.Bold, modifier = Modifier.fillMaxWidth().padding(bottom = 3.dp), align = TextAlign.Center)
-            TextPrimary(text = "SALDO TOTAL", size = 8.sp, modifier = Modifier.fillMaxWidth(), align = TextAlign.Center)
+            TextH2(text = brMoney.format(viewModel.totalAccounts.value), modifier = Modifier.fillMaxWidth().padding(bottom = 3.dp), align = TextAlign.Center)
+            TextH4(text = "SALDO TOTAL", modifier = Modifier.fillMaxWidth(), align = TextAlign.Center)
         }
     }
     Divider(Modifier.height(0.5.dp).background(MaterialTheme.colors.onSurface))

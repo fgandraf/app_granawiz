@@ -95,7 +95,7 @@ fun CategoriesScreen(
                             }
                         }
                     }
-                    Divider(modifier = Modifier.width(1.dp).fillMaxHeight().background(MaterialTheme.colors.onSurface.copy(0.1f)))
+                    Divider(modifier = Modifier.width(1.dp).fillMaxHeight().background(MaterialTheme.colors.onSurface))
 
 
                     val categories by viewModel.categories.collectAsState()
@@ -179,7 +179,7 @@ fun CategoriesScreen(
                             )
                         }
                     }
-                    Divider(modifier = Modifier.width(1.dp).fillMaxHeight().background(MaterialTheme.colors.onSurface.copy(0.1f)))
+                    Divider(modifier = Modifier.width(1.dp).fillMaxHeight().background(MaterialTheme.colors.onSurface))
 
 
                     //===== THIRD COLUMN
@@ -247,7 +247,7 @@ fun CategoriesScreen(
                             )
                         }
                     }
-                    Divider(modifier = Modifier.width(1.dp).fillMaxHeight().background(MaterialTheme.colors.onSurface.copy(0.1f)))
+                    Divider(modifier = Modifier.width(1.dp).fillMaxHeight().background(MaterialTheme.colors.onSurface))
                 }
             }
         }

@@ -14,13 +14,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.CaretDown
 import com.adamglin.phosphoricons.light.CaretRight
 import core.entity.Group
-import view.shared.TextPrimary
+import view.shared.TextNormal
+import view.shared.TextSmall
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -49,7 +49,7 @@ fun GroupListComboBox(
         var expanded by remember { mutableStateOf(false) }
 
         if (label != null)
-            TextPrimary(text = label, modifier = Modifier.padding(bottom = 5.dp), size = 10.sp)
+            TextSmall(text = label, modifier = Modifier.padding(bottom = 5.dp))
 
         ExposedDropdownMenuBox(
             modifier = Modifier.onFocusChanged { state -> focused.value = state.isFocused },
@@ -67,14 +67,13 @@ fun GroupListComboBox(
             ) {
 
                 if (value.isBlank())
-                    TextPrimary(
+                    TextSmall(
                         text = placeholder,
-                        size = 10.sp,
                         color = MaterialTheme.colors.primary.copy(0.75f),
                         modifier = Modifier.padding(start = 10.dp)
                     )
                 else
-                    TextPrimary(text = value, modifier = Modifier.padding(start = 10.dp))
+                    TextNormal(text = value, modifier = Modifier.padding(start = 10.dp))
 
 
                 Box(
@@ -96,7 +95,7 @@ fun GroupListComboBox(
             ) {
                 groupList.forEach { item ->
                     DropdownMenuItem( onClick = { onClickItem(item); expanded = !expanded } ) {
-                        TextPrimary(text = item.name, size = 12.sp)
+                        TextNormal(text = item.name)
                     }
                 }
 

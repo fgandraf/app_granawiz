@@ -66,14 +66,14 @@ fun PartiesPicker(
             }
 
             // DIVIDER
-            Divider(modifier = Modifier.width(1.dp).fillMaxHeight().background(MaterialTheme.colors.onSurface.copy(0.1f)))
+            Divider(modifier = Modifier.width(1.dp).fillMaxHeight().background(MaterialTheme.colors.onSurface))
 
             // PARTYNAMES
             Box(modifier = Modifier.weight(1f)){
                 val listState = rememberLazyListState()
                 LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
                     item { Spacer(Modifier.height(10.dp)) }
-                    item { TextPrimary(modifier = Modifier.padding(start = 20.dp, bottom = 10.dp), text = "Nomes associados:") }
+                    item { TextNormal(modifier = Modifier.padding(start = 20.dp, bottom = 10.dp), text = "Nomes associados:") }
                     items(names, key = { it.id }) { item -> AddAssociatedNamesItem(viewModel, item) }
                     item { AddNameButton(viewModel) }
                 }

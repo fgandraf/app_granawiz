@@ -9,12 +9,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import utils.brMoney
-import view.shared.TextPrimary
+import view.shared.TextSmall
 
 @Composable
 fun TotalFooter(
@@ -40,26 +38,20 @@ fun TotalFooter(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.End
             ) {
-                TextPrimary(
+                TextSmall(
                     text = brMoney.format(incomeBalance),
                     color = MaterialTheme.colors.onPrimary,
-                    size = 11.sp,
-                    weight = FontWeight.Normal
                 )
-                TextPrimary(text = " - ", size = 11.sp, modifier = Modifier.padding(horizontal = 5.dp))
-                TextPrimary(
+                TextSmall(text = " - ", modifier = Modifier.padding(horizontal = 5.dp))
+                TextSmall(
                     text = brMoney.format(outcomeBalance),
                     color = MaterialTheme.colors.onError,
-                    size = 11.sp,
-                    weight = FontWeight.Normal
                 )
-                TextPrimary(text = " = ", size = 11.sp, modifier = Modifier.padding(horizontal = 5.dp))
+                TextSmall(text = " = ", modifier = Modifier.padding(horizontal = 5.dp))
                 val total: Double = incomeBalance - outcomeBalance
-                TextPrimary(
+                TextSmall(
                     text = brMoney.format(total),
-                    color = if (total >= 0.0) MaterialTheme.colors.onPrimary else MaterialTheme.colors.onError,
-                    size = 12.sp,
-                    weight = FontWeight.Normal
+                    color = if (total >= 0.0) MaterialTheme.colors.onPrimary else MaterialTheme.colors.onError
                 )
             }
         }

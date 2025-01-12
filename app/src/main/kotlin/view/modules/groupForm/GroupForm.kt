@@ -9,9 +9,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
@@ -20,7 +18,7 @@ import core.entity.Group
 import view.shared.DefaultButton
 import view.shared.DefaultTextField
 import view.shared.DialogTitleBar
-import view.shared.TextPrimary
+import view.shared.TextNormal
 import viewModel.SidebarViewModel
 
 @Composable
@@ -55,11 +53,9 @@ fun GroupForm(
                     contentDescription = "Group logo",
                     tint = MaterialTheme.colors.primary
                 )
-                TextPrimary(
+                TextNormal(
                     modifier = Modifier.padding(top = 20.dp, bottom = 5.dp),
-                    text = "Nome do grupo:",
-                    size = 12.sp,
-                    align = TextAlign.Start
+                    text = "Nome do grupo:"
                 )
                 DefaultTextField(value = value) { value = it }
             }
