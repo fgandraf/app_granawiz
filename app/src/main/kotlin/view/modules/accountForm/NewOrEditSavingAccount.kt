@@ -68,7 +68,7 @@ fun NewOrEditSavingAccount(
                     placeholder = "0.000,00"
                 ) {
                     openBalanceText = it.filter { char -> char.isDigit() || char == ',' || char == '.' }
-                    accountFormViewModel.openBalance = it.replace(".", "").replace(",", ".").toDoubleOrNull() ?: 0.0
+                    accountFormViewModel.balance = it.replace(".", "").replace(",", ".").toDoubleOrNull() ?: 0.0
                 }
 
                 //---group
@@ -101,8 +101,8 @@ fun NewOrEditSavingAccount(
             val confirmed by remember { derivedStateOf { accountFormViewModel.name != "" && accountFormViewModel.group.id != 0L } }
 
             DefaultButton(modifier = Modifier.fillMaxWidth(), confirmed = confirmed, text = buttonLabel, textColor = MaterialTheme.colors.surface) {
-                accountFormViewModel.service.saveAccount(AccountType.SAVINGS, account)
-                sidebarViewModel.groupService.loadGroups()
+                accountFormViewModel.saveAccount(AccountType.SAVINGS, account)
+                sidebarViewModel.reload()
                 onDismiss()
             }
         }

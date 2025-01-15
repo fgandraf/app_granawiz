@@ -51,7 +51,7 @@ fun TransactionForm(
     transaction: Transaction? = null,
     transactionFormViewModel: TransactionFormViewModel = remember { TransactionFormViewModel() },
     transactionType: TransactionType? = null,
-    onDismiss: () -> Unit
+    onDismiss: (Boolean, BankAccount) -> Unit
 ) {
     LaunchedEffect(transaction) {
         if (transaction != null) transactionFormViewModel.loadFromTransaction(transaction)
@@ -286,7 +286,11 @@ fun TransactionForm(
         Button(
             enabled = saveButtonActive,
             colors = ButtonDefaults.buttonColors(backgroundColor = ButtonGreen),
-            onClick = {transactionFormViewModel.saveTransaction(); onDismiss()},
+            onClick = {
+                transactionFormViewModel.saveTransaction()
+                if (transactionFormViewModel.balance != transaction?.balance) onDismiss(true, account)
+                else onDismiss(false, BankAccount())
+                      },
             shape = CircleShape,
             modifier = Modifier
                 .padding(bottom = 50.dp, end = 50.dp).size(60.dp).align(Alignment.BottomEnd)

@@ -6,7 +6,7 @@ import service.TagService
 
 class TagViewModel() {
 
-    val service = TagService()
+    private val service = TagService()
 
     var tags = MutableStateFlow(emptyList<Tag>())
     fun loadTags(){

@@ -120,7 +120,7 @@ fun DropDownNewAccount(
             accountType = accountType,
             onDismiss = {
                 showNewAccountDialog = false
-                viewModel.groupService.fetchTotalAccounts()
+                viewModel.getTotal()
             }
         )
 }

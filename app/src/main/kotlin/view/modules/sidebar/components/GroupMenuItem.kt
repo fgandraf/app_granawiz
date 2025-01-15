@@ -54,7 +54,7 @@ fun GroupMenuItem(
                     color = MaterialTheme.colors.primary,
                 )
 
-                val totalGroup = viewModel.groupService.fetchTotalGroup(group)
+                val totalGroup = viewModel.getTotalFromGroup(group)
                 TextSmall(
                     text = brMoney.format(totalGroup),
                     color = if (totalGroup > 0f) MaterialTheme.colors.onPrimary else if (totalGroup < 0f) MaterialTheme.colors.onError else MaterialTheme.colors.primaryVariant
@@ -96,11 +96,11 @@ fun DropDownGroupMenu(
         ) {
 
             ClickableRow(icon = PhosphorIcons.Light.ArrowLineUp, label = "Mover para cima") {
-                viewModel.groupService.moveGroup(group, -1)
+                viewModel.moveGroupPosition(group, -1)
                 onDismissRequest() }
 
             ClickableRow(icon = PhosphorIcons.Light.ArrowLineDown, label = "Mover para baixo") {
-                viewModel.groupService.moveGroup(group, 1)
+                viewModel.moveGroupPosition(group, 1)
                 onDismissRequest() }
 
             Divider(modifier = Modifier.padding(vertical = 3.dp))
@@ -111,7 +111,7 @@ fun DropDownGroupMenu(
 
             Divider(modifier = Modifier.padding(vertical = 3.dp))
 
-            ClickableRow(icon = PhosphorIcons.Light.Trash, label = "Excluir", enabled = group.accounts.isEmpty()) { viewModel.groupService.deleteGroup(group) }
+            ClickableRow(icon = PhosphorIcons.Light.Trash, label = "Excluir", enabled = group.accounts.isEmpty()) { viewModel.deleteGroup(group) }
 
         }
     }

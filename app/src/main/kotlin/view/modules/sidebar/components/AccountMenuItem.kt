@@ -104,12 +104,12 @@ fun DropDownAccountMenu(
         ) {
 
             ClickableRow(icon = PhosphorIcons.Light.ArrowLineUp, label = "Mover para cima") {
-                viewModel.groupService.moveAccountPosition(account,-1)
+                viewModel.moveAccountPosition(account,-1)
                 onDismissRequest()
             }
 
             ClickableRow(icon = PhosphorIcons.Light.ArrowLineDown, label = "Mover para baixo") {
-                viewModel.groupService.moveAccountPosition(account,1)
+                viewModel.moveAccountPosition(account,1)
                 onDismissRequest()
             }
 
@@ -132,8 +132,8 @@ fun DropDownAccountMenu(
                     objectName = "${account.group.name}/${account.name}",
                     alertText = "Isso irá excluir permanentemente a conta ${account.group.name} → ${account.name}, bem como todas as transações associadas a ela.",
                     onClickButton = {
-                        viewModel.accountService.deleteAccount(account)
-                        viewModel.groupService.loadGroups()
+                        viewModel.deleteAccount(account)
+                        viewModel.reload()
                         onDismissRequest()
                     },
                     onDismiss = { onDismissRequest(); deleteDialog = false }

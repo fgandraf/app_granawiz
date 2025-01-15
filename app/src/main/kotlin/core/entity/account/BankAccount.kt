@@ -22,7 +22,7 @@ open class BankAccount(
     open val name: String,
     open val description: String = "",
     open val icon: String,
-    open val balance: Double,
+    open var balance: Double,
     open var position: Int,
 
     @ManyToOne

@@ -14,7 +14,7 @@ import kotlin.math.abs
 
 class TransactionFormViewModel {
 
-    val service: TransactionService = TransactionService()
+    private val service: TransactionService = TransactionService()
 
     var id by mutableStateOf(0L)
     var party : MutableStateFlow<Party?> = MutableStateFlow(null)

@@ -46,9 +46,9 @@ class AccountService {
                     description = viewModel.description,
                     position = position ?: (viewModel.group.accounts.size + 1),
                     icon = viewModel.icon,
-                    balance = viewModel.openBalance,
+                    balance = viewModel.balance,
                     group = viewModel.group,
-                    openBalance = viewModel.openBalance,
+                    openBalance = viewModel.balance,
                     overdraftLimit = viewModel.limit
                 )
             }
@@ -59,9 +59,9 @@ class AccountService {
                     description = viewModel.description,
                     position = position ?: (viewModel.group.accounts.size + 1),
                     icon = viewModel.icon,
-                    balance = viewModel.openBalance,
+                    balance = viewModel.balance,
                     group = viewModel.group,
-                    openBalance = viewModel.openBalance
+                    openBalance = viewModel.balance
                 )
             }
             AccountType.CREDIT_CARD -> {

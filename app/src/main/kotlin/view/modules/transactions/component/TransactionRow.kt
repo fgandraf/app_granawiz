@@ -177,7 +177,7 @@ fun TransactionRow(
                                     viewModel.deleteTransaction(transaction)
                                     showDeleteTransaction = false
                                     showEditTransaction = false
-                                    viewModel.service.loadTransactions(viewModel.selectedAccount)
+                                    viewModel.getTransactions()
                                 },
                                 onDismissRequest = { showDeleteTransaction = false; showEditTransaction = false },
                             )

@@ -8,7 +8,7 @@ import service.CategoryService
 
 class CategoryViewModel {
 
-    val service: CategoryService = CategoryService()
+    private val service: CategoryService = CategoryService()
 
     val categories = MutableStateFlow(emptyList<Category>())
     fun getCategories(type: CategoryType) {

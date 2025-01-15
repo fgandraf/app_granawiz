@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import core.entity.account.CheckingAccount
+import core.enums.AccountType
 import utils.toBrMoney
 import view.modules.accountForm.components.GroupListComboBox
 import view.modules.accountForm.components.IconSelector
@@ -69,7 +70,7 @@ fun NewOrEditCheckingAccount(
                         placeholder = "0.000,00"
                     ) {
                         openBalanceText = it.filter { char -> char.isDigit() || char == ',' || char == '.' }
-                        accountFormViewModel.openBalance = it.replace(".", "").replace(",", ".").toDoubleOrNull() ?: 0.0
+                        accountFormViewModel.balance = it.replace(".", "").replace(",", ".").toDoubleOrNull() ?: 0.0
                     }
 
                     //---limit
@@ -116,8 +117,8 @@ fun NewOrEditCheckingAccount(
             val confirmed by remember { derivedStateOf { accountFormViewModel.name != "" && accountFormViewModel.group.id != 0L } }
 
             DefaultButton(modifier = Modifier.fillMaxWidth(), confirmed = confirmed, text = buttonLabel, textColor = MaterialTheme.colors.surface) {
-                accountFormViewModel.service.saveAccount(core.enums.AccountType.CHECKING, account)
-                sidebarViewModel.groupService.loadGroups()
+                accountFormViewModel.saveAccount(AccountType.CHECKING, account)
+                sidebarViewModel.reload()
                 onDismiss()
             }
         }

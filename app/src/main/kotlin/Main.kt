@@ -17,7 +17,6 @@ import infra.config.DatabaseConfig
 import view.modules.MainContent
 import view.modules.Screen
 import view.modules.sidebar.Sidebar
-import view.theme.DarkColorScheme
 import view.theme.LightColorScheme
 import java.awt.Toolkit
 import java.util.*

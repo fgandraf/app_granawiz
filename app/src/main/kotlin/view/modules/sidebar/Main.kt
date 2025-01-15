@@ -105,8 +105,9 @@ fun Main(
         Spacer(Modifier.height(10.dp))
 
 
+        val groups by viewModel.groups.collectAsState()
         //=== DYNAMIC MENU ITEMS
-        if (viewModel.groups.value.isEmpty())
+        if (groups.isEmpty())
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
@@ -116,7 +117,7 @@ fun Main(
             }
         else {
             val expandedGroups = remember { mutableStateMapOf<String, Boolean>() }
-            viewModel.groups.value.forEach { group ->
+            groups.forEach { group ->
 
                 val isExpanded = expandedGroups[group.name] ?: true
                 GroupMenuItem(

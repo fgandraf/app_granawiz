@@ -70,8 +70,8 @@ fun GroupForm(
             ) {
 
                 DefaultButton(modifier = Modifier.fillMaxWidth(), confirmed = confirmed, text = buttonLabel, textColor = MaterialTheme.colors.surface) {
-                    if (group == null) viewModel.groupService.addNewGroup(value)
-                    else viewModel.groupService.renameGroup(group, value)
+                    if (group == null) viewModel.addNewGroup(value)
+                    else viewModel.renameGroup(group, value)
                     onDismiss()
                 }
 

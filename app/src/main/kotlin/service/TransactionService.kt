@@ -13,8 +13,8 @@ class TransactionService {
 
     var transactions by mutableStateOf(emptyList<Transaction>())
 
-    fun loadTransactions(account: BankAccount? = null) {
-        transactions = if (account == null) transactionDao.getAll()
+    fun loadTransactions(account: BankAccount? = null) : List<Transaction> {
+        return if (account == null) transactionDao.getAll()
         else transactionDao.getAllByAccount(account)
     }
 

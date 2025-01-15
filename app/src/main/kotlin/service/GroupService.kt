@@ -1,8 +1,5 @@
 package service
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import core.entity.Group
 import core.entity.account.BankAccount
 import infra.dao.AccountDao
@@ -13,20 +10,11 @@ class GroupService {
     private val groupDao: GroupDao = GroupDao()
     private val accountDao: AccountDao = AccountDao()
 
-    var groups by mutableStateOf(emptyList<Group>())
-    var totalAccounts by mutableStateOf(0.0); private set
+    fun loadGroups(): List<Group> { return groupDao.getAll() }
 
-    fun loadGroups() {
-        groups = groupDao.getAll()
-    }
+    fun fetchTotalFromGroup(group: Group) : Double { return group.accounts.sumOf { it.balance } }
 
-    fun fetchTotalAccounts() {
-        totalAccounts = groups.sumOf { group -> group.accounts.sumOf { it.balance } }
-    }
-
-    fun fetchTotalGroup(group: Group) : Double {
-        return group.accounts.sumOf { it.balance }
-    }
+    fun fetchTotal(): Double { return groupDao.getAll().sumOf { group -> group.accounts.sumOf { it.balance } } }
 
     fun deleteGroup(group: Group) {
         groupDao.delete(group)
@@ -34,7 +22,8 @@ class GroupService {
     }
 
     fun addNewGroup(name: String) {
-        val newGroup = Group(name = name, position = groups.size + 1)
+        val groupSize = groupDao.getAll().count()
+        val newGroup = Group(name = name, position = groupSize + 1)
         groupDao.insert(newGroup)
         loadGroups()
     }
@@ -46,16 +35,10 @@ class GroupService {
             position = group.position,
             accounts = group.accounts
         )
-        val dao = GroupDao()
-        dao.update(renamedGroup)
-        groups = groups.map {
-            if (it.id == group.id)
-                Group(it.id, name, it.position, it.accounts)
-            else it
-        }
+        groupDao.update(renamedGroup)
     }
 
-    fun moveGroup(group: Group, direction: Int) {
+    fun moveGroup(groups: List<Group>, group: Group, direction: Int) {
         val groupIndex = groups.indexOf(group)
         val newIndex = groupIndex + direction
 
@@ -65,44 +48,26 @@ class GroupService {
         updatedGroups[groupIndex] = updatedGroups[newIndex].also { updatedGroups[newIndex] = updatedGroups[groupIndex] }
         updatedGroups.forEachIndexed { index, grp -> grp.position = index + 1 }
 
-        groups = updatedGroups
-
-        val dao = GroupDao()
-        dao.updateGroupPositions(updatedGroups)
-
-        loadGroups()
+        groupDao.updateGroupPositions(updatedGroups)
     }
 
-
-    fun moveAccountPosition(account: BankAccount, direction: Int) {
+    fun moveAccountPosition(groups: List<Group>, account: BankAccount, direction: Int) {
         val group = account.group
         val groupIndex = groups.indexOf(group)
         if (groupIndex != -1) {
             val accountIndex = groups[groupIndex].accounts.indexOf(account)
             val newIndex = accountIndex + direction
-
             if (newIndex in 0 until groups[groupIndex].accounts.size) {
                 val accounts = groups[groupIndex].accounts.toMutableList()
                 accounts[accountIndex] = accounts[newIndex]
                 accounts[newIndex] = account
-
                 accounts.forEachIndexed { index, acc -> acc.position = index + 1 }
-
-                groups = groups.toMutableList().apply {
-                    this[groupIndex] = Group(
-                        id = group.id,
-                        name = group.name,
-                        accounts = accounts,
-                        position = group.position
-                    )
-                }
-
                 accountDao.updateAccountPositions(accounts)
-                loadGroups()
             }
         }
     }
 
-
-
 }
+
+
+

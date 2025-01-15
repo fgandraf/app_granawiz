@@ -13,11 +13,11 @@ import service.AccountService
 
 class AccountFormViewModel {
 
-    val service = AccountService(viewModel = this)
+    private val service = AccountService(viewModel = this)
 
     var name by mutableStateOf("")
     var icon by mutableStateOf("_default.svg")
-    var openBalance by mutableStateOf(0.0)
+    var balance by mutableStateOf(0.0)
     var limit by mutableStateOf(0.0)
     var group by mutableStateOf(Group())
     var description by mutableStateOf("")
@@ -35,13 +35,13 @@ class AccountFormViewModel {
         when (account.type){
             AccountType.CHECKING -> {
                 (account as CheckingAccount).let {
-                   openBalance = it.balance
+                   balance = it.balance
                    limit = it.overdraftLimit
                }
             }
             AccountType.SAVINGS -> {
                 (account as SavingsAccount).let {
-                    openBalance = it.balance
+                    balance = it.balance
                 }
             }
             AccountType.CREDIT_CARD -> {
@@ -52,5 +52,9 @@ class AccountFormViewModel {
                 }
             }
         }
+    }
+
+    fun saveAccount(type: AccountType, account: BankAccount?){
+        service.saveAccount(type, account)
     }
 }

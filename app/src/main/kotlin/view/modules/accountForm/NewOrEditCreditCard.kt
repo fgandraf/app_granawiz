@@ -139,8 +139,8 @@ fun NewOrEditCreditCard(
             val confirmed by remember { derivedStateOf { accountFormViewModel.name != "" && accountFormViewModel.group.id != 0L } }
 
             DefaultButton(modifier = Modifier.fillMaxWidth(), confirmed = confirmed, text = buttonLabel, textColor = MaterialTheme.colors.surface) {
-                accountFormViewModel.service.saveAccount(AccountType.CREDIT_CARD, account)
-                sidebarViewModel.groupService.loadGroups()
+                accountFormViewModel.saveAccount(AccountType.CREDIT_CARD, account)
+                sidebarViewModel.reload()
                 onDismiss()
             }
         }

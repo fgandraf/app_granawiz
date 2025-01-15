@@ -9,7 +9,7 @@ import service.PartyService
 
 class PartyViewModel(type: PartyType) {
 
-    val service: PartyService = PartyService()
+    private val service: PartyService = PartyService()
 
     var errorMessage = derivedStateOf { service.errorMessage }
     fun clearError(){ service.clearError() }

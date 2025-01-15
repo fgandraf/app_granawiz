@@ -28,7 +28,7 @@ fun Header(viewModel: SidebarViewModel) {
 //        }
 
         Column(modifier = Modifier.align(Alignment.Center)) {
-            TextH2(text = brMoney.format(viewModel.totalAccounts.value), modifier = Modifier.fillMaxWidth().padding(bottom = 3.dp), align = TextAlign.Center)
+            TextH2(text = brMoney.format(viewModel.total.value), modifier = Modifier.fillMaxWidth().padding(bottom = 3.dp), align = TextAlign.Center)
             TextH4(text = "SALDO TOTAL", modifier = Modifier.fillMaxWidth(), align = TextAlign.Center)
         }
     }

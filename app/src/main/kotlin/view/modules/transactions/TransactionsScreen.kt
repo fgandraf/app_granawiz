@@ -51,7 +51,8 @@ import viewModel.TransactionViewModel
 fun TransactionsScreen(
     account: BankAccount? = null,
     showAddButton: Boolean = true,
-    viewModel: TransactionViewModel = TransactionViewModel(account),
+    viewModel: TransactionViewModel = TransactionViewModel(account)
+
 ) {
 
     val initialAddress =
@@ -105,23 +106,19 @@ fun TransactionsScreen(
             //SearchBar(onTuneClicked = {}, onSearchClicked = {})
         }
 
-
-
         // ********** BODY **********
         if (showTransactionsList){
             Box(modifier = Modifier.fillMaxSize()) {
                 val listState = rememberLazyListState()
 
-                LazyColumn(state = listState, modifier = Modifier.fillMaxSize(),) {
+                LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
                     val monthTransactions = viewModel.transactions.value.groupBy { it.date.month }
-                    item { Spacer(modifier = Modifier.height(30.dp)) }
 
+                    item { Spacer(modifier = Modifier.height(30.dp)) }
                     monthTransactions.forEach { (month, transactions) ->
 
                         item {
                             MonthHeader(modifier = Modifier.zIndex(1f), month = month)
-                            var negativeBalnce = 0.0
-                            var positiveBalance = 0.0
                             Column(
                                 modifier = Modifier
                                     .padding(horizontal = 90.dp)
@@ -132,8 +129,6 @@ fun TransactionsScreen(
                             ) {
                                 Spacer(Modifier.height(20.dp))
                                 transactions.forEach { transaction ->
-                                    if (transaction.balance >= 0) positiveBalance += transaction.balance
-                                    else negativeBalnce -= transaction.balance
                                     TransactionRow(
                                         viewModel = viewModel,
                                         transaction = transaction,
@@ -153,7 +148,9 @@ fun TransactionsScreen(
                                 Spacer(Modifier.height(20.dp))
                             }
 
-                            TotalFooter(modifier = Modifier.zIndex(1f), incomeBalance = positiveBalance, outcomeBalance = negativeBalnce)
+                            val positive = viewModel.transactions.value.filter{it.date.month == month && it.balance >= 0}.sumOf { it.balance }
+                            val negative = viewModel.transactions.value.filter{it.date.month == month && it.balance < 0}.sumOf { it.balance } * -1
+                            TotalFooter(modifier = Modifier.zIndex(1f), incomeBalance = positive, outcomeBalance = negative)
                             Spacer(Modifier.height(30.dp))
                         }
 
@@ -161,10 +158,14 @@ fun TransactionsScreen(
                     item { Spacer(Modifier.height(50.dp)) }
 
                 }
+
+
                 VerticalScrollbar(
                     adapter = rememberScrollbarAdapter(listState),
                     modifier = Modifier.align(Alignment.CenterEnd)
                 )
+
+
                 if (showAddButton)
                     AddTransactionButton(
                         onClickGain = {
@@ -201,22 +202,31 @@ fun TransactionsScreen(
 
             }
         }
+
         if (showEditTransaction) {
             if (viewModel.selectedAccount == null) viewModel.selectAccount(selectedTransaction!!.account)
             TransactionForm(
                 account = viewModel.selectedAccount!!,
                 transaction = selectedTransaction,
                 transactionType = transactionType,
-                onDismiss = {
+                onDismiss = { updated, account ->
                     backIcon = false
                     showEditTransaction = false
                     showTransactionsList = true
                     addresses = initialAddress
+
+                    if (updated) {
+                        viewModel.getTransactions()
+                        val calculated = viewModel.transactions.value.sumOf { it.balance }
+                        viewModel.updateBalance(account, calculated)
+                    }
+
                     selectedTransaction = null
                 }
             )
         }
     }
+
 }
 
 
