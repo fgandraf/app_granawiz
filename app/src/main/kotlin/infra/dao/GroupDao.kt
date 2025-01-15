@@ -39,7 +39,7 @@ class GroupDao : IGroupDao {
 
 
 
-    override fun updateGroupPositions(accounts: List<Group>) {
+    override fun updateGroups(accounts: List<Group>) {
         accounts.forEach { group ->
             val session = sessionFactory.openSession()
             session.beginTransaction()

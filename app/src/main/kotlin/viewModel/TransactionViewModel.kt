@@ -3,13 +3,14 @@ package viewModel
 import core.entity.Transaction
 import core.entity.account.BankAccount
 import kotlinx.coroutines.flow.MutableStateFlow
-import service.AccountService
-import service.TransactionService
+import domain.transaction.TransactionHandler
+import domain.account.usecases.SaveAccountUseCase
 
-class TransactionViewModel(account: BankAccount? = null) {
-
-    private val service: TransactionService = TransactionService()
-
+class TransactionViewModel(
+    account: BankAccount? = null,
+    private val saveAccountUseCase: SaveAccountUseCase = SaveAccountUseCase(),
+    private val usecases: TransactionHandler = TransactionHandler()
+) {
 
     var selectedAccount = account
     fun selectAccount(account: BankAccount){ selectedAccount = account }
@@ -17,14 +18,14 @@ class TransactionViewModel(account: BankAccount? = null) {
 
     var transactions = MutableStateFlow(emptyList<Transaction>())
     fun getTransactions() {
-        transactions.value = service.loadTransactions(account = selectedAccount) }
+        transactions.value = usecases.fetchTransactions(account = selectedAccount) }
 
     init {
         getTransactions()
     }
 
     fun deleteTransaction(transaction: Transaction){
-        service.deleteTransaction(transaction)
+        usecases.deleteTransaction(transaction)
     }
 
     fun updateBalance(account: BankAccount, amount: Double) {
@@ -32,9 +33,9 @@ class TransactionViewModel(account: BankAccount? = null) {
         val accountViewModel = AccountFormViewModel()
         accountViewModel.initializeFromAccount(account)
         accountViewModel.balance = amount
-        val accountService = AccountService(accountViewModel)
 
-        accountService.saveAccount(account.type, account)
+        saveAccountUseCase.execute(type =  account.type, account =  account)
+
     }
 
 

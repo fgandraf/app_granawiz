@@ -3,56 +3,53 @@ package viewModel
 import core.entity.Category
 import core.entity.Subcategory
 import core.enums.CategoryType
+import domain.category.CategoryHandler
 import kotlinx.coroutines.flow.MutableStateFlow
-import service.CategoryService
 
-class CategoryViewModel {
+class CategoryViewModel(private val handler: CategoryHandler = CategoryHandler()) {
 
-    private val service: CategoryService = CategoryService()
 
     val categories = MutableStateFlow(emptyList<Category>())
     fun getCategories(type: CategoryType) {
-        categories.value = service.loadCategoriesList(type) }
+        categories.value = handler.fetchCategories(type) }
 
     val subcategories = MutableStateFlow(emptyList<Subcategory>())
     fun getSubcategories(category: Category) {
-        subcategories.value = service.loadSubCategoriesList(category) }
+        subcategories.value =  handler.fetchSubcategories(category) }
 
     val selectedCategory = MutableStateFlow(Category())
     val selectedSubcategory = MutableStateFlow<Subcategory?>(null)
     val selectedType = MutableStateFlow(CategoryType.INCOME)
 
     fun deleteCategory(category: Category) {
-        service.deleteCategory(category)
+        handler.deleteCategory(category)
         getCategories(category.type)
     }
 
     fun deleteSubcategory(subcategory: Subcategory) {
-        service.deleteSubcategory(subcategory)
+        handler.deleteSubcategory(subcategory)
         getCategories(subcategory.category.type)
         getSubcategories(subcategory.category)
     }
 
     fun addCategory(category: Category) {
-        service.addCategory(category)
+        handler.addCategory(category)
         getCategories(category.type)
     }
 
     fun addSubcategory(subcategory: Subcategory) {
-        service.addSubcategory(subcategory)
+        handler.addSubcategory(subcategory)
         getCategories(subcategory.category.type)
         getSubcategories(subcategory.category)
     }
 
     fun updateCategory(category: Category, name: String? = null, icon: String? = null) {
-        val updatedCategory = Category(id = category.id, name = name ?: category.name, type = category.type, icon = icon ?: category.icon, subcategories = category.subcategories)
-        service.updateCategory(updatedCategory)
+        handler.updateCategory(category, name, icon)
         getCategories(category.type)
     }
 
     fun updateSubcategory(subcategory: Subcategory, name: String) {
-        val updatedSubcategory = Subcategory(subcategory.id, name, subcategory.category)
-        service.updateSubcategory(updatedSubcategory)
+        handler.updateSubcategory(subcategory, name)
         getSubcategories(subcategory.category)
     }
 

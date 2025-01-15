@@ -2,15 +2,15 @@ package viewModel
 
 import core.entity.Tag
 import kotlinx.coroutines.flow.MutableStateFlow
-import service.TagService
+import domain.tag.TagHandler
 
-class TagViewModel() {
+class TagViewModel(private val handler : TagHandler = TagHandler()) {
 
-    private val service = TagService()
+
 
     var tags = MutableStateFlow(emptyList<Tag>())
     fun loadTags(){
-        tags.value = service.loadTagsList()
+        tags.value = handler.fetchTags()
     }
 
     var selectedTags = MutableStateFlow(emptyList<Tag>())
@@ -22,18 +22,18 @@ class TagViewModel() {
     }
 
     fun deleteTag(tag: Tag) {
-        service.deleteTag(tag)
+        handler.deleteTag(tag)
         loadTags()
     }
 
     fun addTag(name: String){
-        service.addTag(Tag(name = name))
+        handler.addTag(Tag(name = name))
         loadTags()
     }
 
     fun updateTag(tag: Tag, name: String){
         val updatedTag = Tag(id = tag.id, name = name)
-        service.updateTag(updatedTag)
+        handler.updateTag(updatedTag)
         loadTags()
     }
 

@@ -8,13 +8,11 @@ import core.entity.*
 import core.entity.account.BankAccount
 import core.enums.TransactionType
 import kotlinx.coroutines.flow.MutableStateFlow
-import service.TransactionService
+import domain.transaction.TransactionHandler
 import java.time.LocalDateTime
 import kotlin.math.abs
 
-class TransactionFormViewModel {
-
-    private val service: TransactionService = TransactionService()
+class TransactionFormViewModel(private val usecases: TransactionHandler = TransactionHandler()) {
 
     var id by mutableStateOf(0L)
     var party : MutableStateFlow<Party?> = MutableStateFlow(null)
@@ -86,8 +84,8 @@ class TransactionFormViewModel {
             type = type,
         )
 
-        if (id == 0L) service.addTransaction(transaction)
-        else service.updateTransaction(transaction)
+        if (id == 0L) usecases.addTransaction(transaction)
+        else usecases.updateTransaction(transaction)
     }
 
 

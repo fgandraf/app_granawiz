@@ -1,4 +1,4 @@
-package service
+package domain.account.usecases
 
 import core.entity.account.BankAccount
 import core.entity.account.CheckingAccount
@@ -8,36 +8,32 @@ import core.enums.AccountType
 import infra.dao.AccountDao
 import viewModel.AccountFormViewModel
 
-class AccountService {
+class SaveAccountUseCase(private val dao: AccountDao = AccountDao()) {
 
-    private val dao: AccountDao = AccountDao()
-    private var viewModel: AccountFormViewModel
 
-    constructor(){ viewModel = AccountFormViewModel()}
-    constructor(viewModel: AccountFormViewModel){ this.viewModel = viewModel }
 
-    fun deleteAccount(account: BankAccount) {
-        dao.delete(account)
-    }
+    fun execute(viewModel: AccountFormViewModel? = null, type: AccountType, account: BankAccount? = null) {
 
-    fun saveAccount(type: AccountType, account: BankAccount? = null){
         val newOrUpdatedAccount = when (type) {
             AccountType.CHECKING ->
-                if (account == null) buildAccount(viewModel, AccountType.CHECKING)
-                else buildAccount(viewModel, AccountType.CHECKING, id = account.id, position = account.position)
+                if (account == null) buildAccount(viewModel!!, AccountType.CHECKING)
+                else buildAccount(viewModel!!, AccountType.CHECKING, id = account.id, position = account.position)
             AccountType.SAVINGS ->
-                if (account == null) buildAccount(viewModel, AccountType.SAVINGS)
-                else buildAccount(viewModel, AccountType.SAVINGS, id = account.id, position = account.position)
+                if (account == null) buildAccount(viewModel!!, AccountType.SAVINGS)
+                else buildAccount(viewModel!!, AccountType.SAVINGS, id = account.id, position = account.position)
             AccountType.CREDIT_CARD ->
-                if (account == null) buildAccount(viewModel, AccountType.CREDIT_CARD)
-                else buildAccount(viewModel, AccountType.CREDIT_CARD, id = account.id, position = account.position)
+                if (account == null) buildAccount(viewModel!!, AccountType.CREDIT_CARD)
+                else buildAccount(viewModel!!, AccountType.CREDIT_CARD, id = account.id, position = account.position)
         }
 
         if (account == null) dao.insert(newOrUpdatedAccount)
         else dao.update(newOrUpdatedAccount)
     }
 
-    private fun buildAccount(viewModel: AccountFormViewModel, accountType: AccountType, id: Long? = null, position: Int? = null) : BankAccount{
+
+
+
+    private fun buildAccount(viewModel: AccountFormViewModel, accountType: AccountType, id: Long? = null, position: Int? = null) : BankAccount {
         when(accountType){
             AccountType.CHECKING -> {
                 return CheckingAccount(

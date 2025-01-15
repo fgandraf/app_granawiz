@@ -5,48 +5,46 @@ import core.entity.Party
 import core.entity.PartyName
 import core.enums.PartyType
 import kotlinx.coroutines.flow.MutableStateFlow
-import service.PartyService
+import domain.party.PartyHander
 
-class PartyViewModel(type: PartyType) {
+class PartyViewModel(type: PartyType, private val usecases: PartyHander = PartyHander()) {
 
-    private val service: PartyService = PartyService()
-
-    var errorMessage = derivedStateOf { service.errorMessage }
-    fun clearError(){ service.clearError() }
+    var errorMessage = derivedStateOf { usecases.errorMessage }
+    fun clearError(){ usecases.clearError() }
 
     var selectedParty = MutableStateFlow<Party?>(null)
     var selectedName = MutableStateFlow<PartyName?>(null)
     val selectedType = MutableStateFlow(type)
 
     var parties = MutableStateFlow(emptyList<Party>())
-    fun getParties() { parties.value = service.loadPartiesList(selectedType.value) }
+    fun getParties() { parties.value = usecases.fetchParties(selectedType.value) }
 
     var partyNames = MutableStateFlow(emptyList<PartyName>())
     fun getNames() {
         if (selectedParty.value != null)
-        partyNames.value = service.loadNamesList(selectedParty.value!!)
+        partyNames.value = usecases.fetchNames(selectedParty.value!!)
     }
 
     fun deleteParty(party: Party) {
-        service.deleteParty(party)
+        usecases.deleteParty(party)
         getParties()
     }
 
     fun deleteName(partyName: PartyName) {
-        service.deletePartyName(partyName)
+        usecases.deleteName(partyName)
         getNames()
     }
 
     fun addParty(name: String) {
         val newParty = Party(name = name, type = selectedType.value)
-        service.addParty(newParty)
+        usecases.addParty(newParty)
         getParties()
         selectedParty.value = newParty
     }
 
     fun addName(name: String): Boolean{
         val newPartyName = PartyName(name = name, party = selectedParty.value!!)
-        val success = service.addPartyName(newPartyName)
+        val success = usecases.addName(newPartyName)
         if (!success) return false
 
         getParties()
@@ -57,14 +55,14 @@ class PartyViewModel(type: PartyType) {
 
     fun updateParty(party: Party, name: String) {
         val updatedParty = Party(id = party.id, name = name, type = party.type, partiesNames = party.partiesNames)
-        service.updateParty(updatedParty)
+        usecases.updateParty(updatedParty)
         getParties()
         selectedParty.value = updatedParty
     }
 
     fun updatePartyName(partyName: PartyName, name: String): Boolean {
         val updatedPartyName = PartyName(id = partyName.id, name = name, party = partyName.party)
-        val success = service.updatePartyName(updatedPartyName)
+        val success = usecases.updateName(updatedPartyName)
         if (!success) return false
 
         getParties()

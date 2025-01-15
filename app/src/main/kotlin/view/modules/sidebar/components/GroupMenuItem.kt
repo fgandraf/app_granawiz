@@ -54,7 +54,7 @@ fun GroupMenuItem(
                     color = MaterialTheme.colors.primary,
                 )
 
-                val totalGroup = viewModel.getTotalFromGroup(group)
+                val totalGroup = viewModel.fetchGroupBalance(group)
                 TextSmall(
                     text = brMoney.format(totalGroup),
                     color = if (totalGroup > 0f) MaterialTheme.colors.onPrimary else if (totalGroup < 0f) MaterialTheme.colors.onError else MaterialTheme.colors.primaryVariant

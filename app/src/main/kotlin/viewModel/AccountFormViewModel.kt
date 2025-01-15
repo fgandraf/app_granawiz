@@ -9,11 +9,9 @@ import core.entity.account.CheckingAccount
 import core.entity.account.CreditCardAccount
 import core.entity.account.SavingsAccount
 import core.enums.AccountType
-import service.AccountService
+import domain.account.AccountHandler
 
-class AccountFormViewModel {
-
-    private val service = AccountService(viewModel = this)
+class AccountFormViewModel(private val handler: AccountHandler = AccountHandler()) {
 
     var name by mutableStateOf("")
     var icon by mutableStateOf("_default.svg")
@@ -54,7 +52,5 @@ class AccountFormViewModel {
         }
     }
 
-    fun saveAccount(type: AccountType, account: BankAccount?){
-        service.saveAccount(type, account)
-    }
+    fun saveAccount(type: AccountType, account: BankAccount?){  handler.saveAccount(this, type, account) }
 }
