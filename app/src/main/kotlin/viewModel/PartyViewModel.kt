@@ -7,10 +7,10 @@ import core.enums.PartyType
 import domain.party.PartyHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 
-class PartyViewModel(type: PartyType, private val usecases: PartyHandler = PartyHandler()) {
+class PartyViewModel(type: PartyType, private val partyHandler: PartyHandler = PartyHandler()) {
 
-    var errorMessage = derivedStateOf { usecases.errorMessage }
-    fun clearError(){ usecases.clearError() }
+    var errorMessage = derivedStateOf { partyHandler.errorMessage }
+    fun clearError(){ partyHandler.clearError() }
 
     var selectedParty = MutableStateFlow<Party?>(null)
 
@@ -18,44 +18,44 @@ class PartyViewModel(type: PartyType, private val usecases: PartyHandler = Party
     val selectedType = MutableStateFlow(type)
 
     var parties = MutableStateFlow(emptyList<Party>())
-    fun getParties() { parties.value = usecases.fetchParties(selectedType.value) }
+    fun getParties() { parties.value = partyHandler.fetchParties(selectedType.value) }
 
     var partyNames = MutableStateFlow(emptyList<PartyName>())
-    fun getNames() { partyNames.value = usecases.fetchNames(selectedParty.value) }
+    fun getNames() { partyNames.value = partyHandler.fetchNames(selectedParty.value) }
 
     fun deleteParty(party: Party) {
-        usecases.deleteParty(party)
+        partyHandler.deleteParty(party)
         getParties()
     }
 
     fun deleteName(partyName: PartyName) {
-        usecases.deleteName(partyName)
+        partyHandler.deleteName(partyName)
         getNames()
     }
 
     fun addParty(name: String): Boolean {
-        val newParty = usecases.addParty(name, selectedType.value) ?: return false
+        val newParty = partyHandler.addParty(name, selectedType.value) ?: return false
         getParties()
         selectedParty.value = newParty
         return true
     }
 
     fun updateParty(party: Party, name: String): Boolean {
-        val updatedParty = usecases.updateParty(party, name) ?: return false
+        val updatedParty = partyHandler.updateParty(party, name) ?: return false
         getParties()
         selectedParty.value = updatedParty
         return true
     }
 
     fun addName(name: String): Boolean{
-        val newPartyName = usecases.addName(name, selectedParty.value!!) ?: return false
+        val newPartyName = partyHandler.addName(name, selectedParty.value!!) ?: return false
         getParties(); getNames()
         selectedName.value = newPartyName
         return true
     }
 
     fun updateName(partyName: PartyName, name: String): Boolean {
-        val updatedPartyName = usecases.updateName(partyName, name) ?: return false
+        val updatedPartyName = partyHandler.updateName(partyName, name) ?: return false
         getParties(); getNames()
         selectedName.value = updatedPartyName
         return true

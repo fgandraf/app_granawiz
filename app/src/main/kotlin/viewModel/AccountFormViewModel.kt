@@ -11,7 +11,7 @@ import core.entity.account.SavingsAccount
 import core.enums.AccountType
 import domain.account.AccountHandler
 
-class AccountFormViewModel(private val handler: AccountHandler = AccountHandler()) {
+class AccountFormViewModel(private val accountHandler: AccountHandler = AccountHandler()) {
 
     var id by mutableStateOf(0L)
     var type by mutableStateOf(AccountType.CHECKING)
@@ -59,7 +59,7 @@ class AccountFormViewModel(private val handler: AccountHandler = AccountHandler(
     }
 
     fun saveAccount() {
-        val account = handler.buildAccount(this)
-        handler.saveAccount(account)
+        val account = accountHandler.buildAccount(this)
+        accountHandler.saveAccount(account)
     }
 }

@@ -6,48 +6,48 @@ import core.enums.CategoryType
 import domain.category.CategoryHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 
-class CategoryViewModel(private val handler: CategoryHandler = CategoryHandler()) {
+class CategoryViewModel(private val categoryHandler: CategoryHandler = CategoryHandler()) {
 
 
     val categories = MutableStateFlow(emptyList<Category>())
-    fun getCategories(type: CategoryType) { categories.value = handler.fetchCategories(type) }
+    fun getCategories(type: CategoryType) { categories.value = categoryHandler.fetchCategories(type) }
 
     val subcategories = MutableStateFlow(emptyList<Subcategory>())
-    fun getSubcategories(category: Category) { subcategories.value =  handler.fetchSubcategories(category) }
+    fun getSubcategories(category: Category) { subcategories.value =  categoryHandler.fetchSubcategories(category) }
 
     val selectedCategory = MutableStateFlow(Category())
     val selectedSubcategory = MutableStateFlow<Subcategory?>(null)
     val selectedType = MutableStateFlow(CategoryType.INCOME)
 
     fun deleteCategory(category: Category) {
-        handler.deleteCategory(category)
+        categoryHandler.deleteCategory(category)
         getCategories(category.type)
     }
 
     fun deleteSubcategory(subcategory: Subcategory) {
-        handler.deleteSubcategory(subcategory)
+        categoryHandler.deleteSubcategory(subcategory)
         getCategories(subcategory.category.type)
         getSubcategories(subcategory.category)
     }
 
     fun addCategory(category: Category) {
-        handler.addCategory(category)
+        categoryHandler.addCategory(category)
         getCategories(category.type)
     }
 
     fun addSubcategory(subcategory: Subcategory) {
-        handler.addSubcategory(subcategory)
+        categoryHandler.addSubcategory(subcategory)
         getCategories(subcategory.category.type)
         getSubcategories(subcategory.category)
     }
 
     fun updateCategory(category: Category, name: String? = null, icon: String? = null) {
-        handler.updateCategory(category, name, icon)
+        categoryHandler.updateCategory(category, name, icon)
         getCategories(category.type)
     }
 
     fun updateSubcategory(subcategory: Subcategory, name: String) {
-        handler.updateSubcategory(subcategory, name)
+        categoryHandler.updateSubcategory(subcategory, name)
         getSubcategories(subcategory.category)
     }
 

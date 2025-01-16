@@ -4,10 +4,10 @@ import core.entity.Tag
 import kotlinx.coroutines.flow.MutableStateFlow
 import domain.tag.TagHandler
 
-class TagViewModel(private val handler : TagHandler = TagHandler()) {
+class TagViewModel(private val tagHandler : TagHandler = TagHandler()) {
 
     var tags = MutableStateFlow(emptyList<Tag>())
-    fun getTags(){ tags.value = handler.fetchTags() }
+    fun getTags(){ tags.value = tagHandler.fetchTags() }
 
     var selectedTags = MutableStateFlow(emptyList<Tag>())
 
@@ -18,16 +18,16 @@ class TagViewModel(private val handler : TagHandler = TagHandler()) {
     }
 
     fun deleteTag(tag: Tag) {
-        handler.deleteTag(tag); getTags()
+        tagHandler.deleteTag(tag); getTags()
     }
 
     fun addTag(name: String){
-        handler.addTag(name)
+        tagHandler.addTag(name)
         getTags()
     }
 
     fun updateTag(tag: Tag, name: String) {
-        handler.updateTag(tag, name)
+        tagHandler.updateTag(tag, name)
         getTags()
     }
 

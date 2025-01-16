@@ -12,7 +12,7 @@ import domain.transaction.TransactionHandler
 import java.time.LocalDateTime
 import kotlin.math.abs
 
-class TransactionFormViewModel(private val usecases: TransactionHandler = TransactionHandler()) {
+class TransactionFormViewModel(private val transactionHandler: TransactionHandler = TransactionHandler()) {
 
     var id by mutableStateOf(0L)
     var party : MutableStateFlow<Party?> = MutableStateFlow(null)
@@ -72,7 +72,7 @@ class TransactionFormViewModel(private val usecases: TransactionHandler = Transa
 
 
     fun saveTransaction(){
-        usecases.saveTransaction(this)
+        transactionHandler.saveTransaction(this)
     }
 
 

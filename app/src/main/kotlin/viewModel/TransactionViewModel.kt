@@ -9,7 +9,7 @@ import domain.transaction.TransactionHandler
 class TransactionViewModel(
     account: BankAccount? = null,
     private val accountHandler: AccountHandler = AccountHandler(),
-    private val usecases: TransactionHandler = TransactionHandler()
+    private val transactionHandler: TransactionHandler = TransactionHandler()
 ) {
 
     var selectedAccount = account
@@ -18,14 +18,14 @@ class TransactionViewModel(
 
     var transactions = MutableStateFlow(emptyList<Transaction>())
     fun getTransactions() {
-        transactions.value = usecases.fetchTransactions(account = selectedAccount) }
+        transactions.value = transactionHandler.fetchTransactions(account = selectedAccount) }
 
     init {
         getTransactions()
     }
 
     fun deleteTransaction(transaction: Transaction){
-        usecases.deleteTransaction(transaction)
+        transactionHandler.deleteTransaction(transaction)
     }
 
     fun updateBalance(accountId: Long, amount: Double) {
