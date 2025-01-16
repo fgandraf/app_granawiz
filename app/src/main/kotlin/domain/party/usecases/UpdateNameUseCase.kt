@@ -6,13 +6,14 @@ import infra.dao.PartyDao
 class UpdateNameUseCase(private val partyDao: PartyDao = PartyDao()) {
 
 
-    fun execute(partyName: PartyName): String {
-        val existingName = partyDao.getPartyNameByName(partyName.name)
-        if (existingName != null)
-            return "O nome \"${partyName.name}\" já está vinculado à \"${existingName.party.name}\"."
+    fun execute(partyName: PartyName, name: String): Pair<String, PartyName?> {
 
-        partyDao.updateName(partyName)
-        return ""
+        val existingName = partyDao.getPartyNameByName(name)
+        if (existingName != null)
+            return Pair("O nome \"${name}\" já está vinculado à \"${existingName.party.name}\".", null)
+
+        val updatedPartyName = PartyName(id = partyName.id, name = name, party = partyName.party)
+        return Pair("Associação vinculada com sucesso!", updatedPartyName)
     }
 
 

@@ -8,7 +8,7 @@ import core.entity.PartyName
 import core.enums.PartyType
 import domain.party.usecases.*
 
-class PartyHander{
+class PartyHandler{
 
     private val fetchPartiesUseCase = FetchPartiesUseCase()
     private val fetchNamesUseCase = FetchNamesUseCase()
@@ -24,20 +24,34 @@ class PartyHander{
     fun clearError() { errorMessage = null }
     
     fun fetchParties(type: PartyType): List<Party> = fetchPartiesUseCase.execute(type)
-    fun fetchNames(party: Party): List<PartyName> = fetchNamesUseCase.execute(party)
+    fun fetchNames(party: Party?): List<PartyName> = fetchNamesUseCase.execute(party)
     fun deleteParty(party: Party) = deletePartyUseCase.execute(party)
     fun deleteName(partyName: PartyName) = deleteNameUseCase.execute(partyName)
-    fun addParty(party: Party) = addPartyUseCase.execute(party)
-    fun updateParty(party: Party) = updatePartyUseCase.execute(party)
-    fun addName(partyName: PartyName): Boolean{
-        val message = addNameUseCase.execute(partyName)
-        if (message == "") return true
-        else errorMessage = message; return false
+
+    fun addParty(name: String, type: PartyType): Party?{
+        val response = addPartyUseCase.execute(name, type)
+        errorMessage = response.first
+        return response.second
+
     }
-    fun updateName(partyName: PartyName): Boolean{
-        val message = updateNameUseCase.execute(partyName)
-        if (message == "") return true
-        else errorMessage = message; return false
+
+    fun updateParty(party: Party, name: String): Party? {
+        val response = updatePartyUseCase.execute(party, name)
+        errorMessage = response.first
+        return response.second
+    }
+
+
+    fun addName(name: String, party: Party): PartyName?{
+        val response = addNameUseCase.execute(name, party)
+        errorMessage = response.first
+        return response.second
+    }
+
+    fun updateName(partyName: PartyName, name: String): PartyName?{
+       val response = updateNameUseCase.execute(partyName, name)
+        errorMessage = response.first
+        return response.second
     }
 
 }

@@ -5,8 +5,9 @@ import infra.dao.TagDao
 
 class UpdateTagUseCase(private val tagDao: TagDao = TagDao()) {
 
-    fun execute(tag: Tag) {
-        tagDao.update(tag)
+    fun execute(tag: Tag, name: String) {
+        val updatedTag = Tag(id = tag.id, name = name)
+        tagDao.update(updatedTag)
     }
 
 }

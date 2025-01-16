@@ -10,12 +10,10 @@ class CategoryViewModel(private val handler: CategoryHandler = CategoryHandler()
 
 
     val categories = MutableStateFlow(emptyList<Category>())
-    fun getCategories(type: CategoryType) {
-        categories.value = handler.fetchCategories(type) }
+    fun getCategories(type: CategoryType) { categories.value = handler.fetchCategories(type) }
 
     val subcategories = MutableStateFlow(emptyList<Subcategory>())
-    fun getSubcategories(category: Category) {
-        subcategories.value =  handler.fetchSubcategories(category) }
+    fun getSubcategories(category: Category) { subcategories.value =  handler.fetchSubcategories(category) }
 
     val selectedCategory = MutableStateFlow(Category())
     val selectedSubcategory = MutableStateFlow<Subcategory?>(null)

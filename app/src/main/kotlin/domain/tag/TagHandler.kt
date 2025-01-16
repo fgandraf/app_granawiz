@@ -14,9 +14,9 @@ class TagHandler{
     private val updateTagUseCase = UpdateTagUseCase()
 
 
-    fun addTag(tag: Tag) = addTagUseCase.execute(tag)
+    fun addTag(name: String) = addTagUseCase.execute(name)
     fun deleteTag(tag: Tag) = deleteTagUseCase.execute(tag)
     fun fetchTags(): List<Tag> = fetchTagsUseCase.execute()
-    fun updateTag(tag: Tag) = updateTagUseCase.execute(tag)
+    fun updateTag(tag: Tag, name: String) = updateTagUseCase.execute(tag, name)
 
 }

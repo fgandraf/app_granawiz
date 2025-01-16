@@ -40,6 +40,7 @@ fun ListItem(
     spaceBetween: Dp = 22.dp,
     deleteDialogIsVisible: MutableState<Boolean> = remember { mutableStateOf(false) },
     onUpdateConfirmation: (String) -> Unit,
+    onUpdateFail: @Composable () -> Unit = {},
     onSelectIcon: (String) -> Unit = {},
     onContentClick: (() -> Unit?)? = null,
     deleteDialog: @Composable () -> Unit,
@@ -118,8 +119,11 @@ fun ListItem(
                     icon = PhosphorIcons.Light.Check,
                     color = Color.Blue,
                     shape = RoundedCornerShape(6.dp),
-                    onClick = { onUpdateConfirmation(value) }
+                    onClick = {
+                        onUpdateConfirmation(value)
+                    }
                 )
+
             }
 
             if (!valueChanged) {
@@ -145,6 +149,8 @@ fun ListItem(
 
             if (deleteDialogIsVisible.value)
                 deleteDialog()
+
+            onUpdateFail()
         }
     }
     DropDownIcons(

@@ -17,7 +17,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
@@ -35,7 +34,7 @@ fun TagsScreen(
     tagViewModel: TagViewModel = TagViewModel(),
 ) {
 
-    tagViewModel.loadTags()
+    tagViewModel.getTags()
 
     val tags = tagViewModel.tags.collectAsState()
     Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.background)) {
@@ -50,6 +49,7 @@ fun TagsScreen(
         }
 
         //===== BODY
+        val corner = 10.dp
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -59,9 +59,8 @@ fun TagsScreen(
                 modifier = Modifier
                     .fillMaxWidth(0.45f)
                     .fillMaxHeight(0.85f)
-                    .shadow(elevation = 1.dp, shape = RoundedCornerShape(20.dp))
-                    .border(0.5.dp, MaterialTheme.colors.onSurface, shape = RoundedCornerShape(20.dp))
-                    .clip(RoundedCornerShape(20.dp))
+                    .border(0.5.dp, MaterialTheme.colors.onSurface, shape = RoundedCornerShape(corner))
+                    .clip(RoundedCornerShape(corner))
                     .background(MaterialTheme.colors.surface)
                     .padding(30.dp)
             ) {

@@ -22,7 +22,7 @@ fun TextNormal(
     text: String,
     color : Color? = if (MaterialTheme.colors.isLight) GrayPrimaryLight else GrayPrimaryDark,
     align: TextAlign = TextAlign.Start,
-    lineHeight: TextUnit? = 10.sp
+    lineHeight: TextUnit? = 12.sp
 ) {
     Text(
         modifier = modifier,

@@ -7,9 +7,7 @@ import domain.tag.TagHandler
 class TagViewModel(private val handler : TagHandler = TagHandler()) {
 
     var tags = MutableStateFlow(emptyList<Tag>())
-    fun loadTags(){
-        tags.value = handler.fetchTags()
-    }
+    fun getTags(){ tags.value = handler.fetchTags() }
 
     var selectedTags = MutableStateFlow(emptyList<Tag>())
 
@@ -20,19 +18,17 @@ class TagViewModel(private val handler : TagHandler = TagHandler()) {
     }
 
     fun deleteTag(tag: Tag) {
-        handler.deleteTag(tag)
-        loadTags() // TODO: Remover da lista em memória
+        handler.deleteTag(tag); getTags()
     }
 
     fun addTag(name: String){
-        handler.addTag(Tag(name = name)) // TODO: Mover regras para os use cases
-        loadTags() // TODO: Adicioanr à lista em memória
+        handler.addTag(name)
+        getTags()
     }
 
-    fun updateTag(tag: Tag, name: String){
-        val updatedTag = Tag(id = tag.id, name = name)
-        handler.updateTag(updatedTag)
-        loadTags() // TODO: Atualizar da lista em memória
+    fun updateTag(tag: Tag, name: String) {
+        handler.updateTag(tag, name)
+        getTags()
     }
 
 }

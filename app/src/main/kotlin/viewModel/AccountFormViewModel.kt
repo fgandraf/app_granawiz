@@ -52,5 +52,7 @@ class AccountFormViewModel(private val handler: AccountHandler = AccountHandler(
         }
     }
 
-    fun saveAccount(type: AccountType, account: BankAccount?){  handler.saveAccount(this, type, account) }
+    fun saveAccount(type: AccountType, account: BankAccount?) {
+        handler.saveAccount(this, type, account)
+    }
 }

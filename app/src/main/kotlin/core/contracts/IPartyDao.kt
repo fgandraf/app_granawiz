@@ -10,6 +10,8 @@ interface IPartyDao {
 
     fun getPartyNameByName(name: String): PartyName?
 
+    fun getPartyByName(name: String): Party?
+
     fun delete(party: Party)
 
     fun deleteName(partyName: PartyName)

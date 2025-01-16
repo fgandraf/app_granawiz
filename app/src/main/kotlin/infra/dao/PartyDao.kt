@@ -42,6 +42,20 @@ class PartyDao : IPartyDao {
         return partyName
     }
 
+    override fun getPartyByName(name: String): Party? {
+        val session = sessionFactory.openSession()
+        session.beginTransaction()
+        val criteriaBuilder = session.criteriaBuilder
+        val criteriaQuery = criteriaBuilder.createQuery(Party::class.java)
+        val root = criteriaQuery.from(Party::class.java)
+        criteriaQuery.where(criteriaBuilder.equal(root.get<String>("name"), name))
+        val query = session.createQuery(criteriaQuery)
+        val party = query.resultList.firstOrNull()
+        session.transaction.commit()
+        session.close()
+        return party
+    }
+
 
     override fun delete(party: Party) {
         val session = sessionFactory.openSession()

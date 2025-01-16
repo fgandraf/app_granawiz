@@ -15,7 +15,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
@@ -59,6 +58,7 @@ fun CategoriesScreen(
         }
 
         //===== BODY
+        val corner = 10.dp
         Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
             Column(
                 verticalArrangement = Arrangement.Center,
@@ -66,9 +66,8 @@ fun CategoriesScreen(
                 modifier = Modifier
                     .fillMaxHeight(0.85f)
                     .fillMaxWidth(0.85f)
-                    .shadow(elevation = 1.dp, shape = RoundedCornerShape(20.dp))
-                    .border(0.5.dp, MaterialTheme.colors.onSurface, shape = RoundedCornerShape(20.dp))
-                    .clip(RoundedCornerShape(20.dp))
+                    .border(0.5.dp, MaterialTheme.colors.onSurface, shape = RoundedCornerShape(corner))
+                    .clip(RoundedCornerShape(corner))
                     .background(MaterialTheme.colors.surface)
                     .padding(30.dp)
             ) {
