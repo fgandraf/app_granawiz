@@ -34,6 +34,8 @@ fun NewOrEditSavingAccount(
     if (account != null) { LaunchedEffect(account) { accountFormViewModel.initializeFromAccount(account) } }
     val buttonLabel by remember { mutableStateOf(if (account == null) "Adicionar" else "Editar") }
 
+    accountFormViewModel.type = AccountType.SAVINGS
+
     Column(Modifier.fillMaxWidth().padding(top = 30.dp), horizontalAlignment = Alignment.CenterHorizontally) {
 
         //==== ICON
@@ -101,7 +103,7 @@ fun NewOrEditSavingAccount(
             val confirmed by remember { derivedStateOf { accountFormViewModel.name != "" && accountFormViewModel.group.id != 0L } }
 
             DefaultButton(modifier = Modifier.fillMaxWidth(), confirmed = confirmed, text = buttonLabel, textColor = MaterialTheme.colors.surface) {
-                accountFormViewModel.saveAccount(AccountType.SAVINGS, account)
+                accountFormViewModel.saveAccount()
                 sidebarViewModel.reload()
                 onDismiss()
             }

@@ -218,7 +218,7 @@ fun TransactionsScreen(
                     if (updated) {
                         viewModel.getTransactions()
                         val calculated = viewModel.transactions.value.sumOf { it.balance }
-                        viewModel.updateBalance(account, calculated)
+                        viewModel.updateBalance(account.id, calculated)
                     }
 
                     selectedTransaction = null

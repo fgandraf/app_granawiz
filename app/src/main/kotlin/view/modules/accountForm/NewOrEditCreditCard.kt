@@ -35,6 +35,8 @@ fun NewOrEditCreditCard(
     if (account != null) { LaunchedEffect(account) { accountFormViewModel.initializeFromAccount(account) } }
     val buttonLabel by remember { mutableStateOf(if (account == null) "Adicionar" else "Editar") }
 
+    accountFormViewModel.type = AccountType.CREDIT_CARD
+
     Column(Modifier.fillMaxWidth().padding(top = 30.dp), horizontalAlignment = Alignment.CenterHorizontally) {
 
         //==== ICON
@@ -139,7 +141,7 @@ fun NewOrEditCreditCard(
             val confirmed by remember { derivedStateOf { accountFormViewModel.name != "" && accountFormViewModel.group.id != 0L } }
 
             DefaultButton(modifier = Modifier.fillMaxWidth(), confirmed = confirmed, text = buttonLabel, textColor = MaterialTheme.colors.surface) {
-                accountFormViewModel.saveAccount(AccountType.CREDIT_CARD, account)
+                accountFormViewModel.saveAccount()
                 sidebarViewModel.reload()
                 onDismiss()
             }

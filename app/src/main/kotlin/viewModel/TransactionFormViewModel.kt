@@ -70,22 +70,9 @@ class TransactionFormViewModel(private val usecases: TransactionHandler = Transa
         }
     }
 
-    fun saveTransaction(){
-        val transaction = Transaction(
-            id = this.id,
-            party = party.value!!,
-            account = account,
-            category = category.value!!,
-            subcategory = subCategory,
-            tags = tags.value,
-            date = date,
-            description = description,
-            balance = balance,
-            type = type,
-        )
 
-        if (id == 0L) usecases.addTransaction(transaction)
-        else usecases.updateTransaction(transaction)
+    fun saveTransaction(){
+        usecases.saveTransaction(this)
     }
 
 

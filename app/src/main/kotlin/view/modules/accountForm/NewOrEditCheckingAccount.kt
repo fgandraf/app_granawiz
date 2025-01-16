@@ -35,6 +35,8 @@ fun NewOrEditCheckingAccount(
     if (account != null) { LaunchedEffect(account) { accountFormViewModel.initializeFromAccount(account) } }
     val buttonLabel by remember { mutableStateOf(if (account == null) "Adicionar" else "Editar") }
 
+    accountFormViewModel.type = AccountType.CHECKING
+
     Column(Modifier.fillMaxWidth().padding(top = 30.dp), horizontalAlignment = Alignment.CenterHorizontally) {
 
         //==== ICON
@@ -117,7 +119,7 @@ fun NewOrEditCheckingAccount(
             val confirmed by remember { derivedStateOf { accountFormViewModel.name != "" && accountFormViewModel.group.id != 0L } }
 
             DefaultButton(modifier = Modifier.fillMaxWidth(), confirmed = confirmed, text = buttonLabel, textColor = MaterialTheme.colors.surface) {
-                accountFormViewModel.saveAccount(AccountType.CHECKING, account)
+                accountFormViewModel.saveAccount()
                 sidebarViewModel.reload()
                 onDismiss()
             }
