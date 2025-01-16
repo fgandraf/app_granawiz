@@ -21,16 +21,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Bold
-import com.adamglin.phosphoricons.Fill
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.Regular
 import com.adamglin.phosphoricons.bold.ArrowLeft
 import com.adamglin.phosphoricons.bold.ListBullets
-import com.adamglin.phosphoricons.fill.Pencil
-import com.adamglin.phosphoricons.fill.Plus
 import com.adamglin.phosphoricons.light.Plus
-import com.adamglin.phosphoricons.regular.Folders
-import com.adamglin.phosphoricons.regular.Wallet
+import com.adamglin.phosphoricons.regular.*
 import core.entity.Transaction
 import core.entity.account.BankAccount
 import core.enums.TransactionType
@@ -134,7 +130,7 @@ fun TransactionsScreen(
                                         transaction = transaction,
                                         onClick = {
                                             addresses = addresses + PageAddress(
-                                                iconVector = PhosphorIcons.Fill.Pencil,
+                                                iconVector = PhosphorIcons.Regular.Pencil,
                                                 iconSize = DpSize(21.dp, 18.dp),
                                                 name = "Editar " + if (transaction.type == TransactionType.GAIN) "receita" else "despesa"
                                             )
@@ -173,7 +169,7 @@ fun TransactionsScreen(
                             showTransactionsList = false
                             showEditTransaction = true
                             addresses = addresses + PageAddress(
-                                iconVector = PhosphorIcons.Fill.Plus,
+                                iconVector = PhosphorIcons.Regular.PlusSquare,
                                 iconSize = DpSize(21.dp, 18.dp),
                                 name = "Nova receita"
                             )
@@ -185,7 +181,7 @@ fun TransactionsScreen(
                             showEditTransaction = true
 
                             addresses = addresses + PageAddress(
-                                iconVector = PhosphorIcons.Fill.Plus,
+                                iconVector = PhosphorIcons.Regular.MinusSquare,
                                 iconSize = DpSize(21.dp, 18.dp),
                                 name = "Nova despesa"
                             )

@@ -26,7 +26,6 @@ fun TagListView(
     placeholder: String = "",
     onClickAdd: () -> Unit = {}
 ){
-    val primaryColor = MaterialTheme.colors.primary
 
     Column(modifier = modifier) {
         if (label != null)
@@ -40,7 +39,7 @@ fun TagListView(
             ) {
                 Row(modifier = Modifier.weight(0.7f)) {
                     if (tags.isNullOrEmpty())
-                        TextSmall(text = placeholder, color = primaryColor.copy(alpha = 0.75f))
+                        TextSmall(text = placeholder, color = MaterialTheme.colors.primary.copy(alpha = 0.75f))
                     else {
                         tags.forEach { tag ->
                             Box(modifier = Modifier.padding(end = 5.dp).clip(CircleShape)) {
@@ -52,7 +51,7 @@ fun TagListView(
                                         modifier = Modifier.size(16.dp),
                                         imageVector = PhosphorIcons.Light.Tag,
                                         contentDescription = null,
-                                        tint = primaryColor.copy(alpha = 0.75f)
+                                        tint = MaterialTheme.colors.primary.copy(alpha = 0.75f)
                                     )
                                     TextSmall(
                                         modifier = Modifier.padding(start = 5.dp),
@@ -72,7 +71,8 @@ fun TagListView(
                         Icon(
                             imageVector = PhosphorIcons.Light.Plus,
                             contentDescription = null,
-                            modifier = Modifier.size(15.dp)
+                            modifier = Modifier.size(15.dp),
+                            tint = MaterialTheme.colors.primary
                         )
                         TextSmall(
                             modifier = Modifier.padding(start = 5.dp),

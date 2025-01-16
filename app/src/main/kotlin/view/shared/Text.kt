@@ -22,7 +22,8 @@ fun TextNormal(
     text: String,
     color : Color? = if (MaterialTheme.colors.isLight) GrayPrimaryLight else GrayPrimaryDark,
     align: TextAlign = TextAlign.Start,
-    lineHeight: TextUnit? = 12.sp
+    lineHeight: TextUnit? = 12.sp,
+    fontStyle: FontStyle? = FontStyle.Normal,
 ) {
     Text(
         modifier = modifier,
@@ -32,7 +33,8 @@ fun TextNormal(
         fontWeight = FontWeight.Normal,
         lineHeight = lineHeight!!,
         fontFamily = Ubuntu,
-        textAlign = align
+        textAlign = align,
+        fontStyle = fontStyle,
     )
 }
 

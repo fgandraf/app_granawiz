@@ -11,9 +11,7 @@ import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,6 +33,7 @@ fun Body(
 
     val selectedParty by viewModel.selectedParty.collectAsState()
 
+    var addNameButton by remember { mutableStateOf(false) }
 
     // EXTERNAL
     Column(
@@ -57,12 +56,11 @@ fun Body(
         ) {
 
 
-
             // PARTIES
             Box(modifier = Modifier.weight(1f).fillMaxHeight().padding(35.dp)) {
                 val listState = rememberLazyListState()
-                LazyColumn(state = listState, modifier = Modifier.fillMaxSize().padding(top = 30.dp)) {
-                    items(parties, key = { it.id }) { item -> PartyListItem(viewModel, selectedParty, item) {} }
+                LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
+                    items(parties, key = { it.id }) { item -> PartyListItem(viewModel, selectedParty, item) { addNameButton = true } }
                     item { AddParty(viewModel) }
                 }
                 VerticalScrollbar(adapter = rememberScrollbarAdapter(listState), modifier = Modifier.align(Alignment.CenterEnd))
@@ -75,14 +73,20 @@ fun Body(
 
             // PARTYNAMES
             Box(modifier = Modifier.weight(1f).fillMaxHeight().padding(35.dp)) {
-                TextNormal(text = "Nomes associados:")
-                val listState = rememberLazyListState()
-                LazyColumn(state = listState, modifier = Modifier.fillMaxSize().padding(top = 30.dp)) {
-                    items(names, key = { it.id }) { item -> PartyNameListItem(viewModel, item)}
-                    item { AddPartyName(viewModel) }
+                if (addNameButton) {
+                    TextNormal(text = "Nomes associados:")
+                    val listState = rememberLazyListState()
+                    LazyColumn(state = listState, modifier = Modifier.fillMaxSize().padding(top = 30.dp)) {
+                        items(names, key = { it.id }) { item -> PartyNameListItem(viewModel, item) }
+                        item { AddPartyName(viewModel) }
+                    }
+                    VerticalScrollbar(
+                        adapter = rememberScrollbarAdapter(listState),
+                        modifier = Modifier.align(Alignment.CenterEnd)
+                    )
                 }
-                VerticalScrollbar(adapter = rememberScrollbarAdapter(listState), modifier = Modifier.align(Alignment.CenterEnd))
             }
+
 
         }
     }

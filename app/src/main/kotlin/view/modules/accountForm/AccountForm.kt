@@ -1,10 +1,7 @@
 package view.modules.accountForm
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
@@ -50,7 +47,7 @@ fun AccountForm(
 
             //===== Title Bar
             DialogTitleBar(title = title, onCloseRequest = onDismiss)
-            Divider()
+            Divider(modifier = Modifier.fillMaxWidth().padding(horizontal = 5.dp).background(MaterialTheme.colors.primaryVariant.copy(alpha = 0.2f)))
 
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,

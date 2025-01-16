@@ -285,7 +285,7 @@ fun TransactionForm(
         //==== FOOTER
         Button(
             enabled = saveButtonActive,
-            colors = ButtonDefaults.buttonColors(backgroundColor = ButtonGreen),
+            colors = ButtonDefaults.buttonColors(backgroundColor = ButtonGreen, disabledBackgroundColor = MaterialTheme.colors.primaryVariant.copy(alpha = 0.5f)),
             onClick = {
                 transactionFormViewModel.saveTransaction()
                 if (transactionFormViewModel.balance != transaction?.balance) onDismiss(true, account)

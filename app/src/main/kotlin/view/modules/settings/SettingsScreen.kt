@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Switch
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,7 +19,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import view.modules.UserPreferences.isLightTheme
 import view.shared.DialogTitleBar
+import view.shared.TextH2
+import view.shared.TextNormal
 import view.theme.Afacade
 
 @Composable
@@ -40,7 +44,7 @@ fun SettingsScreen(
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp)
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Image(
                     painter = painterResource("assets/images/icon.svg"),
@@ -57,14 +61,20 @@ fun SettingsScreen(
                         brush = Brush.horizontalGradient(
                             colors = listOf(
                                 Color(0xFF73378a),
-                                Color(0xFF0e0036),
+                                MaterialTheme.colors.secondary,
                                 Color(0xFF73378a)
                             )
                         )
                     )
                 )
             }
-            Divider(Modifier.padding(horizontal = 30.dp))
+            Row(Modifier.fillMaxWidth(), Arrangement.Center, Alignment.CenterVertically,) {
+                Switch(checked = isLightTheme, onCheckedChange = {isLightTheme = !isLightTheme })
+                Spacer(Modifier.width(10.dp))
+                TextNormal(text = if (isLightTheme) "Apagar" else "Acender")
+            }
+
+            Divider(modifier = Modifier.fillMaxWidth().padding(horizontal = 30.dp).background(MaterialTheme.colors.primaryVariant.copy(alpha = 0.2f)))
 
 
 
@@ -77,10 +87,13 @@ fun SettingsScreen(
                     .padding(top = 20.dp, end = 30.dp, bottom = 30.dp, start = 30.dp)
                     .background(MaterialTheme.colors.background)
             ) {
-                //Implements
+
+                Row(modifier = Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
+
+                    TextH2(text = "Em desenvolvimento...")
+
+                }
             }
-
-
 
         }
     }

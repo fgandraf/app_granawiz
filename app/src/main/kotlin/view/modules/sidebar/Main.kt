@@ -32,37 +32,32 @@ fun Main(
     Column(modifier = modifier.fillMaxWidth().verticalScroll(rememberScrollState())) {
 
         //=== STATIC MENU ITEMS
+        Spacer(modifier = Modifier.height(25.dp))
+        StaticMenuItem(
+            icon = PhosphorIcons.Light.SquaresFour,
+            label = "Dashboard",
+            isActive = currentScreen == Screen.Dashboard,
+            screen = Screen.Dashboard,
+            onClick = { onScreenSelected(it); activeAccountId = 0L }
+        )
 
 
-        // TODO: Implements Dashboard
-//        Spacer(modifier = Modifier.height(25.dp))
-//        StaticMenuItem(
-//            icon = PhosphorIcons.Light.SquaresFour,
-//            label = "Dashboard",
-//            isActive = currentScreen == Screen.Dashboard,
-//            screen = Screen.Dashboard,
-//            onClick = onScreenSelected
-//        )
+        StaticMenuItem(
+            icon = PhosphorIcons.Light.Calendar,
+            label = "Agendamentos",
+            isActive = currentScreen == Screen.Schedules,
+            screen = Screen.Schedules,
+            onClick = { onScreenSelected(it); activeAccountId = 0L }
+        )
 
 
-        // TODO: Implements Schedules
-//        StaticMenuItem(
-//            icon = PhosphorIcons.Light.Calendar,
-//            label = "Agendamentos",
-//            isActive = currentScreen == Schedules.Dashboard,
-//            screen = Screen.Schedules,
-//            onClick = onScreenSelected
-//        )
-
-
-        // TODO: Implements Reports
-//        StaticMenuItem(
-//            icon = PhosphorIcons.Light.Scroll,
-//            label = "Relatórios",
-//            isActive = currentScreen == Schedules.Reports,
-//            screen = Screen.Reports,
-//            onClick = onScreenSelected
-//        )
+        StaticMenuItem(
+            icon = PhosphorIcons.Light.Scroll,
+            label = "Relatórios",
+            isActive = currentScreen == Screen.Reports,
+            screen = Screen.Reports,
+            onClick = { onScreenSelected(it); activeAccountId = 0L }
+        )
 
 
         SectionTitle("Base de dados")

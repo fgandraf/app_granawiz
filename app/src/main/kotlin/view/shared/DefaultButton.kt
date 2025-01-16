@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -29,7 +30,7 @@ fun DefaultButton(
 ){
     Button(
         enabled = confirmed,
-        colors = ButtonDefaults.buttonColors(backgroundColor = color),
+        colors = ButtonDefaults.buttonColors(backgroundColor = color, disabledBackgroundColor = MaterialTheme.colors.primaryVariant.copy(alpha = 0.5f)),
         onClick = onClick,
         shape = shape,
         modifier = modifier
@@ -38,8 +39,9 @@ fun DefaultButton(
         TextNormal(
             modifier = Modifier.padding(horizontal = textPadding),
             text = text,
-            color = textColor,
-            lineHeight = 16.sp
+            color = if (!confirmed) textColor.copy(alpha = 0.5f) else textColor,
+            lineHeight = 16.sp,
+            fontStyle = if (!confirmed) FontStyle.Italic else FontStyle.Normal,
         )
     }
 }

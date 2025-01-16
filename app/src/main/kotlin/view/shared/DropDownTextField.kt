@@ -55,7 +55,8 @@ fun DropDownTextField(
             Icon(
                 imageVector = PhosphorIcons.Light.CaretRight,
                 contentDescription = "click",
-                modifier = Modifier.size(15.dp).align(Alignment.CenterEnd)
+                modifier = Modifier.size(15.dp).align(Alignment.CenterEnd),
+                tint = MaterialTheme.colors.primary
             )
         }
     }

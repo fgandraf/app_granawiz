@@ -16,7 +16,9 @@ import androidx.compose.ui.window.application
 import infra.config.DatabaseConfig
 import view.modules.MainContent
 import view.modules.Screen
+import view.modules.UserPreferences
 import view.modules.sidebar.Sidebar
+import view.theme.DarkColorScheme
 import view.theme.LightColorScheme
 import java.awt.Toolkit
 import java.util.*
@@ -38,9 +40,12 @@ fun main() = application {
         title = "GranaWiz"
     ) {
 
-        MaterialTheme(colors = LightColorScheme) {
+        val isLightTheme = UserPreferences.isLightTheme
+        val currentColorScheme = if (isLightTheme) LightColorScheme else DarkColorScheme
 
-            var currentScreen by remember { mutableStateOf<Screen>(Screen.Transactions()) }
+        MaterialTheme(colors = currentColorScheme) {
+
+            var currentScreen by remember { mutableStateOf<Screen>(Screen.Dashboard) }
 
             Row(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.background)) {
                 Sidebar(currentScreen = currentScreen) { screen -> currentScreen = screen }

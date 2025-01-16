@@ -1,10 +1,8 @@
 package view.shared
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -29,11 +27,11 @@ fun DialogTitleBar(
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth().padding(5.dp).padding(start = 5.dp)
+                modifier = Modifier.fillMaxWidth().padding(5.dp).padding(start = 10.dp)
             ) {
                 TextNormal(
                     text = title,
-                    color = MaterialTheme.colors.secondary,
+                    color = MaterialTheme.colors.secondary.copy(alpha = 0.7f),
                 )
                 Box(
                     Modifier
@@ -51,6 +49,6 @@ fun DialogTitleBar(
                 }
             }
         }
-        Divider(Modifier.background(MaterialTheme.colors.onSurface))
+        //Divider(Modifier.background(MaterialTheme.colors.onSurface))
     }
 }

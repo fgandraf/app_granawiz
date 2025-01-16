@@ -19,7 +19,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.text.TextStyle
@@ -37,7 +36,6 @@ import view.theme.Afacade
 fun AddListItem(
     isVisible: MutableState<Boolean>,
     value: MutableState<String>,
-    icon: ImageVector? = null,
     confirmationClick: () -> Unit,
     alertDialogContent: @Composable () -> Unit? = {}
 ){
@@ -53,41 +51,19 @@ fun AddListItem(
                         .padding(horizontal = 10.dp)
                         .height(30.dp)
                 ) {
-                    Row {
-                        if (icon != null) {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.Center,
-                                modifier = Modifier.fillMaxHeight().width(40.dp)
-                            ) {
-                                Icon(
-                                    imageVector = icon,
-                                    contentDescription = null,
-                                    tint = Color.Blue,
-                                    modifier = Modifier.size(15.dp)
-                                )
-                            }
-                        }
-                        Row(verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier
-                                .fillMaxHeight()
-                                .padding(start = if (icon != null) 0.dp else 10.dp)
-                        ) {
-                            BasicTextField(
-                                value = value.value,
-                                onValueChange = { value.value = it },
-                                singleLine = true,
-                                textStyle = TextStyle(
-                                    fontSize = 14.sp,
-                                    fontWeight = FontWeight.Medium,
-                                    lineHeight = 0.sp,
-                                    fontFamily = Afacade,
-                                    color = Color.Blue
-                                ),
-                                modifier = Modifier.focusRequester(focusRequester)
-                            )
-                        }
-                    }
+                    BasicTextField(
+                        value = value.value,
+                        onValueChange = { value.value = it },
+                        singleLine = true,
+                        textStyle = TextStyle(
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Medium,
+                            lineHeight = 0.sp,
+                            fontFamily = Afacade,
+                            color = Color.Blue
+                        ),
+                        modifier = Modifier.focusRequester(focusRequester).padding(start = 40.dp)
+                    )
                     Row(modifier = Modifier.padding(end = 10.dp)) {
                         ClickableIcon(
                             icon = PhosphorIcons.Light.X,

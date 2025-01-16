@@ -11,6 +11,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import core.entity.account.SavingsAccount
@@ -95,14 +96,14 @@ fun NewOrEditSavingAccount(
 
 
         //==== FOOTER
-        Divider()
+        Divider(modifier = Modifier.fillMaxWidth().padding(horizontal = 5.dp).background(MaterialTheme.colors.primaryVariant.copy(alpha = 0.2f)))
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 10.dp)
         ) {
             val confirmed by remember { derivedStateOf { accountFormViewModel.name != "" && accountFormViewModel.group.id != 0L } }
 
-            DefaultButton(modifier = Modifier.fillMaxWidth(), confirmed = confirmed, text = buttonLabel, textColor = MaterialTheme.colors.surface) {
+            DefaultButton(modifier = Modifier.fillMaxWidth(), confirmed = confirmed, text = buttonLabel, textColor = Color.White) {
                 accountFormViewModel.saveAccount()
                 sidebarViewModel.reload()
                 onDismiss()

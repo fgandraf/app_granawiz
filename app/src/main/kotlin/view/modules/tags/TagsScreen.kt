@@ -62,7 +62,7 @@ fun TagsScreen(
                     .border(0.5.dp, MaterialTheme.colors.onSurface, shape = RoundedCornerShape(corner))
                     .clip(RoundedCornerShape(corner))
                     .background(MaterialTheme.colors.surface)
-                    .padding(30.dp)
+                    .padding(35.dp)
             ) {
                 val listState = rememberLazyListState()
                 LazyColumn(
@@ -95,7 +95,6 @@ fun TagsScreen(
                         AddListItem(
                             isVisible = isVisible,
                             value = value,
-                            icon = PhosphorIcons.Light.Tag,
                             confirmationClick = { tagViewModel.addTag(value.value) },
                         )
                     }

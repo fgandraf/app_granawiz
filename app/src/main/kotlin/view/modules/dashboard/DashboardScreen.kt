@@ -1,20 +1,20 @@
 package view.modules.dashboard
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
-import com.adamglin.phosphoricons.Light
-import com.adamglin.phosphoricons.light.SquaresFour
+import com.adamglin.phosphoricons.Bold
+import com.adamglin.phosphoricons.Regular
+import com.adamglin.phosphoricons.bold.ArrowLeft
+import com.adamglin.phosphoricons.regular.SquaresFour
 import view.shared.AddressView
+import view.shared.ClickableIcon
+import view.shared.TextH2
 
 @Composable
 fun DashboardScreen() {
@@ -24,89 +24,19 @@ fun DashboardScreen() {
             .background(MaterialTheme.colors.background)
     ){
         //===== HEADER
-        Column(modifier = Modifier.fillMaxWidth().padding(20.dp)) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Row { AddressView(icon = PhosphorIcons.Light.SquaresFour, value = "Dashboard") }
+        Column {
+            Row(Modifier.fillMaxWidth().padding(20.dp), verticalAlignment = Alignment.CenterVertically) {
+                ClickableIcon(enabled = false, icon = PhosphorIcons.Bold.ArrowLeft, iconSize = 22.dp, boxSize = 25.dp){ }
+                Spacer(Modifier.width(10.dp))
+                Row { AddressView(icon = PhosphorIcons.Regular.SquaresFour, value = "Dashboard", rootPath = true) }
             }
         }
 
         //===== BODY
-        Column(
-            modifier = Modifier.fillMaxSize()
-                .padding(vertical = 40.dp, horizontal = 80.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Top
-        ) {
-            Row(modifier = Modifier.fillMaxWidth().weight(0.7f), horizontalArrangement = Arrangement.SpaceBetween) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .fillMaxWidth(0.33f)
-                        .shadow(elevation = 1.dp, shape = RoundedCornerShape(12.dp))
-                        .border(0.5.dp, MaterialTheme.colors.primaryVariant, shape = RoundedCornerShape(12.dp))
-                        .clip(RoundedCornerShape(12.dp))
-                        .background(MaterialTheme.colors.onPrimary)
-                ) { }
-                Spacer(Modifier.width(40.dp))
-                Row(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .fillMaxWidth(0.5f)
-                        .shadow(elevation = 1.dp, shape = RoundedCornerShape(12.dp))
-                        .border(0.5.dp, MaterialTheme.colors.primaryVariant, shape = RoundedCornerShape(12.dp))
-                        .clip(RoundedCornerShape(12.dp))
-                        .background(MaterialTheme.colors.onPrimary)
-                ) { }
-                Spacer(Modifier.width(40.dp))
-                Row(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .fillMaxWidth()
-                        .shadow(elevation = 1.dp, shape = RoundedCornerShape(12.dp))
-                        .border(0.5.dp, MaterialTheme.colors.primaryVariant, shape = RoundedCornerShape(12.dp))
-                        .clip(RoundedCornerShape(12.dp))
-                        .background(MaterialTheme.colors.onPrimary)
-                ) { }
-            }
-            Spacer(Modifier.height(40.dp))
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
 
-            Row(modifier = Modifier.fillMaxWidth().weight(0.7f), horizontalArrangement = Arrangement.SpaceBetween) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .fillMaxWidth(0.5f)
-                        .shadow(elevation = 1.dp, shape = RoundedCornerShape(12.dp))
-                        .border(0.5.dp, MaterialTheme.colors.primaryVariant, shape = RoundedCornerShape(12.dp))
-                        .clip(RoundedCornerShape(12.dp))
-                        .background(MaterialTheme.colors.onPrimary)
-                ) { }
-                Spacer(Modifier.width(40.dp))
-                Row(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .fillMaxWidth()
-                        .shadow(elevation = 1.dp, shape = RoundedCornerShape(12.dp))
-                        .border(0.5.dp, MaterialTheme.colors.primaryVariant, shape = RoundedCornerShape(12.dp))
-                        .clip(RoundedCornerShape(12.dp))
-                        .background(MaterialTheme.colors.onPrimary)
-                ) { }
-            }
+            TextH2(text = "Em desenvolvimento...")
 
-            Spacer(Modifier.height(40.dp))
-
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-                    .shadow(elevation = 1.dp, shape = RoundedCornerShape(12.dp))
-                    .border(0.5.dp, MaterialTheme.colors.primaryVariant, shape = RoundedCornerShape(12.dp))
-                    .clip(RoundedCornerShape(12.dp))
-                    .background(MaterialTheme.colors.onPrimary)
-            ) { }
         }
     }
 }
