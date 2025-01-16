@@ -19,16 +19,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
+import com.adamglin.phosphoricons.Regular
 import com.adamglin.phosphoricons.light.*
+import com.adamglin.phosphoricons.regular.Wallet
 import core.entity.account.BankAccount
 import utils.IconPaths
 import utils.brMoney
 import view.modules.Screen
 import view.modules.accountForm.AccountForm
-import view.shared.ClickableIcon
-import view.shared.ClickableRow
-import view.shared.TextH3
-import view.shared.TextSmall
+import view.shared.*
 import viewModel.SidebarViewModel
 
 @Composable
@@ -37,18 +36,19 @@ fun AccountMenuItem(
     account: BankAccount,
     screen: Screen,
     isActive: Boolean,
-    onClick: (Screen) -> Unit
+    onClick: (Screen) -> Unit,
 ) {
 
     var expanded by remember { mutableStateOf(false) }
 
-    Row(verticalAlignment = Alignment.CenterVertically,
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 10.dp)
             .clip(RoundedCornerShape(8.dp))
             .height(40.dp)
-            .background(if (isActive) MaterialTheme.colors.primaryVariant.copy(alpha = 0.5f) else Color.Transparent )
+            .background(if (isActive) MaterialTheme.colors.primaryVariant.copy(alpha = 0.5f) else Color.Transparent)
             .pointerHoverIcon(PointerIcon.Hand)
             .clickable { onClick(screen) }
     ) {
@@ -67,14 +67,14 @@ fun AccountMenuItem(
             )
             TextSmall(
                 text = brMoney.format(account.balance),
-                color = if(account.balance > 0f) MaterialTheme.colors.onPrimary else if (account.balance < 0f) MaterialTheme.colors.onError else MaterialTheme.colors.primaryVariant,
+                color = if (account.balance > 0f) MaterialTheme.colors.onPrimary else if (account.balance < 0f) MaterialTheme.colors.onError else MaterialTheme.colors.primaryVariant,
             )
         }
 
         ClickableIcon(
             icon = PhosphorIcons.Light.DotsThree,
             shape = RoundedCornerShape(6.dp),
-            onClick = {expanded = !expanded}
+            onClick = { expanded = !expanded }
         )
 
         DropDownAccountMenu(
@@ -93,7 +93,7 @@ fun DropDownAccountMenu(
     viewModel: SidebarViewModel,
     expanded: Boolean,
     onDismissRequest: () -> Unit,
-    account: BankAccount
+    account: BankAccount,
 ) {
 
     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -104,12 +104,12 @@ fun DropDownAccountMenu(
         ) {
 
             ClickableRow(icon = PhosphorIcons.Light.ArrowLineUp, label = "Mover para cima") {
-                viewModel.moveAccountPosition(account,-1)
+                viewModel.moveAccountPosition(account, -1)
                 onDismissRequest()
             }
 
             ClickableRow(icon = PhosphorIcons.Light.ArrowLineDown, label = "Mover para baixo") {
-                viewModel.moveAccountPosition(account,1)
+                viewModel.moveAccountPosition(account, 1)
                 onDismissRequest()
             }
 
@@ -117,7 +117,10 @@ fun DropDownAccountMenu(
 
             var showEditAccount by remember { mutableStateOf(false) }
             ClickableRow(icon = PhosphorIcons.Light.PencilLine, label = "Editar") { showEditAccount = true; }
-            if (showEditAccount) AccountForm(sidebarViewModel = viewModel, account = account, onDismiss = { showEditAccount = false; onDismissRequest() })
+            if (showEditAccount) AccountForm(
+                sidebarViewModel = viewModel,
+                account = account,
+                onDismiss = { showEditAccount = false; onDismissRequest() })
 
 
             Divider(modifier = Modifier.padding(vertical = 3.dp))
@@ -126,9 +129,10 @@ fun DropDownAccountMenu(
             var deleteDialog by remember { mutableStateOf(false) }
             ClickableRow(icon = PhosphorIcons.Light.Trash, label = "Excluir") { deleteDialog = true }
             if (deleteDialog)
-                DialogDeleteAccount(
+
+                DialogDelete(
                     title = "Excluir conta",
-                    icon = IconPaths.BANK_LOGOS + account.icon,
+                    icon = PhosphorIcons.Regular.Wallet,
                     objectName = "${account.group.name}/${account.name}",
                     alertText = "Isso irá excluir permanentemente a conta ${account.group.name} → ${account.name}, bem como todas as transações associadas a ela.",
                     onClickButton = {

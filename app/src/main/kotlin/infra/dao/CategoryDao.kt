@@ -11,7 +11,7 @@ class CategoryDao : ICategoryDao {
 
     private val sessionFactory = HibernateUtil.getSessionFactory()
 
-    override fun getAll(type: CategoryType) : List<Category> {
+    override fun getAll(type: CategoryType): List<Category> {
         val session = sessionFactory.openSession()
         session.beginTransaction()
         val criteriaBuilder = session.criteriaBuilder

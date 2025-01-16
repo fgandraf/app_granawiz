@@ -5,8 +5,8 @@ import infra.dao.CategoryDao
 
 class DeleteCategoryUseCase(private val categoryDao: CategoryDao = CategoryDao()) {
 
-    fun execute(category: Category) { 
-        categoryDao.delete(category) 
+    fun execute(category: Category) {
+        categoryDao.delete(category)
     }
-    
+
 }

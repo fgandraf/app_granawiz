@@ -27,15 +27,18 @@ fun DefaultButton(
     shape: Shape = RoundedCornerShape(6.dp),
     color: Color = ButtonPurple,
     onClick: () -> Unit,
-){
+) {
     Button(
         enabled = confirmed,
-        colors = ButtonDefaults.buttonColors(backgroundColor = color, disabledBackgroundColor = MaterialTheme.colors.primaryVariant.copy(alpha = 0.5f)),
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = color,
+            disabledBackgroundColor = MaterialTheme.colors.primaryVariant.copy(alpha = 0.5f)
+        ),
         onClick = onClick,
         shape = shape,
         modifier = modifier
-            .pointerHoverIcon(if(confirmed) PointerIcon.Hand else PointerIcon.Default),
-    ){
+            .pointerHoverIcon(if (confirmed) PointerIcon.Hand else PointerIcon.Default),
+    ) {
         TextNormal(
             modifier = Modifier.padding(horizontal = textPadding),
             text = text,

@@ -17,7 +17,7 @@ import viewModel.SidebarViewModel
 fun Sidebar(
     viewModel: SidebarViewModel = SidebarViewModel(),
     currentScreen: Screen,
-    onScreenSelected: (Screen) -> Unit
+    onScreenSelected: (Screen) -> Unit,
 ) {
 
     Row {

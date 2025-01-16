@@ -26,7 +26,7 @@ class AccountFormViewModel(private val accountHandler: AccountHandler = AccountH
     var dueDay by mutableStateOf(0)
 
 
-    fun initializeFromAccount(account: BankAccount){
+    fun initializeFromAccount(account: BankAccount) {
         account.let {
             id = it.id
             type = it.type
@@ -36,18 +36,20 @@ class AccountFormViewModel(private val accountHandler: AccountHandler = AccountH
             description = it.description
             position = it.position
         }
-        when (account.type){
+        when (account.type) {
             AccountType.CHECKING -> {
                 (account as CheckingAccount).let {
-                   balance = it.balance
-                   limit = it.overdraftLimit
-               }
+                    balance = it.balance
+                    limit = it.overdraftLimit
+                }
             }
+
             AccountType.SAVINGS -> {
                 (account as SavingsAccount).let {
                     balance = it.balance
                 }
             }
+
             AccountType.CREDIT_CARD -> {
                 (account as CreditCardAccount).let {
                     limit = it.creditLimit

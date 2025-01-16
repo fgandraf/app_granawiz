@@ -23,8 +23,16 @@ class CreditCardAccount(
     val closingDay: Int,
 
     @Column(name = "due_day")
-    val dueDay: Int
-) : BankAccount(type = AccountType.CREDIT_CARD, name = name, description = description, position = position, icon = icon, balance = balance, group = group) {
+    val dueDay: Int,
+) : BankAccount(
+    type = AccountType.CREDIT_CARD,
+    name = name,
+    description = description,
+    position = position,
+    icon = icon,
+    balance = balance,
+    group = group
+) {
 
     constructor(
         id: Long?,
@@ -36,7 +44,7 @@ class CreditCardAccount(
         group: Group,
         creditLimit: Double = 0.0,
         closingDay: Int = 0,
-        dueDay: Int = 0
+        dueDay: Int = 0,
     ) : this(
         name = name,
         description = description,

@@ -21,8 +21,8 @@ fun DropDownTextField(
     value: String,
     label: String? = null,
     placeholder: String = "",
-    onClick: () -> Unit
-){
+    onClick: () -> Unit,
+) {
 
     Column(modifier = modifier) {
         if (label != null)
@@ -33,10 +33,11 @@ fun DropDownTextField(
                 TextSmall(
                     text = placeholder,
                     color = MaterialTheme.colors.primary.copy(alpha = 0.75f),
-                    modifier = Modifier.fillMaxWidth())
-            else
-            {
-                Row(modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth()
+                )
+            else {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = horizontalArrangement,
                     verticalAlignment = Alignment.CenterVertically
                 ) {

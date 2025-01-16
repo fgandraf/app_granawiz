@@ -37,14 +37,15 @@ fun AddListItem(
     isVisible: MutableState<Boolean>,
     value: MutableState<String>,
     confirmationClick: () -> Unit,
-    alertDialogContent: @Composable () -> Unit? = {}
-){
+    alertDialogContent: @Composable () -> Unit? = {},
+) {
     Column {
         AnimatedVisibility(visible = isVisible.value) {
 
             val focusRequester = remember { FocusRequester() }
             Column {
-                Row(verticalAlignment = Alignment.CenterVertically,
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -62,7 +63,7 @@ fun AddListItem(
                             fontFamily = Afacade,
                             color = Color.Blue
                         ),
-                        modifier = Modifier.focusRequester(focusRequester).padding(start = 40.dp)
+                        modifier = Modifier.focusRequester(focusRequester).padding(start = 10.dp)
                     )
                     Row(modifier = Modifier.padding(end = 10.dp)) {
                         ClickableIcon(
@@ -96,7 +97,8 @@ fun AddListItem(
                     modifier = Modifier.width(130.dp),
                     horizontalArrangement = Arrangement.Center
                 ) {
-                    Row(verticalAlignment = Alignment.CenterVertically,
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Center,
                         modifier = Modifier
                             .height(25.dp)
@@ -112,9 +114,10 @@ fun AddListItem(
                             modifier = Modifier.size(15.dp),
                         )
 
-                        Text(modifier = Modifier.padding(start = 10.dp),
+                        Text(
+                            modifier = Modifier.padding(start = 10.dp),
                             text = "Adicionar",
-                            fontSize  = 14.sp,
+                            fontSize = 14.sp,
                             color = MaterialTheme.colors.primary,
                             fontWeight = FontWeight.Medium,
                             lineHeight = 0.sp,

@@ -24,17 +24,19 @@ fun TagListView(
     tags: List<Tag>?,
     label: String? = null,
     placeholder: String = "",
-    onClickAdd: () -> Unit = {}
-){
+    onClickAdd: () -> Unit = {},
+) {
 
     Column(modifier = modifier) {
         if (label != null)
             TextSmall(text = label, modifier = Modifier.padding(bottom = 5.dp))
 
-        Box(contentAlignment = Alignment.CenterStart,
+        Box(
+            contentAlignment = Alignment.CenterStart,
             modifier = modifier.fillMaxWidth().padding(start = 5.dp, top = 10.dp)
         ) {
-            Row(verticalAlignment = Alignment.CenterVertically,
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Row(modifier = Modifier.weight(0.7f)) {
@@ -67,7 +69,10 @@ fun TagListView(
                     verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center,
                     modifier = Modifier.pointerHoverIcon(PointerIcon.Hand).clip(CircleShape).clickable { onClickAdd() }
                 ) {
-                    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(horizontal = 10.dp, vertical = 3.dp)) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 3.dp)
+                    ) {
                         Icon(
                             imageVector = PhosphorIcons.Light.Plus,
                             contentDescription = null,

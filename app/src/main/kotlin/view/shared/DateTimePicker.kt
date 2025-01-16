@@ -61,7 +61,7 @@ fun DateTimePicker(
                 }
             }
 
-            ExposedDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }){
+            ExposedDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.padding(horizontal = 10.dp).padding(top = 10.dp, bottom = 5.dp)
@@ -71,10 +71,15 @@ fun DateTimePicker(
                     var currentMonth by remember { mutableStateOf(YearMonth.from(selectedDate)) }
                     val weeks = remember(currentMonth) { generateWeeks(currentMonth) }
 
-                    Column{
+                    Column {
                         //--month selector
-                        val month = currentMonth.month.getDisplayName(TextStyle.FULL, Locale.of("pt", "br")).replaceFirstChar { it.uppercase() }
-                        Row(Modifier.fillMaxWidth().padding(bottom = 5.dp), Arrangement.SpaceBetween, Alignment.CenterVertically){
+                        val month = currentMonth.month.getDisplayName(TextStyle.FULL, Locale.of("pt", "br"))
+                            .replaceFirstChar { it.uppercase() }
+                        Row(
+                            Modifier.fillMaxWidth().padding(bottom = 5.dp),
+                            Arrangement.SpaceBetween,
+                            Alignment.CenterVertically
+                        ) {
                             TextNormal(text = "$month ${currentMonth.year}", align = TextAlign.Center)
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 ClickableIcon(
@@ -182,7 +187,7 @@ fun DateTimePicker(
 fun NumberPicker(
     value: Int,
     range: IntRange,
-    onValueChange: (Int) -> Unit
+    onValueChange: (Int) -> Unit,
 ) {
     Column {
         // Selector UP

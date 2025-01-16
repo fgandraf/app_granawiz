@@ -31,7 +31,7 @@ fun PartiesPicker(
     viewModel: PartyViewModel = remember { PartyViewModel(type = partyType) },
     party: Party? = null,
     partyName: PartyName? = null,
-    onPartyClick: (Party) -> Unit
+    onPartyClick: (Party) -> Unit,
 ) {
     viewModel.selectedParty.value = party
     viewModel.selectedName.value = partyName
@@ -55,28 +55,45 @@ fun PartiesPicker(
         Row(modifier = Modifier.padding(vertical = 30.dp, horizontal = 10.dp)) {
 
             // PARTIES
-            Box(modifier = Modifier.weight(1f)){
+            Box(modifier = Modifier.weight(1f)) {
                 val listState = rememberLazyListState()
                 LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
-                    items(parties, key = { it.id  }) { item -> PartyListItem(viewModel, viewModel.selectedParty.value, item) { onPartyClick(it) } }
+                    items(parties, key = { it.id }) { item ->
+                        PartyListItem(
+                            viewModel,
+                            viewModel.selectedParty.value,
+                            item
+                        ) { onPartyClick(it) }
+                    }
                     item { AddParty(viewModel) }
                 }
-                VerticalScrollbar(adapter = rememberScrollbarAdapter(listState), modifier = Modifier.align(Alignment.CenterEnd))
+                VerticalScrollbar(
+                    adapter = rememberScrollbarAdapter(listState),
+                    modifier = Modifier.align(Alignment.CenterEnd)
+                )
             }
 
             // DIVIDER
             Divider(modifier = Modifier.width(1.dp).fillMaxHeight().background(MaterialTheme.colors.onSurface))
 
             // PARTYNAMES
-            Box(modifier = Modifier.weight(1f)){
+            Box(modifier = Modifier.weight(1f)) {
                 val listState = rememberLazyListState()
                 LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
                     item { Spacer(Modifier.height(10.dp)) }
-                    item { TextNormal(modifier = Modifier.padding(start = 20.dp, bottom = 10.dp), text = "Nomes associados:") }
+                    item {
+                        TextNormal(
+                            modifier = Modifier.padding(start = 20.dp, bottom = 10.dp),
+                            text = "Nomes associados:"
+                        )
+                    }
                     items(names, key = { it.id }) { item -> PartyNameListItem(viewModel, item) }
                     item { AddPartyName(viewModel) }
                 }
-                VerticalScrollbar(adapter = rememberScrollbarAdapter(listState), modifier = Modifier.align(Alignment.CenterEnd))
+                VerticalScrollbar(
+                    adapter = rememberScrollbarAdapter(listState),
+                    modifier = Modifier.align(Alignment.CenterEnd)
+                )
             }
 
         }

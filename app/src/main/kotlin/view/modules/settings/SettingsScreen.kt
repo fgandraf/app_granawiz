@@ -27,7 +27,7 @@ import view.theme.Afacade
 
 @Composable
 fun SettingsScreen(
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
 ) {
     Dialog(onDismissRequest = onDismiss) {
         Column(
@@ -68,14 +68,16 @@ fun SettingsScreen(
                     )
                 )
             }
-            Row(Modifier.fillMaxWidth(), Arrangement.Center, Alignment.CenterVertically,) {
-                Switch(checked = isLightTheme, onCheckedChange = {isLightTheme = !isLightTheme })
+            Row(Modifier.fillMaxWidth(), Arrangement.Center, Alignment.CenterVertically) {
+                Switch(checked = isLightTheme, onCheckedChange = { isLightTheme = !isLightTheme })
                 Spacer(Modifier.width(10.dp))
                 TextNormal(text = if (isLightTheme) "Apagar" else "Acender")
             }
 
-            Divider(modifier = Modifier.fillMaxWidth().padding(horizontal = 30.dp).background(MaterialTheme.colors.primaryVariant.copy(alpha = 0.2f)))
-
+            Divider(
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 30.dp)
+                    .background(MaterialTheme.colors.primaryVariant.copy(alpha = 0.2f))
+            )
 
 
             //===== Main
@@ -88,7 +90,11 @@ fun SettingsScreen(
                     .background(MaterialTheme.colors.background)
             ) {
 
-                Row(modifier = Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
+                Row(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
 
                     TextH2(text = "Em desenvolvimento...")
 

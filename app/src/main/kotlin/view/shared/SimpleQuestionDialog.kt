@@ -24,8 +24,8 @@ fun SimpleQuestionDialog(
     onConfirmRequest: () -> Unit,
     title: String = "",
     message: String,
-    surfaceColor: Color = MaterialTheme.colors.surface
-){
+    surfaceColor: Color = MaterialTheme.colors.surface,
+) {
     AlertDialog(
         modifier = Modifier.width(400.dp),
         shape = RoundedCornerShape(8.dp),
@@ -62,5 +62,5 @@ fun SimpleQuestionDialog(
         }
 
     )
-    
+
 }

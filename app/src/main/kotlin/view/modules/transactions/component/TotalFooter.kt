@@ -19,22 +19,25 @@ fun TotalFooter(
     modifier: Modifier = Modifier,
     incomeBalance: Double,
     outcomeBalance: Double,
-){
+) {
 
     val corners = RoundedCornerShape(bottomEnd = 10.dp, bottomStart = 10.dp)
     var boxWidth by remember { mutableStateOf(0) }
 
-    Box(modifier.fillMaxWidth().offset(y = (-1).dp)
-        .padding(end = 90.dp)
+    Box(
+        modifier.fillMaxWidth().offset(y = (-1).dp)
+            .padding(end = 90.dp)
     ) {
-        Box(Modifier
-            .zIndex(1f)
-            .align(Alignment.BottomEnd)
-            .clip(corners)
-            .border(0.5.dp, MaterialTheme.colors.onSurface, corners)
-            .onGloballyPositioned { boxWidth = it.size.width }
+        Box(
+            Modifier
+                .zIndex(1f)
+                .align(Alignment.BottomEnd)
+                .clip(corners)
+                .border(0.5.dp, MaterialTheme.colors.onSurface, corners)
+                .onGloballyPositioned { boxWidth = it.size.width }
         ) {
-            Row(modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
+            Row(
+                modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.End
             ) {

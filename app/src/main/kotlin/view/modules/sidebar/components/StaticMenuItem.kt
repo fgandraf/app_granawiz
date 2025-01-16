@@ -24,15 +24,16 @@ fun StaticMenuItem(
     isActive: Boolean,
     label: String,
     screen: Screen,
-    onClick: (Screen) -> Unit
-){
-    Row(verticalAlignment = Alignment.CenterVertically,
+    onClick: (Screen) -> Unit,
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 10.dp)
             .height(35.dp)
             .clip(RoundedCornerShape(8.dp))
-            .background(if (isActive) MaterialTheme.colors.primaryVariant.copy(alpha = 0.5f) else Color.Transparent )
+            .background(if (isActive) MaterialTheme.colors.primaryVariant.copy(alpha = 0.5f) else Color.Transparent)
             .pointerHoverIcon(PointerIcon.Hand)
             .clickable { onClick(screen) }
     ) {

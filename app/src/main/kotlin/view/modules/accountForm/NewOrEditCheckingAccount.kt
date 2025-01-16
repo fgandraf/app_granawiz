@@ -30,10 +30,12 @@ fun NewOrEditCheckingAccount(
     sidebarViewModel: SidebarViewModel,
     accountFormViewModel: AccountFormViewModel,
     account: CheckingAccount? = null,
-    onDismiss: () -> Unit
-){
+    onDismiss: () -> Unit,
+) {
 
-    if (account != null) { LaunchedEffect(account) { accountFormViewModel.initializeFromAccount(account) } }
+    if (account != null) {
+        LaunchedEffect(account) { accountFormViewModel.initializeFromAccount(account) }
+    }
     val buttonLabel by remember { mutableStateOf(if (account == null) "Adicionar" else "Editar") }
 
     accountFormViewModel.type = AccountType.CHECKING
@@ -59,11 +61,11 @@ fun NewOrEditCheckingAccount(
                     value = accountFormViewModel.name,
                     label = "Nome:",
                     placeholder = "Nome da conta",
-                    onValueChange = { accountFormViewModel.name = it}
+                    onValueChange = { accountFormViewModel.name = it }
                 )
 
                 Row(modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp)) {
-                    var openBalanceText by remember { mutableStateOf(if (account != null) toBrMoney.format(account.openBalance) else "" ) }
+                    var openBalanceText by remember { mutableStateOf(if (account != null) toBrMoney.format(account.openBalance) else "") }
                     //---open balance
                     DefaultTextField(
                         modifier = Modifier.weight(1f).padding(end = 10.dp),
@@ -112,14 +114,22 @@ fun NewOrEditCheckingAccount(
 
 
         //==== FOOTER
-        Divider(modifier = Modifier.fillMaxWidth().padding(horizontal = 5.dp).background(MaterialTheme.colors.primaryVariant.copy(alpha = 0.2f)))
+        Divider(
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 5.dp)
+                .background(MaterialTheme.colors.primaryVariant.copy(alpha = 0.2f))
+        )
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 10.dp)
         ) {
             val confirmed by remember { derivedStateOf { accountFormViewModel.name != "" && accountFormViewModel.group.id != 0L } }
 
-            DefaultButton(modifier = Modifier.fillMaxWidth(), confirmed = confirmed, text = buttonLabel, textColor = Color.White) {
+            DefaultButton(
+                modifier = Modifier.fillMaxWidth(),
+                confirmed = confirmed,
+                text = buttonLabel,
+                textColor = Color.White
+            ) {
                 accountFormViewModel.saveAccount()
                 sidebarViewModel.reload()
                 onDismiss()

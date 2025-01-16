@@ -7,7 +7,7 @@ import infra.dao.PartyDao
 class AddPartyUseCase(private val partyDao: PartyDao = PartyDao()) {
 
 
-    fun execute(name: String, type: PartyType): Pair<String, Party?>  {
+    fun execute(name: String, type: PartyType): Pair<String, Party?> {
 
         val existingParty = partyDao.getPartyByName(name)
         if (existingParty != null)

@@ -7,10 +7,10 @@ import domain.transaction.usecases.DeleteTransactionUseCase
 import domain.transaction.usecases.FetchTransactionsUseCase
 import viewModel.TransactionFormViewModel
 
-class TransactionHandler{
+class TransactionHandler {
 
     private val saveTransactionUseCase = SaveTransactionUseCase()
-    private val deleteTransactionUseCase  = DeleteTransactionUseCase()
+    private val deleteTransactionUseCase = DeleteTransactionUseCase()
     private val fetchTransactionsUseCase = FetchTransactionsUseCase()
 
 

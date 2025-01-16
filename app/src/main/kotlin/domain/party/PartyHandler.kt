@@ -8,7 +8,7 @@ import core.entity.PartyName
 import core.enums.PartyType
 import domain.party.usecases.*
 
-class PartyHandler{
+class PartyHandler {
 
     private val fetchPartiesUseCase = FetchPartiesUseCase()
     private val fetchNamesUseCase = FetchNamesUseCase()
@@ -21,14 +21,16 @@ class PartyHandler{
 
 
     var errorMessage: String? by mutableStateOf(null); private set
-    fun clearError() { errorMessage = null }
-    
+    fun clearError() {
+        errorMessage = null
+    }
+
     fun fetchParties(type: PartyType): List<Party> = fetchPartiesUseCase.execute(type)
     fun fetchNames(party: Party?): List<PartyName> = fetchNamesUseCase.execute(party)
     fun deleteParty(party: Party) = deletePartyUseCase.execute(party)
     fun deleteName(partyName: PartyName) = deleteNameUseCase.execute(partyName)
 
-    fun addParty(name: String, type: PartyType): Party?{
+    fun addParty(name: String, type: PartyType): Party? {
         val response = addPartyUseCase.execute(name, type)
         errorMessage = response.first
         return response.second
@@ -42,14 +44,14 @@ class PartyHandler{
     }
 
 
-    fun addName(name: String, party: Party): PartyName?{
+    fun addName(name: String, party: Party): PartyName? {
         val response = addNameUseCase.execute(name, party)
         errorMessage = response.first
         return response.second
     }
 
-    fun updateName(partyName: PartyName, name: String): PartyName?{
-       val response = updateNameUseCase.execute(partyName, name)
+    fun updateName(partyName: PartyName, name: String): PartyName? {
+        val response = updateNameUseCase.execute(partyName, name)
         errorMessage = response.first
         return response.second
     }

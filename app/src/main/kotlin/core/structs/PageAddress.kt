@@ -8,5 +8,5 @@ data class PageAddress(
     val iconVector: ImageVector,
     val iconSize: DpSize? = DpSize(17.dp, 17.dp),
     val name: String,
-    val rootPath: Boolean? = false
+    val rootPath: Boolean? = false,
 )

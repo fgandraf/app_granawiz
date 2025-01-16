@@ -19,10 +19,10 @@ import javax.xml.parsers.DocumentBuilderFactory
 
 @Composable
 fun DropDownIcons(
-    width : Dp = 320.dp,
+    width: Dp = 320.dp,
     expanded: Boolean,
     onDismissRequest: () -> Unit,
-    onIconSelected: (String) -> Unit
+    onIconSelected: (String) -> Unit,
 ) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         DropdownMenu(
@@ -34,7 +34,7 @@ fun DropDownIcons(
             FlowLayout(maxWidth = width) {
                 iconsDirectory.listFiles()?.forEach { file ->
 
-                    if (!file.name.startsWith("_")){
+                    if (!file.name.startsWith("_")) {
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             modifier = Modifier.width(80.dp)

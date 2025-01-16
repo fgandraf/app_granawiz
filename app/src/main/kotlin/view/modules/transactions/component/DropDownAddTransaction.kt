@@ -18,7 +18,7 @@ fun DropDownAddTransaction(
     expanded: Boolean,
     onDismissRequest: () -> Unit,
     onClickGain: () -> Unit,
-    onClickExpense: () -> Unit
+    onClickExpense: () -> Unit,
 ) {
     Box(Modifier.fillMaxSize()) {
         DropdownMenu(
@@ -27,10 +27,18 @@ fun DropDownAddTransaction(
             onDismissRequest = { onDismissRequest() }
         ) {
 
-            ClickableRow(icon = PhosphorIcons.Fill.Circle, iconColor = MaterialTheme.colors.onPrimary, label = "Nova receita")
+            ClickableRow(
+                icon = PhosphorIcons.Fill.Circle,
+                iconColor = MaterialTheme.colors.onPrimary,
+                label = "Nova receita"
+            )
             { onClickGain() }
 
-            ClickableRow(icon = PhosphorIcons.Fill.Circle, iconColor = MaterialTheme.colors.onError, label = "Nova despesa")
+            ClickableRow(
+                icon = PhosphorIcons.Fill.Circle,
+                iconColor = MaterialTheme.colors.onError,
+                label = "Nova despesa"
+            )
             { onClickExpense() }
 
             // TO DO: Implements import tranasction

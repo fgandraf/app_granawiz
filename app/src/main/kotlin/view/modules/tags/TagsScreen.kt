@@ -40,11 +40,23 @@ fun TagsScreen(
     Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.background)) {
 
         //===== HEADER
-        Column{
+        Column {
             Row(Modifier.fillMaxWidth().padding(20.dp), verticalAlignment = Alignment.CenterVertically) {
-                ClickableIcon(enabled = false, icon = PhosphorIcons.Bold.ArrowLeft, iconSize = 22.dp, boxSize = 25.dp){ }
+                ClickableIcon(
+                    enabled = false,
+                    icon = PhosphorIcons.Bold.ArrowLeft,
+                    iconSize = 22.dp,
+                    boxSize = 25.dp
+                ) { }
                 Spacer(Modifier.width(10.dp))
-                Row { AddressView(icon = PhosphorIcons.Regular.Tag, iconSize = DpSize(21.dp, 18.dp), value = "Etiquetas", rootPath = true ) }
+                Row {
+                    AddressView(
+                        icon = PhosphorIcons.Regular.Tag,
+                        iconSize = DpSize(21.dp, 18.dp),
+                        value = "Etiquetas",
+                        rootPath = true
+                    )
+                }
             }
         }
 
@@ -82,7 +94,7 @@ fun TagsScreen(
                                     title = "Excluir etiqueta",
                                     icon = PhosphorIcons.Light.Tag,
                                     objectName = tag.name,
-                                    alertText = "Isso irá excluir permanentemente a etiquera ${tag.name} e remover todas as associações feitas à ela.",
+                                    alertText = "Isso irá excluir permanentemente a etiqueta ${tag.name} e remover todas as associações feitas à ela.",
                                     onClickButton = { tagViewModel.deleteTag(tag) },
                                     onDismiss = { deleteDialogIsVisible.value = false }
                                 )

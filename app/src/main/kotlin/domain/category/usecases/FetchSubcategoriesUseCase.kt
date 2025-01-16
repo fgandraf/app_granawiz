@@ -9,7 +9,7 @@ class FetchSubcategoriesUseCase(private val categoryDao: CategoryDao = CategoryD
 
     fun execute(category: Category): List<Subcategory> {
         return categoryDao.getAll(category.type)
-            .find{ x -> x.id == category.id}
+            .find { x -> x.id == category.id }
             ?.subcategories
             ?.toList() ?: emptyList()
     }

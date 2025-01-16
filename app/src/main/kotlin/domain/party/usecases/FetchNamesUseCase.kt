@@ -12,7 +12,7 @@ class FetchNamesUseCase(private val partyDao: PartyDao = PartyDao()) {
             return emptyList()
 
         val parties = partyDao.getAll(party.type)
-        return parties.find{ x -> x.id == party.id}?.partiesNames!!
+        return parties.find { x -> x.id == party.id }?.partiesNames!!
     }
 
 

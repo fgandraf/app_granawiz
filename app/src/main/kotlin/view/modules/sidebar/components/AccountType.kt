@@ -27,17 +27,18 @@ fun AccountType(
     icon: ImageVector,
     color: Color = MaterialTheme.colors.primary,
     label: String,
-    onContainerClick: () -> Unit = {}
+    onContainerClick: () -> Unit = {},
 
-){
-    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween,
+    ) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 10.dp)
             .height(50.dp)
             .clip(RoundedCornerShape(8.dp))
             .pointerHoverIcon(PointerIcon.Hand)
-            .clickable{ onContainerClick() }
+            .clickable { onContainerClick() }
     ) {
         Row {
 
@@ -54,12 +55,13 @@ fun AccountType(
                 )
             }
 
-            Row(verticalAlignment = Alignment.CenterVertically,
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxHeight()
             ) {
                 Text(
                     text = label,
-                    fontSize  = 14.sp,
+                    fontSize = 14.sp,
                     color = color,
                     fontWeight = FontWeight.Medium,
                     lineHeight = 0.sp,

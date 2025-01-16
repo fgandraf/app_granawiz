@@ -22,34 +22,34 @@ fun SimpleAlertDialog(
     onDismissRequest: () -> Unit,
     title: String,
     message: String,
-){
-        AlertDialog(
-            modifier = Modifier.width(400.dp),
-            onDismissRequest = { onDismissRequest() },
-            title = { TextMedium(text = title) },
-            text = {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        imageVector = PhosphorIcons.Light.Warning,
-                        contentDescription = "Alert",
-                        tint = MaterialTheme.colors.primary
-                    )
-                    TextNormal(
-                        text = message,
-                        modifier = Modifier.padding(start = 20.dp),
-                        lineHeight = 14.sp
-                    )
-                }
-            },
-            confirmButton = {
-                DefaultButton(
-                    modifier = Modifier.fillMaxWidth(),
-                    confirmed = true,
-                    textColor = Color.White,
-                    onClick = { onDismissRequest() },
-                    text = "OK"
+) {
+    AlertDialog(
+        modifier = Modifier.width(400.dp),
+        onDismissRequest = { onDismissRequest() },
+        title = { TextMedium(text = title) },
+        text = {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(
+                    imageVector = PhosphorIcons.Light.Warning,
+                    contentDescription = "Alert",
+                    tint = MaterialTheme.colors.primary
+                )
+                TextNormal(
+                    text = message,
+                    modifier = Modifier.padding(start = 20.dp),
+                    lineHeight = 14.sp
                 )
             }
-        )
-    
+        },
+        confirmButton = {
+            DefaultButton(
+                modifier = Modifier.fillMaxWidth(),
+                confirmed = true,
+                textColor = Color.White,
+                onClick = { onDismissRequest() },
+                text = "OK"
+            )
+        }
+    )
+
 }

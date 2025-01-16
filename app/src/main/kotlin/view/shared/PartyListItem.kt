@@ -15,7 +15,7 @@ fun PartyListItem(
     selectedParty: Party? = null,
     item: Party,
     onClick: (Party) -> Unit,
-){
+) {
     val deleteDialogIsVisible = remember { mutableStateOf(false) }
     var updatedSuccess by mutableStateOf(true)
 
@@ -24,7 +24,7 @@ fun PartyListItem(
         hasSubItem = item.partiesNames.size > 0,
         isActive = item.id == selectedParty?.id,
         deleteDialogIsVisible = deleteDialogIsVisible,
-        onUpdateConfirmation = { updatedSuccess = viewModel.updateParty(item, it)},
+        onUpdateConfirmation = { updatedSuccess = viewModel.updateParty(item, it) },
         onUpdateFail = {
             if (!updatedSuccess) {
                 SimpleAlertDialog(
@@ -41,7 +41,8 @@ fun PartyListItem(
         },
         deleteDialog = {
             val type = if (viewModel.selectedType.value == PartyType.RECEIVER) "recebedor" else "pagador"
-            val iconResource = if (viewModel.selectedType.value == PartyType.RECEIVER) PhosphorIcons.Light.HandArrowDown else PhosphorIcons.Light.HandArrowUp
+            val iconResource =
+                if (viewModel.selectedType.value == PartyType.RECEIVER) PhosphorIcons.Light.HandArrowDown else PhosphorIcons.Light.HandArrowUp
 
             DialogDelete(
                 title = "Excluir $type",

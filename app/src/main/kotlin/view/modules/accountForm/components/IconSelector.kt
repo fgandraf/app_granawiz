@@ -24,7 +24,7 @@ import utils.IconPaths
 fun IconSelector(
     icon: String,
     onIconSelected: (String) -> Unit,
-){
+) {
 
     var expandedIcons by remember { mutableStateOf(false) }
     Column(

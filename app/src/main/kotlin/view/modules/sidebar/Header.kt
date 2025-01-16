@@ -27,13 +27,19 @@ fun Header(viewModel: SidebarViewModel) {
 
         Row(modifier = Modifier.fillMaxHeight(), verticalAlignment = Alignment.CenterVertically) {
             var showDialog by remember { mutableStateOf(false) }
-            ClickableIcon(icon = PhosphorIcons.Regular.Gear, iconSize = 22.dp, shape = CircleShape) { showDialog = true }
+            ClickableIcon(icon = PhosphorIcons.Regular.Gear, iconSize = 22.dp, shape = CircleShape) {
+                showDialog = true
+            }
             if (showDialog)
                 SettingsScreen(onDismiss = { showDialog = false })
         }
 
         Column(modifier = Modifier.align(Alignment.Center)) {
-            TextH2(text = brMoney.format(viewModel.total.value), modifier = Modifier.fillMaxWidth().padding(bottom = 3.dp), align = TextAlign.Center)
+            TextH2(
+                text = brMoney.format(viewModel.total.value),
+                modifier = Modifier.fillMaxWidth().padding(bottom = 3.dp),
+                align = TextAlign.Center
+            )
             TextH4(text = "SALDO TOTAL", modifier = Modifier.fillMaxWidth(), align = TextAlign.Center)
         }
     }

@@ -30,8 +30,8 @@ fun GroupListComboBox(
     label: String? = null,
     placeholder: String,
     groupList: List<Group>,
-    onClickItem: (Group) -> Unit = {}
-){
+    onClickItem: (Group) -> Unit = {},
+) {
 
     var borderSize by remember { mutableStateOf(0.dp) }
     var borderColor by remember { mutableStateOf(Color.Transparent) }
@@ -40,12 +40,12 @@ fun GroupListComboBox(
     if (focused.value) {
         borderSize = 1.2.dp
         borderColor = MaterialTheme.colors.secondary
-    }else{
+    } else {
         borderSize = 1.dp
         borderColor = MaterialTheme.colors.primary
     }
 
-    Column(modifier = modifier){
+    Column(modifier = modifier) {
         var expanded by remember { mutableStateOf(false) }
 
         if (label != null)
@@ -56,7 +56,8 @@ fun GroupListComboBox(
             expanded = expanded, onExpandedChange = { expanded = !expanded }
         ) {
 
-            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween,
+            Row(
+                verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(35.dp)
@@ -94,7 +95,7 @@ fun GroupListComboBox(
                 expanded = expanded, onDismissRequest = { expanded = false }
             ) {
                 groupList.forEach { item ->
-                    DropdownMenuItem( onClick = { onClickItem(item); expanded = !expanded } ) {
+                    DropdownMenuItem(onClick = { onClickItem(item); expanded = !expanded }) {
                         TextNormal(text = item.name)
                     }
                 }

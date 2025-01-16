@@ -36,7 +36,11 @@ fun main() = application {
 
     Window(
         onCloseRequest = ::exitApplication,
-        state = WindowState(width = windowsWidth, height = windowsHeight, position = WindowPosition.Aligned(Alignment.Center)),
+        state = WindowState(
+            width = windowsWidth,
+            height = windowsHeight,
+            position = WindowPosition.Aligned(Alignment.Center)
+        ),
         title = "GranaWiz"
     ) {
 
@@ -51,7 +55,7 @@ fun main() = application {
                 Sidebar(currentScreen = currentScreen) { screen -> currentScreen = screen }
                 MainContent(currentScreen)
             }
-            
+
         }
     }
 }

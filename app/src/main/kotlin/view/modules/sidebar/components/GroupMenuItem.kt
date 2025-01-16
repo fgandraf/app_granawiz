@@ -26,10 +26,11 @@ fun GroupMenuItem(
     viewModel: SidebarViewModel,
     group: Group,
     isExpanded: Boolean,
-    toggleClick: () -> Unit
+    toggleClick: () -> Unit,
 ) {
 
-    Row(horizontalArrangement = Arrangement.SpaceBetween,
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier
             .fillMaxWidth()
             .height(35.dp)
@@ -40,7 +41,7 @@ fun GroupMenuItem(
         var groupName by remember { mutableStateOf(group.name) }
         LaunchedEffect(group.name) { groupName = group.name }
 
-        Row(modifier = Modifier.padding(start = 5.dp)){
+        Row(modifier = Modifier.padding(start = 5.dp)) {
             ClickableIcon(
                 modifier = Modifier.size(16.dp),
                 icon = if (isExpanded) PhosphorIcons.Light.CaretDown else PhosphorIcons.Light.CaretRight,
@@ -88,7 +89,7 @@ fun DropDownGroupMenu(
     onDismissRequest: () -> Unit,
 ) {
 
-    Row(verticalAlignment = Alignment.CenterVertically){
+    Row(verticalAlignment = Alignment.CenterVertically) {
         DropdownMenu(
             modifier = Modifier.weight(1f),
             expanded = expanded,
@@ -97,21 +98,30 @@ fun DropDownGroupMenu(
 
             ClickableRow(icon = PhosphorIcons.Light.ArrowLineUp, label = "Mover para cima") {
                 viewModel.moveGroupPosition(group, -1)
-                onDismissRequest() }
+                onDismissRequest()
+            }
 
             ClickableRow(icon = PhosphorIcons.Light.ArrowLineDown, label = "Mover para baixo") {
                 viewModel.moveGroupPosition(group, 1)
-                onDismissRequest() }
+                onDismissRequest()
+            }
 
             Divider(modifier = Modifier.padding(vertical = 3.dp))
 
             var showNewGroupDialog by remember { mutableStateOf(false) }
             ClickableRow(icon = PhosphorIcons.Light.PencilLine, label = "Editar") { showNewGroupDialog = true }
-            if (showNewGroupDialog) GroupForm(viewModel = viewModel, group = group, onDismiss = { showNewGroupDialog = false; onDismissRequest() })
+            if (showNewGroupDialog) GroupForm(
+                viewModel = viewModel,
+                group = group,
+                onDismiss = { showNewGroupDialog = false; onDismissRequest() })
 
             Divider(modifier = Modifier.padding(vertical = 3.dp))
 
-            ClickableRow(icon = PhosphorIcons.Light.Trash, label = "Excluir", enabled = group.accounts.isEmpty()) { viewModel.deleteGroup(group) }
+            ClickableRow(
+                icon = PhosphorIcons.Light.Trash,
+                label = "Excluir",
+                enabled = group.accounts.isEmpty()
+            ) { viewModel.deleteGroup(group) }
 
         }
     }

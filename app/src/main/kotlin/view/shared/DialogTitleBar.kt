@@ -19,7 +19,7 @@ import com.adamglin.phosphoricons.light.X
 @Composable
 fun DialogTitleBar(
     title: String,
-    onCloseRequest: () -> Unit
+    onCloseRequest: () -> Unit,
 ) {
 
     Column {

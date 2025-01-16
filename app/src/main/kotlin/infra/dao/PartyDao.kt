@@ -10,7 +10,7 @@ class PartyDao : IPartyDao {
 
     private val sessionFactory = HibernateUtil.getSessionFactory()
 
-    override fun getAll(type: PartyType) : List<Party> {
+    override fun getAll(type: PartyType): List<Party> {
         val session = sessionFactory.openSession()
         session.beginTransaction()
         val criteriaBuilder = session.criteriaBuilder

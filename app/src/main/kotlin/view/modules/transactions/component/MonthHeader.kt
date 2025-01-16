@@ -21,18 +21,20 @@ import java.util.*
 @Composable
 fun MonthHeader(
     modifier: Modifier = Modifier,
-    month: Month
-){
+    month: Month,
+) {
     val formatedMonth = month.getDisplayName(TextStyle.FULL, Locale.of("pt", "br")).replaceFirstChar { it.uppercase() }
     val monthTitle = if (month != LocalDate.now().month) formatedMonth else "Esse mês"
     val corners = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp)
     var boxWidth by remember { mutableStateOf(0) }
 
-    Box(modifier
-        .offset(y = 0.5.dp)
-        .padding(start = 90.dp)
+    Box(
+        modifier
+            .offset(y = 0.5.dp)
+            .padding(start = 90.dp)
     ) {
-        Box(Modifier
+        Box(
+            Modifier
             .clip(corners)
             .border(0.5.dp, MaterialTheme.colors.onSurface, corners)
             .onGloballyPositioned { boxWidth = it.size.width }

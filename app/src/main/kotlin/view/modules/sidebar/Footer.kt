@@ -35,7 +35,7 @@ fun Footer(viewModel: SidebarViewModel) {
             .background(MaterialTheme.colors.surface, RoundedCornerShape(6.dp))
             .clip(RoundedCornerShape(6.dp))
             .border(0.5.dp, MaterialTheme.colors.onSurface, RoundedCornerShape(6.dp))
-    ){
+    ) {
 
         var showNewGroupDialog by remember { mutableStateOf(false) }
         ButtonFooterItem(Modifier.weight(1f), PhosphorIcons.Light.Folders, "Novo grupo") { showNewGroupDialog = true }
@@ -62,7 +62,7 @@ fun Footer(viewModel: SidebarViewModel) {
 fun DropDownNewAccount(
     viewModel: SidebarViewModel,
     expanded: Boolean,
-    onDismissRequest: () -> Unit
+    onDismissRequest: () -> Unit,
 ) {
 
     var showNewAccountDialog by remember { mutableStateOf(false) }

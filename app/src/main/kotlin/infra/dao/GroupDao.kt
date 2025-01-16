@@ -9,7 +9,7 @@ class GroupDao : IGroupDao {
 
     private val sessionFactory = HibernateUtil.getSessionFactory()
 
-    override fun getAll() : List<Group> {
+    override fun getAll(): List<Group> {
         val session = sessionFactory.openSession()
         session.beginTransaction()
         val criteriaBuilder = session.criteriaBuilder
@@ -36,7 +36,6 @@ class GroupDao : IGroupDao {
 
         session.close()
     }
-
 
 
     override fun updateGroups(accounts: List<Group>) {

@@ -20,7 +20,7 @@ import view.theme.Ubuntu
 fun TextNormal(
     modifier: Modifier = Modifier,
     text: String,
-    color : Color? = if (MaterialTheme.colors.isLight) GrayPrimaryLight else GrayPrimaryDark,
+    color: Color? = if (MaterialTheme.colors.isLight) GrayPrimaryLight else GrayPrimaryDark,
     align: TextAlign = TextAlign.Start,
     lineHeight: TextUnit? = 12.sp,
     fontStyle: FontStyle? = FontStyle.Normal,
@@ -42,8 +42,8 @@ fun TextNormal(
 fun TextMedium(
     modifier: Modifier = Modifier,
     text: String,
-    color : Color? = if (MaterialTheme.colors.isLight) GrayPrimaryLight else GrayPrimaryDark,
-    align: TextAlign = TextAlign.Start
+    color: Color? = if (MaterialTheme.colors.isLight) GrayPrimaryLight else GrayPrimaryDark,
+    align: TextAlign = TextAlign.Start,
 ) {
     Text(
         modifier = modifier,
@@ -74,7 +74,7 @@ fun TextSmall(
         lineHeight = 10.sp,
         fontFamily = Ubuntu,
         textAlign = align,
-        fontStyle = if(italic) FontStyle.Italic else FontStyle.Normal
+        fontStyle = if (italic) FontStyle.Italic else FontStyle.Normal
     )
 }
 
@@ -83,8 +83,8 @@ fun TextSmall(
 fun TextH1(
     modifier: Modifier = Modifier,
     text: String,
-    color : Color? = if (MaterialTheme.colors.isLight) GrayPrimaryLight else GrayPrimaryDark,
-    align: TextAlign = TextAlign.Start
+    color: Color? = if (MaterialTheme.colors.isLight) GrayPrimaryLight else GrayPrimaryDark,
+    align: TextAlign = TextAlign.Start,
 ) {
     Text(
         modifier = modifier,
@@ -103,7 +103,7 @@ fun TextH1(
 fun TextH2(
     modifier: Modifier = Modifier,
     text: String,
-    align: TextAlign = TextAlign.Start
+    align: TextAlign = TextAlign.Start,
 ) {
     Text(
         modifier = modifier,
@@ -122,8 +122,8 @@ fun TextH2(
 fun TextH3(
     modifier: Modifier = Modifier,
     text: String,
-    color : Color? = if (MaterialTheme.colors.isLight) GrayPrimaryLight else GrayPrimaryDark,
-    align: TextAlign = TextAlign.Start
+    color: Color? = if (MaterialTheme.colors.isLight) GrayPrimaryLight else GrayPrimaryDark,
+    align: TextAlign = TextAlign.Start,
 ) {
     Text(
         modifier = modifier,
@@ -143,7 +143,7 @@ fun TextH4(
     modifier: Modifier = Modifier,
     color: Color? = if (MaterialTheme.colors.isLight) GrayPrimaryLight else GrayPrimaryDark,
     text: String,
-    align: TextAlign = TextAlign.Start
+    align: TextAlign = TextAlign.Start,
 ) {
     Text(
         modifier = modifier,

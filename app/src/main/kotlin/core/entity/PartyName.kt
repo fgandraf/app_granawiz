@@ -14,7 +14,7 @@ open class PartyName(
 
     @ManyToOne
     @JoinColumn(name = "party_id", referencedColumnName = "party_id")
-    open val party: Party
+    open val party: Party,
 ) {
     constructor() : this(0, "", Party())
 }

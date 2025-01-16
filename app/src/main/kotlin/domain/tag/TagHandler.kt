@@ -6,7 +6,7 @@ import domain.tag.usecases.DeleteTagUseCase
 import domain.tag.usecases.FetchTagsUseCase
 import domain.tag.usecases.UpdateTagUseCase
 
-class TagHandler{
+class TagHandler {
 
     private val addTagUseCase = AddTagUseCase()
     private val deleteTagUseCase = DeleteTagUseCase()

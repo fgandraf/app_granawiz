@@ -15,9 +15,9 @@ import kotlin.math.abs
 class TransactionFormViewModel(private val transactionHandler: TransactionHandler = TransactionHandler()) {
 
     var id by mutableStateOf(0L)
-    var party : MutableStateFlow<Party?> = MutableStateFlow(null)
+    var party: MutableStateFlow<Party?> = MutableStateFlow(null)
     var account by mutableStateOf(BankAccount())
-    var category : MutableStateFlow<Category?> = MutableStateFlow(null)
+    var category: MutableStateFlow<Category?> = MutableStateFlow(null)
     var subCategory by mutableStateOf<Subcategory?>(null)
     var tags = MutableStateFlow(listOf<Tag>())
     var date by mutableStateOf(LocalDateTime.now())
@@ -30,9 +30,9 @@ class TransactionFormViewModel(private val transactionHandler: TransactionHandle
             id = it.id
             party.value = it.party
             account = it.account
-            category.value = if(it.category.id != 0L) it.category else null
+            category.value = if (it.category.id != 0L) it.category else null
             subCategory = it.subcategory
-            tags.value = it.tags?: listOf()
+            tags.value = it.tags ?: listOf()
             date = it.date
             description = it.description
             balance = it.balance
@@ -40,7 +40,7 @@ class TransactionFormViewModel(private val transactionHandler: TransactionHandle
         }
     }
 
-    fun clear(){
+    fun clear() {
         id = 0L
         party.value = null
         account = BankAccount()
@@ -53,8 +53,8 @@ class TransactionFormViewModel(private val transactionHandler: TransactionHandle
         type = TransactionType.NEUTRAL
     }
 
-    fun updateBalance(value: String = ""){
-        balance = if(value != "")
+    fun updateBalance(value: String = "") {
+        balance = if (value != "")
             value.replace(".", "").replace(",", ".").toDouble()
         else balance
 
@@ -71,7 +71,7 @@ class TransactionFormViewModel(private val transactionHandler: TransactionHandle
     }
 
 
-    fun saveTransaction(){
+    fun saveTransaction() {
         transactionHandler.saveTransaction(this)
     }
 

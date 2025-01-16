@@ -24,11 +24,23 @@ fun ReceiversScreen() {
     Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.background)) {
 
         //===== HEADER
-        Column{
+        Column {
             Row(Modifier.fillMaxWidth().padding(20.dp), verticalAlignment = Alignment.CenterVertically) {
-                ClickableIcon(enabled = false, icon = PhosphorIcons.Bold.ArrowLeft, iconSize = 22.dp, boxSize = 25.dp){ }
+                ClickableIcon(
+                    enabled = false,
+                    icon = PhosphorIcons.Bold.ArrowLeft,
+                    iconSize = 22.dp,
+                    boxSize = 25.dp
+                ) { }
                 Spacer(Modifier.width(10.dp))
-                Row { AddressView(icon = PhosphorIcons.Regular.HandArrowUp, iconSize = DpSize(21.dp, 18.dp),value = "Beneficiários", rootPath = true ) }
+                Row {
+                    AddressView(
+                        icon = PhosphorIcons.Regular.HandArrowUp,
+                        iconSize = DpSize(21.dp, 18.dp),
+                        value = "Beneficiários",
+                        rootPath = true
+                    )
+                }
             }
         }
 

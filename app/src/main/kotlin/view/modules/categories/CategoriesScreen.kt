@@ -41,7 +41,7 @@ import viewModel.CategoryViewModel
 @Composable
 fun CategoriesScreen(
     viewModel: CategoryViewModel = CategoryViewModel(),
-){
+) {
 
     var addCategoryButton by remember { mutableStateOf<Boolean>(false) }
     var addSubcategoryButton by remember { mutableStateOf<Boolean>(false) }
@@ -49,17 +49,33 @@ fun CategoriesScreen(
     Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.background)) {
 
         //===== HEADER
-        Column{
+        Column {
             Row(Modifier.fillMaxWidth().padding(20.dp), verticalAlignment = Alignment.CenterVertically) {
-                ClickableIcon(enabled = false, icon = PhosphorIcons.Bold.ArrowLeft, iconSize = 22.dp, boxSize = 25.dp){ }
+                ClickableIcon(
+                    enabled = false,
+                    icon = PhosphorIcons.Bold.ArrowLeft,
+                    iconSize = 22.dp,
+                    boxSize = 25.dp
+                ) { }
                 Spacer(Modifier.width(10.dp))
-                Row { AddressView(icon = PhosphorIcons.Regular.Shapes, iconSize = DpSize(21.dp, 18.dp), value = "Categorias", rootPath = true ) }
+                Row {
+                    AddressView(
+                        icon = PhosphorIcons.Regular.Shapes,
+                        iconSize = DpSize(21.dp, 18.dp),
+                        value = "Categorias",
+                        rootPath = true
+                    )
+                }
             }
         }
 
         //===== BODY
         val corner = 10.dp
-        Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
             Column(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.Start,
@@ -85,11 +101,21 @@ fun CategoriesScreen(
 
                     Row(modifier = Modifier.weight(2f).fillMaxHeight()) {
                         Column(modifier = Modifier.padding(20.dp)) {
-                            ListTypeItem(icon = PhosphorIcons.Light.Invoice, color = MaterialTheme.colors.primary, isActive = activeType == CategoryType.EXPENSE, label = "Gastos") {
+                            ListTypeItem(
+                                icon = PhosphorIcons.Light.Invoice,
+                                color = MaterialTheme.colors.primary,
+                                isActive = activeType == CategoryType.EXPENSE,
+                                label = "Gastos"
+                            ) {
                                 activeType = CategoryType.EXPENSE
                             }
 
-                            ListTypeItem(icon = PhosphorIcons.Light.ChartLineUp, color = MaterialTheme.colors.primary, isActive = activeType == CategoryType.INCOME, label = "Rendimentos") {
+                            ListTypeItem(
+                                icon = PhosphorIcons.Light.ChartLineUp,
+                                color = MaterialTheme.colors.primary,
+                                isActive = activeType == CategoryType.INCOME,
+                                label = "Rendimentos"
+                            ) {
                                 activeType = CategoryType.INCOME
                             }
                         }
@@ -127,7 +153,12 @@ fun CategoriesScreen(
                                         hasSubItem = category.subcategories.size > 0,
                                         deleteDialogIsVisible = deleteDialogIsVisible,
                                         isActive = activeCategory == category,
-                                        onUpdateConfirmation = { viewModel.updateCategory(category = category, name = it) },
+                                        onUpdateConfirmation = {
+                                            viewModel.updateCategory(
+                                                category = category,
+                                                name = it
+                                            )
+                                        },
                                         onSelectIcon = { viewModel.updateCategory(category = category, icon = it) },
                                         onContentClick = {
                                             activeCategory = category
@@ -220,7 +251,7 @@ fun CategoriesScreen(
                                 }
 
                                 item {
-                                    if (addSubcategoryButton){
+                                    if (addSubcategoryButton) {
                                         val value = remember { mutableStateOf("") }
                                         val isVisible = remember { mutableStateOf(false) }
                                         AddListItem(

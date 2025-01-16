@@ -51,7 +51,7 @@ fun TransactionForm(
     transaction: Transaction? = null,
     transactionFormViewModel: TransactionFormViewModel = remember { TransactionFormViewModel() },
     transactionType: TransactionType? = null,
-    onDismiss: (Boolean, BankAccount) -> Unit
+    onDismiss: (Boolean, BankAccount) -> Unit,
 ) {
     LaunchedEffect(transaction) {
         if (transaction != null) transactionFormViewModel.loadFromTransaction(transaction)
@@ -87,7 +87,7 @@ fun TransactionForm(
 
         // FORM BOX
         var showSide by remember { mutableStateOf(false) }
-        var sideType by remember{ mutableStateOf("") }
+        var sideType by remember { mutableStateOf("") }
         val targetSize by derivedStateOf {
             if (sideType == "tags") 850.dp else 1100.dp
         }
@@ -95,7 +95,10 @@ fun TransactionForm(
             targetValue = if (showSide) targetSize else 550.dp,
             animationSpec = tween(durationMillis = 800)
         )
-        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.width(dialogWidth).align(Alignment.TopCenter).padding(top = 50.dp)) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.width(dialogWidth).align(Alignment.TopCenter).padding(top = 50.dp)
+        ) {
 
 
             // FIRST COLUMN: FORM
@@ -245,8 +248,6 @@ fun TransactionForm(
             }
 
 
-
-
             // SECOND COLUMN: SIDE
             AnimatedVisibility(visible = showSide, enter = fadeIn(tween(800)), exit = fadeOut(tween(800))) {
                 Row(modifier = Modifier.height(450.dp).offset(x = (-1).dp).zIndex(1f)) {
@@ -281,21 +282,26 @@ fun TransactionForm(
         } // END: "FORM BOX"
 
 
-
         //==== FOOTER
         Button(
             enabled = saveButtonActive,
-            colors = ButtonDefaults.buttonColors(backgroundColor = ButtonGreen, disabledBackgroundColor = MaterialTheme.colors.primaryVariant.copy(alpha = 0.5f)),
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = ButtonGreen,
+                disabledBackgroundColor = MaterialTheme.colors.primaryVariant.copy(alpha = 0.5f)
+            ),
             onClick = {
                 transactionFormViewModel.saveTransaction()
-                if (transactionFormViewModel.balance != transaction?.balance) onDismiss(true, account)
-                else onDismiss(false, BankAccount())
-                      },
+                val transactionBalance = transaction?.balance ?: 0.0
+                if (transactionFormViewModel.balance != transactionBalance)
+                    onDismiss(true, account)
+                else
+                    onDismiss(false, BankAccount())
+            },
             shape = CircleShape,
             modifier = Modifier
                 .padding(bottom = 50.dp, end = 50.dp).size(60.dp).align(Alignment.BottomEnd)
-                .pointerHoverIcon(if(saveButtonActive) PointerIcon.Hand else PointerIcon.Default)
-        ){
+                .pointerHoverIcon(if (saveButtonActive) PointerIcon.Hand else PointerIcon.Default)
+        ) {
             Icon(
                 modifier = Modifier.size(25.dp),
                 imageVector = PhosphorIcons.Light.Check,

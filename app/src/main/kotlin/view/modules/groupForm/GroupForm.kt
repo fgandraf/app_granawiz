@@ -26,7 +26,7 @@ import viewModel.SidebarViewModel
 fun GroupForm(
     viewModel: SidebarViewModel,
     group: Group? = null,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
 ) {
     Dialog(onDismissRequest = onDismiss) {
         Column(
@@ -40,7 +40,10 @@ fun GroupForm(
             var value by remember { mutableStateOf(group?.name ?: "") }
 
             DialogTitleBar(title = title, onCloseRequest = onDismiss)
-            Divider(modifier = Modifier.fillMaxWidth().padding(horizontal = 5.dp).background(MaterialTheme.colors.primaryVariant.copy(alpha = 0.2f)))
+            Divider(
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 5.dp)
+                    .background(MaterialTheme.colors.primaryVariant.copy(alpha = 0.2f))
+            )
 
             //===== Main
             Column(
@@ -60,7 +63,10 @@ fun GroupForm(
                 )
                 DefaultTextField(value = value) { value = it }
             }
-            Divider(modifier = Modifier.fillMaxWidth().padding(horizontal = 5.dp).background(MaterialTheme.colors.primaryVariant.copy(alpha = 0.2f)))
+            Divider(
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 5.dp)
+                    .background(MaterialTheme.colors.primaryVariant.copy(alpha = 0.2f))
+            )
 
 
             val confirmed by remember { derivedStateOf { value != "" } }
@@ -70,7 +76,12 @@ fun GroupForm(
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 30.dp, vertical = 10.dp)
             ) {
 
-                DefaultButton(modifier = Modifier.fillMaxWidth(), confirmed = confirmed, text = buttonLabel, textColor = Color.White) {
+                DefaultButton(
+                    modifier = Modifier.fillMaxWidth(),
+                    confirmed = confirmed,
+                    text = buttonLabel,
+                    textColor = Color.White
+                ) {
                     if (group == null) viewModel.addNewGroup(value)
                     else viewModel.renameGroup(group, value)
                     onDismiss()

@@ -44,13 +44,14 @@ fun ListItem(
     onSelectIcon: (String) -> Unit = {},
     onContentClick: (() -> Unit?)? = null,
     deleteDialog: @Composable () -> Unit,
-){
+) {
     var value by remember { mutableStateOf(label) }
     val valueChanged = value != label
     var expandedIcons by remember { mutableStateOf(false) }
 
 
-    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween,
+    Row(
+        verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween,
         modifier = if (onContentClick != null)
             Modifier
                 .fillMaxWidth()
@@ -58,7 +59,7 @@ fun ListItem(
                 .height(30.dp)
                 .clip(RoundedCornerShape(8.dp))
                 .background(if (isActive) MaterialTheme.colors.primaryVariant.copy(alpha = 0.5f) else Color.Transparent)
-                .clickable{ onContentClick() }
+                .clickable { onContentClick() }
                 .pointerHoverIcon(PointerIcon.Hand)
         else
             Modifier
@@ -67,7 +68,7 @@ fun ListItem(
                 .height(30.dp)
     ) {
         Row {
-            if (icon != null){
+            if (icon != null) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center,
@@ -89,7 +90,8 @@ fun ListItem(
                 }
             }
 
-            Row(verticalAlignment = Alignment.CenterVertically,
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxHeight().padding(start = 10.dp)
             ) {
                 BasicTextField(
@@ -108,7 +110,7 @@ fun ListItem(
         }
 
         Row(modifier = Modifier.padding(end = 10.dp)) {
-            if (valueChanged){
+            if (valueChanged) {
                 ClickableIcon(
                     icon = PhosphorIcons.Light.X,
                     color = Color.Blue,
@@ -156,7 +158,10 @@ fun ListItem(
     DropDownIcons(
         expanded = expandedIcons,
         onDismissRequest = { expandedIcons = false },
-        onIconSelected = {onSelectIcon(it); expandedIcons = false}
+        onIconSelected = { onSelectIcon(it); expandedIcons = false }
     )
-    Divider(modifier = Modifier.padding(horizontal = 15.dp).background(MaterialTheme.colors.onSurface.copy(0.5f)), thickness = 0.5.dp)
+    Divider(
+        modifier = Modifier.padding(horizontal = 15.dp).background(MaterialTheme.colors.onSurface.copy(0.5f)),
+        thickness = 0.5.dp
+    )
 }

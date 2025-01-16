@@ -11,8 +11,8 @@ import viewModel.PartyViewModel
 @Composable
 fun PartyNameListItem(
     viewModel: PartyViewModel,
-    item: PartyName
-){
+    item: PartyName,
+) {
     val deleteDialogIsVisible = remember { mutableStateOf(false) }
     var updatedSuccess by mutableStateOf(true)
 

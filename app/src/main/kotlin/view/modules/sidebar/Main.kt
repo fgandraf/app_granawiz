@@ -25,7 +25,7 @@ fun Main(
     viewModel: SidebarViewModel,
     currentScreen: Screen,
     onScreenSelected: (Screen) -> Unit,
-    ){
+) {
 
     var activeAccountId by remember { mutableStateOf(0L) }
 
@@ -136,7 +136,7 @@ fun Main(
                                 account = account,
                                 isActive = activeAccountId == account.id,
                                 screen = Screen.Transactions(account, showAddButton = true),
-                                onClick =  {onScreenSelected(it); activeAccountId = account.id }
+                                onClick = { onScreenSelected(it); activeAccountId = account.id }
                             )
                         }
                     }

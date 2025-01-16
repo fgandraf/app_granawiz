@@ -10,7 +10,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 class PartyViewModel(type: PartyType, private val partyHandler: PartyHandler = PartyHandler()) {
 
     var errorMessage = derivedStateOf { partyHandler.errorMessage }
-    fun clearError(){ partyHandler.clearError() }
+    fun clearError() {
+        partyHandler.clearError()
+    }
 
     var selectedParty = MutableStateFlow<Party?>(null)
 
@@ -18,10 +20,14 @@ class PartyViewModel(type: PartyType, private val partyHandler: PartyHandler = P
     val selectedType = MutableStateFlow(type)
 
     var parties = MutableStateFlow(emptyList<Party>())
-    fun getParties() { parties.value = partyHandler.fetchParties(selectedType.value) }
+    fun getParties() {
+        parties.value = partyHandler.fetchParties(selectedType.value)
+    }
 
     var partyNames = MutableStateFlow(emptyList<PartyName>())
-    fun getNames() { partyNames.value = partyHandler.fetchNames(selectedParty.value) }
+    fun getNames() {
+        partyNames.value = partyHandler.fetchNames(selectedParty.value)
+    }
 
     fun deleteParty(party: Party) {
         partyHandler.deleteParty(party)
@@ -47,7 +53,7 @@ class PartyViewModel(type: PartyType, private val partyHandler: PartyHandler = P
         return true
     }
 
-    fun addName(name: String): Boolean{
+    fun addName(name: String): Boolean {
         val newPartyName = partyHandler.addName(name, selectedParty.value!!) ?: return false
         getParties(); getNames()
         selectedName.value = newPartyName

@@ -26,8 +26,8 @@ fun DefaultTextField(
     value: String,
     label: String? = null,
     placeholder: String = "",
-    onValueChange: (String) -> Unit
-){
+    onValueChange: (String) -> Unit,
+) {
     val primaryColor = MaterialTheme.colors.primary
     val secondaryColor = MaterialTheme.colors.secondary
 
@@ -38,7 +38,8 @@ fun DefaultTextField(
         if (label != null)
             TextSmall(text = label, modifier = Modifier.padding(bottom = 5.dp))
 
-        Box(contentAlignment = Alignment.Center,
+        Box(
+            contentAlignment = Alignment.Center,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(boxSize)
@@ -51,8 +52,11 @@ fun DefaultTextField(
                 modifier = Modifier
                     .fillMaxSize()
                     .onFocusChanged { focusState ->
-                        if (focusState.isFocused){ borderSize = 1.2.dp; borderColor = secondaryColor }
-                        else { borderSize = 1.dp; borderColor = primaryColor }
+                        if (focusState.isFocused) {
+                            borderSize = 1.2.dp; borderColor = secondaryColor
+                        } else {
+                            borderSize = 1.dp; borderColor = primaryColor
+                        }
                     },
                 singleLine = boxSize <= 35.dp,
                 textStyle = TextStyle(
@@ -71,7 +75,8 @@ fun DefaultTextField(
                                 text = placeholder,
                                 align = textAlign,
                                 color = primaryColor.copy(alpha = 0.75f),
-                                modifier = Modifier.fillMaxWidth())
+                                modifier = Modifier.fillMaxWidth()
+                            )
                     }
                     innerTextField()
                 }

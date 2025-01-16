@@ -2,7 +2,6 @@ package infra.dao
 
 import core.contracts.IAccountDao
 import core.entity.account.BankAccount
-import core.entity.account.CheckingAccount
 import infra.config.HibernateUtil
 
 class AccountDao : IAccountDao {
@@ -49,7 +48,7 @@ class AccountDao : IAccountDao {
         }
     }
 
-    override fun getAccountById(id: Long): BankAccount {
+    override fun getAccountById(id: Long): BankAccount? {
         val session = sessionFactory.openSession()
         session.beginTransaction()
         val criteriaBuilder = session.criteriaBuilder
@@ -62,7 +61,7 @@ class AccountDao : IAccountDao {
         session.close()
 
 
-        return account as CheckingAccount
+        return account
     }
 
 

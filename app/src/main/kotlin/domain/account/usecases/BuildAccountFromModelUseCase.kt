@@ -9,8 +9,8 @@ import viewModel.AccountFormViewModel
 
 class BuildAccountFromModelUseCase {
 
-    fun execute(viewModel: AccountFormViewModel) : BankAccount {
-        when(viewModel.type){
+    fun execute(viewModel: AccountFormViewModel): BankAccount {
+        when (viewModel.type) {
             AccountType.CHECKING -> {
                 return CheckingAccount(
                     id = viewModel.id,
@@ -24,6 +24,7 @@ class BuildAccountFromModelUseCase {
                     overdraftLimit = viewModel.limit
                 )
             }
+
             AccountType.SAVINGS -> {
                 return SavingsAccount(
                     id = viewModel.id,
@@ -36,6 +37,7 @@ class BuildAccountFromModelUseCase {
                     openBalance = viewModel.balance
                 )
             }
+
             AccountType.CREDIT_CARD -> {
                 return CreditCardAccount(
                     id = viewModel.id,

@@ -32,8 +32,8 @@ fun ClickableRow(
     iconSize: DpSize = DpSize(12.dp, 12.dp),
     enabled: Boolean = true,
     label: String,
-    onClick: () -> Unit
-){
+    onClick: () -> Unit,
+) {
     var modifier = if (enabled)
         Modifier.clickable(onClick = onClick).pointerHoverIcon(PointerIcon.Hand)
     else
@@ -46,7 +46,8 @@ fun ClickableRow(
     }
 
 
-    Row(verticalAlignment = Alignment.CenterVertically,
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 5.dp)
@@ -68,10 +69,11 @@ fun ClickableRow(
 
             }
         }
-        Text(modifier = Modifier.padding(end = 10.dp).fillMaxWidth(),
+        Text(
+            modifier = Modifier.padding(end = 10.dp).fillMaxWidth(),
             text = label,
             textAlign = if (roundedBorder) TextAlign.Center else TextAlign.Start,
-            fontSize  = 14.sp,
+            fontSize = 14.sp,
             color = if (enabled) MaterialTheme.colors.primary else MaterialTheme.colors.primaryVariant,
             fontWeight = FontWeight.Medium,
             lineHeight = 0.sp,

@@ -4,7 +4,7 @@ import java.time.LocalDate
 import java.time.YearMonth
 
 
-fun generateWeeks(currentMonth: YearMonth): List<List<LocalDate?>>{
+fun generateWeeks(currentMonth: YearMonth): List<List<LocalDate?>> {
 
     val daysInMonth = currentMonth.lengthOfMonth()
     val firstDayOfWeek = currentMonth.atDay(1).dayOfWeek.value % 7 // Ajuste para começar no domingo

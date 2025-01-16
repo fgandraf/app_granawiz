@@ -60,10 +60,19 @@ fun Body(
             Box(modifier = Modifier.weight(1f).fillMaxHeight().padding(35.dp)) {
                 val listState = rememberLazyListState()
                 LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
-                    items(parties, key = { it.id }) { item -> PartyListItem(viewModel, selectedParty, item) { addNameButton = true } }
+                    items(parties, key = { it.id }) { item ->
+                        PartyListItem(
+                            viewModel,
+                            selectedParty,
+                            item
+                        ) { addNameButton = true }
+                    }
                     item { AddParty(viewModel) }
                 }
-                VerticalScrollbar(adapter = rememberScrollbarAdapter(listState), modifier = Modifier.align(Alignment.CenterEnd))
+                VerticalScrollbar(
+                    adapter = rememberScrollbarAdapter(listState),
+                    modifier = Modifier.align(Alignment.CenterEnd)
+                )
             }
 
 
