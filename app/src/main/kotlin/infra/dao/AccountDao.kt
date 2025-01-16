@@ -50,17 +50,8 @@ class AccountDao : IAccountDao {
 
     override fun getAccountById(id: Long): BankAccount? {
         val session = sessionFactory.openSession()
-        session.beginTransaction()
-        val criteriaBuilder = session.criteriaBuilder
-        val criteriaQuery = criteriaBuilder.createQuery(BankAccount::class.java)
-        val root = criteriaQuery.from(BankAccount::class.java)
-        criteriaQuery.where(criteriaBuilder.equal(root.get<Long>("id"), id))
-        val query = session.createQuery(criteriaQuery)
-        val account = query.resultList.firstOrNull()
-        session.transaction.commit()
+        val account = session.get(BankAccount::class.java, id)
         session.close()
-
-
         return account
     }
 

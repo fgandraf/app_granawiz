@@ -5,5 +5,5 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 
 object UserPreferences {
-    var isLightTheme by mutableStateOf(true)
+    var isLightTheme by mutableStateOf(false)
 }
