@@ -8,16 +8,17 @@ import core.entity.PartyName
 import core.enums.PartyType
 import domain.party.usecases.*
 
-class PartyHander(
-    private val fetchPartiesUseCase: FetchPartiesUseCase = FetchPartiesUseCase(),
-    private val fetchNamesUseCase: FetchNamesUseCase = FetchNamesUseCase(),
-    private val deletePartyUseCase: DeletePartyUseCase = DeletePartyUseCase(),
-    private val deleteNameUseCase: DeleteNameUseCase = DeleteNameUseCase(),
-    private val addPartyUseCase: AddPartyUseCase = AddPartyUseCase(),
-    private val updatePartyUseCase: UpdatePartyUseCase = UpdatePartyUseCase(),
-    private val addNameUseCase: AddNameUseCase = AddNameUseCase(),
-    private val updateNameUseCase: UpdateNameUseCase = UpdateNameUseCase()
-) {
+class PartyHander{
+
+    private val fetchPartiesUseCase = FetchPartiesUseCase()
+    private val fetchNamesUseCase = FetchNamesUseCase()
+    private val deletePartyUseCase = DeletePartyUseCase()
+    private val deleteNameUseCase = DeleteNameUseCase()
+    private val addPartyUseCase = AddPartyUseCase()
+    private val updatePartyUseCase = UpdatePartyUseCase()
+    private val addNameUseCase = AddNameUseCase()
+    private val updateNameUseCase = UpdateNameUseCase()
+
 
     var errorMessage: String? by mutableStateOf(null); private set
     fun clearError() { errorMessage = null }

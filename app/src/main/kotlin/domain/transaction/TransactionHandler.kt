@@ -7,12 +7,13 @@ import domain.transaction.usecases.DeleteTransactionUseCase
 import domain.transaction.usecases.FetchTransactionsUseCase
 import domain.transaction.usecases.UpdateTransactionUseCase
 
-class TransactionHandler(
-    private val addTransactionUseCase: AddTransactionUseCase = AddTransactionUseCase(),
-    private val deleteTransactionUseCase: DeleteTransactionUseCase = DeleteTransactionUseCase(),
-    private val fetchTransactionsUseCase: FetchTransactionsUseCase = FetchTransactionsUseCase(),
-    private val updateTransactionUseCase: UpdateTransactionUseCase = UpdateTransactionUseCase()
-) {
+class TransactionHandler{
+
+    private val addTransactionUseCase = AddTransactionUseCase()
+    private val deleteTransactionUseCase  = DeleteTransactionUseCase()
+    private val fetchTransactionsUseCase = FetchTransactionsUseCase()
+    private val updateTransactionUseCase = UpdateTransactionUseCase()
+
 
     fun addTransaction(transaction: Transaction) = addTransactionUseCase.execute(transaction)
     fun deleteTransaction(transaction: Transaction) = deleteTransactionUseCase.execute(transaction)
