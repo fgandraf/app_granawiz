@@ -50,6 +50,7 @@ compose.desktop {
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "GranaWiz"
+            description = "Version Alpha 1"
             packageVersion = "1.0.0"
             modules("java.base", "java.sql", "java.naming")
             macOS {
