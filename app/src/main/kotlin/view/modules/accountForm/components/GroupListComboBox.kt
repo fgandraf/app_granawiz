@@ -14,13 +14,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.CaretDown
 import com.adamglin.phosphoricons.light.CaretRight
 import core.entity.Group
-import view.shared.TextPrimary
+import view.shared.TextNormal
+import view.shared.TextSmall
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -30,8 +30,8 @@ fun GroupListComboBox(
     label: String? = null,
     placeholder: String,
     groupList: List<Group>,
-    onClickItem: (Group) -> Unit = {}
-){
+    onClickItem: (Group) -> Unit = {},
+) {
 
     var borderSize by remember { mutableStateOf(0.dp) }
     var borderColor by remember { mutableStateOf(Color.Transparent) }
@@ -40,23 +40,24 @@ fun GroupListComboBox(
     if (focused.value) {
         borderSize = 1.2.dp
         borderColor = MaterialTheme.colors.secondary
-    }else{
+    } else {
         borderSize = 1.dp
         borderColor = MaterialTheme.colors.primary
     }
 
-    Column(modifier = modifier){
+    Column(modifier = modifier) {
         var expanded by remember { mutableStateOf(false) }
 
         if (label != null)
-            TextPrimary(text = label, modifier = Modifier.padding(bottom = 5.dp), size = 10.sp)
+            TextSmall(text = label, modifier = Modifier.padding(bottom = 5.dp))
 
         ExposedDropdownMenuBox(
             modifier = Modifier.onFocusChanged { state -> focused.value = state.isFocused },
             expanded = expanded, onExpandedChange = { expanded = !expanded }
         ) {
 
-            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween,
+            Row(
+                verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(35.dp)
@@ -67,14 +68,13 @@ fun GroupListComboBox(
             ) {
 
                 if (value.isBlank())
-                    TextPrimary(
+                    TextSmall(
                         text = placeholder,
-                        size = 10.sp,
                         color = MaterialTheme.colors.primary.copy(0.75f),
                         modifier = Modifier.padding(start = 10.dp)
                     )
                 else
-                    TextPrimary(text = value, modifier = Modifier.padding(start = 10.dp))
+                    TextNormal(text = value, modifier = Modifier.padding(start = 10.dp))
 
 
                 Box(
@@ -95,8 +95,8 @@ fun GroupListComboBox(
                 expanded = expanded, onDismissRequest = { expanded = false }
             ) {
                 groupList.forEach { item ->
-                    DropdownMenuItem( onClick = { onClickItem(item); expanded = !expanded } ) {
-                        TextPrimary(text = item.name, size = 12.sp)
+                    DropdownMenuItem(onClick = { onClickItem(item); expanded = !expanded }) {
+                        TextNormal(text = item.name)
                     }
                 }
 

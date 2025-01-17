@@ -27,17 +27,18 @@ fun ClickableIcon(
     boxSize: Dp = 30.dp,
     iconSize: Dp = 15.dp,
     enabled: Boolean? = true,
-    onClick: () -> Unit
-    ) {
+    onClick: () -> Unit,
+) {
 
     val stateModifier = if (enabled!!)
-        modifier.clip(shape?: RoundedCornerShape(6.dp)).clickable(onClick = onClick).pointerHoverIcon(PointerIcon.Hand)
+        modifier.clip(shape ?: RoundedCornerShape(6.dp)).clickable(onClick = onClick).pointerHoverIcon(PointerIcon.Hand)
     else
-        modifier.clip(shape?: RoundedCornerShape(6.dp))
+        modifier.clip(shape ?: RoundedCornerShape(6.dp))
 
 
-    Box(stateModifier
-        .size(boxSize)
+    Box(
+        stateModifier
+            .size(boxSize)
     ) {
         Icon(
             imageVector = icon,

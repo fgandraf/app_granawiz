@@ -15,13 +15,17 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Bold
 import com.adamglin.phosphoricons.Light
+import com.adamglin.phosphoricons.Regular
+import com.adamglin.phosphoricons.bold.ArrowLeft
 import com.adamglin.phosphoricons.light.ChartLineUp
 import com.adamglin.phosphoricons.light.Invoice
 import com.adamglin.phosphoricons.light.Shapes
+import com.adamglin.phosphoricons.regular.Shapes
 import core.entity.Category
 import core.entity.Subcategory
 import core.enums.CategoryType
@@ -30,13 +34,14 @@ import view.modules.categories.components.CategoryListItem
 import view.modules.categories.components.ListTypeItem
 import view.shared.AddListItem
 import view.shared.AddressView
+import view.shared.ClickableIcon
 import view.shared.DialogDelete
 import viewModel.CategoryViewModel
 
 @Composable
 fun CategoriesScreen(
     viewModel: CategoryViewModel = CategoryViewModel(),
-){
+) {
 
     var addCategoryButton by remember { mutableStateOf<Boolean>(false) }
     var addSubcategoryButton by remember { mutableStateOf<Boolean>(false) }
@@ -44,26 +49,42 @@ fun CategoriesScreen(
     Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.background)) {
 
         //===== HEADER
-        Column(modifier = Modifier.fillMaxWidth().padding(20.dp)) {
-            Row(modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Row { AddressView(icon = PhosphorIcons.Light.Shapes, value = "Categorias" ) }
+        Column {
+            Row(Modifier.fillMaxWidth().padding(20.dp), verticalAlignment = Alignment.CenterVertically) {
+                ClickableIcon(
+                    enabled = false,
+                    icon = PhosphorIcons.Bold.ArrowLeft,
+                    iconSize = 22.dp,
+                    boxSize = 25.dp
+                ) { }
+                Spacer(Modifier.width(10.dp))
+                Row {
+                    AddressView(
+                        icon = PhosphorIcons.Regular.Shapes,
+                        iconSize = DpSize(21.dp, 18.dp),
+                        value = "Categorias",
+                        rootPath = true
+                    )
+                }
             }
         }
 
         //===== BODY
-        Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
+        val corner = 10.dp
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
             Column(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.Start,
                 modifier = Modifier
                     .fillMaxHeight(0.85f)
                     .fillMaxWidth(0.85f)
-                    .shadow(elevation = 1.dp, shape = RoundedCornerShape(20.dp))
-                    .border(0.5.dp, MaterialTheme.colors.primaryVariant, shape = RoundedCornerShape(20.dp))
-                    .clip(RoundedCornerShape(20.dp))
-                    .background(MaterialTheme.colors.onPrimary)
+                    .border(0.5.dp, MaterialTheme.colors.onSurface, shape = RoundedCornerShape(corner))
+                    .clip(RoundedCornerShape(corner))
+                    .background(MaterialTheme.colors.surface)
                     .padding(30.dp)
             ) {
                 Row {
@@ -80,16 +101,26 @@ fun CategoriesScreen(
 
                     Row(modifier = Modifier.weight(2f).fillMaxHeight()) {
                         Column(modifier = Modifier.padding(20.dp)) {
-                            ListTypeItem(icon = PhosphorIcons.Light.Invoice, color = MaterialTheme.colors.primary, isActive = activeType == CategoryType.EXPENSE, label = "Gastos") {
+                            ListTypeItem(
+                                icon = PhosphorIcons.Light.Invoice,
+                                color = MaterialTheme.colors.primary,
+                                isActive = activeType == CategoryType.EXPENSE,
+                                label = "Gastos"
+                            ) {
                                 activeType = CategoryType.EXPENSE
                             }
 
-                            ListTypeItem(icon = PhosphorIcons.Light.ChartLineUp, color = MaterialTheme.colors.primary, isActive = activeType == CategoryType.INCOME, label = "Rendimentos") {
+                            ListTypeItem(
+                                icon = PhosphorIcons.Light.ChartLineUp,
+                                color = MaterialTheme.colors.primary,
+                                isActive = activeType == CategoryType.INCOME,
+                                label = "Rendimentos"
+                            ) {
                                 activeType = CategoryType.INCOME
                             }
                         }
                     }
-                    Divider(modifier = Modifier.width(2.dp).fillMaxHeight())
+                    Divider(modifier = Modifier.width(1.dp).fillMaxHeight().background(MaterialTheme.colors.onSurface))
 
 
                     val categories by viewModel.categories.collectAsState()
@@ -122,7 +153,12 @@ fun CategoriesScreen(
                                         hasSubItem = category.subcategories.size > 0,
                                         deleteDialogIsVisible = deleteDialogIsVisible,
                                         isActive = activeCategory == category,
-                                        onUpdateConfirmation = { viewModel.updateCategory(category = category, name = it) },
+                                        onUpdateConfirmation = {
+                                            viewModel.updateCategory(
+                                                category = category,
+                                                name = it
+                                            )
+                                        },
                                         onSelectIcon = { viewModel.updateCategory(category = category, icon = it) },
                                         onContentClick = {
                                             activeCategory = category
@@ -173,7 +209,7 @@ fun CategoriesScreen(
                             )
                         }
                     }
-                    Divider(modifier = Modifier.width(2.dp).fillMaxHeight())
+                    Divider(modifier = Modifier.width(1.dp).fillMaxHeight().background(MaterialTheme.colors.onSurface))
 
 
                     //===== THIRD COLUMN
@@ -215,7 +251,7 @@ fun CategoriesScreen(
                                 }
 
                                 item {
-                                    if (addSubcategoryButton){
+                                    if (addSubcategoryButton) {
                                         val value = remember { mutableStateOf("") }
                                         val isVisible = remember { mutableStateOf(false) }
                                         AddListItem(
@@ -241,7 +277,7 @@ fun CategoriesScreen(
                             )
                         }
                     }
-                    Divider(modifier = Modifier.width(2.dp).fillMaxHeight())
+                    Divider(modifier = Modifier.width(1.dp).fillMaxHeight().background(MaterialTheme.colors.onSurface))
                 }
             }
         }

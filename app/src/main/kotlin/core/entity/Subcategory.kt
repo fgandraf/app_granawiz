@@ -15,7 +15,7 @@ open class Subcategory(
 
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "category_id")
-    open val category: Category
-){
+    open val category: Category,
+) {
     constructor() : this(0L, "", Category())
 }

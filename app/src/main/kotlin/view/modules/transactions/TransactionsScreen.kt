@@ -18,18 +18,15 @@ import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Bold
-import com.adamglin.phosphoricons.Fill
 import com.adamglin.phosphoricons.Light
-import com.adamglin.phosphoricons.bold.*
-import com.adamglin.phosphoricons.fill.Folders
-import com.adamglin.phosphoricons.fill.Pencil
-import com.adamglin.phosphoricons.fill.Plus
-import com.adamglin.phosphoricons.fill.Wallet
-import com.adamglin.phosphoricons.light.*
+import com.adamglin.phosphoricons.Regular
+import com.adamglin.phosphoricons.bold.ArrowLeft
+import com.adamglin.phosphoricons.bold.ListBullets
+import com.adamglin.phosphoricons.light.Plus
+import com.adamglin.phosphoricons.regular.*
 import core.entity.Transaction
 import core.entity.account.BankAccount
 import core.enums.TransactionType
@@ -41,9 +38,9 @@ import view.modules.transactions.component.TotalFooter
 import view.modules.transactions.component.TransactionRow
 import view.shared.AddressView
 import view.shared.ClickableIcon
-import view.shared.TextPrimary
-import view.theme.NotionGray
-import view.theme.Purple600
+import view.shared.TextH2
+import view.shared.TextNormal
+import view.theme.ButtonPurple
 import viewModel.TransactionViewModel
 
 
@@ -52,21 +49,40 @@ fun TransactionsScreen(
     account: BankAccount? = null,
     showAddButton: Boolean = true,
     viewModel: TransactionViewModel = TransactionViewModel(account),
-) {
+
+    ) {
 
     val initialAddress =
         if (account != null)
             listOf(
-                PageAddress(iconVector = PhosphorIcons.Fill.Folders, iconSize = DpSize(21.dp, 18.dp), name = account.group.name, rootPath = true),
-                PageAddress(iconVector = PhosphorIcons.Fill.Wallet, iconSize = DpSize(21.dp, 18.dp), name = account.name))
+                PageAddress(
+                    iconVector = PhosphorIcons.Regular.Folders,
+                    iconSize = DpSize(21.dp, 18.dp),
+                    name = account.group.name,
+                    rootPath = true
+                ),
+                PageAddress(
+                    iconVector = PhosphorIcons.Regular.Wallet,
+                    iconSize = DpSize(21.dp, 18.dp),
+                    name = account.name
+                )
+            )
         else
-            listOf(PageAddress(iconVector = PhosphorIcons.Bold.ListBullets, iconSize = DpSize(21.dp, 18.dp), name = "Todas as transações", rootPath = true))
+            listOf(
+                PageAddress(
+                    iconVector = PhosphorIcons.Bold.ListBullets,
+                    iconSize = DpSize(21.dp, 18.dp),
+                    name = "Todas as transações",
+                    rootPath = true
+                )
+            )
 
 
     var selectedTransaction by remember { mutableStateOf<Transaction?>(null) }
     var showEditTransaction by remember { mutableStateOf(false) }
     var backIcon by remember { mutableStateOf(false) }
     var showTransactionsList by remember { mutableStateOf(true) }
+
 
     var addresses by remember { mutableStateOf(emptyList<PageAddress>()) }
     LaunchedEffect(account) {
@@ -79,16 +95,22 @@ fun TransactionsScreen(
 
     var transactionType by remember { mutableStateOf(selectedTransaction?.type) }
 
-    Column(modifier = Modifier.fillMaxSize().background(NotionGray)) {
+    Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.background)) {
 
         // ********** HEADER **********
-        Row(horizontalArrangement = Arrangement.SpaceBetween,
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.fillMaxWidth().padding(20.dp)
-        ){
+        ) {
             // address
-            Column{
+            Column {
                 Row(Modifier.fillMaxWidth().padding(bottom = 12.dp), verticalAlignment = Alignment.CenterVertically) {
-                    ClickableIcon(enabled = backIcon, icon = PhosphorIcons.Bold.ArrowLeft, iconSize = 22.dp, boxSize = 25.dp){
+                    ClickableIcon(
+                        enabled = backIcon,
+                        icon = PhosphorIcons.Bold.ArrowLeft,
+                        iconSize = 22.dp,
+                        boxSize = 25.dp
+                    ) {
                         addresses = initialAddress
                         selectedTransaction = null
                         showEditTransaction = false
@@ -96,58 +118,63 @@ fun TransactionsScreen(
                         showTransactionsList = true
                     }
                     Spacer(Modifier.width(10.dp))
-                    addresses.forEach { AddressView(icon = it.iconVector, iconSize = it.iconSize!!, value = it.name, rootPath = it.rootPath) }
+                    addresses.forEach {
+                        AddressView(
+                            icon = it.iconVector,
+                            iconSize = it.iconSize!!,
+                            value = it.name,
+                            rootPath = it.rootPath
+                        )
+                    }
                 }
-                TextPrimary(text = account?.description ?: "", size = 12.sp, align = TextAlign.Start)
+                TextNormal(text = account?.description ?: "", align = TextAlign.Start)
             }
 
             // TODO: Imoplements Searchbar
             //SearchBar(onTuneClicked = {}, onSearchClicked = {})
         }
 
-
-
         // ********** BODY **********
-        if (showTransactionsList){
+        if (showTransactionsList) {
             Box(modifier = Modifier.fillMaxSize()) {
+                if (viewModel.transactions.value.isEmpty())
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        TextH2(text = "Nenhuma transação cadastrada.")
+                    }
+
                 val listState = rememberLazyListState()
 
-                LazyColumn(state = listState, modifier = Modifier.fillMaxSize(),) {
+                LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
                     val monthTransactions = viewModel.transactions.value.groupBy { it.date.month }
-                    item { Spacer(modifier = Modifier.height(30.dp)) }
 
+                    item { Spacer(modifier = Modifier.height(30.dp)) }
                     monthTransactions.forEach { (month, transactions) ->
 
                         item {
                             MonthHeader(modifier = Modifier.zIndex(1f), month = month)
-                            var negativeBalnce = 0.0
-                            var positiveBalance = 0.0
                             Column(
                                 modifier = Modifier
                                     .padding(horizontal = 90.dp)
                                     .zIndex(2f)
                                     .clip(RoundedCornerShape(topEnd = 0.dp, bottomStart = 0.dp))
-                                    .background(MaterialTheme.colors.onPrimary, RoundedCornerShape(topEnd = 0.dp, bottomStart = 0.dp))
-                                    .border(0.5.dp, MaterialTheme.colors.primary, RoundedCornerShape(topEnd = 0.dp, bottomStart = 0.dp))
+                                    .background(
+                                        MaterialTheme.colors.surface,
+                                        RoundedCornerShape(topEnd = 0.dp, bottomStart = 0.dp)
+                                    )
+                                    .border(
+                                        0.5.dp,
+                                        MaterialTheme.colors.onSurface,
+                                        RoundedCornerShape(topEnd = 0.dp, bottomStart = 0.dp)
+                                    )
                             ) {
                                 Spacer(Modifier.height(20.dp))
                                 transactions.forEach { transaction ->
-                                    if (transaction.balance >= 0) positiveBalance += transaction.balance
-                                    else negativeBalnce -= transaction.balance
-
-
                                     TransactionRow(
                                         viewModel = viewModel,
                                         transaction = transaction,
-
-
-
-
-
-
                                         onClick = {
                                             addresses = addresses + PageAddress(
-                                                iconVector = PhosphorIcons.Fill.Pencil,
+                                                iconVector = PhosphorIcons.Regular.Pencil,
                                                 iconSize = DpSize(21.dp, 18.dp),
                                                 name = "Editar " + if (transaction.type == TransactionType.GAIN) "receita" else "despesa"
                                             )
@@ -156,18 +183,22 @@ fun TransactionsScreen(
                                             backIcon = true
                                             showTransactionsList = false
                                         }
-
-
-
-
-
-
                                     )
                                 }
                                 Spacer(Modifier.height(20.dp))
                             }
 
-                            TotalFooter(modifier = Modifier.zIndex(1f), incomeBalance = positiveBalance, outcomeBalance = negativeBalnce)
+                            val positive =
+                                viewModel.transactions.value.filter { it.date.month == month && it.balance >= 0 }
+                                    .sumOf { it.balance }
+                            val negative =
+                                viewModel.transactions.value.filter { it.date.month == month && it.balance < 0 }
+                                    .sumOf { it.balance } * -1
+                            TotalFooter(
+                                modifier = Modifier.zIndex(1f),
+                                incomeBalance = positive,
+                                outcomeBalance = negative
+                            )
                             Spacer(Modifier.height(30.dp))
                         }
 
@@ -175,10 +206,14 @@ fun TransactionsScreen(
                     item { Spacer(Modifier.height(50.dp)) }
 
                 }
+
+
                 VerticalScrollbar(
                     adapter = rememberScrollbarAdapter(listState),
                     modifier = Modifier.align(Alignment.CenterEnd)
                 )
+
+
                 if (showAddButton)
                     AddTransactionButton(
                         onClickGain = {
@@ -186,7 +221,7 @@ fun TransactionsScreen(
                             showTransactionsList = false
                             showEditTransaction = true
                             addresses = addresses + PageAddress(
-                                iconVector = PhosphorIcons.Fill.Plus,
+                                iconVector = PhosphorIcons.Regular.PlusSquare,
                                 iconSize = DpSize(21.dp, 18.dp),
                                 name = "Nova receita"
                             )
@@ -198,7 +233,7 @@ fun TransactionsScreen(
                             showEditTransaction = true
 
                             addresses = addresses + PageAddress(
-                                iconVector = PhosphorIcons.Fill.Plus,
+                                iconVector = PhosphorIcons.Regular.MinusSquare,
                                 iconSize = DpSize(21.dp, 18.dp),
                                 name = "Nova despesa"
                             )
@@ -215,31 +250,39 @@ fun TransactionsScreen(
 
             }
         }
+
         if (showEditTransaction) {
             if (viewModel.selectedAccount == null) viewModel.selectAccount(selectedTransaction!!.account)
             TransactionForm(
                 account = viewModel.selectedAccount!!,
                 transaction = selectedTransaction,
                 transactionType = transactionType,
-                onDismiss = {
+                onDismiss = { updated, account ->
                     backIcon = false
                     showEditTransaction = false
                     showTransactionsList = true
                     addresses = initialAddress
+
+                    if (updated) {
+                        viewModel.getTransactions()
+                        val calculated = viewModel.transactions.value.sumOf { it.balance }
+                        viewModel.updateBalance(account.id, calculated)
+                    }
+
                     selectedTransaction = null
                 }
             )
         }
     }
-}
 
+}
 
 
 @Composable
 fun AddTransactionButton(
     onClickGain: () -> Unit,
     onClickExpense: () -> Unit,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
 ) {
     var showAddTransactionDropDownMenu by remember { mutableStateOf(false) }
     Box(modifier = Modifier.fillMaxSize().padding(bottom = 50.dp, end = 50.dp)) {
@@ -247,7 +290,7 @@ fun AddTransactionButton(
             modifier = Modifier
                 .size(60.dp)
                 .clip(CircleShape)
-                .background(Purple600.copy(alpha = 0.8f))
+                .background(ButtonPurple)
                 .pointerHoverIcon(PointerIcon.Hand)
                 .clickable { showAddTransactionDropDownMenu = true }
                 .align(Alignment.BottomEnd)

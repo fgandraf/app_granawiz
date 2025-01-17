@@ -1,37 +1,36 @@
 package view.modules.accountForm.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
-import com.adamglin.phosphoricons.Light
-import com.adamglin.phosphoricons.light.PencilLine
+import com.adamglin.phosphoricons.Fill
+import com.adamglin.phosphoricons.fill.PencilLine
 import utils.IconPaths
 
 @Composable
 fun IconSelector(
     icon: String,
     onIconSelected: (String) -> Unit,
-){
+) {
 
     var expandedIcons by remember { mutableStateOf(false) }
     Column(
         verticalArrangement = Arrangement.Center,
         modifier = Modifier
-            .background(Color.White, CircleShape)
+            .background(MaterialTheme.colors.surface, CircleShape)
             .clip(CircleShape)
             .border(0.8.dp, MaterialTheme.colors.primaryVariant, CircleShape)
             .pointerHoverIcon(PointerIcon.Hand)
@@ -40,17 +39,17 @@ fun IconSelector(
         Box(
             modifier = Modifier.padding(15.dp)
         ) {
-            Image(
+            Icon(
                 modifier = Modifier.size(60.dp),
                 painter = painterResource(IconPaths.BANK_LOGOS + icon),
-                contentDescription = "",
-                alpha = 0.5f
+                contentDescription = null,
+                tint = MaterialTheme.colors.primaryVariant
             )
-            Image(
+            Icon(
                 modifier = Modifier.size(14.dp).align(Alignment.BottomEnd),
-                imageVector = PhosphorIcons.Light.PencilLine,
+                imageVector = PhosphorIcons.Fill.PencilLine,
                 contentDescription = "",
-                alpha = 0.8f
+                tint = MaterialTheme.colors.primary
             )
         }
         DropDownIcons(

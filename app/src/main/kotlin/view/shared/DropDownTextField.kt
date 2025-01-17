@@ -8,7 +8,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.CaretRight
@@ -22,23 +21,23 @@ fun DropDownTextField(
     value: String,
     label: String? = null,
     placeholder: String = "",
-    onClick: () -> Unit
-){
+    onClick: () -> Unit,
+) {
 
     Column(modifier = modifier) {
         if (label != null)
-            TextPrimary(text = label, modifier = Modifier.padding(bottom = 5.dp), size = 10.sp)
+            TextSmall(text = label, modifier = Modifier.padding(bottom = 5.dp))
 
         FocusableBox(onClick = onClick) {
             if (value.isEmpty())
-                TextPrimary(
+                TextSmall(
                     text = placeholder,
-                    size = 10.sp,
                     color = MaterialTheme.colors.primary.copy(alpha = 0.75f),
-                    modifier = Modifier.fillMaxWidth())
-            else
-            {
-                Row(modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth()
+                )
+            else {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = horizontalArrangement,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -50,14 +49,15 @@ fun DropDownTextField(
                             modifier = Modifier.size(15.dp)
                         )
 
-                    TextPrimary(text = value, modifier = Modifier.padding(start = 5.dp))
+                    TextNormal(text = value, modifier = Modifier.padding(start = 5.dp))
                 }
             }
 
             Icon(
                 imageVector = PhosphorIcons.Light.CaretRight,
                 contentDescription = "click",
-                modifier = Modifier.size(15.dp).align(Alignment.CenterEnd)
+                modifier = Modifier.size(15.dp).align(Alignment.CenterEnd),
+                tint = MaterialTheme.colors.primary
             )
         }
     }

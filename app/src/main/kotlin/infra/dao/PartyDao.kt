@@ -10,7 +10,7 @@ class PartyDao : IPartyDao {
 
     private val sessionFactory = HibernateUtil.getSessionFactory()
 
-    override fun getAll(type: PartyType) : List<Party> {
+    override fun getAll(type: PartyType): List<Party> {
         val session = sessionFactory.openSession()
         session.beginTransaction()
         val criteriaBuilder = session.criteriaBuilder
@@ -40,6 +40,20 @@ class PartyDao : IPartyDao {
         session.transaction.commit()
         session.close()
         return partyName
+    }
+
+    override fun getPartyByName(name: String): Party? {
+        val session = sessionFactory.openSession()
+        session.beginTransaction()
+        val criteriaBuilder = session.criteriaBuilder
+        val criteriaQuery = criteriaBuilder.createQuery(Party::class.java)
+        val root = criteriaQuery.from(Party::class.java)
+        criteriaQuery.where(criteriaBuilder.equal(root.get<String>("name"), name))
+        val query = session.createQuery(criteriaQuery)
+        val party = query.resultList.firstOrNull()
+        session.transaction.commit()
+        session.close()
+        return party
     }
 
 

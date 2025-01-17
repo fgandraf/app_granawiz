@@ -8,7 +8,7 @@ interface IGroupDao {
 
     fun delete(group: Group)
 
-    fun updateGroupPositions(accounts: List<Group>)
+    fun updateGroups(accounts: List<Group>)
 
     fun update(group: Group)
 

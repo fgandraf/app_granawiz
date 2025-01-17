@@ -30,9 +30,10 @@ fun ListTypeItem(
     isActive: Boolean,
     color: Color,
     label: String,
-    onClick: () -> Unit
-){
-    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween,
+    onClick: () -> Unit,
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 10.dp)
@@ -67,5 +68,8 @@ fun ListTypeItem(
             modifier = Modifier.size(12.dp).offset(x = (-10).dp)
         )
     }
-    Divider(modifier = Modifier.padding(horizontal = 15.dp), thickness = 1.dp)
+    Divider(
+        modifier = Modifier.padding(horizontal = 15.dp).background(MaterialTheme.colors.onSurface.copy(0.5f)),
+        thickness = 0.5.dp
+    )
 }

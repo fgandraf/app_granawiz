@@ -8,7 +8,7 @@ class TagDao : ITagDao {
 
     private val sessionFactory = HibernateUtil.getSessionFactory()
 
-    override fun getAll() : List<Tag> {
+    override fun getAll(): List<Tag> {
         val session = sessionFactory.openSession()
         session.beginTransaction()
         val criteriaBuilder = session.criteriaBuilder

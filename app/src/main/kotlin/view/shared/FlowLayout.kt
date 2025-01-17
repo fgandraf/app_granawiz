@@ -8,7 +8,7 @@ import androidx.compose.ui.unit.Dp
 @Composable
 fun FlowLayout(
     maxWidth: Dp,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     Layout(content = content) { measurables, constraints ->
         val maxWidthPx = maxWidth.toPx().toInt().coerceAtMost(constraints.maxWidth)

@@ -19,10 +19,10 @@ import java.io.File
 
 @Composable
 fun DropDownIcons(
-    width : Dp = 350.dp,
+    width: Dp = 350.dp,
     expanded: Boolean,
     onDismissRequest: () -> Unit,
-    onIconSelected: (String) -> Unit
+    onIconSelected: (String) -> Unit,
 ) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         DropdownMenu(

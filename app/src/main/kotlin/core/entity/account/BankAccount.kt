@@ -22,12 +22,12 @@ open class BankAccount(
     open val name: String,
     open val description: String = "",
     open val icon: String,
-    open val balance: Double,
+    open var balance: Double,
     open var position: Int,
 
     @ManyToOne
     @JoinColumn(name = "group_id", referencedColumnName = "group_id")
-    open var group: Group
-){
-    constructor(): this(0L, AccountType.CHECKING, "", "", "_default.svg", 0.0, 0, Group())
+    open var group: Group,
+) {
+    constructor() : this(0L, AccountType.CHECKING, "", "", "_default.svg", 0.0, 0, Group())
 }

@@ -39,7 +39,7 @@ import view.modules.transactionForm.components.CategoriesPicker
 import view.modules.transactionForm.components.PartiesPicker
 import view.modules.transactionForm.components.TagsPicker
 import view.shared.*
-import view.theme.Lime800
+import view.theme.ButtonGreen
 import view.theme.Ubuntu
 import viewModel.TransactionFormViewModel
 import kotlin.math.abs
@@ -51,7 +51,7 @@ fun TransactionForm(
     transaction: Transaction? = null,
     transactionFormViewModel: TransactionFormViewModel = remember { TransactionFormViewModel() },
     transactionType: TransactionType? = null,
-    onDismiss: () -> Unit
+    onDismiss: (Boolean, BankAccount) -> Unit,
 ) {
     LaunchedEffect(transaction) {
         if (transaction != null) transactionFormViewModel.loadFromTransaction(transaction)
@@ -69,30 +69,46 @@ fun TransactionForm(
 
     val saveButtonActive by remember { derivedStateOf { party.value != null && category.value != null } }
 
+    val incomeGreen = MaterialTheme.colors.onPrimary
+    val expenseRed = MaterialTheme.colors.onError
+
+    val typeColor = derivedStateOf {
+        when (transaction?.type) {
+            TransactionType.EXPENSE -> expenseRed
+            TransactionType.GAIN -> incomeGreen
+            TransactionType.NEUTRAL -> Color.Gray
+            null -> Color.White
+        }
+    }
+
+
     // BACKGROUND
     Box(modifier = Modifier.fillMaxSize()) {
 
         // FORM BOX
         var showSide by remember { mutableStateOf(false) }
-        var sideType by remember{ mutableStateOf("") }
+        var sideType by remember { mutableStateOf("") }
         val targetSize by derivedStateOf {
             if (sideType == "tags") 850.dp else 1100.dp
         }
         val dialogWidth by animateDpAsState(
-            targetValue = if (showSide) targetSize else 500.dp,
+            targetValue = if (showSide) targetSize else 550.dp,
             animationSpec = tween(durationMillis = 800)
         )
-        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.width(dialogWidth).align(Alignment.TopCenter).padding(top = 50.dp)) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.width(dialogWidth).align(Alignment.TopCenter).padding(top = 50.dp)
+        ) {
 
 
             // FIRST COLUMN: FORM
             Row(
                 modifier = Modifier
-                    .width(500.dp)
+                    .width(550.dp)
                     .zIndex(2f)
                     .shadow(2.dp, RoundedCornerShape(10.dp))
-                    .background(MaterialTheme.colors.onPrimary, RoundedCornerShape(10.dp))
-                    .border(1.dp, transactionFormViewModel.typeColor.value, RoundedCornerShape(10.dp))
+                    .background(MaterialTheme.colors.surface, RoundedCornerShape(10.dp))
+                    .border(0.5.dp, MaterialTheme.colors.onSurface, RoundedCornerShape(10.dp))
             ) {
 
                 //==== FORM
@@ -105,11 +121,9 @@ fun TransactionForm(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Row {
-                            TextPrimary(
+                            TextSmall(
                                 text = transactionFormViewModel.typeLabel.value,
-                                color = transactionFormViewModel.typeColor.value,
-                                size = 11.sp,
-                                weight = FontWeight.Bold,
+                                color = typeColor.value
                             )
                         }
                         Row(
@@ -135,7 +149,7 @@ fun TransactionForm(
                         }
                     }
 
-                    Divider(Modifier.padding(top = 5.dp, bottom = 40.dp))
+                    Divider(Modifier.padding(top = 5.dp, bottom = 40.dp).background(typeColor.value))
 
 
                     Row(modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp)) {
@@ -234,8 +248,6 @@ fun TransactionForm(
             }
 
 
-
-
             // SECOND COLUMN: SIDE
             AnimatedVisibility(visible = showSide, enter = fadeIn(tween(800)), exit = fadeOut(tween(800))) {
                 Row(modifier = Modifier.height(450.dp).offset(x = (-1).dp).zIndex(1f)) {
@@ -270,17 +282,26 @@ fun TransactionForm(
         } // END: "FORM BOX"
 
 
-
         //==== FOOTER
         Button(
             enabled = saveButtonActive,
-            colors = ButtonDefaults.buttonColors(backgroundColor = Lime800),
-            onClick = {transactionFormViewModel.saveTransaction(); onDismiss()},
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = ButtonGreen,
+                disabledBackgroundColor = MaterialTheme.colors.primaryVariant.copy(alpha = 0.5f)
+            ),
+            onClick = {
+                transactionFormViewModel.saveTransaction()
+                val transactionBalance = transaction?.balance ?: 0.0
+                if (transactionFormViewModel.balance != transactionBalance)
+                    onDismiss(true, account)
+                else
+                    onDismiss(false, BankAccount())
+            },
             shape = CircleShape,
             modifier = Modifier
                 .padding(bottom = 50.dp, end = 50.dp).size(60.dp).align(Alignment.BottomEnd)
-                .pointerHoverIcon(if(saveButtonActive) PointerIcon.Hand else PointerIcon.Default)
-        ){
+                .pointerHoverIcon(if (saveButtonActive) PointerIcon.Hand else PointerIcon.Default)
+        ) {
             Icon(
                 modifier = Modifier.size(25.dp),
                 imageVector = PhosphorIcons.Light.Check,

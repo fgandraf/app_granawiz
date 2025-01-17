@@ -11,7 +11,7 @@ class TransactionDao : ITransactionDao {
 
     private val sessionFactory = HibernateUtil.getSessionFactory()
 
-    override fun getAll() : List<Transaction> {
+    override fun getAll(): List<Transaction> {
         val session = sessionFactory.openSession()
         session.beginTransaction()
         val criteriaBuilder = session.criteriaBuilder
@@ -31,7 +31,7 @@ class TransactionDao : ITransactionDao {
         return transactions
     }
 
-    override fun getAllByAccount(account: BankAccount) : List<Transaction> {
+    override fun getAllByAccount(account: BankAccount): List<Transaction> {
         val session = sessionFactory.openSession()
         session.beginTransaction()
         val criteriaBuilder = session.criteriaBuilder

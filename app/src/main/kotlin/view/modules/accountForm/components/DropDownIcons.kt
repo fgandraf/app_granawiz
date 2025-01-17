@@ -12,18 +12,17 @@ import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import view.shared.FlowLayout
-import view.shared.TextPrimary
+import view.shared.TextSmall
 import java.io.File
 import javax.xml.parsers.DocumentBuilderFactory
 
 @Composable
 fun DropDownIcons(
-    width : Dp = 320.dp,
+    width: Dp = 320.dp,
     expanded: Boolean,
     onDismissRequest: () -> Unit,
-    onIconSelected: (String) -> Unit
+    onIconSelected: (String) -> Unit,
 ) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         DropdownMenu(
@@ -35,7 +34,7 @@ fun DropDownIcons(
             FlowLayout(maxWidth = width) {
                 iconsDirectory.listFiles()?.forEach { file ->
 
-                    if (!file.name.startsWith("_")){
+                    if (!file.name.startsWith("_")) {
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             modifier = Modifier.width(80.dp)
@@ -54,7 +53,7 @@ fun DropDownIcons(
                             )
                             val document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file)
                             val title = document.getElementsByTagName("title").item(0)
-                            TextPrimary(text = title.textContent, size = 10.sp)
+                            TextSmall(text = title.textContent)
                         }
                     }
                 }

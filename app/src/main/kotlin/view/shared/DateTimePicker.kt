@@ -16,10 +16,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.Regular
@@ -27,7 +25,7 @@ import com.adamglin.phosphoricons.light.Calendar
 import com.adamglin.phosphoricons.regular.ArrowLeft
 import com.adamglin.phosphoricons.regular.ArrowRight
 import utils.generateWeeks
-import view.theme.Purple600
+import view.theme.ButtonPurple
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.YearMonth
@@ -47,13 +45,13 @@ fun DateTimePicker(
     Column(modifier = modifier) {
         var expanded by remember { mutableStateOf(false) }
 
-        TextPrimary(modifier = Modifier.padding(bottom = 5.dp), text = "Data e horário:", size = 10.sp)
+        TextSmall(modifier = Modifier.padding(bottom = 5.dp), text = "Data e horário:")
 
         ExposedDropdownMenuBox(expanded = expanded, onExpandedChange = { expanded = true }) {
 
             FocusableBox {
                 Row(Modifier.fillMaxWidth(), Arrangement.SpaceBetween, Alignment.CenterVertically) {
-                    TextPrimary(text = value.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")))
+                    TextNormal(text = value.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")))
                     Icon(
                         imageVector = PhosphorIcons.Light.Calendar,
                         contentDescription = "Icon",
@@ -63,7 +61,7 @@ fun DateTimePicker(
                 }
             }
 
-            ExposedDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }){
+            ExposedDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.padding(horizontal = 10.dp).padding(top = 10.dp, bottom = 5.dp)
@@ -73,11 +71,16 @@ fun DateTimePicker(
                     var currentMonth by remember { mutableStateOf(YearMonth.from(selectedDate)) }
                     val weeks = remember(currentMonth) { generateWeeks(currentMonth) }
 
-                    Column{
+                    Column {
                         //--month selector
-                        val month = currentMonth.month.getDisplayName(TextStyle.FULL, Locale.of("pt", "br")).replaceFirstChar { it.uppercase() }
-                        Row(Modifier.fillMaxWidth().padding(bottom = 5.dp), Arrangement.SpaceBetween, Alignment.CenterVertically){
-                            TextPrimary(text = "$month ${currentMonth.year}", weight = FontWeight.Bold, align = TextAlign.Center)
+                        val month = currentMonth.month.getDisplayName(TextStyle.FULL, Locale.of("pt", "br"))
+                            .replaceFirstChar { it.uppercase() }
+                        Row(
+                            Modifier.fillMaxWidth().padding(bottom = 5.dp),
+                            Arrangement.SpaceBetween,
+                            Alignment.CenterVertically
+                        ) {
+                            TextNormal(text = "$month ${currentMonth.year}", align = TextAlign.Center)
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 ClickableIcon(
                                     icon = PhosphorIcons.Regular.ArrowLeft,
@@ -98,12 +101,10 @@ fun DateTimePicker(
                         val weekDayNames = listOf("Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab")
                         Row(modifier = Modifier.fillMaxWidth().padding(top = 10.dp)) {
                             for (dayName in weekDayNames) {
-                                TextPrimary(
+                                TextSmall(
                                     modifier = Modifier.weight(1f),
                                     text = dayName,
-                                    size = 10.sp,
-                                    align = TextAlign.Center,
-                                    weight = FontWeight.Bold
+                                    align = TextAlign.Center
                                 )
                             }
                         }
@@ -121,7 +122,7 @@ fun DateTimePicker(
                                                 .clip(CircleShape)
                                                 .pointerHoverIcon(PointerIcon.Hand)
                                                 .background(
-                                                    color = if (isSelected) Purple600 else Color.Transparent,
+                                                    color = if (isSelected) ButtonPurple else Color.Transparent,
                                                     shape = MaterialTheme.shapes.small
                                                 )
                                                 .clickable {
@@ -135,7 +136,7 @@ fun DateTimePicker(
                                                 },
                                             contentAlignment = Alignment.Center
                                         ) {
-                                            TextPrimary(
+                                            TextNormal(
                                                 text = date.dayOfMonth.toString(),
                                                 color = if (isSelected) Color.White else MaterialTheme.colors.primary
                                             )
@@ -165,7 +166,7 @@ fun DateTimePicker(
                                 range = 0..23,
                                 onValueChange = { hours = it },
                             )
-                            TextPrimary(modifier = Modifier.padding(horizontal = 5.dp), text = ":", size = 14.sp)
+                            TextNormal(modifier = Modifier.padding(horizontal = 5.dp), text = ":")
                             // Minute selector
                             NumberPicker(
                                 value = minutes,
@@ -186,7 +187,7 @@ fun DateTimePicker(
 fun NumberPicker(
     value: Int,
     range: IntRange,
-    onValueChange: (Int) -> Unit
+    onValueChange: (Int) -> Unit,
 ) {
     Column {
         // Selector UP
@@ -207,7 +208,7 @@ fun NumberPicker(
         }
         // Value Text
         Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.width(50.dp)) {
-            TextPrimary(text = value.toString().padStart(2, '0'), size = 14.sp, align = TextAlign.Center)
+            TextNormal(text = value.toString().padStart(2, '0'), align = TextAlign.Center)
         }
         // Selector Down
         Column(

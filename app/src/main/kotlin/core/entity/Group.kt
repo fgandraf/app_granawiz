@@ -17,8 +17,8 @@ open class Group(
     open var position: Int = 0,
 
     @OneToMany(mappedBy = "group", cascade = [CascadeType.ALL], fetch = FetchType.LAZY, orphanRemoval = true)
-    open val accounts: MutableList<BankAccount> = mutableListOf()
+    open val accounts: MutableList<BankAccount> = mutableListOf(),
 
-) {
+    ) {
     constructor() : this(0, "", 0, mutableListOf())
 }

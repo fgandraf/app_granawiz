@@ -26,8 +26,8 @@ fun DefaultTextField(
     value: String,
     label: String? = null,
     placeholder: String = "",
-    onValueChange: (String) -> Unit
-){
+    onValueChange: (String) -> Unit,
+) {
     val primaryColor = MaterialTheme.colors.primary
     val secondaryColor = MaterialTheme.colors.secondary
 
@@ -36,9 +36,10 @@ fun DefaultTextField(
 
     Column(modifier = modifier) {
         if (label != null)
-            TextPrimary(text = label, modifier = Modifier.padding(bottom = 5.dp), size = 10.sp)
+            TextSmall(text = label, modifier = Modifier.padding(bottom = 5.dp))
 
-        Box(contentAlignment = Alignment.Center,
+        Box(
+            contentAlignment = Alignment.Center,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(boxSize)
@@ -51,8 +52,11 @@ fun DefaultTextField(
                 modifier = Modifier
                     .fillMaxSize()
                     .onFocusChanged { focusState ->
-                        if (focusState.isFocused){ borderSize = 1.2.dp; borderColor = secondaryColor }
-                        else { borderSize = 1.dp; borderColor = primaryColor }
+                        if (focusState.isFocused) {
+                            borderSize = 1.2.dp; borderColor = secondaryColor
+                        } else {
+                            borderSize = 1.dp; borderColor = primaryColor
+                        }
                     },
                 singleLine = boxSize <= 35.dp,
                 textStyle = TextStyle(
@@ -67,12 +71,12 @@ fun DefaultTextField(
                 decorationBox = { innerTextField ->
                     Box(modifier = Modifier.fillMaxSize()) {
                         if (value.isEmpty())
-                            TextPrimary(
+                            TextSmall(
                                 text = placeholder,
-                                size = 10.sp,
                                 align = textAlign,
                                 color = primaryColor.copy(alpha = 0.75f),
-                                modifier = Modifier.fillMaxWidth())
+                                modifier = Modifier.fillMaxWidth()
+                            )
                     }
                     innerTextField()
                 }

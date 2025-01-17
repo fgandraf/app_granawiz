@@ -13,7 +13,7 @@ open class Tag(
     open var name: String = "",
 
     @ManyToMany(mappedBy = "tags")
-    val transactions: MutableSet<Transaction>? = mutableSetOf()
+    val transactions: MutableSet<Transaction>? = mutableSetOf(),
 ) {
     constructor() : this(0, "")
 }

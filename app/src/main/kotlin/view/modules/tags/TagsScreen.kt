@@ -17,11 +17,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Bold
 import com.adamglin.phosphoricons.Light
+import com.adamglin.phosphoricons.Regular
+import com.adamglin.phosphoricons.bold.ArrowLeft
 import com.adamglin.phosphoricons.light.Tag
+import com.adamglin.phosphoricons.regular.Tag
 import view.shared.*
 import viewModel.TagViewModel
 
@@ -30,22 +34,34 @@ fun TagsScreen(
     tagViewModel: TagViewModel = TagViewModel(),
 ) {
 
-    tagViewModel.loadTags()
+    tagViewModel.getTags()
 
     val tags = tagViewModel.tags.collectAsState()
     Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.background)) {
 
         //===== HEADER
-        Column(modifier = Modifier.fillMaxWidth().padding(20.dp)) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Row { AddressView(icon = PhosphorIcons.Light.Tag, value = "Etiquetas") }
+        Column {
+            Row(Modifier.fillMaxWidth().padding(20.dp), verticalAlignment = Alignment.CenterVertically) {
+                ClickableIcon(
+                    enabled = false,
+                    icon = PhosphorIcons.Bold.ArrowLeft,
+                    iconSize = 22.dp,
+                    boxSize = 25.dp
+                ) { }
+                Spacer(Modifier.width(10.dp))
+                Row {
+                    AddressView(
+                        icon = PhosphorIcons.Regular.Tag,
+                        iconSize = DpSize(21.dp, 18.dp),
+                        value = "Etiquetas",
+                        rootPath = true
+                    )
+                }
             }
         }
 
         //===== BODY
+        val corner = 10.dp
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -55,11 +71,10 @@ fun TagsScreen(
                 modifier = Modifier
                     .fillMaxWidth(0.45f)
                     .fillMaxHeight(0.85f)
-                    .shadow(elevation = 1.dp, shape = RoundedCornerShape(20.dp))
-                    .border(0.5.dp, MaterialTheme.colors.primaryVariant, shape = RoundedCornerShape(20.dp))
-                    .clip(RoundedCornerShape(20.dp))
-                    .background(MaterialTheme.colors.onPrimary)
-                    .padding(30.dp)
+                    .border(0.5.dp, MaterialTheme.colors.onSurface, shape = RoundedCornerShape(corner))
+                    .clip(RoundedCornerShape(corner))
+                    .background(MaterialTheme.colors.surface)
+                    .padding(35.dp)
             ) {
                 val listState = rememberLazyListState()
                 LazyColumn(
@@ -79,7 +94,7 @@ fun TagsScreen(
                                     title = "Excluir etiqueta",
                                     icon = PhosphorIcons.Light.Tag,
                                     objectName = tag.name,
-                                    alertText = "Isso irá excluir permanentemente a etiquera ${tag.name} e remover todas as associações feitas à ela.",
+                                    alertText = "Isso irá excluir permanentemente a etiqueta ${tag.name} e remover todas as associações feitas à ela.",
                                     onClickButton = { tagViewModel.deleteTag(tag) },
                                     onDismiss = { deleteDialogIsVisible.value = false }
                                 )
@@ -92,7 +107,6 @@ fun TagsScreen(
                         AddListItem(
                             isVisible = isVisible,
                             value = value,
-                            icon = PhosphorIcons.Light.Tag,
                             confirmationClick = { tagViewModel.addTag(value.value) },
                         )
                     }

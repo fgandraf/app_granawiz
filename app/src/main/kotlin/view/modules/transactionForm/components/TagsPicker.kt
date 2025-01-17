@@ -26,12 +26,12 @@ import viewModel.TagViewModel
 
 @Composable
 fun TagsPicker(
-    viewModel: TagViewModel = remember { TagViewModel()},
+    viewModel: TagViewModel = remember { TagViewModel() },
     selected: List<Tag>,
-    onTagClick: (List<Tag>) -> Unit
+    onTagClick: (List<Tag>) -> Unit,
 ) {
 
-    viewModel.loadTags()
+    viewModel.getTags()
     viewModel.selectedTags.value = selected
 
     val tags = viewModel.tags.collectAsState()
@@ -42,22 +42,25 @@ fun TagsPicker(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colors.onPrimary, RoundedCornerShape(topEnd = corner, bottomEnd = corner))
-            .border(1.dp, MaterialTheme.colors.primaryVariant, RoundedCornerShape(topEnd = corner, bottomEnd = corner)),
+            .background(MaterialTheme.colors.surface, RoundedCornerShape(topEnd = corner, bottomEnd = corner))
+            .border(0.5.dp, MaterialTheme.colors.onSurface, RoundedCornerShape(topEnd = corner, bottomEnd = corner)),
         contentAlignment = Alignment.Center
     ) {
 
         // TAGS
-        Box(modifier = Modifier.padding(vertical = 30.dp, horizontal = 10.dp),) {
+        Box(modifier = Modifier.padding(vertical = 30.dp, horizontal = 10.dp)) {
             val listState = rememberLazyListState()
             LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
-                items(tags.value, key = { it.id  }) { item ->
+                items(tags.value, key = { it.id }) { item ->
 
                     AddTagItem(viewModel, item) { onTagClick(it) }
                 }
                 item { AddTagButton(viewModel) }
             }
-            VerticalScrollbar(adapter = rememberScrollbarAdapter(listState), modifier = Modifier.align(Alignment.CenterEnd))
+            VerticalScrollbar(
+                adapter = rememberScrollbarAdapter(listState),
+                modifier = Modifier.align(Alignment.CenterEnd)
+            )
         }
 
     }
@@ -68,8 +71,8 @@ fun TagsPicker(
 fun AddTagItem(
     viewModel: TagViewModel,
     item: Tag,
-    onClick: (List<Tag>) -> Unit
-){
+    onClick: (List<Tag>) -> Unit,
+) {
     val deleteDialogIsVisible = remember { mutableStateOf(false) }
     ListItem(
         label = item.name,
@@ -93,7 +96,7 @@ fun AddTagItem(
 }
 
 @Composable
-fun AddTagButton(viewModel: TagViewModel){
+fun AddTagButton(viewModel: TagViewModel) {
     val value = remember { mutableStateOf("") }
     val isVisible = remember { mutableStateOf(false) }
     AddListItem(

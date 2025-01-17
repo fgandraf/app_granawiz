@@ -4,7 +4,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Divider
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -13,20 +16,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
+import com.adamglin.phosphoricons.Regular
 import com.adamglin.phosphoricons.light.*
+import com.adamglin.phosphoricons.regular.Wallet
 import core.entity.account.BankAccount
 import utils.IconPaths
 import utils.brMoney
 import view.modules.Screen
 import view.modules.accountForm.AccountForm
-import view.shared.ClickableIcon
-import view.shared.ClickableRow
-import view.theme.*
+import view.shared.*
 import viewModel.SidebarViewModel
 
 @Composable
@@ -35,18 +36,19 @@ fun AccountMenuItem(
     account: BankAccount,
     screen: Screen,
     isActive: Boolean,
-    onClick: (Screen) -> Unit
+    onClick: (Screen) -> Unit,
 ) {
 
     var expanded by remember { mutableStateOf(false) }
 
-    Row(verticalAlignment = Alignment.CenterVertically,
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 10.dp)
             .clip(RoundedCornerShape(8.dp))
             .height(40.dp)
-            .background(if (isActive) MaterialTheme.colors.primaryVariant.copy(alpha = 0.5f) else Color.Transparent )
+            .background(if (isActive) MaterialTheme.colors.primaryVariant.copy(alpha = 0.5f) else Color.Transparent)
             .pointerHoverIcon(PointerIcon.Hand)
             .clickable { onClick(screen) }
     ) {
@@ -60,28 +62,19 @@ fun AccountMenuItem(
 
 
         Column(modifier = Modifier.padding(start = 40.dp).weight(1f)) {
-            Text(
+            TextH3(
                 text = account.name,
-                fontSize = 14.sp,
-                color = MaterialTheme.colors.primary,
-                fontWeight = FontWeight.Medium,
-                lineHeight = 0.sp,
-                fontFamily = Afacade
             )
-            Text(
+            TextSmall(
                 text = brMoney.format(account.balance),
-                fontSize = 10.sp,
-                color = if(account.balance > 0f) Lime200 else if (account.balance < 0f) Red400 else MaterialTheme.colors.primaryVariant,
-                fontWeight = FontWeight.Normal,
-                lineHeight = 0.sp,
-                fontFamily = Ubuntu
+                color = if (account.balance > 0f) MaterialTheme.colors.onPrimary else if (account.balance < 0f) MaterialTheme.colors.onError else MaterialTheme.colors.primaryVariant,
             )
         }
 
         ClickableIcon(
             icon = PhosphorIcons.Light.DotsThree,
             shape = RoundedCornerShape(6.dp),
-            onClick = {expanded = !expanded}
+            onClick = { expanded = !expanded }
         )
 
         DropDownAccountMenu(
@@ -100,7 +93,7 @@ fun DropDownAccountMenu(
     viewModel: SidebarViewModel,
     expanded: Boolean,
     onDismissRequest: () -> Unit,
-    account: BankAccount
+    account: BankAccount,
 ) {
 
     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -111,12 +104,12 @@ fun DropDownAccountMenu(
         ) {
 
             ClickableRow(icon = PhosphorIcons.Light.ArrowLineUp, label = "Mover para cima") {
-                viewModel.groupService.moveAccountPosition(account,-1)
+                viewModel.moveAccountPosition(account, -1)
                 onDismissRequest()
             }
 
             ClickableRow(icon = PhosphorIcons.Light.ArrowLineDown, label = "Mover para baixo") {
-                viewModel.groupService.moveAccountPosition(account,1)
+                viewModel.moveAccountPosition(account, 1)
                 onDismissRequest()
             }
 
@@ -124,7 +117,10 @@ fun DropDownAccountMenu(
 
             var showEditAccount by remember { mutableStateOf(false) }
             ClickableRow(icon = PhosphorIcons.Light.PencilLine, label = "Editar") { showEditAccount = true; }
-            if (showEditAccount) AccountForm(sidebarViewModel = viewModel, account = account, onDismiss = { showEditAccount = false; onDismissRequest() })
+            if (showEditAccount) AccountForm(
+                sidebarViewModel = viewModel,
+                account = account,
+                onDismiss = { showEditAccount = false; onDismissRequest() })
 
 
             Divider(modifier = Modifier.padding(vertical = 3.dp))
@@ -133,14 +129,15 @@ fun DropDownAccountMenu(
             var deleteDialog by remember { mutableStateOf(false) }
             ClickableRow(icon = PhosphorIcons.Light.Trash, label = "Excluir") { deleteDialog = true }
             if (deleteDialog)
-                DialogDeleteAccount(
+
+                DialogDelete(
                     title = "Excluir conta",
-                    icon = IconPaths.BANK_LOGOS + account.icon,
+                    icon = PhosphorIcons.Regular.Wallet,
                     objectName = "${account.group.name}/${account.name}",
                     alertText = "Isso irá excluir permanentemente a conta ${account.group.name} → ${account.name}, bem como todas as transações associadas a ela.",
                     onClickButton = {
-                        viewModel.accountService.deleteAccount(account)
-                        viewModel.groupService.loadGroups()
+                        viewModel.deleteAccount(account)
+                        viewModel.reload()
                         onDismissRequest()
                     },
                     onDismiss = { onDismissRequest(); deleteDialog = false }

@@ -20,7 +20,7 @@ class CheckingAccount(
 
     @Column(name = "overdraft_limit")
     var overdraftLimit: Double = 0.0,
-    ) : BankAccount(
+) : BankAccount(
     type = AccountType.CHECKING,
     name = name,
     description = description,
@@ -28,7 +28,7 @@ class CheckingAccount(
     icon = icon,
     balance = balance,
     group = group
-    ) {
+) {
 
     constructor(
         id: Long?,
@@ -39,7 +39,7 @@ class CheckingAccount(
         balance: Double,
         group: Group,
         openBalance: Double = 0.0,
-        overdraftLimit: Double = 0.0
+        overdraftLimit: Double = 0.0,
     ) : this(
         name = name,
         description = description,

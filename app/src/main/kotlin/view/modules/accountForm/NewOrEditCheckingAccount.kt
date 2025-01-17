@@ -12,9 +12,11 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import core.entity.account.CheckingAccount
+import core.enums.AccountType
 import utils.toBrMoney
 import view.modules.accountForm.components.GroupListComboBox
 import view.modules.accountForm.components.IconSelector
@@ -28,11 +30,15 @@ fun NewOrEditCheckingAccount(
     sidebarViewModel: SidebarViewModel,
     accountFormViewModel: AccountFormViewModel,
     account: CheckingAccount? = null,
-    onDismiss: () -> Unit
-){
+    onDismiss: () -> Unit,
+) {
 
-    if (account != null) { LaunchedEffect(account) { accountFormViewModel.initializeFromAccount(account) } }
+    if (account != null) {
+        LaunchedEffect(account) { accountFormViewModel.initializeFromAccount(account) }
+    }
     val buttonLabel by remember { mutableStateOf(if (account == null) "Adicionar" else "Editar") }
+
+    accountFormViewModel.type = AccountType.CHECKING
 
     Column(Modifier.fillMaxWidth().padding(top = 30.dp), horizontalAlignment = Alignment.CenterHorizontally) {
 
@@ -44,8 +50,8 @@ fun NewOrEditCheckingAccount(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 60.dp, end = 60.dp, top = 35.dp, bottom = 50.dp)
-                .background(MaterialTheme.colors.onPrimary, RoundedCornerShape(16.dp))
-                .border(0.5.dp, MaterialTheme.colors.primaryVariant, RoundedCornerShape(8.dp))
+                .background(MaterialTheme.colors.surface, RoundedCornerShape(16.dp))
+                .border(0.5.dp, MaterialTheme.colors.onSurface, RoundedCornerShape(8.dp))
         ) {
             Column(Modifier.fillMaxWidth().padding(40.dp)) {
 
@@ -55,11 +61,11 @@ fun NewOrEditCheckingAccount(
                     value = accountFormViewModel.name,
                     label = "Nome:",
                     placeholder = "Nome da conta",
-                    onValueChange = { accountFormViewModel.name = it}
+                    onValueChange = { accountFormViewModel.name = it }
                 )
 
                 Row(modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp)) {
-                    var openBalanceText by remember { mutableStateOf(if (account != null) toBrMoney.format(account.openBalance) else "" ) }
+                    var openBalanceText by remember { mutableStateOf(if (account != null) toBrMoney.format(account.openBalance) else "") }
                     //---open balance
                     DefaultTextField(
                         modifier = Modifier.weight(1f).padding(end = 10.dp),
@@ -69,7 +75,7 @@ fun NewOrEditCheckingAccount(
                         placeholder = "0.000,00"
                     ) {
                         openBalanceText = it.filter { char -> char.isDigit() || char == ',' || char == '.' }
-                        accountFormViewModel.openBalance = it.replace(".", "").replace(",", ".").toDoubleOrNull() ?: 0.0
+                        accountFormViewModel.balance = it.replace(".", "").replace(",", ".").toDoubleOrNull() ?: 0.0
                     }
 
                     //---limit
@@ -108,16 +114,24 @@ fun NewOrEditCheckingAccount(
 
 
         //==== FOOTER
-        Divider()
+        Divider(
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 5.dp)
+                .background(MaterialTheme.colors.primaryVariant.copy(alpha = 0.2f))
+        )
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 10.dp)
         ) {
             val confirmed by remember { derivedStateOf { accountFormViewModel.name != "" && accountFormViewModel.group.id != 0L } }
 
-            DefaultButton(modifier = Modifier.fillMaxWidth(), confirmed = confirmed, text = buttonLabel, textColor = MaterialTheme.colors.surface) {
-                accountFormViewModel.service.saveAccount(core.enums.AccountType.CHECKING, account)
-                sidebarViewModel.groupService.loadGroups()
+            DefaultButton(
+                modifier = Modifier.fillMaxWidth(),
+                confirmed = confirmed,
+                text = buttonLabel,
+                textColor = Color.White
+            ) {
+                accountFormViewModel.saveAccount()
+                sidebarViewModel.reload()
                 onDismiss()
             }
         }

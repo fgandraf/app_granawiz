@@ -18,7 +18,7 @@ open class Party(
     open val type: PartyType,
 
     @OneToMany(mappedBy = "party", cascade = [CascadeType.ALL], fetch = FetchType.LAZY, orphanRemoval = true)
-    open val partiesNames: MutableList<PartyName> = mutableListOf()
+    open val partiesNames: MutableList<PartyName> = mutableListOf(),
 ) {
     constructor() : this(0, "", PartyType.PAYER, mutableListOf())
 }

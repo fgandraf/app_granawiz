@@ -54,8 +54,8 @@ fun CategoriesPicker(
     Box(
         modifier = Modifier
             .width(600.dp)
-            .background(MaterialTheme.colors.onPrimary, RoundedCornerShape(topEnd = corner, bottomEnd = corner))
-            .border(1.dp, MaterialTheme.colors.primaryVariant, RoundedCornerShape(topEnd = corner, bottomEnd = corner)),
+            .background(MaterialTheme.colors.surface, RoundedCornerShape(topEnd = corner, bottomEnd = corner))
+            .border(0.5.dp, MaterialTheme.colors.onSurface, RoundedCornerShape(topEnd = corner, bottomEnd = corner)),
         contentAlignment = Alignment.Center
     ) {
 
@@ -63,26 +63,44 @@ fun CategoriesPicker(
         Row(modifier = Modifier.padding(vertical = 30.dp, horizontal = 10.dp)) {
 
             // CATEGORIES
-            Box(modifier = Modifier.weight(1f)){
+            Box(modifier = Modifier.weight(1f)) {
                 val listState = rememberLazyListState()
                 LazyColumn(state = listState) {
-                    items(categories, key = { it.id  }) { item -> AddCategoryItem(viewModel, item) { onCategoryClick(it, null) } }
+                    items(categories, key = { it.id }) { item ->
+                        AddCategoryItem(viewModel, item) {
+                            onCategoryClick(
+                                it,
+                                null
+                            )
+                        }
+                    }
                     item { AddCategoryButton(viewModel) }
                 }
-                VerticalScrollbar(adapter = rememberScrollbarAdapter(listState), modifier = Modifier.align(Alignment.CenterEnd))
+                VerticalScrollbar(
+                    adapter = rememberScrollbarAdapter(listState),
+                    modifier = Modifier.align(Alignment.CenterEnd)
+                )
             }
 
             // DIVIDER
-            Divider(modifier = Modifier.width(2.dp).fillMaxHeight())
+            Divider(modifier = Modifier.width(1.dp).fillMaxHeight().background(MaterialTheme.colors.onSurface))
 
             // SUBCATEGORIES
-            Box(modifier = Modifier.weight(1f)){
+            Box(modifier = Modifier.weight(1f)) {
                 val listState = rememberLazyListState()
                 LazyColumn(state = listState) {
-                    items(subCategories, key = { it.id  }) { item -> AddSubcategoryItem(viewModel, item) { onCategoryClick(viewModel.selectedCategory.value, it) } }
+                    items(subCategories, key = { it.id }) { item ->
+                        AddSubcategoryItem(
+                            viewModel,
+                            item
+                        ) { onCategoryClick(viewModel.selectedCategory.value, it) }
+                    }
                     item { AddSubcategoryButton(viewModel) }
                 }
-                VerticalScrollbar(adapter = rememberScrollbarAdapter(listState),modifier = Modifier.align(Alignment.CenterEnd))
+                VerticalScrollbar(
+                    adapter = rememberScrollbarAdapter(listState),
+                    modifier = Modifier.align(Alignment.CenterEnd)
+                )
             }
 
         }
@@ -92,20 +110,19 @@ fun CategoriesPicker(
 }
 
 
-
 @Composable
 fun AddCategoryItem(
     viewModel: CategoryViewModel,
     item: Category,
-    onClick: (Category) -> Unit
-){
+    onClick: (Category) -> Unit,
+) {
     val deleteDialogIsVisible = remember { mutableStateOf(false) }
     CategoryListItem(
         label = item.name,
         icon = IconPaths.CATEGORY_PACK + item.icon,
         clickableIcon = true,
         hasSubItem = item.subcategories.size > 0,
-        isActive =  item.id == viewModel.selectedCategory.value.id,
+        isActive = item.id == viewModel.selectedCategory.value.id,
         deleteDialogIsVisible = deleteDialogIsVisible,
         onUpdateConfirmation = { viewModel.updateCategory(category = item, name = it) },
         onSelectIcon = { viewModel.updateCategory(category = item, icon = it) },
@@ -129,7 +146,7 @@ fun AddCategoryItem(
 }
 
 @Composable
-fun AddCategoryButton(viewModel: CategoryViewModel){
+fun AddCategoryButton(viewModel: CategoryViewModel) {
     val value = remember { mutableStateOf("") }
     val isVisible = remember { mutableStateOf(false) }
     AddListItem(
@@ -151,8 +168,8 @@ fun AddCategoryButton(viewModel: CategoryViewModel){
 fun AddSubcategoryItem(
     viewModel: CategoryViewModel,
     item: Subcategory,
-    onClick: (Subcategory) -> Unit
-){
+    onClick: (Subcategory) -> Unit,
+) {
     val deleteDialogIsVisible = remember { mutableStateOf(false) }
     ListItem(
         label = item.name,
@@ -179,7 +196,7 @@ fun AddSubcategoryItem(
 }
 
 @Composable
-fun AddSubcategoryButton(viewModel: CategoryViewModel){
+fun AddSubcategoryButton(viewModel: CategoryViewModel) {
     val value = remember { mutableStateOf("") }
     val isVisible = remember { mutableStateOf(false) }
     AddListItem(

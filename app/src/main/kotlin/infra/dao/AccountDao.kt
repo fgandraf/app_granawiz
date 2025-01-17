@@ -48,5 +48,12 @@ class AccountDao : IAccountDao {
         }
     }
 
+    override fun getAccountById(id: Long): BankAccount? {
+        val session = sessionFactory.openSession()
+        val account = session.get(BankAccount::class.java, id)
+        session.close()
+        return account
+    }
+
 
 }

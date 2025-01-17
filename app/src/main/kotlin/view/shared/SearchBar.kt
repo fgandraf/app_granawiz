@@ -34,16 +34,17 @@ import view.theme.Ubuntu
 @Composable
 fun SearchBar(
     onTuneClicked: () -> Unit,
-    onSearchClicked: () -> Unit
+    onSearchClicked: () -> Unit,
 ) {
 
     var text by remember { mutableStateOf(TextFieldValue()) }
 
-    Row(modifier = Modifier
-        .height(35.dp)
-        .width(360.dp)
-        .border(1.dp, MaterialTheme.colors.primaryVariant, shape = RoundedCornerShape(8.dp))
-        .background(MaterialTheme.colors.onPrimary),
+    Row(
+        modifier = Modifier
+            .height(35.dp)
+            .width(360.dp)
+            .border(1.dp, MaterialTheme.colors.primaryVariant, shape = RoundedCornerShape(8.dp))
+            .background(MaterialTheme.colors.onPrimary),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(

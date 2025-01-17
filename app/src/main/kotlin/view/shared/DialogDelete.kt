@@ -1,11 +1,11 @@
 package view.shared
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -20,11 +20,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.adamglin.PhosphorIcons
-import com.adamglin.phosphoricons.Light
-import com.adamglin.phosphoricons.light.Warning
-import view.theme.Red400
-import view.theme.Red800
+import com.adamglin.phosphoricons.Regular
+import com.adamglin.phosphoricons.regular.Warning
+import view.theme.RedWarning
 import view.theme.Ubuntu
+
 
 @Composable
 fun DialogDelete(
@@ -33,8 +33,8 @@ fun DialogDelete(
     objectName: String,
     alertText: String,
     onClickButton: () -> Unit,
-    onDismiss: () -> Unit
-){
+    onDismiss: () -> Unit,
+) {
     Dialog(onDismissRequest = onDismiss) {
         Column(
             modifier = Modifier
@@ -44,14 +44,18 @@ fun DialogDelete(
 
             //===== Title Bar
             DialogTitleBar(title = title, onCloseRequest = onDismiss)
-            Divider()
+            Divider(Modifier.background(MaterialTheme.colors.onSurface))
 
             //===== Information
-            Column(modifier = Modifier.fillMaxWidth().padding(vertical = 20.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                Image(
+            Column(
+                modifier = Modifier.fillMaxWidth().padding(vertical = 20.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Icon(
                     modifier = Modifier.size(40.dp),
                     imageVector = icon,
-                    contentDescription = "Object icon"
+                    contentDescription = "Object icon",
+                    tint = MaterialTheme.colors.primary
                 )
                 Spacer(Modifier.height(15.dp))
                 Text(
@@ -62,7 +66,7 @@ fun DialogDelete(
                     fontSize = 16.sp,
                 )
             }
-            Divider(Modifier.padding(horizontal = 10.dp))
+            Divider(Modifier.padding(horizontal = 10.dp).background(MaterialTheme.colors.onSurface))
 
             //===== Alert
             Column(
@@ -70,56 +74,57 @@ fun DialogDelete(
                 verticalArrangement = Arrangement.SpaceAround,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Row(verticalAlignment = Alignment.CenterVertically,
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center,
                     modifier = Modifier
                         .height(40.dp)
                         .fillMaxWidth()
                         .padding(horizontal = 30.dp)
                         .clip(RoundedCornerShape(5.dp))
-                        .border(1.dp, Red800.copy(0.5f), shape = RoundedCornerShape(5.dp))
-                        .background(Color.Yellow.copy(alpha = 0.2F))
-                ){
-                    Image(
+                        .border(1.dp, MaterialTheme.colors.onSurface, shape = RoundedCornerShape(5.dp))
+                        .background(Color.Yellow)
+                ) {
+                    Icon(
                         modifier = Modifier.size(16.dp),
-                        imageVector = PhosphorIcons.Light.Warning,
-                        contentDescription = "Exclamation icon"
+                        imageVector = PhosphorIcons.Regular.Warning,
+                        contentDescription = "Exclamation icon",
+                        tint = RedWarning
                     )
-                    TextPrimary(
+                    TextNormal(
                         modifier = Modifier.padding(start = 10.dp),
                         text = "Esta ação é irreversível! Leia com atenção!",
-                        color = Red400,
-                        weight = FontWeight.Medium
+                        color = RedWarning
                     )
                 }
                 Spacer(Modifier.height(20.dp))
 
-                Row(verticalAlignment = Alignment.CenterVertically,
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.fillMaxWidth().padding(horizontal = 40.dp)
                 ) {
-                    Divider(Modifier.height(50.dp).width(3.dp))
+                    Divider(Modifier.height(50.dp).width(3.dp).background(MaterialTheme.colors.onSurface))
                     Spacer(Modifier.width(25.dp))
-                    TextPrimary(
+                    TextNormal(
                         text = alertText,
-                        color = MaterialTheme.colors.secondary,
+                        color = MaterialTheme.colors.primary,
                         align = TextAlign.Justify,
                         lineHeight = 16.sp
                     )
                 }
             }
-            Divider(Modifier.padding(horizontal = 10.dp))
+            Divider(Modifier.padding(horizontal = 10.dp).background(MaterialTheme.colors.onSurface))
 
             //===== Confirmation
-            var value by remember{mutableStateOf("")}
+            var value by remember { mutableStateOf("") }
             val confirmed by remember { derivedStateOf { value == objectName } }
             Column(
                 verticalArrangement = Arrangement.Center,
                 modifier = Modifier.fillMaxWidth().padding(vertical = 20.dp, horizontal = 40.dp)
-            ){
-                TextPrimary(
+            ) {
+                TextNormal(
                     modifier = Modifier.padding(bottom = 5.dp),
                     text = "Digite \"${objectName}\"",
-                    size = 12.sp,
                     align = TextAlign.Start
                 )
                 DefaultTextField(
@@ -127,15 +132,21 @@ fun DialogDelete(
                     onValueChange = { value = it },
                 )
             }
-            Divider()
+            Divider(Modifier.background(MaterialTheme.colors.onSurface))
 
             //===== Delete Button
             Column(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxWidth().padding(vertical = 10.dp, horizontal = 20.dp)
-            ){
-                DefaultButton(modifier = Modifier.fillMaxWidth(), confirmed = confirmed, textColor = Color.White, color = Red400, text = title){
+            ) {
+                DefaultButton(
+                    modifier = Modifier.fillMaxWidth(),
+                    confirmed = confirmed,
+                    color = RedWarning,
+                    text = title,
+                    textColor = Color.White
+                ) {
                     onClickButton()
                     onDismiss()
                 }

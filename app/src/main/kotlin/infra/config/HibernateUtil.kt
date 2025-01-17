@@ -31,7 +31,7 @@ object HibernateUtil {
         // Propriedades do Hibernate
         val settings = Properties()
         settings["hibernate.connection.driver_class"] = "org.sqlite.JDBC"
-        settings["hibernate.connection.url"] = "jdbc:sqlite:granawiz.db"
+        settings["hibernate.connection.url"] = "jdbc:sqlite:${AppConfig.dbAbsolutePath}"
         settings["hibernate.dialect"] = "org.hibernate.community.dialect.SQLiteDialect"
         settings["hibernate.jdbc.time_zone"] = "UTC"
         settings["hibernate.show_sql"] = "true"

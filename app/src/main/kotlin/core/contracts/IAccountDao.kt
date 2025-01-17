@@ -11,4 +11,6 @@ interface IAccountDao {
     fun delete(account: BankAccount)
 
     fun updateAccountPositions(accounts: List<BankAccount>)
+
+    fun getAccountById(id: Long): BankAccount?
 }

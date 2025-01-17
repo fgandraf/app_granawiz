@@ -22,13 +22,15 @@ fun ButtonFooterItem(
     icon: ImageVector,
     label: String,
     enabled: Boolean = true,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
 
     val color = if (enabled) MaterialTheme.colors.primary else MaterialTheme.colors.primaryVariant
-    val newModifier = if (enabled) modifier.clickable(onClick = onClick).pointerHoverIcon(PointerIcon.Hand) else modifier
+    val newModifier =
+        if (enabled) modifier.clickable(onClick = onClick).pointerHoverIcon(PointerIcon.Hand) else modifier
 
-    Column(verticalArrangement = Arrangement.Center,
+    Column(
+        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = newModifier.fillMaxHeight()
     ) {
@@ -42,8 +44,8 @@ fun ButtonFooterItem(
 
         Text(
             text = label,
-            fontSize  = 12.sp,
-            color =  color,
+            fontSize = 12.sp,
+            color = color,
             fontWeight = FontWeight.Normal,
             lineHeight = 0.sp,
             fontFamily = Afacade

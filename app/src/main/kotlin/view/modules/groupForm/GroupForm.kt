@@ -1,17 +1,16 @@
 package view.modules.groupForm
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
@@ -20,14 +19,14 @@ import core.entity.Group
 import view.shared.DefaultButton
 import view.shared.DefaultTextField
 import view.shared.DialogTitleBar
-import view.shared.TextPrimary
+import view.shared.TextNormal
 import viewModel.SidebarViewModel
 
 @Composable
 fun GroupForm(
     viewModel: SidebarViewModel,
     group: Group? = null,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
 ) {
     Dialog(onDismissRequest = onDismiss) {
         Column(
@@ -41,7 +40,10 @@ fun GroupForm(
             var value by remember { mutableStateOf(group?.name ?: "") }
 
             DialogTitleBar(title = title, onCloseRequest = onDismiss)
-            Divider()
+            Divider(
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 5.dp)
+                    .background(MaterialTheme.colors.primaryVariant.copy(alpha = 0.2f))
+            )
 
             //===== Main
             Column(
@@ -49,20 +51,22 @@ fun GroupForm(
                 verticalArrangement = Arrangement.Center,
                 modifier = Modifier.fillMaxWidth().padding(40.dp)
             ) {
-                Image(
+                Icon(
                     modifier = Modifier.size(40.dp),
                     imageVector = PhosphorIcons.Light.Folders,
-                    contentDescription = "Group logo"
+                    contentDescription = "Group logo",
+                    tint = MaterialTheme.colors.primary
                 )
-                TextPrimary(
+                TextNormal(
                     modifier = Modifier.padding(top = 20.dp, bottom = 5.dp),
-                    text = "Nome do grupo:",
-                    size = 12.sp,
-                    align = TextAlign.Start
+                    text = "Nome do grupo:"
                 )
                 DefaultTextField(value = value) { value = it }
             }
-            Divider()
+            Divider(
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 5.dp)
+                    .background(MaterialTheme.colors.primaryVariant.copy(alpha = 0.2f))
+            )
 
 
             val confirmed by remember { derivedStateOf { value != "" } }
@@ -72,9 +76,14 @@ fun GroupForm(
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 30.dp, vertical = 10.dp)
             ) {
 
-                DefaultButton(modifier = Modifier.fillMaxWidth(), confirmed = confirmed, text = buttonLabel, textColor = MaterialTheme.colors.surface) {
-                    if (group == null) viewModel.groupService.addNewGroup(value)
-                    else viewModel.groupService.renameGroup(group, value)
+                DefaultButton(
+                    modifier = Modifier.fillMaxWidth(),
+                    confirmed = confirmed,
+                    text = buttonLabel,
+                    textColor = Color.White
+                ) {
+                    if (group == null) viewModel.addNewGroup(value)
+                    else viewModel.renameGroup(group, value)
                     onDismiss()
                 }
 
