@@ -23,6 +23,7 @@ import view.modules.UserPreferences.isLightTheme
 import view.shared.DialogTitleBar
 import view.shared.TextH2
 import view.shared.TextNormal
+import view.shared.TextSmall
 import view.theme.Afacade
 
 @Composable
@@ -85,8 +86,9 @@ fun SettingsScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(top = 20.dp, end = 30.dp, bottom = 30.dp, start = 30.dp)
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.95f)
+                    .padding(top = 20.dp, end = 30.dp, bottom = 10.dp, start = 30.dp)
                     .background(MaterialTheme.colors.background)
             ) {
 
@@ -99,6 +101,10 @@ fun SettingsScreen(
                     TextH2(text = "Em desenvolvimento...")
 
                 }
+            }
+
+            Column(modifier = Modifier.fillMaxWidth().padding(end = 50.dp), horizontalAlignment = Alignment.End) {
+                TextSmall(text = "Versão: Alpha-1")
             }
 
         }
