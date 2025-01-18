@@ -19,7 +19,9 @@ O projeto ainda está em desenvolvimento e as próximas atualizações serão vo
 - [ ] Tela de Agendamentos
 - [ ] Tela do Dashboard
 - [ ] Preferências do usuário
-- [ ] Tradução para inglês
+- [ ] Suporte multi-idiomas
+- [ ] Tradução para o inglês
+- [ ] Tela de carregamento (splash)
 
 ## # Instalando GranaWiz
 
@@ -27,16 +29,18 @@ Atualmente está em versão de prévia (alpha) mas já possível instalar em uma
 
 ##### ⇢ MacOS:
 
-* Baixe e execute o aquivo: [MacOS (.dmg)](https://drive.google.com/file/d/1lrlyqXRHFgLBOg4kTYZ7rrEZimY74bci/view?usp=sharing)
+* Baixe e execute o aquivo: [Instalador(.dmg)](https://drive.google.com/file/d/1lrlyqXRHFgLBOg4kTYZ7rrEZimY74bci/view?usp=sharing)
 * Arraste o **GranaWiz** para **Aplicativos**
-<br/>
 
 ##### ⇢ Windows:
 
-* Baixe e execute o aquivo: [Windows (.msi)](https://drive.google.com/file/d/1ltyk_lJokor-xad6yhxNFLwZDC1lTc4R/view?usp=sharing)
+* Baixe e execute o aquivo: [Instalador(.msi)](https://drive.google.com/file/d/1ltyk_lJokor-xad6yhxNFLwZDC1lTc4R/view?usp=sharing)
 * Se aparecer **"O Windows protegeu o computador"**, *clique em: Mais informações → Executar assim mesmo*
 * Se o instalador não criar o atalho no Menu Iniciar, verifique em: ```C:\Program Files\GranaWiz\GranaWiz.exe```
-<br/>
+
+##### ⇢ Linux (arm64):
+
+* Baixe e execute o aquivo: [Instalador(.deb)](https://drive.google.com/file/d/1lucVRGmhfRcVpza0IpaHUvRLgXGjP3o8/view?usp=sharing)
 
 ---
 
