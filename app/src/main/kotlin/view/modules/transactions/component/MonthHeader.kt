@@ -15,15 +15,28 @@ import androidx.compose.ui.zIndex
 import view.shared.TextH1
 import java.time.LocalDate
 import java.time.Month
-import java.time.format.TextStyle
-import java.util.*
 
 @Composable
 fun MonthHeader(
     modifier: Modifier = Modifier,
     month: Month,
 ) {
-    val formatedMonth = month.getDisplayName(TextStyle.FULL, Locale.of("pt", "br")).replaceFirstChar { it.uppercase() }
+    val monthNames = mapOf(
+        Month.JANUARY to "Janeiro",
+        Month.FEBRUARY to "Fevereiro",
+        Month.MARCH to "Março",
+        Month.APRIL to "Abril",
+        Month.MAY to "Maio",
+        Month.JUNE to "Junho",
+        Month.JULY to "Julho",
+        Month.AUGUST to "Agosto",
+        Month.SEPTEMBER to "Setembro",
+        Month.OCTOBER to "Outubro",
+        Month.NOVEMBER to "Novembro",
+        Month.DECEMBER to "Dezembro"
+    )
+
+    val formatedMonth = monthNames[month] ?: "Mês desconhecido"
     val monthTitle = if (month != LocalDate.now().month) formatedMonth else "Esse mês"
     val corners = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp)
     var boxWidth by remember { mutableStateOf(0) }
