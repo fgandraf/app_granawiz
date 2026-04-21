@@ -51,15 +51,6 @@ fun Main(
         )
 
 
-        StaticMenuItem(
-            icon = PhosphorIcons.Light.Scroll,
-            label = "Relatórios",
-            isActive = currentScreen == Screen.Reports,
-            screen = Screen.Reports,
-            onClick = { onScreenSelected(it); activeAccountId = 0L }
-        )
-
-
         SectionTitle("Base de dados")
         StaticMenuItem(
             icon = PhosphorIcons.Light.Shapes,

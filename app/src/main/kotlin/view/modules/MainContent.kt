@@ -5,7 +5,6 @@ import view.modules.categories.CategoriesScreen
 import view.modules.dashboard.DashboardScreen
 import view.modules.party.PayersScreen
 import view.modules.party.ReceiversScreen
-import view.modules.reports.ReportsScreen
 import view.modules.schedules.ScheduleScreen
 import view.modules.tags.TagsScreen
 import view.modules.transactions.TransactionsScreen
@@ -15,7 +14,6 @@ fun MainContent(screen: Screen) {
     when (screen) {
         is Screen.Dashboard -> DashboardScreen()
         is Screen.Schedules -> ScheduleScreen()
-        is Screen.Reports -> ReportsScreen()
         is Screen.Categories -> CategoriesScreen()
         is Screen.Tags -> TagsScreen()
         is Screen.Receivers -> ReceiversScreen()

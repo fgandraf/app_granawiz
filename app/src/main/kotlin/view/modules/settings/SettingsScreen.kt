@@ -106,7 +106,7 @@ fun SettingsScreen(
             }
 
             Column(modifier = Modifier.fillMaxWidth().padding(end = 50.dp), horizontalAlignment = Alignment.End) {
-                TextSmall(text = "Versão: Alpha-1")
+                TextSmall(text = "Versão: Alpha-2")
             }
 
         }
