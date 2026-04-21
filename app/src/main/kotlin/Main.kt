@@ -27,6 +27,7 @@ import java.util.*
 fun main() = application {
 
     DatabaseConfig.runMigrations()
+    UserPreferences.loadFromDatabase()
 
     val screenSize = Toolkit.getDefaultToolkit().screenSize
     val windowsWidth = (screenSize.width * 0.80).toInt().dp

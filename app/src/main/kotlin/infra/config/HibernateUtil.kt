@@ -1,6 +1,7 @@
 package infra.config
 
 import core.entity.*
+import core.entity.UserPreference
 import core.entity.account.BankAccount
 import core.entity.account.CheckingAccount
 import core.entity.account.CreditCardAccount
@@ -27,6 +28,7 @@ object HibernateUtil {
         configuration.addAnnotatedClass(CheckingAccount::class.java)
         configuration.addAnnotatedClass(CreditCardAccount::class.java)
         configuration.addAnnotatedClass(SavingsAccount::class.java)
+        configuration.addAnnotatedClass(UserPreference::class.java)
 
         // Propriedades do Hibernate
         val settings = Properties()

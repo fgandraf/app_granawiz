@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import view.modules.UserPreferences.isLightTheme
 import view.shared.DialogTitleBar
+import viewModel.SettingsViewModel
 import view.shared.TextH2
 import view.shared.TextNormal
 import view.shared.TextSmall
@@ -29,6 +30,7 @@ import view.theme.Afacade
 @Composable
 fun SettingsScreen(
     onDismiss: () -> Unit,
+    viewModel: SettingsViewModel = SettingsViewModel(),
 ) {
     Dialog(onDismissRequest = onDismiss) {
         Column(
@@ -70,7 +72,7 @@ fun SettingsScreen(
                 )
             }
             Row(Modifier.fillMaxWidth(), Arrangement.Center, Alignment.CenterVertically) {
-                Switch(checked = isLightTheme, onCheckedChange = { isLightTheme = !isLightTheme })
+                Switch(checked = isLightTheme, onCheckedChange = { viewModel.setTheme(!isLightTheme) })
                 Spacer(Modifier.width(10.dp))
                 TextNormal(text = if (isLightTheme) "Apagar" else "Acender")
             }

@@ -21,3 +21,5 @@ build/
 
 ### Ignored files ###
 ignored/
+
+.idea
