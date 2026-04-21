@@ -24,11 +24,12 @@ fun TextNormal(
     align: TextAlign = TextAlign.Start,
     lineHeight: TextUnit? = 12.sp,
     fontStyle: FontStyle? = FontStyle.Normal,
+    fontSize: TextUnit = 12.sp,
 ) {
     Text(
         modifier = modifier,
         text = text,
-        fontSize = 12.sp,
+        fontSize = fontSize,
         color = color!!,
         fontWeight = FontWeight.Normal,
         lineHeight = lineHeight!!,
@@ -44,14 +45,15 @@ fun TextMedium(
     text: String,
     color: Color? = if (MaterialTheme.colors.isLight) GrayPrimaryLight else GrayPrimaryDark,
     align: TextAlign = TextAlign.Start,
+    fontSize: TextUnit = 14.sp,
 ) {
     Text(
         modifier = modifier,
         text = text,
-        fontSize = 14.sp,
+        fontSize = fontSize,
         color = color!!,
         fontWeight = FontWeight.Medium,
-        lineHeight = 14.sp,
+        lineHeight = fontSize,
         fontFamily = Ubuntu,
         textAlign = align
     )

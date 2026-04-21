@@ -27,10 +27,7 @@ import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.Regular
 import com.adamglin.phosphoricons.bold.ArrowLeft
 import com.adamglin.phosphoricons.bold.ListBullets
-import com.adamglin.phosphoricons.light.Bank
-import com.adamglin.phosphoricons.light.CaretDown
-import com.adamglin.phosphoricons.light.Plus
-import com.adamglin.phosphoricons.light.Shapes
+import com.adamglin.phosphoricons.light.*
 import com.adamglin.phosphoricons.regular.*
 import core.entity.Category
 import core.entity.Subcategory
@@ -46,6 +43,7 @@ import view.modules.transactions.component.TransactionRow
 import view.shared.*
 import view.theme.ButtonPurple
 import viewModel.TransactionViewModel
+import core.entity.Tag as TagEntity
 
 
 @Composable
@@ -92,6 +90,10 @@ fun TransactionsScreen(
     var showAccountDropdown by remember { mutableStateOf(false) }
     var filterCategoryItem by remember { mutableStateOf<Pair<Category, Subcategory?>?>(null) }
     var showCategoryDropdown by remember { mutableStateOf(false) }
+    var filterTag by remember { mutableStateOf<TagEntity?>(null) }
+    var showTagDropdown by remember { mutableStateOf(false) }
+    var filterType by remember { mutableStateOf<TransactionType?>(null) }
+    var showTypeDropdown by remember { mutableStateOf(false) }
 
     var addresses by remember { mutableStateOf(emptyList<PageAddress>()) }
     LaunchedEffect(account) {
@@ -103,6 +105,8 @@ fun TransactionsScreen(
         searchQuery = ""
         filterAccount = null
         filterCategoryItem = null
+        filterTag = null
+        filterType = null
     }
 
     var transactionType by remember { mutableStateOf(selectedTransaction?.type) }
@@ -110,48 +114,83 @@ fun TransactionsScreen(
     Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.background)) {
 
         // ********** HEADER **********
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth().padding(20.dp)
-        ) {
-            // address
-            Column {
-                Row(Modifier.padding(bottom = 12.dp), verticalAlignment = Alignment.CenterVertically) {
-                    ClickableIcon(
-                        enabled = backIcon,
-                        icon = PhosphorIcons.Bold.ArrowLeft,
-                        iconSize = 22.dp,
-                        boxSize = 25.dp
-                    ) {
-                        addresses = initialAddress
-                        selectedTransaction = null
-                        showEditTransaction = false
-                        backIcon = false
-                        showTransactionsList = true
-                    }
-                    Spacer(Modifier.width(10.dp))
-                    addresses.forEach {
-                        AddressView(
-                            icon = it.iconVector,
-                            iconSize = it.iconSize!!,
-                            value = it.name,
-                            rootPath = it.rootPath
-                        )
-                    }
+        Column(modifier = Modifier.fillMaxWidth().padding(start = 20.dp, top = 20.dp, end = 20.dp)) {
+            // address row
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                ClickableIcon(
+                    enabled = backIcon,
+                    icon = PhosphorIcons.Bold.ArrowLeft,
+                    iconSize = 22.dp,
+                    boxSize = 25.dp
+                ) {
+                    addresses = initialAddress
+                    selectedTransaction = null
+                    showEditTransaction = false
+                    backIcon = false
+                    showTransactionsList = true
                 }
-                TextNormal(text = account?.description ?: "", align = TextAlign.Start)
+                Spacer(Modifier.width(10.dp))
+                addresses.forEach {
+                    AddressView(
+                        icon = it.iconVector,
+                        iconSize = it.iconSize!!,
+                        value = it.name,
+                        rootPath = it.rootPath
+                    )
+                }
+            }
+            if (account?.description?.isNotEmpty() == true) {
+                TextNormal(
+                    text = account.description,
+                    align = TextAlign.Start,
+                    modifier = Modifier.padding(top = 4.dp)
+                )
             }
 
             if (showTransactionsList) {
-                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                val preFilteredTransactions = viewModel.transactions.value.filter { t ->
+                    val ms = searchQuery.isEmpty() ||
+                            t.party.name.contains(searchQuery, ignoreCase = true) ||
+                            t.description.contains(searchQuery, ignoreCase = true) ||
+                            t.category.name.contains(searchQuery, ignoreCase = true) ||
+                            t.subcategory?.name?.contains(searchQuery, ignoreCase = true) == true ||
+                            t.tags?.any { it.name.contains(searchQuery, ignoreCase = true) } == true
+                    val ma = filterAccount == null || t.account.id == filterAccount!!.id
+                    ms && ma
+                }
+                val availableCategoriesMap = preFilteredTransactions
+                    .filter { filterType == null || it.type == filterType }
+                    .groupBy { it.category }
+                val categoryFilterLabel = filterCategoryItem?.let { (cat, sub) ->
+                    if (sub != null) "${cat.name}: ${sub.name}" else cat.name
+                } ?: "Todas as categorias"
+                val availableTags = preFilteredTransactions.filter { t ->
+                    val mt = filterType == null || t.type == filterType
+                    val mc = filterCategoryItem == null ||
+                            (filterCategoryItem!!.second == null && t.category.id == filterCategoryItem!!.first.id) ||
+                            (filterCategoryItem!!.second != null && t.subcategory?.id == filterCategoryItem!!.second!!.id)
+                    mt && mc
+                }.flatMap { it.tags ?: emptyList() }.distinctBy { it.id }
+                val tagFilterLabel = filterTag?.name ?: "Todas as tags"
+                val typeFilterLabel = when (filterType) {
+                    TransactionType.GAIN -> "Receitas"
+                    TransactionType.EXPENSE -> "Despesas"
+                    else -> "Todos os tipos"
+                }
+
+                Row(
+                    modifier = Modifier.fillMaxWidth().padding(top = 20.dp, bottom = 2.dp),
+                    verticalAlignment = Alignment.Bottom,
+                    horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterHorizontally)
+                ) {
+                    // 1. Contas
                     if (account == null) {
                         val allAccounts = viewModel.groups.value.flatMap { it.accounts }
                         val filterLabel = filterAccount?.name ?: "Todos os bancos"
                         Box {
                             Box(
                                 modifier = Modifier
-                                    .height(35.dp)
+                                    .height(30.dp)
                                     .clip(RoundedCornerShape(8.dp))
                                     .border(1.dp, MaterialTheme.colors.primaryVariant, RoundedCornerShape(8.dp))
                                     .background(Color.Transparent)
@@ -167,7 +206,7 @@ fun TransactionsScreen(
                                         tint = MaterialTheme.colors.secondary,
                                         modifier = Modifier.size(16.dp)
                                     )
-                                    TextMedium(text = filterLabel)
+                                    TextNormal(text = filterLabel)
                                     Icon(
                                         imageVector = PhosphorIcons.Light.CaretDown,
                                         contentDescription = "",
@@ -198,25 +237,65 @@ fun TransactionsScreen(
                         }
                     }
 
-                    val preFilteredTransactions = viewModel.transactions.value.filter { t ->
-                        val ms = searchQuery.isEmpty() ||
-                                t.party.name.contains(searchQuery, ignoreCase = true) ||
-                                t.description.contains(searchQuery, ignoreCase = true) ||
-                                t.category.name.contains(searchQuery, ignoreCase = true) ||
-                                t.subcategory?.name?.contains(searchQuery, ignoreCase = true) == true ||
-                                t.tags?.any { it.name.contains(searchQuery, ignoreCase = true) } == true
-                        val ma = filterAccount == null || t.account.id == filterAccount!!.id
-                        ms && ma
-                    }
-                    val availableCategoriesMap = preFilteredTransactions.groupBy { it.category }
-                    val categoryFilterLabel = filterCategoryItem?.let { (cat, sub) ->
-                        if (sub != null) "${cat.name}: ${sub.name}" else cat.name
-                    } ?: "Todas as categorias"
-
+                    // 2. Tipo
                     Box {
                         Box(
                             modifier = Modifier
-                                .height(35.dp)
+                                .height(30.dp)
+                                .clip(RoundedCornerShape(8.dp))
+                                .border(1.dp, MaterialTheme.colors.primaryVariant, RoundedCornerShape(8.dp))
+                                .background(Color.Transparent)
+                                .pointerHoverIcon(PointerIcon.Hand)
+                                .clickable { showTypeDropdown = true }
+                                .padding(horizontal = 12.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                                Icon(
+                                    imageVector = PhosphorIcons.Light.ArrowsDownUp,
+                                    contentDescription = "",
+                                    tint = MaterialTheme.colors.secondary,
+                                    modifier = Modifier.size(16.dp)
+                                )
+                                TextNormal(text = typeFilterLabel)
+                                Icon(
+                                    imageVector = PhosphorIcons.Light.CaretDown,
+                                    contentDescription = "",
+                                    tint = MaterialTheme.colors.secondary,
+                                    modifier = Modifier.size(14.dp)
+                                )
+                            }
+                        }
+                        DropdownMenu(
+                            expanded = showTypeDropdown,
+                            onDismissRequest = { showTypeDropdown = false }
+                        ) {
+                            DropdownMenuItem(onClick = {
+                                filterType = null
+                                showTypeDropdown = false
+                            }) {
+                                TextNormal(text = "Todos os tipos")
+                            }
+                            DropdownMenuItem(onClick = {
+                                filterType = TransactionType.GAIN
+                                showTypeDropdown = false
+                            }) {
+                                TextNormal(text = "Receitas")
+                            }
+                            DropdownMenuItem(onClick = {
+                                filterType = TransactionType.EXPENSE
+                                showTypeDropdown = false
+                            }) {
+                                TextNormal(text = "Despesas")
+                            }
+                        }
+                    }
+
+                    // 3. Categoria
+                    Box {
+                        Box(
+                            modifier = Modifier
+                                .height(30.dp)
                                 .clip(RoundedCornerShape(8.dp))
                                 .border(1.dp, MaterialTheme.colors.primaryVariant, RoundedCornerShape(8.dp))
                                 .background(Color.Transparent)
@@ -232,7 +311,7 @@ fun TransactionsScreen(
                                     tint = MaterialTheme.colors.secondary,
                                     modifier = Modifier.size(16.dp)
                                 )
-                                TextMedium(text = categoryFilterLabel)
+                                TextNormal(text = categoryFilterLabel)
                                 Icon(
                                     imageVector = PhosphorIcons.Light.CaretDown,
                                     contentDescription = "",
@@ -269,6 +348,58 @@ fun TransactionsScreen(
                             }
                         }
                     }
+
+                    // 4. Tags
+                    Box {
+                        Box(
+                            modifier = Modifier
+                                .height(30.dp)
+                                .clip(RoundedCornerShape(8.dp))
+                                .border(1.dp, MaterialTheme.colors.primaryVariant, RoundedCornerShape(8.dp))
+                                .background(Color.Transparent)
+                                .pointerHoverIcon(PointerIcon.Hand)
+                                .clickable { showTagDropdown = true }
+                                .padding(horizontal = 12.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                                Icon(
+                                    imageVector = PhosphorIcons.Light.Tag,
+                                    contentDescription = "",
+                                    tint = MaterialTheme.colors.secondary,
+                                    modifier = Modifier.size(16.dp)
+                                )
+                                TextNormal(text = tagFilterLabel)
+                                Icon(
+                                    imageVector = PhosphorIcons.Light.CaretDown,
+                                    contentDescription = "",
+                                    tint = MaterialTheme.colors.secondary,
+                                    modifier = Modifier.size(14.dp)
+                                )
+                            }
+                        }
+                        DropdownMenu(
+                            expanded = showTagDropdown,
+                            onDismissRequest = { showTagDropdown = false }
+                        ) {
+                            DropdownMenuItem(onClick = {
+                                filterTag = null
+                                showTagDropdown = false
+                            }) {
+                                TextNormal(text = "Todas as tags")
+                            }
+                            availableTags.forEach { tag ->
+                                DropdownMenuItem(onClick = {
+                                    filterTag = tag
+                                    showTagDropdown = false
+                                }) {
+                                    TextNormal(text = tag.name)
+                                }
+                            }
+                        }
+                    }
+
+                    // 5. Pesquisa
                     SearchBar(
                         value = searchQuery,
                         onValueChange = { searchQuery = it }
@@ -290,7 +421,9 @@ fun TransactionsScreen(
                 val matchesCategory = filterCategoryItem == null ||
                         (filterCategoryItem!!.second == null && transaction.category.id == filterCategoryItem!!.first.id) ||
                         (filterCategoryItem!!.second != null && transaction.subcategory?.id == filterCategoryItem!!.second!!.id)
-                matchesSearch && matchesAccount && matchesCategory
+                val matchesTag = filterTag == null || transaction.tags?.any { it.id == filterTag!!.id } == true
+                val matchesType = filterType == null || transaction.type == filterType
+                matchesSearch && matchesAccount && matchesCategory && matchesTag && matchesType
             }
 
             Box(modifier = Modifier.fillMaxSize()) {
