@@ -33,18 +33,24 @@ import view.theme.Ubuntu
 
 @Composable
 fun SearchBar(
-    onTuneClicked: () -> Unit,
-    onSearchClicked: () -> Unit,
+    value: String,
+    onValueChange: (String) -> Unit,
+    onTuneClicked: () -> Unit = {},
 ) {
 
-    var text by remember { mutableStateOf(TextFieldValue()) }
+    var textFieldValue by remember { mutableStateOf(TextFieldValue(value)) }
+    LaunchedEffect(value) {
+        if (textFieldValue.text != value) {
+            textFieldValue = TextFieldValue(value)
+        }
+    }
 
     Row(
         modifier = Modifier
             .height(35.dp)
             .width(360.dp)
             .border(1.dp, MaterialTheme.colors.primaryVariant, shape = RoundedCornerShape(8.dp))
-            .background(MaterialTheme.colors.onPrimary),
+            .background(Color.Transparent),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
@@ -68,8 +74,8 @@ fun SearchBar(
                 .weight(5f)
                 .fillMaxWidth()
                 .padding(horizontal = 5.dp),
-            value = text,
-            onValueChange = { text = it },
+            value = textFieldValue,
+            onValueChange = { textFieldValue = it; onValueChange(it.text) },
             textStyle = TextStyle(
                 color = MaterialTheme.colors.secondary,
                 fontSize = 14.sp,
@@ -77,7 +83,7 @@ fun SearchBar(
                 fontWeight = FontWeight.Medium
             ),
             decorationBox = { innerTextField ->
-                if (text.text.isEmpty()) {
+                if (textFieldValue.text.isEmpty()) {
                     Text(
                         text = "Pesquisar",
                         color = Color.Gray.copy(alpha = 0.5f),
@@ -93,7 +99,7 @@ fun SearchBar(
                 keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Search
             ),
-            keyboardActions = KeyboardActions(onSearch = { onSearchClicked() }),
+            keyboardActions = KeyboardActions(onSearch = {}),
             singleLine = true
         )
 
@@ -101,9 +107,7 @@ fun SearchBar(
             modifier = Modifier
                 .weight(1f)
                 .size(40.dp)
-                .clip(RoundedCornerShape(topEnd = 8.dp, bottomEnd = 8.dp))
-                .pointerHoverIcon(PointerIcon.Hand)
-                .clickable { onSearchClicked() },
+                .clip(RoundedCornerShape(topEnd = 8.dp, bottomEnd = 8.dp)),
         ) {
             Icon(
                 modifier = Modifier.size(40.dp).padding(10.dp).align(Alignment.Center),

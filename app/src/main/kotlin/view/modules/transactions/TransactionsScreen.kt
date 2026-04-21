@@ -6,6 +6,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
@@ -25,8 +27,13 @@ import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.Regular
 import com.adamglin.phosphoricons.bold.ArrowLeft
 import com.adamglin.phosphoricons.bold.ListBullets
+import com.adamglin.phosphoricons.light.Bank
+import com.adamglin.phosphoricons.light.CaretDown
 import com.adamglin.phosphoricons.light.Plus
+import com.adamglin.phosphoricons.light.Shapes
 import com.adamglin.phosphoricons.regular.*
+import core.entity.Category
+import core.entity.Subcategory
 import core.entity.Transaction
 import core.entity.account.BankAccount
 import core.enums.TransactionType
@@ -36,10 +43,7 @@ import view.modules.transactions.component.DropDownAddTransaction
 import view.modules.transactions.component.MonthHeader
 import view.modules.transactions.component.TotalFooter
 import view.modules.transactions.component.TransactionRow
-import view.shared.AddressView
-import view.shared.ClickableIcon
-import view.shared.TextH2
-import view.shared.TextNormal
+import view.shared.*
 import view.theme.ButtonPurple
 import viewModel.TransactionViewModel
 
@@ -83,6 +87,11 @@ fun TransactionsScreen(
     var backIcon by remember { mutableStateOf(false) }
     var showTransactionsList by remember { mutableStateOf(true) }
 
+    var searchQuery by remember { mutableStateOf("") }
+    var filterAccount by remember { mutableStateOf<BankAccount?>(null) }
+    var showAccountDropdown by remember { mutableStateOf(false) }
+    var filterCategoryItem by remember { mutableStateOf<Pair<Category, Subcategory?>?>(null) }
+    var showCategoryDropdown by remember { mutableStateOf(false) }
 
     var addresses by remember { mutableStateOf(emptyList<PageAddress>()) }
     LaunchedEffect(account) {
@@ -91,6 +100,9 @@ fun TransactionsScreen(
         selectedTransaction = null
         backIcon = false
         showTransactionsList = true
+        searchQuery = ""
+        filterAccount = null
+        filterCategoryItem = null
     }
 
     var transactionType by remember { mutableStateOf(selectedTransaction?.type) }
@@ -100,11 +112,12 @@ fun TransactionsScreen(
         // ********** HEADER **********
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth().padding(20.dp)
         ) {
             // address
             Column {
-                Row(Modifier.fillMaxWidth().padding(bottom = 12.dp), verticalAlignment = Alignment.CenterVertically) {
+                Row(Modifier.padding(bottom = 12.dp), verticalAlignment = Alignment.CenterVertically) {
                     ClickableIcon(
                         enabled = backIcon,
                         icon = PhosphorIcons.Bold.ArrowLeft,
@@ -130,22 +143,166 @@ fun TransactionsScreen(
                 TextNormal(text = account?.description ?: "", align = TextAlign.Start)
             }
 
-            // TODO: Imoplements Searchbar
-            //SearchBar(onTuneClicked = {}, onSearchClicked = {})
+            if (showTransactionsList) {
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                    if (account == null) {
+                        val allAccounts = viewModel.groups.value.flatMap { it.accounts }
+                        val filterLabel = filterAccount?.name ?: "Todos os bancos"
+                        Box {
+                            Box(
+                                modifier = Modifier
+                                    .height(35.dp)
+                                    .clip(RoundedCornerShape(8.dp))
+                                    .border(1.dp, MaterialTheme.colors.primaryVariant, RoundedCornerShape(8.dp))
+                                    .background(Color.Transparent)
+                                    .pointerHoverIcon(PointerIcon.Hand)
+                                    .clickable { showAccountDropdown = true }
+                                    .padding(horizontal = 12.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                                    Icon(
+                                        imageVector = PhosphorIcons.Light.Bank,
+                                        contentDescription = "",
+                                        tint = MaterialTheme.colors.secondary,
+                                        modifier = Modifier.size(16.dp)
+                                    )
+                                    TextMedium(text = filterLabel)
+                                    Icon(
+                                        imageVector = PhosphorIcons.Light.CaretDown,
+                                        contentDescription = "",
+                                        tint = MaterialTheme.colors.secondary,
+                                        modifier = Modifier.size(14.dp)
+                                    )
+                                }
+                            }
+                            DropdownMenu(
+                                expanded = showAccountDropdown,
+                                onDismissRequest = { showAccountDropdown = false }
+                            ) {
+                                DropdownMenuItem(onClick = {
+                                    filterAccount = null
+                                    showAccountDropdown = false
+                                }) {
+                                    TextNormal(text = "Todos os bancos")
+                                }
+                                allAccounts.forEach { acc: BankAccount ->
+                                    DropdownMenuItem(onClick = {
+                                        filterAccount = acc
+                                        showAccountDropdown = false
+                                    }) {
+                                        TextNormal(text = acc.name)
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    val preFilteredTransactions = viewModel.transactions.value.filter { t ->
+                        val ms = searchQuery.isEmpty() ||
+                                t.party.name.contains(searchQuery, ignoreCase = true) ||
+                                t.description.contains(searchQuery, ignoreCase = true) ||
+                                t.category.name.contains(searchQuery, ignoreCase = true) ||
+                                t.subcategory?.name?.contains(searchQuery, ignoreCase = true) == true ||
+                                t.tags?.any { it.name.contains(searchQuery, ignoreCase = true) } == true
+                        val ma = filterAccount == null || t.account.id == filterAccount!!.id
+                        ms && ma
+                    }
+                    val availableCategoriesMap = preFilteredTransactions.groupBy { it.category }
+                    val categoryFilterLabel = filterCategoryItem?.let { (cat, sub) ->
+                        if (sub != null) "${cat.name}: ${sub.name}" else cat.name
+                    } ?: "Todas as categorias"
+
+                    Box {
+                        Box(
+                            modifier = Modifier
+                                .height(35.dp)
+                                .clip(RoundedCornerShape(8.dp))
+                                .border(1.dp, MaterialTheme.colors.primaryVariant, RoundedCornerShape(8.dp))
+                                .background(Color.Transparent)
+                                .pointerHoverIcon(PointerIcon.Hand)
+                                .clickable { showCategoryDropdown = true }
+                                .padding(horizontal = 12.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                                Icon(
+                                    imageVector = PhosphorIcons.Light.Shapes,
+                                    contentDescription = "",
+                                    tint = MaterialTheme.colors.secondary,
+                                    modifier = Modifier.size(16.dp)
+                                )
+                                TextMedium(text = categoryFilterLabel)
+                                Icon(
+                                    imageVector = PhosphorIcons.Light.CaretDown,
+                                    contentDescription = "",
+                                    tint = MaterialTheme.colors.secondary,
+                                    modifier = Modifier.size(14.dp)
+                                )
+                            }
+                        }
+                        DropdownMenu(
+                            expanded = showCategoryDropdown,
+                            onDismissRequest = { showCategoryDropdown = false }
+                        ) {
+                            DropdownMenuItem(onClick = {
+                                filterCategoryItem = null
+                                showCategoryDropdown = false
+                            }) {
+                                TextNormal(text = "Todas as categorias")
+                            }
+                            availableCategoriesMap.forEach { (cat, transactions) ->
+                                DropdownMenuItem(onClick = {
+                                    filterCategoryItem = Pair(cat, null)
+                                    showCategoryDropdown = false
+                                }) {
+                                    TextNormal(text = cat.name)
+                                }
+                                transactions.mapNotNull { it.subcategory }.distinctBy { it.id }.forEach { sub ->
+                                    DropdownMenuItem(onClick = {
+                                        filterCategoryItem = Pair(cat, sub)
+                                        showCategoryDropdown = false
+                                    }) {
+                                        TextNormal(modifier = Modifier.padding(start = 16.dp), text = sub.name)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    SearchBar(
+                        value = searchQuery,
+                        onValueChange = { searchQuery = it }
+                    )
+                }
+            }
         }
 
         // ********** BODY **********
         if (showTransactionsList) {
+            val displayedTransactions = viewModel.transactions.value.filter { transaction ->
+                val matchesSearch = searchQuery.isEmpty() ||
+                        transaction.party.name.contains(searchQuery, ignoreCase = true) ||
+                        transaction.description.contains(searchQuery, ignoreCase = true) ||
+                        transaction.category.name.contains(searchQuery, ignoreCase = true) ||
+                        transaction.subcategory?.name?.contains(searchQuery, ignoreCase = true) == true ||
+                        transaction.tags?.any { it.name.contains(searchQuery, ignoreCase = true) } == true
+                val matchesAccount = filterAccount == null || transaction.account.id == filterAccount!!.id
+                val matchesCategory = filterCategoryItem == null ||
+                        (filterCategoryItem!!.second == null && transaction.category.id == filterCategoryItem!!.first.id) ||
+                        (filterCategoryItem!!.second != null && transaction.subcategory?.id == filterCategoryItem!!.second!!.id)
+                matchesSearch && matchesAccount && matchesCategory
+            }
+
             Box(modifier = Modifier.fillMaxSize()) {
-                if (viewModel.transactions.value.isEmpty())
+                if (displayedTransactions.isEmpty())
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        TextH2(text = "Nenhuma transação cadastrada.")
+                        TextH2(text = "Nenhuma transação encontrada.")
                     }
 
                 val listState = rememberLazyListState()
 
                 LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
-                    val monthTransactions = viewModel.transactions.value.groupBy { it.date.month }
+                    val monthTransactions = displayedTransactions.groupBy { it.date.month }
 
                     item { Spacer(modifier = Modifier.height(30.dp)) }
                     monthTransactions.forEach { (month, transactions) ->
@@ -189,10 +346,10 @@ fun TransactionsScreen(
                             }
 
                             val positive =
-                                viewModel.transactions.value.filter { it.date.month == month && it.balance >= 0 }
+                                displayedTransactions.filter { it.date.month == month && it.balance >= 0 }
                                     .sumOf { it.balance }
                             val negative =
-                                viewModel.transactions.value.filter { it.date.month == month && it.balance < 0 }
+                                displayedTransactions.filter { it.date.month == month && it.balance < 0 }
                                     .sumOf { it.balance } * -1
                             TotalFooter(
                                 modifier = Modifier.zIndex(1f),
