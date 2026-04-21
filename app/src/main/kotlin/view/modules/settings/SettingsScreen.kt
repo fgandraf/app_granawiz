@@ -13,7 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+import utils.rememberSvgPainter
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -48,7 +48,7 @@ fun SettingsScreen(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Image(
-                    painter = painterResource("assets/images/icon.svg"),
+                    painter = rememberSvgPainter("assets/images/icon.svg"),
                     contentDescription = null,
                     modifier = Modifier.size(50.dp)
                 )

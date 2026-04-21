@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
-import androidx.compose.ui.res.painterResource
+import utils.rememberSvgPainter
 import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
@@ -93,7 +93,7 @@ fun TransactionRow(
             ) {
 
                 Icon(
-                    painter = painterResource(IconPaths.CATEGORY_PACK + transaction.category.icon),
+                    painter = rememberSvgPainter(IconPaths.CATEGORY_PACK + transaction.category.icon),
                     contentDescription = null,
                     tint = MaterialTheme.colors.primary,
                     modifier = Modifier.size(15.dp)

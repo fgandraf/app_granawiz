@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.painterResource
+import utils.rememberSvgPainter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
@@ -47,7 +47,7 @@ fun AddressView(
             )
         else
             Icon(
-                painter = painterResource(iconResource!!),
+                painter = rememberSvgPainter(iconResource!!),
                 contentDescription = null,
                 tint = MaterialTheme.colors.primary,
                 modifier = Modifier.size(iconSize),

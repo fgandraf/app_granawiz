@@ -18,7 +18,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
-import androidx.compose.ui.res.painterResource
+import utils.rememberSvgPainter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -132,7 +132,7 @@ fun TransactionForm(
                             horizontalArrangement = Arrangement.End
                         ) {
                             Icon(
-                                painter = painterResource(IconPaths.BANK_LOGOS + account.icon),
+                                painter = rememberSvgPainter(IconPaths.BANK_LOGOS + account.icon),
                                 contentDescription = null,
                                 tint = MaterialTheme.colors.primary,
                                 modifier = Modifier.size(20.dp),
@@ -210,7 +210,7 @@ fun TransactionForm(
                     DropDownTextField(
                         modifier = Modifier.padding(bottom = 20.dp),
                         icon = category.value?.icon,
-                        value = if (category.value?.name.isNullOrEmpty()) "" else category.value!!.name + if (subcategory?.name.isNullOrEmpty()) "" else " → ${subcategory?.name}",
+                        value = if (category.value?.name.isNullOrEmpty()) "" else category.value!!.name + if (subcategory?.name.isNullOrEmpty()) "" else " → ${subcategory.name}",
                         label = "Categoria:",
                         placeholder = "Selecione a categoria",
                         onClick = {

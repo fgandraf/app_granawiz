@@ -6,7 +6,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
+import utils.rememberSvgPainter
 import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
@@ -43,7 +43,7 @@ fun DropDownTextField(
                 ) {
                     if (icon != null)
                         Icon(
-                            painter = painterResource(IconPaths.CATEGORY_PACK + icon),
+                            painter = rememberSvgPainter(IconPaths.CATEGORY_PACK + icon),
                             contentDescription = "Category Icon",
                             tint = MaterialTheme.colors.primary,
                             modifier = Modifier.size(15.dp)

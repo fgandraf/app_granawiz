@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
-import androidx.compose.ui.res.painterResource
+import utils.rememberSvgPainter
 import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Fill
@@ -41,7 +41,7 @@ fun IconSelector(
         ) {
             Icon(
                 modifier = Modifier.size(60.dp),
-                painter = painterResource(IconPaths.BANK_LOGOS + icon),
+                painter = rememberSvgPainter(IconPaths.BANK_LOGOS + icon),
                 contentDescription = null,
                 tint = MaterialTheme.colors.primaryVariant
             )

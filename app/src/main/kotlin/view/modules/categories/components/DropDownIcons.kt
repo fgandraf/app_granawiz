@@ -11,11 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
-import androidx.compose.ui.res.painterResource
+import utils.rememberSvgPainter
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import view.shared.FlowLayout
-import java.io.File
+import utils.IconPaths
 
 @Composable
 fun DropDownIcons(
@@ -30,32 +30,27 @@ fun DropDownIcons(
             expanded = expanded,
             onDismissRequest = { onDismissRequest() }
         ) {
-            val iconsDirectory = File("src/main/resources/assets/icons/categoryPack")
             FlowLayout(maxWidth = width) {
-                iconsDirectory.listFiles()?.forEach { file ->
-
-
+                IconPaths.categoryIcons.forEach { fileName ->
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         modifier = Modifier.width(35.dp)
                     ) {
                         Image(
-                            painter = painterResource("assets/icons/categoryPack/${file.name}"),
+                            painter = rememberSvgPainter(IconPaths.CATEGORY_PACK + fileName),
                             contentDescription = "",
                             colorFilter = ColorFilter.tint(color = MaterialTheme.colors.primary),
                             modifier = Modifier
                                 .pointerHoverIcon(PointerIcon.Hand)
                                 .clickable {
-                                    onIconSelected(file.name)
+                                    onIconSelected(fileName)
                                     onDismissRequest()
                                 }
                                 .padding(5.dp)
                                 .size(25.dp)
                         )
                     }
-
                 }
-
             }
         }
     }
