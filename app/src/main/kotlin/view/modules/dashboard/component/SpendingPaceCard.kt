@@ -1,0 +1,60 @@
+package view.modules.dashboard.component
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.unit.dp
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Light
+import com.adamglin.phosphoricons.light.Gauge
+import core.structs.SpendingPace
+import utils.brMoney
+import view.shared.TextH3
+import view.shared.TextNormal
+import view.shared.TextSmall
+import java.time.YearMonth
+
+@Composable
+fun SpendingPaceCard(
+    modifier: Modifier = Modifier,
+    pace: SpendingPace,
+) {
+    SummaryCard(modifier = modifier, title = "Ritmo do mês", icon = PhosphorIcons.Light.Gauge) {
+        val lengthOfMonth = YearMonth.from(pace.today).lengthOfMonth()
+        TextNormal(text = "Dia ${pace.today.dayOfMonth} de $lengthOfMonth")
+        Spacer(Modifier.height(8.dp))
+
+        val percent = pace.percentOfAverage.coerceIn(0.0, 200.0)
+        val fraction = (percent / 150.0).coerceAtMost(1.0).toFloat()
+        val color = when {
+            pace.percentOfAverage <= 80.0 -> MaterialTheme.colors.onPrimary
+            pace.percentOfAverage <= 110.0 -> MaterialTheme.colors.secondary
+            else -> MaterialTheme.colors.onError
+        }
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(8.dp)
+                .clip(RoundedCornerShape(4.dp))
+                .background(MaterialTheme.colors.secondaryVariant),
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .fillMaxWidth(fraction)
+                    .background(color),
+            )
+        }
+        Spacer(Modifier.height(8.dp))
+        TextH3(text = "${String.format("%.0f%%", pace.percentOfAverage)} da média", color = color)
+        Spacer(Modifier.height(4.dp))
+        TextSmall(
+            text = "${brMoney.format(pace.monthTotalSoFar)} gastos · média ${brMoney.format(pace.averageAtSameDay)}"
+        )
+    }
+}

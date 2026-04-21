@@ -3,7 +3,9 @@ package infra.dao
 import core.contracts.ITransactionDao
 import core.entity.Transaction
 import core.entity.account.BankAccount
+import core.enums.TransactionType
 import infra.config.HibernateUtil
+import jakarta.persistence.criteria.Predicate
 import org.hibernate.Hibernate
 import java.time.LocalDateTime
 
@@ -19,6 +21,38 @@ class TransactionDao : ITransactionDao {
         val root = criteriaQuery.from(Transaction::class.java)
         criteriaQuery.orderBy(criteriaBuilder.desc(root.get<LocalDateTime>("date")))
         val transactions = session.createQuery(criteriaQuery).resultList
+        transactions.forEach { transaction ->
+            Hibernate.initialize(transaction.party)
+            Hibernate.initialize(transaction.account)
+            Hibernate.initialize(transaction.category)
+            Hibernate.initialize(transaction.subcategory)
+            Hibernate.initialize(transaction.tags)
+        }
+        session.transaction.commit()
+        session.close()
+        return transactions
+    }
+
+    fun getByDateRange(
+        from: LocalDateTime,
+        to: LocalDateTime,
+        type: TransactionType? = null,
+    ): List<Transaction> {
+        val session = sessionFactory.openSession()
+        session.beginTransaction()
+        val cb = session.criteriaBuilder
+        val cq = cb.createQuery(Transaction::class.java)
+        val root = cq.from(Transaction::class.java)
+
+        val predicates = mutableListOf<Predicate>(
+            cb.between(root.get("date"), from, to)
+        )
+        if (type != null) predicates.add(cb.equal(root.get<TransactionType>("type"), type))
+
+        cq.where(*predicates.toTypedArray())
+        cq.orderBy(cb.desc(root.get<LocalDateTime>("date")))
+
+        val transactions = session.createQuery(cq).resultList
         transactions.forEach { transaction ->
             Hibernate.initialize(transaction.party)
             Hibernate.initialize(transaction.account)
