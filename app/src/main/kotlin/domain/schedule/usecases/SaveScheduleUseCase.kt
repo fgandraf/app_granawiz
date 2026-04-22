@@ -3,8 +3,12 @@ package domain.schedule.usecases
 import core.entity.Schedule
 import infra.dao.ScheduleDao
 import viewModel.ScheduleFormViewModel
+import java.time.LocalDate
 
-class SaveScheduleUseCase(private val scheduleDao: ScheduleDao = ScheduleDao()) {
+class SaveScheduleUseCase(
+    private val scheduleDao: ScheduleDao = ScheduleDao(),
+    private val markAsPaidUseCase: MarkAsPaidUseCase = MarkAsPaidUseCase(),
+) {
 
     fun execute(viewModel: ScheduleFormViewModel) {
         val schedule = Schedule(
@@ -25,8 +29,14 @@ class SaveScheduleUseCase(private val scheduleDao: ScheduleDao = ScheduleDao()) 
             installments = viewModel.installments,
         )
 
-        if (schedule.id == 0L) scheduleDao.insert(schedule)
-        else scheduleDao.update(schedule)
+        if (schedule.id == 0L) {
+            val saved = scheduleDao.insert(schedule)
+            if (!saved.startDate.toLocalDate().isAfter(LocalDate.now())) {
+                markAsPaidUseCase.execute(saved, saved.startDate)
+            }
+        } else {
+            scheduleDao.update(schedule)
+        }
     }
 
 }

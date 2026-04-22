@@ -52,12 +52,13 @@ class ScheduleDao : IScheduleDao {
         return schedules
     }
 
-    fun insert(schedule: Schedule) {
+    fun insert(schedule: Schedule): Schedule {
         val session = sessionFactory.openSession()
         session.beginTransaction()
-        session.merge(schedule)
+        val saved = session.merge(schedule)
         session.transaction.commit()
         session.close()
+        return saved
     }
 
     fun update(schedule: Schedule) {
