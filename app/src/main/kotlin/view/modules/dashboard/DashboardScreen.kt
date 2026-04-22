@@ -8,6 +8,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -23,8 +24,9 @@ import view.shared.TextH2
 import viewModel.DashboardViewModel
 
 @Composable
-fun DashboardScreen(viewModel: DashboardViewModel = DashboardViewModel()) {
+fun DashboardScreen() {
 
+    val viewModel = remember { DashboardViewModel() }
     val summary by viewModel.summary.collectAsState()
     val period by viewModel.period.collectAsState()
 
@@ -80,11 +82,7 @@ fun DashboardScreen(viewModel: DashboardViewModel = DashboardViewModel()) {
                     cashFlow = current.cashFlow,
                     savingsRatePercent = current.savingsRatePercent,
                 )
-                if (current.spendingPace != null) {
-                    SpendingPaceCard(modifier = Modifier.weight(1f), pace = current.spendingPace)
-                } else {
-                    Spacer(modifier = Modifier.weight(1f))
-                }
+                SpendingPaceCard(modifier = Modifier.weight(1f), pace = current.spendingPace)
             }
 
             //---- Linha 2: Cartões (largura inteira)

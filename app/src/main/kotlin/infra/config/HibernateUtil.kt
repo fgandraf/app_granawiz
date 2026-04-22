@@ -36,8 +36,8 @@ object HibernateUtil {
         settings["hibernate.connection.url"] = "jdbc:sqlite:${AppConfig.dbAbsolutePath}"
         settings["hibernate.dialect"] = "org.hibernate.community.dialect.SQLiteDialect"
         settings["hibernate.jdbc.time_zone"] = "UTC"
-        settings["hibernate.show_sql"] = "true"
-        settings["hibernate.format_sql"] = "true"
+        settings["hibernate.show_sql"] = "false"
+        settings["hibernate.format_sql"] = "false"
         settings["hibernate.hbm2ddl.auto"] = "validate"
 
         configuration.addProperties(settings)

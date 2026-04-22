@@ -189,3 +189,69 @@
 - `view/modules/UserPreferences.kt` — adicionada função `loadFromDatabase()` que carrega o tema salvo ao iniciar
 - `Main.kt` — chama `UserPreferences.loadFromDatabase()` após `DatabaseConfig.runMigrations()`
 - `view/modules/settings/SettingsScreen.kt` — recebe `SettingsViewModel` como parâmetro; troca de `isLightTheme = !isLightTheme` para `viewModel.setTheme(!isLightTheme)` para persistir a preferência
+
+---
+
+## Dashboard (feature nova)
+
+**Structs de domínio (`core/structs/`):**
+
+- `DashboardPeriod.kt` — sealed class com 5 períodos (`ThisMonth`, `LastMonth`, `Last3Months`, `ThisYear`, `Last3Years`); cada um expõe `label` em pt-BR e `range(today)` devolvendo `Pair<LocalDateTime, LocalDateTime>`
+- `DashboardSummary.kt` — agrega todos os dados da tela: `NetWorthSnapshot`, `CashFlow`, `SpendingPace?`, `List<CreditCardSnapshot>`, `List<CategoryBreakdown>`, `List<MonthlyFlow>`, `List<PartyVolume>`, top `Transaction`s e `savingsRatePercent`
+
+**Camada de domínio (`domain/dashboard/`):**
+
+- `DashboardHandler.kt` — orquestra o `BuildDashboardSummaryUseCase`
+- `usecases/BuildDashboardSummaryUseCase.kt` — compõe o `DashboardSummary` chamando os 7 use cases; `spendingPace` só é calculado quando `period == ThisMonth`; granularidade do `monthlyEvolution` vira `YEAR` quando `period == Last3Years`, caso contrário `MONTH`
+- `usecases/FetchNetWorthDeltaUseCase.kt` — soma saldo de todas as contas via `GroupDao`, calcula `monthDelta` a partir das transações do mês corrente e devolve `NetWorthSnapshot(total, deltaAmount, deltaPercent)`
+- `usecases/FetchMonthlyFlowUseCase.kt` — dois modos de agrupamento: `byMonth` (labels pt-BR abreviados via `Locale.of("pt","BR")`, limite `maxBuckets = 60`) e `byYear` (labels = ano, um bucket por ano do range)
+- `usecases/FetchCategoryBreakdownUseCase.kt` — agrupa transações por categoria (default `EXPENSE`), ordena desc por valor, e quando ultrapassa o limite (`6`) consolida o excedente em uma categoria sintética "Outros" (id `-1L`, icon `_default.svg`)
+- `usecases/FetchCreditCardSnapshotsUseCase.kt` — para cada `CreditCardAccount`, calcula o ciclo atual a partir de `closingDay`, soma a fatura corrente, calcula `availableLimit` e `nextDueDate`/`daysToDue`; usa `safeDate` para tratar meses com menos dias
+- `usecases/FetchSpendingPaceUseCase.kt` — compara gasto do mês corrente até o dia de hoje contra a média dos mesmos dias dos últimos 3 meses (`baselineMonths = 3`); retorna `null` se não há histórico
+- `usecases/FetchTopPartiesUseCase.kt` — top 5 beneficiários por volume (default `EXPENSE`)
+- `usecases/FetchTopTransactionsUseCase.kt` — top 5 transações por valor absoluto (default `EXPENSE`)
+
+**Infraestrutura (`infra/dao/TransactionDao.kt`):**
+
+- Novo método `getByDateRange(from: LocalDateTime, to: LocalDateTime, type: TransactionType? = null)` — criteria `between` em `date`, filtro opcional por `type`, ordenação desc; inicializa `party`, `account`, `category`, `subcategory`, `tags` eagerly
+
+**ViewModel (`viewModel/DashboardViewModel.kt`):**
+
+- `MutableStateFlow`s: `summary: DashboardSummary?` (null = loading inicial), `period: DashboardPeriod` (default `ThisMonth`), `isLoading: Boolean`
+- `selectPeriod(newPeriod)` atualiza o flow e chama `reload()`
+- `reload()` atualmente **síncrono** — chama `dashboardHandler.buildSummary(period.value)` na thread chamadora. Uma tentativa de tornar assíncrono foi feita e revertida (ver memória do projeto)
+- `init { reload() }` para carregar o estado inicial
+
+**UI (`view/modules/dashboard/`):**
+
+- `DashboardScreen.kt` — reestruturada: header com breadcrumb + `PeriodSelector` à direita; body em 4 linhas (Patrimônio + Fluxo + Ritmo / Cartões / Categorias + Evolução / Top beneficiários + Top despesas); fallback `"Carregando..."` quando `summary == null`
+- `component/SummaryCard.kt` — card-base reutilizado por todos os widgets (RoundedCornerShape 12dp, border 0.5dp, `defaultMinSize`, ícone + título em `TextH2`)
+- `component/PeriodSelector.kt` — botão arredondado com ícone `CalendarBlank` e `CaretDown` + `DropdownMenu` com os 5 períodos
+- `component/NetWorthCard.kt` — exibe total do patrimônio e delta mensal (valor + percentual)
+- `component/CashFlowCard.kt` — receitas/despesas/saldo líquido + taxa de poupança
+- `component/SpendingPaceCard.kt` — só aparece no período `ThisMonth`; mostra gasto-até-hoje vs média dos 3 meses anteriores
+- `component/CreditCardsCard.kt` — lista cartões com fatura corrente, limite disponível e `daysToDue`
+- `component/CategoryBreakdownCard.kt` — breakdown por categoria com percentuais
+- `component/MonthlyEvolutionCard.kt` — gráfico custom em `Canvas`: barras duplas (receita vs despesa) + linha de saldo líquido sobreposta; grid de 5 linhas horizontais; legenda com 3 dots coloridos
+- `component/TopPartiesCard.kt` — top 5 beneficiários
+- `component/TopTransactionsCard.kt` — top 5 transações por valor
+
+**Bug conhecido (pendente):** período "Últimos 3 anos" às vezes não atualiza os cards ao ser selecionado; navegar para outra tela e voltar + clicar de novo resolve. Uma tentativa de fix (reload assíncrono com coroutines) foi implementada e revertida porque não resolveu o sintoma — causa raiz ainda não identificada.
+
+---
+
+## Ajustes pós-Dashboard
+
+**`HibernateUtil.kt`:**
+
+- `hibernate.show_sql` e `hibernate.format_sql` alterados de `"true"` para `"false"` — silencia os logs SQL no console
+
+**`DashboardScreen.kt`:**
+
+- Assinatura simplificada: parâmetro `viewModel: DashboardViewModel = DashboardViewModel()` removido; instância criada internamente com `val viewModel = remember { DashboardViewModel() }` para evitar recomposição desnecessária
+- Lógica do `SpendingPaceCard` simplificada: o `if/else` que renderizava um `Spacer` quando `pace == null` foi substituído por chamada direta `SpendingPaceCard(pace = current.spendingPace)`, passando nullable ao componente
+
+**`SpendingPaceCard.kt`:**
+
+- Parâmetro `pace` alterado de `SpendingPace` para `SpendingPace?`
+- Adicionado estado vazio (`pace == null`): exibe ícone `Gauge` opaco centralizado e texto `"Disponível após 3 meses de registros"`, com `return@SummaryCard` para encerrar o conteúdo
