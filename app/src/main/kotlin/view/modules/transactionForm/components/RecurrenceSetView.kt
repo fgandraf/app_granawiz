@@ -1,4 +1,4 @@
-package view.modules.schedules.component
+package view.modules.transactionForm.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*

@@ -303,22 +303,23 @@ fun TransactionsScreen(
         if (showEditTransaction) {
             if (viewModel.selectedAccount == null) viewModel.selectAccount(selectedTransaction!!.account)
             TransactionForm(
-                account = viewModel.selectedAccount!!,
                 transaction = selectedTransaction,
                 transactionType = transactionType,
-                onDismiss = { updated, account ->
+                initialAccount = viewModel.selectedAccount,
+                lockAccount = true,
+                onDismiss = { saved ->
                     backIcon = false
                     showEditTransaction = false
                     showTransactionsList = true
                     addresses = initialAddress
-
-                    if (updated) {
-                        viewModel.getTransactions()
-                        val calculated = viewModel.transactions.value.sumOf { it.balance }
-                        viewModel.updateBalance(account.id, calculated)
-                    }
-
                     selectedTransaction = null
+                    if (saved) {
+                        viewModel.getTransactions()
+                        viewModel.selectedAccount?.let { acc ->
+                            val calculated = viewModel.transactions.value.sumOf { it.balance }
+                            viewModel.updateBalance(acc.id, calculated)
+                        }
+                    }
                 }
             )
         }

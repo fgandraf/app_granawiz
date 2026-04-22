@@ -1,4 +1,4 @@
-package view.modules.schedules.component
+package view.modules.transactionForm.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -25,12 +25,12 @@ import view.shared.FocusableBox
 import view.shared.TextNormal
 import view.shared.TextSmall
 import view.theme.ButtonPurple
-import viewModel.ScheduleFormViewModel
+import viewModel.TransactionFormViewModel
 
 enum class TerminationMode { NEVER, INSTALLMENTS, END_DATE }
 
 @Composable
-fun RecurrenceSection(viewModel: ScheduleFormViewModel) {
+fun RecurrenceSection(viewModel: TransactionFormViewModel) {
 
     val frequency = viewModel.frequency
     val intervalLabel = when (frequency) {

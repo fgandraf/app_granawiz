@@ -1,4 +1,4 @@
-package view.modules.schedules.component
+package view.modules.transactionForm.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import core.enums.ScheduleFrequency
-import viewModel.ScheduleFormViewModel
+import viewModel.TransactionFormViewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -41,7 +41,7 @@ fun buildRecurrenceSummary(
 }
 
 @Composable
-fun RecurrencePicker(viewModel: ScheduleFormViewModel) {
+fun RecurrencePicker(viewModel: TransactionFormViewModel) {
     val corner = 10.dp
     Box(
         modifier = Modifier

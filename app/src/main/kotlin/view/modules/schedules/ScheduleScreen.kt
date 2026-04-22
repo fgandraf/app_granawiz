@@ -35,6 +35,7 @@ import core.structs.PageAddress
 import view.modules.schedules.component.DropDownAddSchedule
 import view.modules.schedules.component.ScheduleGroupHeader
 import view.modules.schedules.component.ScheduleRow
+import view.modules.transactionForm.TransactionForm
 import view.shared.*
 import view.theme.ButtonPurple
 import viewModel.ScheduleViewModel
@@ -76,6 +77,7 @@ fun ScheduleScreen(
 
     val schedulesState by viewModel.schedules.collectAsState()
     val paidTransactionsState by viewModel.paidTransactions.collectAsState()
+    val groupsState by viewModel.groups.collectAsState()
 
     val occurrences = remember(schedulesState, paidTransactionsState) {
         viewModel.buildOccurrences(windowStart, windowEnd)
@@ -248,11 +250,12 @@ fun ScheduleScreen(
         }
 
         if (showForm) {
-            ScheduleForm(
-                scheduleViewModel = viewModel,
+            TransactionForm(
+                allAccounts = groupsState.flatMap { it.accounts },
                 schedule = selectedSchedule,
                 transactionType = newType,
                 initialAccount = filterAccount,
+                lockAccount = false,
                 onDismiss = { saved ->
                     showForm = false
                     selectedSchedule = null

@@ -2,10 +2,9 @@ package domain.transaction
 
 import core.entity.Transaction
 import core.entity.account.BankAccount
-import domain.transaction.usecases.SaveTransactionUseCase
 import domain.transaction.usecases.DeleteTransactionUseCase
 import domain.transaction.usecases.FetchTransactionsUseCase
-import viewModel.TransactionFormViewModel
+import domain.transaction.usecases.SaveTransactionUseCase
 
 class TransactionHandler {
 
@@ -13,8 +12,7 @@ class TransactionHandler {
     private val deleteTransactionUseCase = DeleteTransactionUseCase()
     private val fetchTransactionsUseCase = FetchTransactionsUseCase()
 
-
-    fun saveTransaction(viewModel: TransactionFormViewModel) = saveTransactionUseCase.execute(viewModel)
+    fun saveTransaction(transaction: Transaction) = saveTransactionUseCase.execute(transaction)
     fun deleteTransaction(transaction: Transaction) = deleteTransactionUseCase.execute(transaction)
     fun fetchTransactions(account: BankAccount? = null) = fetchTransactionsUseCase.execute(account)
 
