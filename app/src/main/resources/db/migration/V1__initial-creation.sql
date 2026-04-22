@@ -66,11 +66,14 @@ CREATE TABLE tbl_transactions (
     description TEXT,
     balance REAL NOT NULL,
     type TEXT CHECK(type IN ('GAIN', 'EXPENSE', 'NEUTRAL')) NOT NULL,
+    schedule_id INTEGER,
+    original_due_date DATETIME,
 
     FOREIGN KEY (party_id) REFERENCES tbl_parties(party_id),
     FOREIGN KEY (account_id) REFERENCES tbl_bank_accounts(account_id),
     FOREIGN KEY (category_id) REFERENCES tbl_categories(category_id),
     FOREIGN KEY (subcategory_id) REFERENCES tbl_subcategories(subcategory_id)
+    FOREIGN KEY (schedule_id) REFERENCES tbl_schedules(schedule_id)
 );
 
 CREATE TABLE tbl_transaction_tag (
@@ -78,5 +81,40 @@ CREATE TABLE tbl_transaction_tag (
     tag_id INTEGER NOT NULL,
     PRIMARY KEY (transaction_id, tag_id),
     FOREIGN KEY (transaction_id) REFERENCES tbl_transactions(transaction_id),
+    FOREIGN KEY (tag_id) REFERENCES tbl_tags(tag_id)
+);
+
+CREATE TABLE tbl_user_preferences (
+    preference_id INTEGER PRIMARY KEY,
+    is_light_theme INTEGER NOT NULL DEFAULT 1
+);
+
+CREATE TABLE tbl_schedules (
+    schedule_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    party_id INTEGER,
+    account_id INTEGER,
+    category_id INTEGER,
+    subcategory_id INTEGER,
+    start_date DATETIME NOT NULL,
+    description TEXT,
+    balance REAL NOT NULL,
+    type TEXT CHECK(type IN ('GAIN', 'EXPENSE', 'NEUTRAL')) NOT NULL,
+    frequency TEXT CHECK(frequency IN ('DAILY', 'WEEKLY', 'MONTHLY', 'YEARLY')) NOT NULL,
+    interval_value INTEGER NOT NULL DEFAULT 1,
+    day_of_month INTEGER,
+    end_date DATETIME,
+    installments INTEGER,
+
+    FOREIGN KEY (party_id) REFERENCES tbl_parties(party_id),
+    FOREIGN KEY (account_id) REFERENCES tbl_bank_accounts(account_id),
+    FOREIGN KEY (category_id) REFERENCES tbl_categories(category_id),
+    FOREIGN KEY (subcategory_id) REFERENCES tbl_subcategories(subcategory_id)
+);
+
+CREATE TABLE tbl_schedule_tag (
+    schedule_id INTEGER NOT NULL,
+    tag_id INTEGER NOT NULL,
+    PRIMARY KEY (schedule_id, tag_id),
+    FOREIGN KEY (schedule_id) REFERENCES tbl_schedules(schedule_id),
     FOREIGN KEY (tag_id) REFERENCES tbl_tags(tag_id)
 );

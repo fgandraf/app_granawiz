@@ -22,6 +22,7 @@ object HibernateUtil {
         configuration.addAnnotatedClass(Party::class.java)
         configuration.addAnnotatedClass(PartyName::class.java)
         configuration.addAnnotatedClass(Transaction::class.java)
+        configuration.addAnnotatedClass(Schedule::class.java)
         configuration.addAnnotatedClass(Category::class.java)
         configuration.addAnnotatedClass(Subcategory::class.java)
         configuration.addAnnotatedClass(BankAccount::class.java)

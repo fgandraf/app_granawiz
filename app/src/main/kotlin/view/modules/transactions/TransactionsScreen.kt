@@ -186,7 +186,7 @@ fun TransactionsScreen(
                     // 1. Contas
                     if (account == null) {
                         val allAccounts = viewModel.groups.value.flatMap { it.accounts }
-                        val filterLabel = filterAccount?.name ?: "Todos os bancos"
+                        val filterLabel = filterAccount?.name ?: "Todos as contas"
                         Box {
                             Box(
                                 modifier = Modifier
@@ -223,7 +223,7 @@ fun TransactionsScreen(
                                     filterAccount = null
                                     showAccountDropdown = false
                                 }) {
-                                    TextNormal(text = "Todos os bancos")
+                                    TextNormal(text = "Todos as contas")
                                 }
                                 allAccounts.forEach { acc: BankAccount ->
                                     DropdownMenuItem(onClick = {

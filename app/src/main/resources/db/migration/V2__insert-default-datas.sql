@@ -38,3 +38,5 @@ INSERT INTO tbl_subcategories VALUES (13, 14, 'Bancário');
 INSERT INTO tbl_subcategories VALUES (14, 14, 'Pessoal');
 INSERT INTO tbl_subcategories VALUES (15, 2, 'Equipamento');
 INSERT INTO tbl_subcategories VALUES (16, 9, 'Manutenção');
+
+INSERT INTO tbl_user_preferences (preference_id, is_light_theme) VALUES (1, 1);

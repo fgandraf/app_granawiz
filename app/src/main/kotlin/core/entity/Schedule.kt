@@ -1,18 +1,19 @@
 package core.entity
 
 import core.entity.account.BankAccount
+import core.enums.ScheduleFrequency
 import core.enums.TransactionType
 import infra.config.LocalDateTimeConverter
 import jakarta.persistence.*
 import java.time.LocalDateTime
 
 @Entity
-@Table(name = "tbl_transactions")
-open class Transaction(
+@Table(name = "tbl_schedules")
+open class Schedule(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "transaction_id", columnDefinition = "INTEGER")
+    @Column(name = "schedule_id", columnDefinition = "INTEGER")
     open val id: Long = 0,
 
     @ManyToOne
@@ -33,15 +34,15 @@ open class Transaction(
 
     @ManyToMany(cascade = [CascadeType.PERSIST, CascadeType.MERGE])
     @JoinTable(
-        name = "tbl_transaction_tag",
-        joinColumns = [JoinColumn(name = "transaction_id")],
+        name = "tbl_schedule_tag",
+        joinColumns = [JoinColumn(name = "schedule_id")],
         inverseJoinColumns = [JoinColumn(name = "tag_id")]
     )
     val tags: List<Tag>? = listOf(),
 
-    @Column(name = "date", columnDefinition = "DATETIME")
+    @Column(name = "start_date", columnDefinition = "DATETIME")
     @Convert(converter = LocalDateTimeConverter::class)
-    open val date: LocalDateTime,
+    open val startDate: LocalDateTime,
 
     open val description: String,
 
@@ -51,16 +52,30 @@ open class Transaction(
     @Column(name = "type", insertable = true, updatable = true)
     open val type: TransactionType,
 
-    @Column(name = "schedule_id", columnDefinition = "INTEGER")
-    open val scheduleId: Long? = null,
+    @Enumerated(EnumType.STRING)
+    @Column(name = "frequency", insertable = true, updatable = true)
+    open val frequency: ScheduleFrequency,
 
-    @Column(name = "original_due_date", columnDefinition = "DATETIME")
+    @Column(name = "interval_value")
+    open val interval: Int = 1,
+
+    @Column(name = "day_of_month")
+    open val dayOfMonth: Int? = null,
+
+    @Column(name = "end_date", columnDefinition = "DATETIME")
     @Convert(converter = LocalDateTimeConverter::class)
-    open val originalDueDate: LocalDateTime? = null,
+    open val endDate: LocalDateTime? = null,
 
-    ){
+    @Column(name = "installments")
+    open val installments: Int? = null,
 
-    constructor() : this(0, Party(), BankAccount(), Category(), null, null, LocalDateTime.now(), "", 0.0, TransactionType.NEUTRAL, null, null)
+) {
+
+    constructor() : this(
+        0, Party(), BankAccount(), Category(), null, null,
+        LocalDateTime.now(), "", 0.0, TransactionType.NEUTRAL,
+        ScheduleFrequency.MONTHLY, 1, null, null, null
+    )
 
     fun copy(
         id: Long = this.id,
@@ -69,14 +84,21 @@ open class Transaction(
         category: Category = this.category,
         subcategory: Subcategory? = this.subcategory,
         tags: List<Tag>? = this.tags,
-        date: LocalDateTime = this.date,
+        startDate: LocalDateTime = this.startDate,
         description: String = this.description,
         balance: Double = this.balance,
         type: TransactionType = this.type,
-        scheduleId: Long? = this.scheduleId,
-        originalDueDate: LocalDateTime? = this.originalDueDate,
-    ): Transaction {
-        return Transaction(id, party, account, category, subcategory, tags, date, description, balance, type, scheduleId, originalDueDate)
+        frequency: ScheduleFrequency = this.frequency,
+        interval: Int = this.interval,
+        dayOfMonth: Int? = this.dayOfMonth,
+        endDate: LocalDateTime? = this.endDate,
+        installments: Int? = this.installments,
+    ): Schedule {
+        return Schedule(
+            id, party, account, category, subcategory, tags,
+            startDate, description, balance, type,
+            frequency, interval, dayOfMonth, endDate, installments
+        )
     }
 
 }
