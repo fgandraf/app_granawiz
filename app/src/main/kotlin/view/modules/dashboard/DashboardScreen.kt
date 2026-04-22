@@ -94,10 +94,11 @@ fun DashboardScreen() {
             //---- Linha 3: Cartões (largura inteira)
             CreditCardsCard(modifier = Modifier.fillMaxWidth(), snapshots = current.creditCards)
 
-            //---- Linha 4: Top beneficiários + Top despesas
+            //---- Linha 4: Top beneficiários + Top despesas + Lançamentos futuros
             Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                 TopPartiesCard(modifier = Modifier.weight(1f), parties = current.topParties)
                 TopTransactionsCard(modifier = Modifier.weight(1f), transactions = current.topTransactions)
+                UpcomingSchedulesCard(modifier = Modifier.weight(1f), occurrences = current.upcomingOccurrences)
             }
 
 

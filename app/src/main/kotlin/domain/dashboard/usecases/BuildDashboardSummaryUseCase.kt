@@ -16,6 +16,7 @@ class BuildDashboardSummaryUseCase(
     private val topPartiesUseCase: FetchTopPartiesUseCase = FetchTopPartiesUseCase(),
     private val topTransactionsUseCase: FetchTopTransactionsUseCase = FetchTopTransactionsUseCase(),
     private val spendingPaceUseCase: FetchSpendingPaceUseCase = FetchSpendingPaceUseCase(),
+    private val upcomingOccurrencesUseCase: FetchUpcomingOccurrencesUseCase = FetchUpcomingOccurrencesUseCase(),
 ) {
 
     fun execute(period: DashboardPeriod, today: LocalDate = LocalDate.now()): DashboardSummary {
@@ -46,6 +47,7 @@ class BuildDashboardSummaryUseCase(
             topParties = topPartiesUseCase.execute(from, to),
             topTransactions = topTransactionsUseCase.execute(from, to),
             savingsRatePercent = savingsRate,
+            upcomingOccurrences = upcomingOccurrencesUseCase.execute(today),
         )
     }
 }

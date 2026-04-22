@@ -4,6 +4,7 @@ import core.entity.Category
 import core.entity.Party
 import core.entity.Transaction
 import core.entity.account.CreditCardAccount
+import domain.schedule.usecases.ScheduleOccurrence
 import java.time.LocalDate
 
 data class DashboardSummary(
@@ -17,6 +18,7 @@ data class DashboardSummary(
     val topParties: List<PartyVolume>,
     val topTransactions: List<Transaction>,
     val savingsRatePercent: Double,
+    val upcomingOccurrences: List<ScheduleOccurrence>,
 )
 
 data class NetWorthSnapshot(
