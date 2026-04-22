@@ -10,11 +10,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import core.entity.account.BankAccount
-import core.entity.account.CheckingAccount
-import core.entity.account.CreditCardAccount
-import core.entity.account.SavingsAccount
-import core.enums.AccountType
+import domain.entity.account.BankAccount
+import domain.entity.account.CheckingAccount
+import domain.entity.account.CreditCardAccount
+import domain.entity.account.SavingsAccount
+import domain.enums.AccountType
 import view.shared.DialogTitleBar
 import viewModel.AccountFormViewModel
 import viewModel.SidebarViewModel

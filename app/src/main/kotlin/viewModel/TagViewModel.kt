@@ -1,8 +1,8 @@
 package viewModel
 
-import core.entity.Tag
+import domain.entity.Tag
 import kotlinx.coroutines.flow.MutableStateFlow
-import domain.tag.TagHandler
+import application.tag.TagHandler
 
 class TagViewModel(private val tagHandler : TagHandler = TagHandler()) {
 

@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.Shapes
-import core.structs.CategoryBreakdown
+import domain.structs.CategoryBreakdown
 import utils.IconPaths
 import utils.brMoney
 import utils.rememberSvgPainter

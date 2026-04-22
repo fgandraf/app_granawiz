@@ -1,9 +1,9 @@
 package viewModel
 
-import core.entity.Group
-import core.entity.account.BankAccount
-import domain.account.AccountHandler
-import domain.group.GroupHandler
+import domain.entity.Group
+import domain.entity.account.BankAccount
+import application.account.AccountHandler
+import application.group.GroupHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class SidebarViewModel(

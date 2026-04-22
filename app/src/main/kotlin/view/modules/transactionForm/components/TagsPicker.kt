@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.Tag
-import core.entity.Tag
+import domain.entity.Tag
 import view.shared.AddListItem
 import view.shared.DialogDelete
 import view.shared.ListItem

@@ -1,10 +1,10 @@
 package viewModel
 
 import androidx.compose.runtime.derivedStateOf
-import core.entity.Party
-import core.entity.PartyName
-import core.enums.PartyType
-import domain.party.PartyHandler
+import domain.entity.Party
+import domain.entity.PartyName
+import domain.enums.PartyType
+import application.party.PartyHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class PartyViewModel(type: PartyType, private val partyHandler: PartyHandler = PartyHandler()) {

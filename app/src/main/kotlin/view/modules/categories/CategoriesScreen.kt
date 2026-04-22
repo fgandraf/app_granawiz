@@ -26,9 +26,9 @@ import com.adamglin.phosphoricons.light.ChartLineUp
 import com.adamglin.phosphoricons.light.Invoice
 import com.adamglin.phosphoricons.light.Shapes
 import com.adamglin.phosphoricons.regular.Shapes
-import core.entity.Category
-import core.entity.Subcategory
-import core.enums.CategoryType
+import domain.entity.Category
+import domain.entity.Subcategory
+import domain.enums.CategoryType
 import utils.IconPaths
 import view.modules.categories.components.CategoryListItem
 import view.modules.categories.components.ListTypeItem

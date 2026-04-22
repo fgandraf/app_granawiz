@@ -15,8 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import core.entity.account.CheckingAccount
-import core.enums.AccountType
+import domain.entity.account.CheckingAccount
+import domain.enums.AccountType
 import utils.toBrMoney
 import view.modules.accountForm.components.GroupListComboBox
 import view.modules.accountForm.components.IconSelector

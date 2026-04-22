@@ -26,12 +26,12 @@ import com.adamglin.phosphoricons.bold.ArrowLeft
 import com.adamglin.phosphoricons.light.*
 import com.adamglin.phosphoricons.regular.Calendar
 import com.adamglin.phosphoricons.regular.Pencil
-import core.entity.Category
-import core.entity.Schedule
-import core.entity.Subcategory
-import core.entity.account.BankAccount
-import core.enums.TransactionType
-import core.structs.PageAddress
+import domain.entity.Category
+import domain.entity.Schedule
+import domain.entity.Subcategory
+import domain.entity.account.BankAccount
+import domain.enums.TransactionType
+import domain.structs.PageAddress
 import view.modules.schedules.component.DropDownAddSchedule
 import view.modules.schedules.component.ScheduleGroupHeader
 import view.modules.schedules.component.ScheduleRow
@@ -41,7 +41,7 @@ import view.theme.ButtonPurple
 import viewModel.ScheduleViewModel
 import java.time.LocalDate
 import java.time.LocalTime
-import core.entity.Tag as TagEntity
+import domain.entity.Tag as TagEntity
 
 
 @Composable

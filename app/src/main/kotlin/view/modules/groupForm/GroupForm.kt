@@ -15,7 +15,7 @@ import androidx.compose.ui.window.Dialog
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.Folders
-import core.entity.Group
+import domain.entity.Group
 import view.shared.DefaultButton
 import view.shared.DefaultTextField
 import view.shared.DialogTitleBar

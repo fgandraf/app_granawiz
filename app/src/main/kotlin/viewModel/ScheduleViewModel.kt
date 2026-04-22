@@ -1,13 +1,13 @@
 package viewModel
 
-import core.entity.Group
-import core.entity.Schedule
-import core.entity.Transaction
-import core.entity.account.BankAccount
-import domain.group.GroupHandler
-import domain.schedule.ScheduleHandler
-import domain.schedule.usecases.ScheduleOccurrence
-import domain.transaction.TransactionHandler
+import domain.entity.Group
+import domain.entity.Schedule
+import domain.entity.Transaction
+import domain.entity.account.BankAccount
+import application.group.GroupHandler
+import application.schedule.ScheduleHandler
+import application.schedule.usecases.ScheduleOccurrence
+import application.transaction.TransactionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import java.time.LocalDateTime
 
@@ -19,9 +19,6 @@ class ScheduleViewModel(
 ) {
 
     var selectedAccount = account
-    fun selectAccount(account: BankAccount) {
-        selectedAccount = account
-    }
 
     var schedules = MutableStateFlow(emptyList<Schedule>())
     var paidTransactions = MutableStateFlow(emptyList<Transaction>())
@@ -40,11 +37,6 @@ class ScheduleViewModel(
     init {
         getSchedules()
         if (account == null) getGroups()
-    }
-
-    fun deleteSchedule(schedule: Schedule) {
-        scheduleHandler.deleteSchedule(schedule)
-        getSchedules()
     }
 
     fun deleteThisOccurrence(occurrence: ScheduleOccurrence) {

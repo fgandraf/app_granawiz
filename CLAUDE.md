@@ -30,21 +30,21 @@ There are currently no automated tests. The `test/kotlin/` directory is empty.
 Clean Architecture with four main layers inside `app/src/main/kotlin/`:
 
 ```
-core/       → Domain entities (JPA), interfaces (IDao contracts), enums
-domain/     → Business logic: Handler classes coordinate UseCases per feature
-infra/      → Hibernate/SQLite config, DAO implementations, Flyway migrations
+domain/       → Domain entities (JPA), interfaces (IDao contracts), enums
+application/     → Business logic: Handler classes coordinate UseCases per feature
+infrastructure/      → Hibernate/SQLite config, DAO implementations, Flyway migrations
 view/       → Compose Desktop UI: screens, dialogs, forms, shared components
 viewModel/  → Kotlin Flow-based state management for each screen
 utils/      → DateTimeUtils, CurrencyUtils, IconPaths
 ```
 
-**Data flow:** `View` → `ViewModel` → `Domain Handler` → `UseCase` → `DAO (infra)` → SQLite
+**Data flow:** `View` → `ViewModel` → `Domain Handler` → `UseCase` → `DAO (infrastructure)` → SQLite
 
 ### Key Patterns
 
-- **Handlers** (`domain/*/Handler`) coordinate multiple use cases for a feature area (e.g., `TransactionHandler`).
-- **Use cases** (`domain/*/*UseCase`) contain single-responsibility business operations.
-- **DAOs** in `infra/` implement interfaces from `core/` using Hibernate Criteria API.
+- **Handlers** (`application/*/Handler`) coordinate multiple use cases for a feature area (e.g., `TransactionHandler`).
+- **Use cases** (`application/*/*UseCase`) contain single-responsibility business operations.
+- **DAOs** in `infrastructure/` implement interfaces from `domain/` using Hibernate Criteria API.
 - **Database** is SQLite at `~/.granawiz/database/granawiz.db`, managed by Flyway migrations in `src/main/resources/db/migration/`. Migrations run automatically on startup via `DatabaseConfig.runMigrations()`.
 - **Account types** use JPA inheritance: `BankAccount` → `CheckingAccount`, `SavingsAccount`, `CreditCardAccount`.
 

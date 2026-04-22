@@ -11,7 +11,7 @@ import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.TrendDown
 import com.adamglin.phosphoricons.light.TrendUp
 import com.adamglin.phosphoricons.light.Wallet
-import core.structs.NetWorthSnapshot
+import domain.structs.NetWorthSnapshot
 import utils.brMoney
 import view.shared.TextH1
 import view.shared.TextNormal

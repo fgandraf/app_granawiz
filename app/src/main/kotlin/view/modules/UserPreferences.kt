@@ -3,7 +3,7 @@ package view.modules
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import domain.userPreference.UserPreferenceHandler
+import application.userPreference.UserPreferenceHandler
 
 object UserPreferences {
     var isLightTheme by mutableStateOf(true)

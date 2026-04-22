@@ -21,7 +21,7 @@ import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.CalendarBlank
 import com.adamglin.phosphoricons.light.CaretDown
-import core.structs.DashboardPeriod
+import domain.structs.DashboardPeriod
 import view.shared.TextNormal
 
 @Composable

@@ -1,6 +1,6 @@
 package viewModel
 
-import domain.userPreference.UserPreferenceHandler
+import application.userPreference.UserPreferenceHandler
 import view.modules.UserPreferences
 
 class SettingsViewModel(private val handler: UserPreferenceHandler = UserPreferenceHandler()) {

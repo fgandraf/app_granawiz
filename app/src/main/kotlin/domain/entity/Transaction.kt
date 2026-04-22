@@ -1,0 +1,83 @@
+package domain.entity
+
+import domain.contracts.IFilterable
+import domain.entity.account.BankAccount
+import domain.enums.TransactionType
+import infrastructure.config.LocalDateTimeConverter
+import jakarta.persistence.*
+import java.time.LocalDateTime
+
+@Entity
+@Table(name = "tbl_transactions")
+open class Transaction(
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "transaction_id", columnDefinition = "INTEGER")
+    open val id: Long = 0,
+
+    @ManyToOne
+    @JoinColumn(name = "party_id", referencedColumnName = "party_id")
+    override val party: Party,
+
+    @ManyToOne
+    @JoinColumn(name = "account_id", referencedColumnName = "account_id")
+    override val account: BankAccount,
+
+    @ManyToOne
+    @JoinColumn(name = "category_id", referencedColumnName = "category_id")
+    override val category: Category,
+
+    @ManyToOne
+    @JoinColumn(name = "subcategory_id", referencedColumnName = "subcategory_id")
+    override val subcategory: Subcategory?,
+
+    @ManyToMany(cascade = [CascadeType.PERSIST, CascadeType.MERGE])
+    @JoinTable(
+        name = "tbl_transaction_tag",
+        joinColumns = [JoinColumn(name = "transaction_id")],
+        inverseJoinColumns = [JoinColumn(name = "tag_id")]
+    )
+    override val tags: List<Tag>? = listOf(),
+
+    @Column(name = "date", columnDefinition = "DATETIME")
+    @Convert(converter = LocalDateTimeConverter::class)
+    open val date: LocalDateTime,
+
+    override val description: String,
+
+    open val balance: Double,
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type", insertable = true, updatable = true)
+    override val type: TransactionType,
+
+    @Column(name = "schedule_id", columnDefinition = "INTEGER")
+    open val scheduleId: Long? = null,
+
+    @Column(name = "original_due_date", columnDefinition = "DATETIME")
+    @Convert(converter = LocalDateTimeConverter::class)
+    open val originalDueDate: LocalDateTime? = null,
+
+    ) : IFilterable {
+
+    constructor() : this(0, Party(), BankAccount(), Category(), null, null, LocalDateTime.now(), "", 0.0, TransactionType.NEUTRAL, null, null)
+
+    fun copy(
+        id: Long = this.id,
+        party: Party = this.party,
+        account: BankAccount = this.account,
+        category: Category = this.category,
+        subcategory: Subcategory? = this.subcategory,
+        tags: List<Tag>? = this.tags,
+        date: LocalDateTime = this.date,
+        description: String = this.description,
+        balance: Double = this.balance,
+        type: TransactionType = this.type,
+        scheduleId: Long? = this.scheduleId,
+        originalDueDate: LocalDateTime? = this.originalDueDate,
+    ): Transaction {
+        return Transaction(id, party, account, category, subcategory, tags, date, description, balance, type, scheduleId, originalDueDate)
+    }
+
+}

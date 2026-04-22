@@ -1,9 +1,9 @@
 package viewModel
 
-import core.entity.Category
-import core.entity.Subcategory
-import core.enums.CategoryType
-import domain.category.CategoryHandler
+import domain.entity.Category
+import domain.entity.Subcategory
+import domain.enums.CategoryType
+import application.category.CategoryHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class CategoryViewModel(private val categoryHandler: CategoryHandler = CategoryHandler()) {

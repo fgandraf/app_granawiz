@@ -18,7 +18,7 @@ import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.CaretDown
 import com.adamglin.phosphoricons.light.CaretRight
-import core.entity.Group
+import domain.entity.Group
 import view.shared.TextNormal
 import view.shared.TextSmall
 

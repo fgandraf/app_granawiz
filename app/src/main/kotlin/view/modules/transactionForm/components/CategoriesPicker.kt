@@ -18,9 +18,9 @@ import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.Shapes
-import core.entity.Category
-import core.entity.Subcategory
-import core.enums.CategoryType
+import domain.entity.Category
+import domain.entity.Subcategory
+import domain.enums.CategoryType
 import utils.IconPaths
 import view.modules.categories.components.CategoryListItem
 import view.shared.AddListItem

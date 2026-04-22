@@ -16,7 +16,7 @@ import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.Plus
 import com.adamglin.phosphoricons.light.Tag
-import core.entity.Tag
+import domain.entity.Tag
 
 @Composable
 fun TagListView(

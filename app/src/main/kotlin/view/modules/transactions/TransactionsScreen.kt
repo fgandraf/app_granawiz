@@ -27,12 +27,12 @@ import com.adamglin.phosphoricons.bold.ArrowLeft
 import com.adamglin.phosphoricons.bold.ListBullets
 import com.adamglin.phosphoricons.light.*
 import com.adamglin.phosphoricons.regular.*
-import core.entity.Category
-import core.entity.Subcategory
-import core.entity.Transaction
-import core.entity.account.BankAccount
-import core.enums.TransactionType
-import core.structs.PageAddress
+import domain.entity.Category
+import domain.entity.Subcategory
+import domain.entity.Transaction
+import domain.entity.account.BankAccount
+import domain.enums.TransactionType
+import domain.structs.PageAddress
 import view.modules.transactionForm.TransactionForm
 import view.modules.transactions.component.DropDownAddTransaction
 import view.modules.transactions.component.MonthHeader
@@ -41,7 +41,7 @@ import view.modules.transactions.component.TransactionRow
 import view.shared.*
 import view.theme.ButtonPurple
 import viewModel.TransactionViewModel
-import core.entity.Tag as TagEntity
+import domain.entity.Tag as TagEntity
 
 
 @Composable

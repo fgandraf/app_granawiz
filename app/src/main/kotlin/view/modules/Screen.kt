@@ -1,6 +1,6 @@
 package view.modules
 
-import core.entity.account.BankAccount
+import domain.entity.account.BankAccount
 
 sealed class Screen {
     data object Dashboard : Screen()

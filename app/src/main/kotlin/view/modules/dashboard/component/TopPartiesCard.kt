@@ -8,7 +8,7 @@ import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.HandArrowUp
-import core.structs.PartyVolume
+import domain.structs.PartyVolume
 import utils.brMoney
 import view.shared.TextNormal
 import view.shared.TextSmall

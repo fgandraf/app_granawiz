@@ -5,8 +5,8 @@ import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.HandArrowDown
 import com.adamglin.phosphoricons.light.HandArrowUp
-import core.entity.Party
-import core.enums.PartyType
+import domain.entity.Party
+import domain.enums.PartyType
 import viewModel.PartyViewModel
 
 @Composable

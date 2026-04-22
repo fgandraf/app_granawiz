@@ -5,7 +5,7 @@ import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.HandArrowUp
-import core.entity.PartyName
+import domain.entity.PartyName
 import viewModel.PartyViewModel
 
 @Composable

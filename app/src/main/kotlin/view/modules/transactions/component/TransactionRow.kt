@@ -22,8 +22,8 @@ import com.adamglin.phosphoricons.light.DotsThree
 import com.adamglin.phosphoricons.light.Pen
 import com.adamglin.phosphoricons.light.Tag
 import com.adamglin.phosphoricons.light.Trash
-import core.entity.Transaction
-import core.enums.TransactionType
+import domain.entity.Transaction
+import domain.enums.TransactionType
 import utils.IconPaths
 import utils.brMoney
 import view.shared.*

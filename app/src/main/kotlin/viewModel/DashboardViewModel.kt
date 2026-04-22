@@ -1,8 +1,8 @@
 package viewModel
 
-import core.structs.DashboardPeriod
-import core.structs.DashboardSummary
-import domain.dashboard.DashboardHandler
+import domain.structs.DashboardPeriod
+import domain.structs.DashboardSummary
+import application.dashboard.DashboardHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class DashboardViewModel(

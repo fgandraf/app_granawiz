@@ -9,7 +9,7 @@ import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.ArrowsLeftRight
-import core.structs.CashFlow
+import domain.structs.CashFlow
 import utils.brMoney
 import view.shared.TextH3
 import view.shared.TextNormal

@@ -13,7 +13,7 @@ import com.adamglin.phosphoricons.Bold
 import com.adamglin.phosphoricons.Regular
 import com.adamglin.phosphoricons.bold.ArrowLeft
 import com.adamglin.phosphoricons.regular.HandArrowDown
-import core.enums.PartyType
+import domain.enums.PartyType
 import view.modules.party.components.Body
 import view.shared.AddressView
 import view.shared.ClickableIcon

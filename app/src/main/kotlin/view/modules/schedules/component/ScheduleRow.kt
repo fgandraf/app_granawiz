@@ -30,9 +30,9 @@ import com.adamglin.phosphoricons.light.Pen
 import com.adamglin.phosphoricons.light.Repeat
 import com.adamglin.phosphoricons.light.Tag
 import com.adamglin.phosphoricons.light.Trash
-import core.enums.ScheduleFrequency
-import core.enums.TransactionType
-import domain.schedule.usecases.ScheduleOccurrence
+import domain.enums.ScheduleFrequency
+import domain.enums.TransactionType
+import application.schedule.usecases.ScheduleOccurrence
 import utils.IconPaths
 import utils.brMoney
 import utils.rememberSvgPainter

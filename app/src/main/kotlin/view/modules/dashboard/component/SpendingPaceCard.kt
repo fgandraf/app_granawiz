@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.Gauge
-import core.structs.SpendingPace
+import domain.structs.SpendingPace
 import utils.brMoney
 import view.shared.TextH3
 import view.shared.TextNormal

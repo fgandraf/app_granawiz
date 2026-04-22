@@ -31,11 +31,11 @@ import androidx.compose.ui.unit.sp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.*
-import core.contracts.IFilterable
-import core.entity.*
-import core.entity.account.BankAccount
-import core.enums.TransactionType
-import core.structs.FilterEntry
+import domain.contracts.IFilterable
+import domain.entity.*
+import domain.entity.account.BankAccount
+import domain.enums.TransactionType
+import domain.structs.FilterEntry
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import view.theme.Ubuntu

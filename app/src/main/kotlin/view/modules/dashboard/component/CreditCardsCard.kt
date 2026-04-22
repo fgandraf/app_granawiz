@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.CreditCard
-import core.structs.CreditCardSnapshot
+import domain.structs.CreditCardSnapshot
 import utils.brMoney
 import view.shared.TextNormal
 import view.shared.TextSmall

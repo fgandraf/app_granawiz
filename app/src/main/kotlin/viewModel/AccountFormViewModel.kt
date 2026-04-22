@@ -3,13 +3,13 @@ package viewModel
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import core.entity.Group
-import core.entity.account.BankAccount
-import core.entity.account.CheckingAccount
-import core.entity.account.CreditCardAccount
-import core.entity.account.SavingsAccount
-import core.enums.AccountType
-import domain.account.AccountHandler
+import domain.entity.Group
+import domain.entity.account.BankAccount
+import domain.entity.account.CheckingAccount
+import domain.entity.account.CreditCardAccount
+import domain.entity.account.SavingsAccount
+import domain.enums.AccountType
+import application.account.AccountHandler
 
 class AccountFormViewModel(private val accountHandler: AccountHandler = AccountHandler()) {
 

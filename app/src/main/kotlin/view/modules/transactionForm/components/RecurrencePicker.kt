@@ -10,7 +10,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import core.enums.ScheduleFrequency
+import domain.enums.ScheduleFrequency
 import viewModel.TransactionFormViewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter

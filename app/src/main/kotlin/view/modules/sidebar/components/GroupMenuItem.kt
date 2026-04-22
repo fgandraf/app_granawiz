@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.*
-import core.entity.Group
+import domain.entity.Group
 import utils.brMoney
 import view.modules.groupForm.GroupForm
 import view.shared.ClickableIcon

@@ -9,7 +9,7 @@ import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.CurrencyCircleDollar
-import core.entity.Transaction
+import domain.entity.Transaction
 import utils.brMoney
 import kotlin.math.abs
 import view.shared.TextNormal

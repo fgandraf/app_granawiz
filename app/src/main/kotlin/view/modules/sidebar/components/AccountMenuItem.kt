@@ -15,14 +15,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
-import androidx.compose.ui.res.painterResource
+import utils.rememberSvgPainter
 import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.Regular
 import com.adamglin.phosphoricons.light.*
 import com.adamglin.phosphoricons.regular.Wallet
-import core.entity.account.BankAccount
+import domain.entity.account.BankAccount
 import utils.IconPaths
 import utils.brMoney
 import view.modules.Screen
@@ -54,7 +54,7 @@ fun AccountMenuItem(
     ) {
 
         Icon(
-            painter = painterResource(IconPaths.BANK_LOGOS + account.icon),
+            painter = rememberSvgPainter(IconPaths.BANK_LOGOS + account.icon),
             contentDescription = null,
             tint = MaterialTheme.colors.primary,
             modifier = Modifier.size(25.dp).offset(x = 25.dp)

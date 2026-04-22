@@ -66,7 +66,7 @@ fun DropDownNewAccount(
 ) {
 
     var showNewAccountDialog by remember { mutableStateOf(false) }
-    var accountType by remember { mutableStateOf(core.enums.AccountType.CHECKING) }
+    var accountType by remember { mutableStateOf(domain.enums.AccountType.CHECKING) }
 
     Row(verticalAlignment = Alignment.CenterVertically) {
         DropdownMenu(
@@ -82,7 +82,7 @@ fun DropDownNewAccount(
                     color = MaterialTheme.colors.primary,
                     label = "Conta Corrente",
                     onContainerClick = {
-                        accountType = core.enums.AccountType.CHECKING
+                        accountType = domain.enums.AccountType.CHECKING
                         showNewAccountDialog = true
                         onDismissRequest()
                     }
@@ -93,7 +93,7 @@ fun DropDownNewAccount(
                     color = MaterialTheme.colors.primary,
                     label = "Conta Poupança",
                     onContainerClick = {
-                        accountType = core.enums.AccountType.SAVINGS
+                        accountType = domain.enums.AccountType.SAVINGS
                         showNewAccountDialog = true
                         onDismissRequest()
                     }
@@ -104,7 +104,7 @@ fun DropDownNewAccount(
                     color = MaterialTheme.colors.primary,
                     label = "Cartão de Crédito",
                     onContainerClick = {
-                        accountType = core.enums.AccountType.CREDIT_CARD
+                        accountType = domain.enums.AccountType.CREDIT_CARD
                         showNewAccountDialog = true
                         onDismissRequest()
                     }

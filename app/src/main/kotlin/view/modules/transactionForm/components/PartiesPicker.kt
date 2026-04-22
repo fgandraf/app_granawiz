@@ -18,9 +18,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import core.entity.Party
-import core.entity.PartyName
-import core.enums.PartyType
+import domain.entity.Party
+import domain.entity.PartyName
+import domain.enums.PartyType
 import view.shared.*
 import viewModel.PartyViewModel
 
