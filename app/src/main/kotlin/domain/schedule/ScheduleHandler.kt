@@ -22,6 +22,8 @@ class ScheduleHandler {
 
     fun saveSchedule(viewModel: TransactionFormViewModel) = saveScheduleUseCase.execute(viewModel)
     fun deleteSchedule(schedule: Schedule) = deleteScheduleUseCase.execute(schedule)
+    fun deleteThisOccurrence(occurrence: ScheduleOccurrence) = deleteScheduleUseCase.deleteThisOccurrence(occurrence)
+    fun deleteThisAndFuture(occurrence: ScheduleOccurrence) = deleteScheduleUseCase.deleteThisAndFuture(occurrence)
     fun fetchSchedules(account: BankAccount? = null) = fetchSchedulesUseCase.execute(account)
     fun markAsPaid(schedule: Schedule, dueDate: LocalDateTime) = markAsPaidUseCase.execute(schedule, dueDate)
 

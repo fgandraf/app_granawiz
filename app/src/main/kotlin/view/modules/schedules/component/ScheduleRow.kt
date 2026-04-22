@@ -237,14 +237,18 @@ fun ScheduleRow(
                         confirmDelete = true
                     }
                     if (confirmDelete) {
-                        SimpleQuestionDialog(
-                            message = "Tem certeza que deseja excluir esse agendamento? Todas as ocorrências futuras serão removidas.",
-                            onConfirmRequest = {
-                                viewModel.deleteSchedule(schedule)
+                        DeleteScheduleDialog(
+                            onDismiss = { confirmDelete = false; showMenu = false },
+                            onDeleteThis = {
+                                viewModel.deleteThisOccurrence(occurrence)
                                 confirmDelete = false
                                 showMenu = false
                             },
-                            onDismissRequest = { confirmDelete = false; showMenu = false },
+                            onDeleteThisAndFuture = {
+                                viewModel.deleteThisAndFuture(occurrence)
+                                confirmDelete = false
+                                showMenu = false
+                            },
                         )
                     }
                 }

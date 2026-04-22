@@ -47,6 +47,16 @@ class ScheduleViewModel(
         getSchedules()
     }
 
+    fun deleteThisOccurrence(occurrence: ScheduleOccurrence) {
+        scheduleHandler.deleteThisOccurrence(occurrence)
+        getSchedules()
+    }
+
+    fun deleteThisAndFuture(occurrence: ScheduleOccurrence) {
+        scheduleHandler.deleteThisAndFuture(occurrence)
+        getSchedules()
+    }
+
     fun markAsPaid(occurrence: ScheduleOccurrence) {
         scheduleHandler.markAsPaid(occurrence.schedule, occurrence.dueDate)
         getSchedules()
