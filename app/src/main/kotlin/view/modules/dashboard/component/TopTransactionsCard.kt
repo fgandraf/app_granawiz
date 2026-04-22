@@ -26,6 +26,7 @@ fun TopTransactionsCard(
         modifier = modifier,
         title = "Maiores despesas",
         icon = PhosphorIcons.Light.CurrencyCircleDollar,
+        height = 240.dp
     ) {
         if (transactions.isEmpty()) {
             TextSmall(text = "Sem despesas no período", italic = true)

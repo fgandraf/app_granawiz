@@ -31,7 +31,7 @@ fun MonthlyEvolutionCard(
         modifier = modifier,
         title = "Evolução",
         icon = PhosphorIcons.Light.ChartLineUp,
-        minHeight = 260.dp,
+        height = 290.dp,
     ) {
         if (data.isEmpty() || data.all { it.income == 0.0 && it.expense == 0.0 }) {
             TextSmall(text = "Sem dados suficientes", italic = true)

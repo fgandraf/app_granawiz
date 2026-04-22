@@ -14,7 +14,8 @@ object IconPaths {
         "itau.svg",
         "c6bank.svg",
         "bradesco.svg",
-        "btg.svg"
+        "btg.svg",
+        "visa.svg"
     )
 
     val categoryIcons = listOf(

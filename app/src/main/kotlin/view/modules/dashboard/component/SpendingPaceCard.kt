@@ -25,7 +25,7 @@ fun SpendingPaceCard(
     modifier: Modifier = Modifier,
     pace: SpendingPace?,
 ) {
-    SummaryCard(modifier = modifier, title = "Ritmo do mês", icon = PhosphorIcons.Light.Gauge) {
+    SummaryCard(modifier = modifier, title = "Ritmo do mês", icon = PhosphorIcons.Light.Gauge, height = 150.dp) {
         if (pace == null) {
             Box(
                 modifier = Modifier.fillMaxWidth().weight(1f),

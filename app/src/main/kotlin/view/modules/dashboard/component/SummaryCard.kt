@@ -20,7 +20,7 @@ fun SummaryCard(
     modifier: Modifier = Modifier,
     title: String,
     icon: ImageVector? = null,
-    minHeight: Dp = 130.dp,
+    height: Dp = 130.dp,
     content: @Composable ColumnScope.() -> Unit,
 ) {
     Column(
@@ -28,7 +28,7 @@ fun SummaryCard(
             .clip(RoundedCornerShape(12.dp))
             .background(MaterialTheme.colors.surface)
             .border(0.5.dp, MaterialTheme.colors.onSurface, RoundedCornerShape(12.dp))
-            .defaultMinSize(minHeight = minHeight)
+            .height(height)
             .padding(16.dp),
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {

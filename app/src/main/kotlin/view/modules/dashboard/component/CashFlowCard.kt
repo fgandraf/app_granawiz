@@ -25,6 +25,7 @@ fun CashFlowCard(
         modifier = modifier,
         title = "Fluxo do período",
         icon = PhosphorIcons.Light.ArrowsLeftRight,
+        height = 150.dp
     ) {
         RowLine(label = "Receitas", value = brMoney.format(cashFlow.income), valueColor = MaterialTheme.colors.onPrimary)
         Spacer(Modifier.height(6.dp))

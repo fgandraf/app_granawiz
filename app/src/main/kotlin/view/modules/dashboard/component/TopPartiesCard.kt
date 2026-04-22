@@ -18,7 +18,7 @@ fun TopPartiesCard(
     modifier: Modifier = Modifier,
     parties: List<PartyVolume>,
 ) {
-    SummaryCard(modifier = modifier, title = "Top beneficiários", icon = PhosphorIcons.Light.HandArrowUp) {
+    SummaryCard(modifier = modifier, title = "Top beneficiários", icon = PhosphorIcons.Light.HandArrowUp, height = 240.dp) {
         if (parties.isEmpty()) {
             TextSmall(text = "Sem dados no período", italic = true)
             return@SummaryCard

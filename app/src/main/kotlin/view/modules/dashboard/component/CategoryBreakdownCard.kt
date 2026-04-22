@@ -29,7 +29,7 @@ fun CategoryBreakdownCard(
         modifier = modifier,
         title = "Despesas por categoria",
         icon = PhosphorIcons.Light.Shapes,
-        minHeight = 260.dp,
+        height = 290.dp,
     ) {
         if (breakdown.isEmpty()) {
             TextSmall(text = "Sem despesas no período", italic = true)

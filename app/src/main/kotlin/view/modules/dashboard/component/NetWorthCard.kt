@@ -23,7 +23,7 @@ fun NetWorthCard(
     modifier: Modifier = Modifier,
     snapshot: NetWorthSnapshot,
 ) {
-    SummaryCard(modifier = modifier, title = "Patrimônio total", icon = PhosphorIcons.Light.Wallet) {
+    SummaryCard(modifier = modifier, title = "Patrimônio total", icon = PhosphorIcons.Light.Wallet, height = 150.dp) {
         TextH1(text = brMoney.format(snapshot.total))
         Spacer(Modifier.height(8.dp))
 

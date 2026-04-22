@@ -85,20 +85,22 @@ fun DashboardScreen() {
                 SpendingPaceCard(modifier = Modifier.weight(1f), pace = current.spendingPace)
             }
 
-            //---- Linha 2: Cartões (largura inteira)
-            CreditCardsCard(modifier = Modifier.fillMaxWidth(), snapshots = current.creditCards)
-
-            //---- Linha 3: Categorias + Evolução
+            //---- Linha 2: Categorias + Evolução
             Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                 CategoryBreakdownCard(modifier = Modifier.weight(1f), breakdown = current.categoryBreakdown)
                 MonthlyEvolutionCard(modifier = Modifier.weight(1f), data = current.monthlyEvolution)
             }
+
+            //---- Linha 3: Cartões (largura inteira)
+            CreditCardsCard(modifier = Modifier.fillMaxWidth(), snapshots = current.creditCards)
 
             //---- Linha 4: Top beneficiários + Top despesas
             Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                 TopPartiesCard(modifier = Modifier.weight(1f), parties = current.topParties)
                 TopTransactionsCard(modifier = Modifier.weight(1f), transactions = current.topTransactions)
             }
+
+
 
             Spacer(Modifier.height(8.dp))
         }
