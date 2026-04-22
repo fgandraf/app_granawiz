@@ -75,7 +75,7 @@ open class Schedule(
     constructor() : this(
         0, Party(), BankAccount(), Category(), null, null,
         LocalDateTime.now(), "", 0.0, TransactionType.NEUTRAL,
-        ScheduleFrequency.MONTHLY, 1, null, null, null
+        ScheduleFrequency.ONCE, 1, null, null, null
     )
 
     fun copy(

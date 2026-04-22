@@ -1,3 +1,3 @@
 package core.enums
 
-enum class ScheduleFrequency { DAILY, WEEKLY, MONTHLY, YEARLY }
+enum class ScheduleFrequency { ONCE, DAILY, WEEKLY, MONTHLY, YEARLY }

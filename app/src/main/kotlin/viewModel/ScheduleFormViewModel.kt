@@ -26,7 +26,7 @@ class ScheduleFormViewModel(private val scheduleHandler: ScheduleHandler = Sched
     var balance by mutableStateOf(0.0)
     var type by mutableStateOf(TransactionType.NEUTRAL)
 
-    var frequency by mutableStateOf(ScheduleFrequency.MONTHLY)
+    var frequency by mutableStateOf(ScheduleFrequency.ONCE)
     var interval by mutableStateOf(1)
     var dayOfMonth by mutableStateOf<Int?>(null)
     var endDate by mutableStateOf<LocalDateTime?>(null)
@@ -63,7 +63,7 @@ class ScheduleFormViewModel(private val scheduleHandler: ScheduleHandler = Sched
         description = ""
         balance = 0.0
         type = TransactionType.NEUTRAL
-        frequency = ScheduleFrequency.MONTHLY
+        frequency = ScheduleFrequency.ONCE
         interval = 1
         dayOfMonth = null
         endDate = null

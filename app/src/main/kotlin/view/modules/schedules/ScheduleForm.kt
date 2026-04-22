@@ -40,7 +40,9 @@ import core.enums.TransactionType
 import utils.IconPaths
 import utils.rememberSvgPainter
 import utils.toBrMoney
-import view.modules.schedules.component.RecurrenceSection
+import view.modules.schedules.component.RecurrencePicker
+import view.modules.schedules.component.RecurrenceSetView
+import view.modules.schedules.component.buildRecurrenceSummary
 import view.modules.transactionForm.components.CategoriesPicker
 import view.modules.transactionForm.components.PartiesPicker
 import view.modules.transactionForm.components.TagsPicker
@@ -99,7 +101,11 @@ fun ScheduleForm(
         var showSide by remember { mutableStateOf(false) }
         var sideType by remember { mutableStateOf("") }
         val targetSize by derivedStateOf {
-            if (sideType == "tags") 850.dp else 1100.dp
+            when (sideType) {
+                "tags" -> 850.dp
+                "recurr" -> 950.dp
+                else -> 1100.dp
+            }
         }
         val dialogWidth by animateDpAsState(
             targetValue = if (showSide) targetSize else 550.dp,
@@ -108,7 +114,7 @@ fun ScheduleForm(
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.width(dialogWidth).align(Alignment.TopCenter).padding(top = 50.dp)
+            modifier = Modifier.width(dialogWidth).align(Alignment.TopCenter).padding(top = 100.dp)
         ) {
 
             Row(
@@ -123,7 +129,7 @@ fun ScheduleForm(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .heightIn(max = 750.dp)
+                        .heightIn(max = 650.dp)
                         .verticalScroll(rememberScrollState())
                         .padding(horizontal = 30.dp, vertical = 40.dp)
                 ) {
@@ -222,8 +228,28 @@ fun ScheduleForm(
                     Divider()
                     Spacer(Modifier.height(20.dp))
 
+
+
                     //---recurrence section
-                    RecurrenceSection(scheduleFormViewModel)
+                    RecurrenceSetView(
+                        label = "Recorrência:",
+                        summary = buildRecurrenceSummary(
+                            frequency = scheduleFormViewModel.frequency,
+                            interval = scheduleFormViewModel.interval,
+                            installments = scheduleFormViewModel.installments,
+                            endDate = scheduleFormViewModel.endDate,
+                        ),
+                        onClickEdit = {
+                            if (showSide && sideType == "recurr") showSide = false
+                            else if (showSide) sideType = "recurr"
+                            else {
+                                sideType = "recurr"; showSide = true
+                            }
+                        }
+                    )
+
+
+
                 }
             }
 
@@ -249,6 +275,9 @@ fun ScheduleForm(
                                 party = party.value,
                                 onPartyClick = { scheduleFormViewModel.party.value = it }
                             )
+
+                        "recurr" ->
+                            RecurrencePicker(viewModel = scheduleFormViewModel)
 
                         else ->
                             TagsPicker(

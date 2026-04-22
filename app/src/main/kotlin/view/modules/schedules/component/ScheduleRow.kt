@@ -220,6 +220,7 @@ fun ScheduleRow(
 
 private fun frequencyLabel(frequency: ScheduleFrequency, interval: Int): String {
     val base = when (frequency) {
+        ScheduleFrequency.ONCE -> "Uma única vez"
         ScheduleFrequency.DAILY -> if (interval == 1) "Diário" else "A cada $interval dias"
         ScheduleFrequency.WEEKLY -> if (interval == 1) "Semanal" else "A cada $interval semanas"
         ScheduleFrequency.MONTHLY -> if (interval == 1) "Mensal" else "A cada $interval meses"

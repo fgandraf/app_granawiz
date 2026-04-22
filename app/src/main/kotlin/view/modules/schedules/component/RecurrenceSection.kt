@@ -34,6 +34,7 @@ fun RecurrenceSection(viewModel: ScheduleFormViewModel) {
 
     val frequency = viewModel.frequency
     val intervalLabel = when (frequency) {
+        ScheduleFrequency.ONCE -> ""
         ScheduleFrequency.DAILY -> if (viewModel.interval == 1) "dia" else "dias"
         ScheduleFrequency.WEEKLY -> if (viewModel.interval == 1) "semana" else "semanas"
         ScheduleFrequency.MONTHLY -> if (viewModel.interval == 1) "mês" else "meses"
@@ -42,28 +43,36 @@ fun RecurrenceSection(viewModel: ScheduleFormViewModel) {
 
     Column(modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp)) {
 
-        TextSmall(text = "Recorrência:", modifier = Modifier.padding(bottom = 8.dp))
-
         Row(modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp)) {
             FrequencyDropdown(
-                modifier = Modifier.weight(1f),
+                modifier = if (frequency == ScheduleFrequency.ONCE) Modifier.fillMaxWidth() else Modifier.weight(1f),
                 value = frequency,
-                onChange = { viewModel.frequency = it }
+                onChange = {
+                    viewModel.frequency = it
+                    if (it == ScheduleFrequency.ONCE) {
+                        viewModel.interval = 1
+                        viewModel.installments = null
+                        viewModel.endDate = null
+                        viewModel.dayOfMonth = null
+                    }
+                }
             )
 
-            Column(modifier = Modifier.weight(1f).padding(start = 10.dp)) {
-                TextSmall(text = "A cada:", modifier = Modifier.padding(bottom = 5.dp))
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    IntStepper(
-                        value = viewModel.interval,
-                        min = 1,
-                        max = 365,
-                        onChange = { viewModel.interval = it }
-                    )
-                    TextNormal(
-                        text = intervalLabel,
-                        modifier = Modifier.padding(start = 10.dp)
-                    )
+            if (frequency != ScheduleFrequency.ONCE) {
+                Column(modifier = Modifier.weight(1f).padding(start = 10.dp)) {
+                    TextSmall(text = "A cada:", modifier = Modifier.padding(bottom = 5.dp))
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        IntStepper(
+                            value = viewModel.interval,
+                            min = 1,
+                            max = 365,
+                            onChange = { viewModel.interval = it }
+                        )
+                        TextNormal(
+                            text = intervalLabel,
+                            modifier = Modifier.padding(start = 10.dp)
+                        )
+                    }
                 }
             }
         }
@@ -86,6 +95,8 @@ fun RecurrenceSection(viewModel: ScheduleFormViewModel) {
                 }
             }
         }
+
+        if (frequency == ScheduleFrequency.ONCE) return@Column
 
         var mode by remember {
             mutableStateOf(
@@ -161,6 +172,7 @@ private fun FrequencyDropdown(
     onChange: (ScheduleFrequency) -> Unit,
 ) {
     val label = when (value) {
+        ScheduleFrequency.ONCE -> "Uma única vez"
         ScheduleFrequency.DAILY -> "Diária"
         ScheduleFrequency.WEEKLY -> "Semanal"
         ScheduleFrequency.MONTHLY -> "Mensal"
@@ -188,6 +200,7 @@ private fun FrequencyDropdown(
             DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
                 ScheduleFrequency.entries.forEach { freq ->
                     val freqLabel = when (freq) {
+                        ScheduleFrequency.ONCE -> "Uma única vez"
                         ScheduleFrequency.DAILY -> "Diária"
                         ScheduleFrequency.WEEKLY -> "Semanal"
                         ScheduleFrequency.MONTHLY -> "Mensal"

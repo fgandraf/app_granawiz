@@ -52,6 +52,7 @@ class GenerateOccurrencesUseCase {
         val base = schedule.startDate
         val step = schedule.interval.coerceAtLeast(1)
         return when (schedule.frequency) {
+            ScheduleFrequency.ONCE -> LocalDateTime.MAX
             ScheduleFrequency.DAILY -> base.plusDays((step * index).toLong())
             ScheduleFrequency.WEEKLY -> base.plusWeeks((step * index).toLong())
             ScheduleFrequency.MONTHLY -> monthlyDate(base, schedule.dayOfMonth, step, index)

@@ -21,7 +21,7 @@ fun PartyListItem(
 
     ListItem(
         label = item.name,
-        hasSubItem = item.partiesNames.size > 0,
+        hasSubItem = item.partiesNames.isNotEmpty(),
         isActive = item.id == selectedParty?.id,
         deleteDialogIsVisible = deleteDialogIsVisible,
         onUpdateConfirmation = { updatedSuccess = viewModel.updateParty(item, it) },
