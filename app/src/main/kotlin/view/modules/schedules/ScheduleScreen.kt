@@ -108,7 +108,7 @@ fun ScheduleScreen(
                 }
             }
 
-            if (!showForm) {
+            if (!showForm && schedulesState.isNotEmpty()) {
                 FilterTransactionBar(
                     items = viewModel.schedules,
                     searchQuery = searchQuery,

@@ -48,7 +48,7 @@ import core.entity.Tag as TagEntity
 fun TransactionsScreen(
     account: BankAccount? = null,
     showAddButton: Boolean = true,
-    viewModel: TransactionViewModel = TransactionViewModel(account),
+    viewModel: TransactionViewModel = remember(account) { TransactionViewModel(account) },
 
     ) {
 
@@ -107,6 +107,8 @@ fun TransactionsScreen(
         filterType = null
     }
 
+    val transactionsState by viewModel.transactions.collectAsState()
+
     var transactionType by remember { mutableStateOf(selectedTransaction?.type) }
 
     Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.background)) {
@@ -145,7 +147,7 @@ fun TransactionsScreen(
                 )
             }
 
-            if (showTransactionsList) {
+            if (showTransactionsList && transactionsState.isNotEmpty()) {
                 FilterTransactionBar(
                     items = viewModel.transactions,
                     searchQuery = searchQuery,
