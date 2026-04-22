@@ -27,26 +27,52 @@ There are currently no automated tests. The `test/kotlin/` directory is empty.
 
 ## Architecture
 
-Clean Architecture with four main layers inside `app/src/main/kotlin/`:
+Hexagonal (Ports & Adapters) architecture with five main layers inside `app/src/main/kotlin/`:
 
 ```
-domain/       → Domain entities (JPA), interfaces (IDao contracts), enums
-application/     → Business logic: Handler classes coordinate UseCases per feature
-infrastructure/      → Hibernate/SQLite config, DAO implementations, Flyway migrations
-view/       → Compose Desktop UI: screens, dialogs, forms, shared components
-viewModel/  → Kotlin Flow-based state management for each screen
-utils/      → DateTimeUtils, CurrencyUtils, IconPaths
+domain/         → Entities (JPA), repository contracts (IXxxRepository), enums, structs
+application/    → Business logic: Handler classes coordinate UseCases per feature
+infrastructure/ → Hibernate/SQLite config, repository implementations, Flyway migrations
+view/           → Compose Desktop UI: screens, dialogs, forms, shared components
+viewModel/      → Kotlin Flow-based state management for each screen
+utils/          → DateTimeUtils, CurrencyUtils, PainterUtils, IconPaths
 ```
 
-**Data flow:** `View` → `ViewModel` → `Domain Handler` → `UseCase` → `DAO (infrastructure)` → SQLite
+**Data flow:** `View` → `ViewModel` → `Handler` → `UseCase` → `Repository (infrastructure)` → SQLite
 
 ### Key Patterns
 
-- **Handlers** (`application/*/Handler`) coordinate multiple use cases for a feature area (e.g., `TransactionHandler`).
-- **Use cases** (`application/*/*UseCase`) contain single-responsibility business operations.
-- **DAOs** in `infrastructure/` implement interfaces from `domain/` using Hibernate Criteria API.
+- **Handlers** (`application/*/Handler`) act as facades, coordinating multiple use cases for a feature area.
+- **Use cases** (`application/*/*UseCase`) are single-responsibility business operations (~44 total).
+- **Repository contracts** in `domain/contracts/` define interfaces (`IAccountRepository`, etc.) implemented by `infrastructure/repository/`.
+- **Repositories** use Hibernate Criteria API with explicit `Hibernate.initialize()` calls to handle lazy loading.
 - **Database** is SQLite at `~/.granawiz/database/granawiz.db`, managed by Flyway migrations in `src/main/resources/db/migration/`. Migrations run automatically on startup via `DatabaseConfig.runMigrations()`.
-- **Account types** use JPA inheritance: `BankAccount` → `CheckingAccount`, `SavingsAccount`, `CreditCardAccount`.
+- **Account types** use JPA single-table inheritance with discriminator column: `BankAccount` → `CheckingAccount`, `SavingsAccount`, `CreditCardAccount`.
+- **IFilterable** is a marker interface implemented by entities that support filtering (party, account, category, etc.).
+- **Navigation** uses a `Screen` sealed class (`view/modules/Screen.kt`) routed by `MainContent.kt`.
+- **UserPreferences** (`view/modules/UserPreferences.kt`) is an app-wide singleton for theme state.
+
+### Feature Modules
+
+| Feature | Handler | ViewModel | Screens / Forms |
+|---------|---------|-----------|-----------------|
+| Dashboard | `DashboardHandler` | `DashboardViewModel` | `DashboardScreen` (9 metric cards) |
+| Transactions | `TransactionHandler` | `TransactionViewModel`, `TransactionFormViewModel` | `TransactionsScreen`, `TransactionForm` |
+| Schedules | `ScheduleHandler` | `ScheduleViewModel` | `ScheduleScreen` |
+| Accounts | `AccountHandler` | `AccountFormViewModel`, `SidebarViewModel` | `AccountForm`, sidebar |
+| Groups | `GroupHandler` | `SidebarViewModel` | `GroupForm`, sidebar |
+| Categories | `CategoryHandler` | `CategoryViewModel` | `CategoriesScreen` |
+| Tags | `TagHandler` | `TagViewModel` | `TagsScreen` |
+| Parties | `PartyHandler` | `PartyViewModel` | `PayersScreen`, `ReceiversScreen` |
+| Settings | `UserPreferenceHandler` | `SettingsViewModel` | `SettingsScreen` |
+
+### Domain Structs
+
+`domain/structs/` contains composite data classes used across layers:
+- `DashboardSummary` — aggregates 9 metrics (NetWorthSnapshot, CashFlow, SpendingPace, etc.)
+- `DashboardPeriod` — period selector state
+- `FilterEntry` — generic filter representation
+- `PageAddress` — navigation address
 
 ### Tech Stack
 
@@ -58,7 +84,7 @@ utils/      → DateTimeUtils, CurrencyUtils, IconPaths
 | Database | SQLite 3.48 |
 | Migrations | Flyway 11.1.1 |
 | Logging | Logback 1.5.16 |
-| Icons | Phosphor Icons |
+| Icons | Phosphor Icons 1.0.0 (Bold & Regular variants) |
 | Packaging | JPackage via Compose Multiplatform plugin |
 
 ## Entry Point
