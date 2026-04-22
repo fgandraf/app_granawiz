@@ -44,16 +44,15 @@ fun TextMedium(
     modifier: Modifier = Modifier,
     text: String,
     color: Color? = if (MaterialTheme.colors.isLight) GrayPrimaryLight else GrayPrimaryDark,
-    align: TextAlign = TextAlign.Start,
-    fontSize: TextUnit = 14.sp,
+    align: TextAlign = TextAlign.Start
 ) {
     Text(
         modifier = modifier,
         text = text,
-        fontSize = fontSize,
+        fontSize = 14.sp,
         color = color!!,
         fontWeight = FontWeight.Medium,
-        lineHeight = fontSize,
+        lineHeight = 14.sp,
         fontFamily = Ubuntu,
         textAlign = align
     )

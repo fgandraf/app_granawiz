@@ -15,17 +15,15 @@
 O projeto ainda está em desenvolvimento e as próximas atualizações serão voltadas para as seguintes tarefas:
 
 - [ ] Importar arquivo .OFX
-- [ ] Tela de Relatórios
-- [ ] Tela de Agendamentos
-- [ ] Tela do Dashboard
-- [ ] Preferências do usuário
+- [ ] Ajustes em Agendamentos
+- [ ] Ajustes em Dashboard
 - [ ] Suporte multi-idiomas
 - [ ] Tradução para o inglês
 - [ ] Tela de carregamento (splash)
 
 ## # Instalando GranaWiz
 
-Atualmente está em versão de prévia (alpha) mas já possível instalar em uma das plataformas suportadas abaixo para acompanhar a evolução do desenvolvimento.
+Atualmente está em versão de prévia (alpha) mas já é possível instalar em uma das plataformas suportadas abaixo para acompanhar a evolução do desenvolvimento.
 
 ##### ⇢ MacOS:
 
