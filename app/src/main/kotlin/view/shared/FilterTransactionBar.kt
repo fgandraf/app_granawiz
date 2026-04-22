@@ -31,17 +31,20 @@ import androidx.compose.ui.unit.sp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.*
+import core.contracts.IFilterable
 import core.entity.*
 import core.entity.account.BankAccount
 import core.enums.TransactionType
+import core.structs.FilterEntry
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import view.theme.Ubuntu
 import kotlin.collections.component1
 import kotlin.collections.component2
 
 @Composable
 fun FilterTransactionBar(
-    transactions: MutableStateFlow<List<Transaction>>,
+    items: StateFlow<List<IFilterable>>,
     searchQuery: String,
     onSearchQueryChange: (String) -> Unit,
     currentAccountView: BankAccount? = null,
@@ -55,17 +58,18 @@ fun FilterTransactionBar(
     onFilterTagChange: (Tag?) -> Unit,
     groups: MutableStateFlow<List<Group>>
 ) {
-    val transactionsList by transactions.collectAsState(initial = emptyList())
+    val list by items.collectAsState(initial = emptyList())
+    val entries: List<FilterEntry> = list.map { it.toFilterEntry() }
 
-    val preFilteredTransactions = remember(transactionsList, searchQuery, filterAccount) {
-        transactionsList.filter { transaction ->
+    val preFiltered = remember(entries, searchQuery, filterAccount) {
+        entries.filter { entry ->
             val ms = searchQuery.isEmpty() ||
-                    transaction.party.name.contains(searchQuery, ignoreCase = true) ||
-                    transaction.description.contains(searchQuery, ignoreCase = true) ||
-                    transaction.category.name.contains(searchQuery, ignoreCase = true) ||
-                    transaction.subcategory?.name?.contains(searchQuery, ignoreCase = true) == true ||
-                    transaction.tags?.any { it.name.contains(searchQuery, ignoreCase = true) } == true
-            val ma = filterAccount == null || transaction.account.id == filterAccount.id
+                    entry.partyName.contains(searchQuery, ignoreCase = true) ||
+                    entry.description.contains(searchQuery, ignoreCase = true) ||
+                    entry.category.name.contains(searchQuery, ignoreCase = true) ||
+                    entry.subcategory?.name?.contains(searchQuery, ignoreCase = true) == true ||
+                    entry.tags?.any { it.name.contains(searchQuery, ignoreCase = true) } == true
+            val ma = filterAccount == null || entry.accountId == filterAccount.id
             ms && ma
         }
     }
@@ -75,8 +79,6 @@ fun FilterTransactionBar(
         verticalAlignment = Alignment.Bottom,
         horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterHorizontally)
     ) {
-
-        // 1. Contas
         AccountDropDown(
             currentAccountView = currentAccountView,
             groups = groups,
@@ -84,30 +86,26 @@ fun FilterTransactionBar(
             onFilterAccountChange = onFilterAccountChange
         )
 
-        // 2. Tipo
         TypeDropDown(
             filterType = filterType,
             onFilterTypeChange = onFilterTypeChange
         )
 
-        // 3. Categorias
         CategoriesDropDown(
             filterCategoryItem = filterCategoryItem,
             filterType = filterType,
             onFilterCategoryItemChange = onFilterCategoryItemChange,
-            preFilteredTransactions = preFilteredTransactions
+            preFiltered = preFiltered
         )
 
-        // 4. Etiquetas
         TagsDropDown(
             filterTag = filterTag,
-            preFilteredTransactions = preFilteredTransactions,
+            preFiltered = preFiltered,
             filterType = filterType,
             filterCategoryItem = filterCategoryItem,
             onFilterTagChange = onFilterTagChange
         )
 
-        // 5. Pesquisa
         SearchField(
             value = searchQuery,
             onValueChange = onSearchQueryChange
@@ -252,14 +250,14 @@ private fun CategoriesDropDown(
     filterCategoryItem: Pair<Category, Subcategory?>? = null,
     filterType: TransactionType? = null,
     onFilterCategoryItemChange: (Pair<Category, Subcategory?>?) -> Unit,
-    preFilteredTransactions: List<Transaction>
+    preFiltered: List<FilterEntry>
 ){
     var showCategoryDropdown by remember { mutableStateOf(false) }
     val categoryFilterLabel = filterCategoryItem?.let { (cat, sub) ->
         if (sub != null) "${cat.name}: ${sub.name}" else cat.name
     } ?: "Todas as categorias"
-    val availableCategoriesMap = remember(preFilteredTransactions, filterType) {
-        preFilteredTransactions
+    val availableCategoriesMap = remember(preFiltered, filterType) {
+        preFiltered
             .filter { filterType == null || it.type == filterType }
             .groupBy { it.category }
     }
@@ -302,14 +300,14 @@ private fun CategoriesDropDown(
             }) {
                 TextNormal(text = "Todas as categorias")
             }
-            availableCategoriesMap.forEach { (cat, categoryTransactions) ->
+            availableCategoriesMap.forEach { (cat, entries) ->
                 DropdownMenuItem(onClick = {
                     onFilterCategoryItemChange(Pair(cat, null))
                     showCategoryDropdown = false
                 }) {
                     TextNormal(text = cat.name)
                 }
-                categoryTransactions.mapNotNull { it.subcategory }.distinctBy { it.id }.forEach { sub ->
+                entries.mapNotNull { it.subcategory }.distinctBy { it.id }.forEach { sub ->
                     DropdownMenuItem(onClick = {
                         onFilterCategoryItemChange(Pair(cat, sub))
                         showCategoryDropdown = false
@@ -325,19 +323,19 @@ private fun CategoriesDropDown(
 @Composable
 private fun TagsDropDown(
     filterTag: Tag? = null,
-    preFilteredTransactions: List<Transaction>,
+    preFiltered: List<FilterEntry>,
     filterType: TransactionType? = null,
     filterCategoryItem: Pair<Category, Subcategory?>? = null,
     onFilterTagChange: (Tag?) -> Unit
 ){
     var showTagDropdown by remember { mutableStateOf(false) }
     val tagFilterLabel = filterTag?.name ?: "Todas as tags"
-    val availableTags = remember(preFilteredTransactions, filterType, filterCategoryItem) {
-        preFilteredTransactions.filter { t ->
-            val mt = filterType == null || t.type == filterType
+    val availableTags = remember(preFiltered, filterType, filterCategoryItem) {
+        preFiltered.filter { entry ->
+            val mt = filterType == null || entry.type == filterType
             val mc = filterCategoryItem == null ||
-                    (filterCategoryItem.second == null && t.category.id == filterCategoryItem.first.id) ||
-                    (filterCategoryItem.second != null && t.subcategory?.id == filterCategoryItem.second!!.id)
+                    (filterCategoryItem.second == null && entry.category.id == filterCategoryItem.first.id) ||
+                    (filterCategoryItem.second != null && entry.subcategory?.id == filterCategoryItem.second!!.id)
             mt && mc
         }.flatMap { it.tags ?: emptyList() }.distinctBy { it.id }
     }

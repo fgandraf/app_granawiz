@@ -6,8 +6,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.DropdownMenu
-import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
@@ -71,11 +69,6 @@ fun ScheduleScreen(
     var filterCategoryItem by remember { mutableStateOf<Pair<Category, Subcategory?>?>(null) }
     var filterTag by remember { mutableStateOf<TagEntity?>(null) }
 
-    var showAccountDropdown by remember { mutableStateOf(false) }
-    var showTypeDropdown by remember { mutableStateOf(false) }
-    var showCategoryDropdown by remember { mutableStateOf(false) }
-    var showTagDropdown by remember { mutableStateOf(false) }
-
     // Occurrences window
     val today = remember { LocalDate.now() }
     val windowStart = remember { today.minusMonths(3).atStartOfDay() }
@@ -116,124 +109,20 @@ fun ScheduleScreen(
             }
 
             if (!showForm) {
-                val allAccounts = viewModel.groups.value.flatMap { it.accounts }
-                val accountLabel = filterAccount?.name ?: "Todos os contas"
-                val typeLabel = when (filterType) {
-                    TransactionType.GAIN -> "Receitas"
-                    TransactionType.EXPENSE -> "Despesas"
-                    else -> "Todos os tipos"
-                }
-                val categoryLabel = filterCategoryItem?.let { (cat, sub) ->
-                    if (sub != null) "${cat.name}: ${sub.name}" else cat.name
-                } ?: "Todas as categorias"
-                val tagLabel = filterTag?.name ?: "Todas as tags"
-
-                val preFiltered = occurrences.filter { occ ->
-                    val ms = searchQuery.isEmpty() ||
-                            occ.schedule.party.name.contains(searchQuery, ignoreCase = true) ||
-                            occ.schedule.description.contains(searchQuery, ignoreCase = true) ||
-                            occ.schedule.category.name.contains(searchQuery, ignoreCase = true) ||
-                            occ.schedule.subcategory?.name?.contains(searchQuery, ignoreCase = true) == true ||
-                            occ.schedule.tags?.any { it.name.contains(searchQuery, ignoreCase = true) } == true
-                    val ma = filterAccount == null || occ.schedule.account.id == filterAccount!!.id
-                    ms && ma
-                }
-                val availableCategoriesMap = preFiltered
-                    .filter { filterType == null || it.schedule.type == filterType }
-                    .map { it.schedule }
-                    .distinctBy { it.id }
-                    .groupBy { it.category }
-                val availableTags = preFiltered
-                    .filter { filterType == null || it.schedule.type == filterType }
-                    .filter {
-                        filterCategoryItem == null ||
-                                (filterCategoryItem!!.second == null && it.schedule.category.id == filterCategoryItem!!.first.id) ||
-                                (filterCategoryItem!!.second != null && it.schedule.subcategory?.id == filterCategoryItem!!.second!!.id)
-                    }
-                    .flatMap { it.schedule.tags ?: emptyList() }
-                    .distinctBy { it.id }
-
-                Row(
-                    modifier = Modifier.fillMaxWidth().padding(top = 20.dp, bottom = 2.dp),
-                    verticalAlignment = Alignment.Bottom,
-                    horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterHorizontally)
-                ) {
-                    // Account
-                    FilterDropdown(
-                        icon = PhosphorIcons.Light.Bank,
-                        label = accountLabel,
-                        expanded = showAccountDropdown,
-                        onExpandedChange = { showAccountDropdown = it },
-                    ) {
-                        DropdownMenuItem(onClick = { filterAccount = null; showAccountDropdown = false }) {
-                            TextNormal(text = "Todas as contas")
-                        }
-                        allAccounts.forEach { acc ->
-                            DropdownMenuItem(onClick = { filterAccount = acc; showAccountDropdown = false }) {
-                                TextNormal(text = acc.name)
-                            }
-                        }
-                    }
-
-                    // Type
-                    FilterDropdown(
-                        icon = PhosphorIcons.Light.ArrowsDownUp,
-                        label = typeLabel,
-                        expanded = showTypeDropdown,
-                        onExpandedChange = { showTypeDropdown = it },
-                    ) {
-                        DropdownMenuItem(onClick = { filterType = null; showTypeDropdown = false }) {
-                            TextNormal(text = "Todos os tipos")
-                        }
-                        DropdownMenuItem(onClick = { filterType = TransactionType.GAIN; showTypeDropdown = false }) {
-                            TextNormal(text = "Receitas")
-                        }
-                        DropdownMenuItem(onClick = { filterType = TransactionType.EXPENSE; showTypeDropdown = false }) {
-                            TextNormal(text = "Despesas")
-                        }
-                    }
-
-                    // Category
-                    FilterDropdown(
-                        icon = PhosphorIcons.Light.Shapes,
-                        label = categoryLabel,
-                        expanded = showCategoryDropdown,
-                        onExpandedChange = { showCategoryDropdown = it },
-                    ) {
-                        DropdownMenuItem(onClick = { filterCategoryItem = null; showCategoryDropdown = false }) {
-                            TextNormal(text = "Todas as categorias")
-                        }
-                        availableCategoriesMap.forEach { (cat, schedules) ->
-                            DropdownMenuItem(onClick = { filterCategoryItem = Pair(cat, null); showCategoryDropdown = false }) {
-                                TextNormal(text = cat.name)
-                            }
-                            schedules.mapNotNull { it.subcategory }.distinctBy { it.id }.forEach { sub ->
-                                DropdownMenuItem(onClick = { filterCategoryItem = Pair(cat, sub); showCategoryDropdown = false }) {
-                                    TextNormal(modifier = Modifier.padding(start = 16.dp), text = sub.name)
-                                }
-                            }
-                        }
-                    }
-
-                    // Tags
-                    FilterDropdown(
-                        icon = PhosphorIcons.Light.Tag,
-                        label = tagLabel,
-                        expanded = showTagDropdown,
-                        onExpandedChange = { showTagDropdown = it },
-                    ) {
-                        DropdownMenuItem(onClick = { filterTag = null; showTagDropdown = false }) {
-                            TextNormal(text = "Todas as tags")
-                        }
-                        availableTags.forEach { tag ->
-                            DropdownMenuItem(onClick = { filterTag = tag; showTagDropdown = false }) {
-                                TextNormal(text = tag.name)
-                            }
-                        }
-                    }
-
-                    SearchBar(value = searchQuery, onValueChange = { searchQuery = it })
-                }
+                FilterTransactionBar(
+                    items = viewModel.schedules,
+                    searchQuery = searchQuery,
+                    onSearchQueryChange = { searchQuery = it },
+                    filterAccount = filterAccount,
+                    onFilterAccountChange = { filterAccount = it },
+                    filterType = filterType,
+                    onFilterTypeChange = { filterType = it },
+                    filterCategoryItem = filterCategoryItem,
+                    onFilterCategoryItemChange = { filterCategoryItem = it },
+                    filterTag = filterTag,
+                    onFilterTagChange = { filterTag = it },
+                    groups = viewModel.groups
+                )
             }
         }
 
@@ -373,49 +262,6 @@ fun ScheduleScreen(
                     if (saved) viewModel.getSchedules()
                 }
             )
-        }
-    }
-}
-
-
-@Composable
-private fun FilterDropdown(
-    icon: androidx.compose.ui.graphics.vector.ImageVector,
-    label: String,
-    expanded: Boolean,
-    onExpandedChange: (Boolean) -> Unit,
-    content: @Composable () -> Unit,
-) {
-    Box {
-        Box(
-            modifier = Modifier
-                .height(30.dp)
-                .clip(RoundedCornerShape(8.dp))
-                .border(1.dp, MaterialTheme.colors.primaryVariant, RoundedCornerShape(8.dp))
-                .background(Color.Transparent)
-                .pointerHoverIcon(PointerIcon.Hand)
-                .clickable { onExpandedChange(true) }
-                .padding(horizontal = 12.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                Icon(
-                    imageVector = icon,
-                    contentDescription = "",
-                    tint = MaterialTheme.colors.secondary,
-                    modifier = Modifier.size(16.dp)
-                )
-                TextNormal(text = label)
-                Icon(
-                    imageVector = PhosphorIcons.Light.CaretDown,
-                    contentDescription = "",
-                    tint = MaterialTheme.colors.secondary,
-                    modifier = Modifier.size(14.dp)
-                )
-            }
-        }
-        DropdownMenu(expanded = expanded, onDismissRequest = { onExpandedChange(false) }) {
-            content()
         }
     }
 }

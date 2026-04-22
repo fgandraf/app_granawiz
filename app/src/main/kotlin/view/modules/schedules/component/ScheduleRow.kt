@@ -124,7 +124,7 @@ fun ScheduleRow(
             TextSmall(text = frequencyLabel(schedule.frequency, schedule.interval))
             if (!schedule.tags.isNullOrEmpty()) {
                 Spacer(Modifier.width(15.dp))
-                schedule.tags.forEach { tag ->
+                schedule.tags?.forEach { tag ->
                     Row {
                         Icon(
                             imageVector = PhosphorIcons.Light.Tag,

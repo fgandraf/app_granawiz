@@ -147,7 +147,7 @@ fun TransactionsScreen(
 
             if (showTransactionsList) {
                 FilterTransactionBar(
-                    transactions =  viewModel.transactions,
+                    items = viewModel.transactions,
                     searchQuery = searchQuery,
                     onSearchQueryChange = { searchQuery = it },
                     currentAccountView = account,

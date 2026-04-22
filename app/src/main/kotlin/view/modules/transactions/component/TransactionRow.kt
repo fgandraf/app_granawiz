@@ -119,7 +119,7 @@ fun TransactionRow(
                     .padding(end = 10.dp)
             ) {
                 if (transaction.tags?.isNotEmpty()!!) {
-                    transaction.tags.forEach { tag ->
+                    transaction.tags?.forEach { tag ->
                         Row {
                             Icon(
                                 imageVector = PhosphorIcons.Light.Tag,

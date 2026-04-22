@@ -1,5 +1,6 @@
 package core.entity
 
+import core.contracts.IFilterable
 import core.entity.account.BankAccount
 import core.enums.ScheduleFrequency
 import core.enums.TransactionType
@@ -18,19 +19,19 @@ open class Schedule(
 
     @ManyToOne
     @JoinColumn(name = "party_id", referencedColumnName = "party_id")
-    open val party: Party,
+    override val party: Party,
 
     @ManyToOne
     @JoinColumn(name = "account_id", referencedColumnName = "account_id")
-    open val account: BankAccount,
+    override val account: BankAccount,
 
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "category_id")
-    open val category: Category,
+    override val category: Category,
 
     @ManyToOne
     @JoinColumn(name = "subcategory_id", referencedColumnName = "subcategory_id")
-    open val subcategory: Subcategory?,
+    override val subcategory: Subcategory?,
 
     @ManyToMany(cascade = [CascadeType.PERSIST, CascadeType.MERGE])
     @JoinTable(
@@ -38,19 +39,19 @@ open class Schedule(
         joinColumns = [JoinColumn(name = "schedule_id")],
         inverseJoinColumns = [JoinColumn(name = "tag_id")]
     )
-    val tags: List<Tag>? = listOf(),
+    override val tags: List<Tag>? = listOf(),
 
     @Column(name = "start_date", columnDefinition = "DATETIME")
     @Convert(converter = LocalDateTimeConverter::class)
     open val startDate: LocalDateTime,
 
-    open val description: String,
+    override val description: String,
 
     open val balance: Double,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type", insertable = true, updatable = true)
-    open val type: TransactionType,
+    override val type: TransactionType,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "frequency", insertable = true, updatable = true)
@@ -69,7 +70,7 @@ open class Schedule(
     @Column(name = "installments")
     open val installments: Int? = null,
 
-) {
+) : IFilterable {
 
     constructor() : this(
         0, Party(), BankAccount(), Category(), null, null,
