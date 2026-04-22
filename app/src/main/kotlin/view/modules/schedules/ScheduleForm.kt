@@ -123,7 +123,7 @@ fun ScheduleForm(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .heightIn(max = 650.dp)
+                        .heightIn(max = 750.dp)
                         .verticalScroll(rememberScrollState())
                         .padding(horizontal = 30.dp, vertical = 40.dp)
                 ) {
@@ -302,7 +302,6 @@ private fun AccountSelector(
             modifier = Modifier
                 .height(28.dp)
                 .clip(RoundedCornerShape(6.dp))
-                .border(1.dp, MaterialTheme.colors.primaryVariant, RoundedCornerShape(6.dp))
                 .pointerHoverIcon(PointerIcon.Hand)
                 .clickable { expanded = true }
                 .padding(horizontal = 8.dp),
@@ -320,6 +319,7 @@ private fun AccountSelector(
             Text(
                 text = label,
                 fontSize = 12.sp,
+                lineHeight = 12.sp,
                 color = MaterialTheme.colors.primary,
                 fontWeight = FontWeight.Normal,
                 fontFamily = Ubuntu
