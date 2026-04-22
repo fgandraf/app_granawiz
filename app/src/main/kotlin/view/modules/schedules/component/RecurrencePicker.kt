@@ -46,8 +46,8 @@ fun RecurrencePicker(viewModel: ScheduleFormViewModel) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(600.dp)
-            .padding(top = 200.dp)
+            .height(750.dp)
+            .padding(top = 50.dp)
             .background(MaterialTheme.colors.surface, RoundedCornerShape(topEnd = corner, bottomEnd = corner))
             .border(0.5.dp, MaterialTheme.colors.onSurface, RoundedCornerShape(topEnd = corner, bottomEnd = corner))
     ) {

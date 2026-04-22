@@ -43,44 +43,44 @@ fun RecurrenceSection(viewModel: ScheduleFormViewModel) {
 
     Column(modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp)) {
 
-        Row(modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp)) {
-            FrequencyDropdown(
-                modifier = if (frequency == ScheduleFrequency.ONCE) Modifier.fillMaxWidth() else Modifier.weight(1f),
-                value = frequency,
-                onChange = {
-                    viewModel.frequency = it
-                    if (it == ScheduleFrequency.ONCE) {
-                        viewModel.interval = 1
-                        viewModel.installments = null
-                        viewModel.endDate = null
-                        viewModel.dayOfMonth = null
-                    }
+        FrequencyDropdown(
+            modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp),
+            value = frequency,
+            onChange = {
+                viewModel.frequency = it
+                if (it == ScheduleFrequency.ONCE) {
+                    viewModel.interval = 1
+                    viewModel.installments = null
+                    viewModel.endDate = null
+                    viewModel.dayOfMonth = null
                 }
-            )
+            }
+        )
 
-            if (frequency != ScheduleFrequency.ONCE) {
-                Column(modifier = Modifier.weight(1f).padding(start = 10.dp)) {
-                    TextSmall(text = "A cada:", modifier = Modifier.padding(bottom = 5.dp))
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        IntStepper(
-                            value = viewModel.interval,
-                            min = 1,
-                            max = 365,
-                            onChange = { viewModel.interval = it }
-                        )
-                        TextNormal(
-                            text = intervalLabel,
-                            modifier = Modifier.padding(start = 10.dp)
-                        )
-                    }
+
+        if (frequency != ScheduleFrequency.ONCE) {
+            Column {
+                TextSmall(text = "A cada:", modifier = Modifier.padding(bottom = 5.dp))
+                Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(bottom = 20.dp)) {
+                    IntStepper(
+                        value = viewModel.interval,
+                        min = 1,
+                        max = 365,
+                        onChange = { viewModel.interval = it }
+                    )
+                    TextNormal(
+                        text = intervalLabel,
+                        modifier = Modifier.padding(start = 10.dp)
+                    )
                 }
             }
         }
 
+
         if (frequency == ScheduleFrequency.MONTHLY) {
             Column(modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp)) {
                 TextSmall(text = "Dia do mês:", modifier = Modifier.padding(bottom = 5.dp))
-                Row(verticalAlignment = Alignment.CenterVertically) {
+                Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(bottom = 20.dp)) {
                     val current = viewModel.dayOfMonth ?: viewModel.startDate.dayOfMonth
                     IntStepper(
                         value = current,
@@ -109,7 +109,7 @@ fun RecurrenceSection(viewModel: ScheduleFormViewModel) {
         }
 
         TextSmall(text = "Termina em:", modifier = Modifier.padding(bottom = 5.dp))
-        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+        Row(modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp), verticalAlignment = Alignment.CenterVertically, ) {
             TerminationRadio(
                 label = "Nunca",
                 selected = mode == TerminationMode.NEVER,
