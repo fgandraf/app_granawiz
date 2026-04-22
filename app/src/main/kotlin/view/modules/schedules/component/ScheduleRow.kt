@@ -1,5 +1,8 @@
 package view.modules.schedules.component
 
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.TooltipArea
+import androidx.compose.foundation.TooltipPlacement
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -9,12 +12,15 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
@@ -150,26 +156,55 @@ fun ScheduleRow(
         }
 
         // Mark as paid
+        var confirmMarkAsPaid by remember { mutableStateOf(false) }
+        if (confirmMarkAsPaid) {
+            SimpleQuestionDialog(
+                message = "Confirmar pagamento desse agendamento?",
+                onConfirmRequest = {
+                    viewModel.markAsPaid(occurrence)
+                    confirmMarkAsPaid = false
+                },
+                onDismissRequest = { confirmMarkAsPaid = false },
+            )
+        }
+
         Row(
             Modifier.fillMaxHeight().padding(end = 8.dp),
             Arrangement.End,
             Alignment.CenterVertically
         ) {
-            Box(
-                modifier = Modifier
-                    .size(28.dp)
-                    .clip(CircleShape)
-                    .border(1.dp, MaterialTheme.colors.onPrimary, CircleShape)
-                    .pointerHoverIcon(PointerIcon.Hand)
-                    .clickable { viewModel.markAsPaid(occurrence) },
-                contentAlignment = Alignment.Center
+            @OptIn(ExperimentalFoundationApi::class)
+            TooltipArea(
+                tooltip = {
+                    Surface(
+                        modifier = Modifier.shadow(4.dp),
+                        shape = RoundedCornerShape(6.dp),
+                        color = MaterialTheme.colors.surface,
+                    ) {
+                        TextSmall(
+                            text = "Marcar como pago",
+                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+                        )
+                    }
+                },
+                tooltipPlacement = TooltipPlacement.CursorPoint(offset = DpOffset(0.dp, 16.dp)),
             ) {
-                Icon(
-                    imageVector = PhosphorIcons.Light.Check,
-                    contentDescription = "Marcar como pago",
-                    tint = MaterialTheme.colors.onPrimary,
-                    modifier = Modifier.size(16.dp)
-                )
+                Box(
+                    modifier = Modifier
+                        .size(28.dp)
+                        .clip(CircleShape)
+                        .border(1.dp, MaterialTheme.colors.onPrimary, CircleShape)
+                        .pointerHoverIcon(PointerIcon.Hand)
+                        .clickable { confirmMarkAsPaid = true },
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = PhosphorIcons.Light.Check,
+                        contentDescription = "Marcar como pago",
+                        tint = MaterialTheme.colors.onPrimary,
+                        modifier = Modifier.size(16.dp)
+                    )
+                }
             }
         }
 
