@@ -106,12 +106,6 @@ fun SettingsScreen(
                     Spacer(Modifier.height(2.dp))
                     InfoRow(label = "Desenvolvedor", value = "Felipe Gandra")
                     InfoRow(
-                        label = "Contato",
-                        value = "fgandraf@gmail.com",
-                        isLink = true,
-                        onClick = { Desktop.getDesktop().mail(URI("mailto:fgandraf@gmail.com")) }
-                    )
-                    InfoRow(
                         label = "Site",
                         value = "www.felipegandra.com",
                         isLink = true,
