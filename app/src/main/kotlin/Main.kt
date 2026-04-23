@@ -16,6 +16,7 @@ import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
 import infrastructure.config.DatabaseConfig
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import view.modules.CustomTitleBar
 import view.modules.MainContent
@@ -28,6 +29,7 @@ import view.theme.LightColorScheme
 import java.awt.Toolkit
 import java.awt.geom.RoundRectangle2D
 import java.util.*
+import kotlin.time.Duration.Companion.milliseconds
 
 
 fun main() = application {
@@ -41,6 +43,7 @@ fun main() = application {
             DatabaseConfig.runMigrations()
             UserPreferences.loadFromDatabase()
         }
+        delay(1000.milliseconds)
         isReady = true
     }
 

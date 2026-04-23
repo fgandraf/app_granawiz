@@ -130,20 +130,23 @@ fun ScheduleScreen(
 
         // ========== BODY ==========
         if (!showForm) {
-            val filtered = occurrences.filter { occ ->
-                val matchesSearch = searchQuery.isEmpty() ||
-                        occ.schedule.party.name.contains(searchQuery, ignoreCase = true) ||
-                        occ.schedule.description.contains(searchQuery, ignoreCase = true) ||
-                        occ.schedule.category.name.contains(searchQuery, ignoreCase = true) ||
-                        occ.schedule.subcategory?.name?.contains(searchQuery, ignoreCase = true) == true ||
-                        occ.schedule.tags?.any { it.name.contains(searchQuery, ignoreCase = true) } == true
-                val matchesAccount = filterAccount == null || occ.schedule.account.id == filterAccount!!.id
-                val matchesType = filterType == null || occ.schedule.type == filterType
-                val matchesCategory = filterCategoryItem == null ||
-                        (filterCategoryItem!!.second == null && occ.schedule.category.id == filterCategoryItem!!.first.id) ||
-                        (filterCategoryItem!!.second != null && occ.schedule.subcategory?.id == filterCategoryItem!!.second!!.id)
-                val matchesTag = filterTag == null || occ.schedule.tags?.any { it.id == filterTag!!.id } == true
-                matchesSearch && matchesAccount && matchesType && matchesCategory && matchesTag
+            val filtered = remember(occurrences, searchQuery, filterAccount, filterType, filterCategoryItem, filterTag) {
+                occurrences.filter { occ ->
+                    val matchesSearch = searchQuery.isEmpty() ||
+                            occ.schedule.party.name.contains(searchQuery, ignoreCase = true) ||
+                            occ.schedule.description.contains(searchQuery, ignoreCase = true) ||
+                            occ.schedule.category.name.contains(searchQuery, ignoreCase = true) ||
+                            occ.schedule.subcategory?.name?.contains(searchQuery, ignoreCase = true) == true ||
+                            occ.schedule.tags?.any { it.name.contains(searchQuery, ignoreCase = true) } == true
+                    val matchesAccount = filterAccount == null || occ.schedule.account.id == filterAccount!!.id
+                    val matchesType = filterType == null || occ.schedule.type == filterType
+                    val matchesCategory = filterCategoryItem == null ||
+                            (filterCategoryItem!!.second == null && occ.schedule.category.id == filterCategoryItem!!.first.id) ||
+                            (filterCategoryItem!!.second != null && occ.schedule.subcategory?.id == filterCategoryItem!!.second!!.id)
+                    val tag = filterTag
+                    val matchesTag = tag == null || occ.schedule.tags?.any { it.id == tag.id } == true
+                    matchesSearch && matchesAccount && matchesType && matchesCategory && matchesTag
+                }
             }
 
             val startOfToday = today.atStartOfDay()

@@ -15,8 +15,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.window.WindowDraggableArea
@@ -43,6 +45,28 @@ fun FrameWindowScope.CustomTitleBar(
                     .fillMaxWidth()
                     .height(32.dp)
                     .background(MaterialTheme.colors.surface)
+                    .pointerInput(windowState.placement) {
+                        var lastClickMs = 0L
+                        awaitPointerEventScope {
+                            while (true) {
+                                val event = awaitPointerEvent(PointerEventPass.Main)
+                                val pressed = event.changes.any { it.pressed && !it.previousPressed }
+                                if (pressed) {
+                                    val now = System.currentTimeMillis()
+                                    if (now - lastClickMs < 300L) {
+                                        windowState.placement =
+                                            if (windowState.placement == WindowPlacement.Maximized)
+                                                WindowPlacement.Floating
+                                            else
+                                                WindowPlacement.Maximized
+                                        lastClickMs = 0L
+                                    } else {
+                                        lastClickMs = now
+                                    }
+                                }
+                            }
+                        }
+                    }
             ) {
                 TextH3(
                     text = "GranaWiz",
