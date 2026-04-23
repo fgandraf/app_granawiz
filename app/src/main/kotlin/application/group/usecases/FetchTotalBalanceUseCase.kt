@@ -1,8 +1,9 @@
 package application.group.usecases
 
+import domain.contracts.IGroupRepository
 import infrastructure.repository.GroupRepository
 
-class FetchTotalBalanceUseCase(private val groupRepository: GroupRepository = GroupRepository()) {
+class FetchTotalBalanceUseCase(private val groupRepository: IGroupRepository = GroupRepository()) {
 
 
     fun execute(): Double {

@@ -1,5 +1,6 @@
 package application.schedule.usecases
 
+import domain.contracts.IScheduleRepository
 import domain.entity.Schedule
 import domain.enums.ScheduleFrequency
 import infrastructure.repository.ScheduleRepository
@@ -7,7 +8,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.YearMonth
 
-class DeleteScheduleUseCase(private val scheduleRepository: ScheduleRepository = ScheduleRepository()) {
+class DeleteScheduleUseCase(private val scheduleRepository: IScheduleRepository = ScheduleRepository()) {
 
     fun execute(schedule: Schedule) {
         scheduleRepository.delete(schedule)

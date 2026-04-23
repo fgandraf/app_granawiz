@@ -1,10 +1,11 @@
 package application.account.usecases
 
+import domain.contracts.IAccountRepository
 import domain.entity.Group
 import domain.entity.account.BankAccount
 import infrastructure.repository.AccountRepository
 
-class MoveAccountPositionUseCase(private val accountRepository: AccountRepository = AccountRepository()) {
+class MoveAccountPositionUseCase(private val accountRepository: IAccountRepository = AccountRepository()) {
 
 
     fun execute(groups: List<Group>, account: BankAccount, direction: Int) {

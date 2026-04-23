@@ -1,10 +1,11 @@
 package application.category.usecases
 
+import domain.contracts.ICategoryRepository
 import domain.entity.Category
 import domain.entity.Subcategory
 import infrastructure.repository.CategoryRepository
 
-class FetchSubcategoriesUseCase(private val categoryRepository: CategoryRepository = CategoryRepository()) {
+class FetchSubcategoriesUseCase(private val categoryRepository: ICategoryRepository = CategoryRepository()) {
 
 
     fun execute(category: Category): List<Subcategory> {

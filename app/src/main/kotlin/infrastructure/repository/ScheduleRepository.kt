@@ -52,7 +52,7 @@ class ScheduleRepository : IScheduleRepository {
         return schedules
     }
 
-    fun insert(schedule: Schedule): Schedule {
+    override fun insert(schedule: Schedule): Schedule {
         val session = sessionFactory.openSession()
         session.beginTransaction()
         val saved = session.merge(schedule)
@@ -61,7 +61,7 @@ class ScheduleRepository : IScheduleRepository {
         return saved
     }
 
-    fun update(schedule: Schedule) {
+    override fun update(schedule: Schedule) {
         val session = sessionFactory.openSession()
         session.beginTransaction()
         session.merge(schedule)
@@ -69,7 +69,7 @@ class ScheduleRepository : IScheduleRepository {
         session.close()
     }
 
-    fun delete(schedule: Schedule) {
+    override fun delete(schedule: Schedule) {
         val session = sessionFactory.openSession()
         session.beginTransaction()
         session.remove(session.merge(schedule))

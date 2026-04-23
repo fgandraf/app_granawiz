@@ -1,10 +1,11 @@
 package application.party.usecases
 
+import domain.contracts.IPartyRepository
 import domain.entity.Party
 import domain.enums.PartyType
 import infrastructure.repository.PartyRepository
 
-class FetchPartiesUseCase(private val partyRepository: PartyRepository = PartyRepository()) {
+class FetchPartiesUseCase(private val partyRepository: IPartyRepository = PartyRepository()) {
 
     fun execute(type: PartyType): List<Party> {
         return partyRepository.getAll(type)

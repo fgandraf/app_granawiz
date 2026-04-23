@@ -1,11 +1,12 @@
 package application.dashboard.usecases
 
+import domain.contracts.ITransactionRepository
 import domain.enums.TransactionType
 import domain.structs.CategoryBreakdown
 import infrastructure.repository.TransactionRepository
 import java.time.LocalDateTime
 
-class FetchCategoryBreakdownUseCase(private val transactionRepository: TransactionRepository = TransactionRepository()) {
+class FetchCategoryBreakdownUseCase(private val transactionRepository: ITransactionRepository = TransactionRepository()) {
 
     fun execute(
         from: LocalDateTime,

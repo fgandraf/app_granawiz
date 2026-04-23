@@ -1,5 +1,6 @@
 package application.dashboard.usecases
 
+import domain.contracts.ITransactionRepository
 import domain.enums.TransactionType
 import domain.structs.CashFlow
 import domain.structs.DashboardPeriod
@@ -8,7 +9,7 @@ import infrastructure.repository.TransactionRepository
 import java.time.LocalDate
 
 class BuildDashboardSummaryUseCase(
-    private val transactionRepository: TransactionRepository = TransactionRepository(),
+    private val transactionRepository: ITransactionRepository = TransactionRepository(),
     private val netWorthUseCase: FetchNetWorthDeltaUseCase = FetchNetWorthDeltaUseCase(),
     private val monthlyFlowUseCase: FetchMonthlyFlowUseCase = FetchMonthlyFlowUseCase(),
     private val categoryBreakdownUseCase: FetchCategoryBreakdownUseCase = FetchCategoryBreakdownUseCase(),

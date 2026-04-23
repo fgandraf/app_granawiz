@@ -1,11 +1,12 @@
 package application.schedule.usecases
 
+import domain.contracts.ITransactionRepository
 import domain.entity.Schedule
 import domain.entity.Transaction
 import infrastructure.repository.TransactionRepository
 import java.time.LocalDateTime
 
-class MarkAsPaidUseCase(private val transactionRepository: TransactionRepository = TransactionRepository()) {
+class MarkAsPaidUseCase(private val transactionRepository: ITransactionRepository = TransactionRepository()) {
 
     fun execute(schedule: Schedule, dueDate: LocalDateTime) {
         val transaction = Transaction(

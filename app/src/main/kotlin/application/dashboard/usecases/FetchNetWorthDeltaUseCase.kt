@@ -1,5 +1,7 @@
 package application.dashboard.usecases
 
+import domain.contracts.IGroupRepository
+import domain.contracts.ITransactionRepository
 import domain.enums.TransactionType
 import domain.structs.NetWorthSnapshot
 import infrastructure.repository.GroupRepository
@@ -9,8 +11,8 @@ import java.time.LocalTime
 import java.time.YearMonth
 
 class FetchNetWorthDeltaUseCase(
-    private val groupRepository: GroupRepository = GroupRepository(),
-    private val transactionRepository: TransactionRepository = TransactionRepository(),
+    private val groupRepository: IGroupRepository = GroupRepository(),
+    private val transactionRepository: ITransactionRepository = TransactionRepository(),
 ) {
 
     fun execute(today: LocalDate = LocalDate.now()): NetWorthSnapshot {

@@ -1,5 +1,7 @@
 package application.schedule.usecases
 
+import domain.contracts.IScheduleRepository
+import domain.contracts.ITransactionRepository
 import domain.entity.Schedule
 import domain.entity.Transaction
 import domain.enums.ScheduleFrequency
@@ -9,8 +11,8 @@ import viewModel.TransactionFormViewModel
 import java.time.LocalDate
 
 class SaveScheduleUseCase(
-    private val scheduleRepository: ScheduleRepository = ScheduleRepository(),
-    private val transactionRepository: TransactionRepository = TransactionRepository(),
+    private val scheduleRepository: IScheduleRepository = ScheduleRepository(),
+    private val transactionRepository: ITransactionRepository = TransactionRepository(),
     private val markAsPaidUseCase: MarkAsPaidUseCase = MarkAsPaidUseCase(),
 ) {
 

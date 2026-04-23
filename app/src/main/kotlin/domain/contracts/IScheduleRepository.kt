@@ -9,4 +9,10 @@ interface IScheduleRepository {
 
     fun getAllByAccount(account: BankAccount): List<Schedule>
 
+    fun insert(schedule: Schedule): Schedule
+
+    fun update(schedule: Schedule)
+
+    fun delete(schedule: Schedule)
+
 }

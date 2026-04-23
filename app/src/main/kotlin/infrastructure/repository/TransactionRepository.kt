@@ -33,10 +33,10 @@ class TransactionRepository : ITransactionRepository {
         return transactions
     }
 
-    fun getByDateRange(
+    override fun getByDateRange(
         from: LocalDateTime,
         to: LocalDateTime,
-        type: TransactionType? = null,
+        type: TransactionType?,
     ): List<Transaction> {
         val session = sessionFactory.openSession()
         session.beginTransaction()
@@ -89,7 +89,7 @@ class TransactionRepository : ITransactionRepository {
         return transactions
     }
 
-    fun update(transaction: Transaction) {
+    override fun update(transaction: Transaction) {
         val session = sessionFactory.openSession()
         session.beginTransaction()
         session.merge(transaction)
@@ -97,7 +97,7 @@ class TransactionRepository : ITransactionRepository {
         session.close()
     }
 
-    fun insert(transaction: Transaction) {
+    override fun insert(transaction: Transaction) {
         val session = sessionFactory.openSession()
         session.beginTransaction()
         session.merge(transaction)
@@ -105,7 +105,7 @@ class TransactionRepository : ITransactionRepository {
         session.close()
     }
 
-    fun delete(transaction: Transaction) {
+    override fun delete(transaction: Transaction) {
         val session = sessionFactory.openSession()
         session.beginTransaction()
         session.remove(transaction)

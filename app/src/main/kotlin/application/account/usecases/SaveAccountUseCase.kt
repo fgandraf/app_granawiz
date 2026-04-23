@@ -1,9 +1,10 @@
 package application.account.usecases
 
+import domain.contracts.IAccountRepository
 import domain.entity.account.BankAccount
 import infrastructure.repository.AccountRepository
 
-class SaveAccountUseCase(private val dao: AccountRepository = AccountRepository()) {
+class SaveAccountUseCase(private val dao: IAccountRepository = AccountRepository()) {
 
     fun execute(account: BankAccount) {
 
