@@ -26,7 +26,7 @@ fun TotalFooter(
 
     Box(
         modifier.fillMaxWidth().offset(y = (-1).dp)
-            .padding(end = 90.dp)
+            .padding(end = 30.dp)
     ) {
         Box(
             Modifier
