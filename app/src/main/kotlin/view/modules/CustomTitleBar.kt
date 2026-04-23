@@ -29,7 +29,7 @@ import com.adamglin.phosphoricons.light.ArrowsIn
 import com.adamglin.phosphoricons.light.ArrowsOut
 import com.adamglin.phosphoricons.light.Minus
 import com.adamglin.phosphoricons.light.X
-import view.shared.TextH4
+import view.shared.TextH3
 
 @Composable
 fun FrameWindowScope.CustomTitleBar(
@@ -44,7 +44,7 @@ fun FrameWindowScope.CustomTitleBar(
                     .height(32.dp)
                     .background(MaterialTheme.colors.surface)
             ) {
-                TextH4(
+                TextH3(
                     text = "GranaWiz",
                     modifier = Modifier.align(Alignment.Center),
                     align = TextAlign.Center
