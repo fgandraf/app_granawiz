@@ -41,6 +41,10 @@ dependencies {
     // Phosphor Icons
     implementation("com.adamglin:phosphor-icon:1.0.0")
 
+    // Excel export
+    implementation("org.apache.poi:poi-ooxml:5.4.0")
+    implementation("org.apache.logging.log4j:log4j-to-slf4j:2.24.3")
+
 }
 
 compose.desktop {

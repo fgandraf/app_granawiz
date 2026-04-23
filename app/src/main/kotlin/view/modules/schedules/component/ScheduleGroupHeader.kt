@@ -22,7 +22,7 @@ fun ScheduleGroupHeader(
     Box(
         modifier
             .offset(y = 0.5.dp)
-            .padding(start = 90.dp)
+            .padding(start = 80.dp)
     ) {
         Box(
             Modifier

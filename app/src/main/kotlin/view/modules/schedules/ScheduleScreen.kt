@@ -38,6 +38,7 @@ import view.modules.schedules.component.ScheduleRow
 import view.modules.transactionForm.TransactionForm
 import view.shared.*
 import view.theme.ButtonPurple
+import view.theme.LightColorScheme
 import viewModel.ScheduleViewModel
 import java.time.LocalDate
 import java.time.LocalTime
@@ -87,44 +88,35 @@ fun ScheduleScreen(
 
         // ========== HEADER ==========
         Column(modifier = Modifier.fillMaxWidth().padding(start = 20.dp, top = 20.dp, end = 20.dp)) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                ClickableIcon(
-                    enabled = backIcon,
-                    icon = PhosphorIcons.Bold.ArrowLeft,
-                    iconSize = 22.dp,
-                    boxSize = 25.dp
-                ) {
-                    addresses = initialAddress
-                    selectedSchedule = null
-                    showForm = false
-                    backIcon = false
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                // address row
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    ClickableIcon(
+                        enabled = backIcon,
+                        icon = PhosphorIcons.Bold.ArrowLeft,
+                        iconSize = 22.dp,
+                        boxSize = 25.dp
+                    ) {
+                        addresses = initialAddress
+                        selectedSchedule = null
+                        showForm = false
+                        backIcon = false
+                    }
+                    Spacer(Modifier.width(10.dp))
+                    addresses.forEach {
+                        AddressView(
+                            icon = it.iconVector,
+                            iconSize = it.iconSize!!,
+                            value = it.name,
+                            rootPath = it.rootPath
+                        )
+                    }
                 }
-                Spacer(Modifier.width(10.dp))
-                addresses.forEach {
-                    AddressView(
-                        icon = it.iconVector,
-                        iconSize = it.iconSize!!,
-                        value = it.name,
-                        rootPath = it.rootPath
+                if (!showForm && schedulesState.isNotEmpty())
+                    SearchField(
+                        value = searchQuery,
+                        onValueChange = { searchQuery = it }
                     )
-                }
-            }
-
-            if (!showForm && schedulesState.isNotEmpty()) {
-                FilterTransactionBar(
-                    items = viewModel.schedules,
-                    searchQuery = searchQuery,
-                    onSearchQueryChange = { searchQuery = it },
-                    filterAccount = filterAccount,
-                    onFilterAccountChange = { filterAccount = it },
-                    filterType = filterType,
-                    onFilterTypeChange = { filterType = it },
-                    filterCategoryItem = filterCategoryItem,
-                    onFilterCategoryItemChange = { filterCategoryItem = it },
-                    filterTag = filterTag,
-                    onFilterTagChange = { filterTag = it },
-                    groups = viewModel.groups
-                )
             }
         }
 
@@ -162,90 +154,122 @@ fun ScheduleScreen(
                 "Lançamentos futuros" to future,
             ).filter { it.second.isNotEmpty() }
 
-            Box(modifier = Modifier.fillMaxSize()) {
-                if (groups.isEmpty()) {
-                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        TextH2(text = "Nenhum agendamento encontrado.")
-                    }
-                } else {
-                    val listState = rememberLazyListState()
-                    LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
-                        item { Spacer(Modifier.height(30.dp)) }
-                        groups.forEach { (title, items) ->
-                            item {
-                                ScheduleGroupHeader(modifier = Modifier.zIndex(1f), title = title)
-                                Column(
-                                    modifier = Modifier
-                                        .padding(horizontal = 90.dp)
-                                        .zIndex(2f)
-                                        .clip(RoundedCornerShape(topEnd = 0.dp, bottomStart = 0.dp))
-                                        .background(
-                                            MaterialTheme.colors.surface,
-                                            RoundedCornerShape(topEnd = 0.dp, bottomStart = 0.dp)
-                                        )
-                                        .border(
-                                            0.5.dp,
-                                            MaterialTheme.colors.onSurface,
-                                            RoundedCornerShape(topEnd = 0.dp, bottomStart = 0.dp)
-                                        )
-                                ) {
-                                    Spacer(Modifier.height(20.dp))
-                                    items.forEach { occ ->
-                                        ScheduleRow(
-                                            viewModel = viewModel,
-                                            occurrence = occ,
-                                            overdue = title == "Atrasados",
-                                            onEdit = {
-                                                selectedSchedule = occ.schedule
-                                                showForm = true
-                                                newType = null
-                                                backIcon = true
-                                                addresses = initialAddress + PageAddress(
-                                                    iconVector = PhosphorIcons.Regular.Pencil,
-                                                    iconSize = DpSize(21.dp, 18.dp),
-                                                    name = "Editar agendamento"
+            val listState = rememberLazyListState()
+            Row(modifier = Modifier.fillMaxSize()) {
+                Row(modifier = Modifier.weight(1f)) {
+                    Box(modifier = Modifier.fillMaxSize()) {
+                        if (groups.isEmpty()) {
+                            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                                TextH2(text = "Nenhum agendamento encontrado.")
+                            }
+                        } else {
+                            LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
+                                item { Spacer(Modifier.height(30.dp)) }
+                                groups.forEach { (title, items) ->
+                                    item {
+                                        ScheduleGroupHeader(modifier = Modifier.zIndex(1f), title = title)
+                                        Column(
+                                            modifier = Modifier
+                                                .padding(start = 80.dp, end = 30.dp)
+                                                .zIndex(2f)
+                                                .clip(RoundedCornerShape(topEnd = 0.dp, bottomStart = 0.dp))
+                                                .background(
+                                                    MaterialTheme.colors.surface,
+                                                    RoundedCornerShape(topEnd = 0.dp, bottomStart = 0.dp)
+                                                )
+                                                .border(
+                                                    0.5.dp,
+                                                    MaterialTheme.colors.onSurface,
+                                                    RoundedCornerShape(topEnd = 0.dp, bottomStart = 0.dp)
+                                                )
+                                        ) {
+                                            Spacer(Modifier.height(20.dp))
+                                            items.forEach { occ ->
+                                                ScheduleRow(
+                                                    viewModel = viewModel,
+                                                    occurrence = occ,
+                                                    overdue = title == "Atrasados",
+                                                    onEdit = {
+                                                        selectedSchedule = occ.schedule
+                                                        showForm = true
+                                                        newType = null
+                                                        backIcon = true
+                                                        addresses = initialAddress + PageAddress(
+                                                            iconVector = PhosphorIcons.Regular.Pencil,
+                                                            iconSize = DpSize(21.dp, 18.dp),
+                                                            name = "Editar agendamento"
+                                                        )
+                                                    }
                                                 )
                                             }
-                                        )
+                                            Spacer(Modifier.height(20.dp))
+                                        }
+                                        Spacer(Modifier.height(30.dp))
                                     }
-                                    Spacer(Modifier.height(20.dp))
                                 }
-                                Spacer(Modifier.height(30.dp))
+                                item { Spacer(Modifier.height(50.dp)) }
                             }
                         }
-                        item { Spacer(Modifier.height(50.dp)) }
-                    }
 
-                    VerticalScrollbar(
-                        adapter = rememberScrollbarAdapter(listState),
-                        modifier = Modifier.align(Alignment.CenterEnd)
-                    )
+                        AddScheduleButton(
+                            onClickGain = {
+                                newType = TransactionType.GAIN
+                                selectedSchedule = null
+                                showForm = true
+                                backIcon = true
+                                addresses = initialAddress + PageAddress(
+                                    iconVector = PhosphorIcons.Light.PlusSquare,
+                                    iconSize = DpSize(21.dp, 18.dp),
+                                    name = "Nova receita agendada"
+                                )
+                            },
+                            onClickExpense = {
+                                newType = TransactionType.EXPENSE
+                                selectedSchedule = null
+                                showForm = true
+                                backIcon = true
+                                addresses = initialAddress + PageAddress(
+                                    iconVector = PhosphorIcons.Light.MinusSquare,
+                                    iconSize = DpSize(21.dp, 18.dp),
+                                    name = "Nova despesa agendada"
+                                )
+                            },
+                        )
+                    }
                 }
 
-                AddScheduleButton(
-                    onClickGain = {
-                        newType = TransactionType.GAIN
-                        selectedSchedule = null
-                        showForm = true
-                        backIcon = true
-                        addresses = initialAddress + PageAddress(
-                            iconVector = PhosphorIcons.Light.PlusSquare,
-                            iconSize = DpSize(21.dp, 18.dp),
-                            name = "Nova receita agendada"
-                        )
-                    },
-                    onClickExpense = {
-                        newType = TransactionType.EXPENSE
-                        selectedSchedule = null
-                        showForm = true
-                        backIcon = true
-                        addresses = initialAddress + PageAddress(
-                            iconVector = PhosphorIcons.Light.MinusSquare,
-                            iconSize = DpSize(21.dp, 18.dp),
-                            name = "Nova despesa agendada"
-                        )
-                    },
-                )
+                Box(modifier = Modifier.fillMaxHeight()) {
+                    VerticalScrollbar(
+                        adapter = rememberScrollbarAdapter(listState),
+                        modifier = Modifier.fillMaxHeight().align(Alignment.CenterEnd)
+                    )
+                    Row(
+                        modifier = Modifier.fillMaxHeight().width(45.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(topStart = 14.dp, bottomStart = 14.dp))
+                                .background(LightColorScheme.surface)
+                                .padding(vertical = 5.dp)
+                        ) {
+                            if (schedulesState.isNotEmpty()) {
+                                FilterTransactionBar(
+                                    items = viewModel.schedules,
+                                    searchQuery = searchQuery,
+                                    filterAccount = filterAccount,
+                                    onFilterAccountChange = { filterAccount = it },
+                                    filterType = filterType,
+                                    onFilterTypeChange = { filterType = it },
+                                    filterCategoryItem = filterCategoryItem,
+                                    onFilterCategoryItemChange = { filterCategoryItem = it },
+                                    onFilterTagChange = { filterTag = it },
+                                    groups = viewModel.groups
+                                )
+                            }
+                        }
+                    }
+                }
             }
         }
 

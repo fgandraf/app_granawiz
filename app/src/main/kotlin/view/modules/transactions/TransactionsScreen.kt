@@ -33,6 +33,8 @@ import domain.entity.Transaction
 import domain.entity.account.BankAccount
 import domain.enums.TransactionType
 import domain.structs.PageAddress
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import view.modules.transactionForm.TransactionForm
 import view.modules.transactions.component.DropDownAddTransaction
 import view.modules.transactions.component.MonthHeader
@@ -40,7 +42,12 @@ import view.modules.transactions.component.TotalFooter
 import view.modules.transactions.component.TransactionRow
 import view.shared.*
 import view.theme.ButtonPurple
+import view.theme.LightColorScheme
 import viewModel.TransactionViewModel
+import java.awt.FileDialog
+import java.awt.Frame
+import java.io.File
+import java.time.LocalDate
 import domain.entity.Tag as TagEntity
 
 
@@ -108,6 +115,25 @@ fun TransactionsScreen(
     }
 
     val transactionsState by viewModel.transactions.collectAsState()
+    val scope = rememberCoroutineScope()
+
+    val displayedTransactions = remember(transactionsState, searchQuery, filterAccount, filterCategoryItem, filterTag, filterType) {
+        transactionsState.filter { transaction ->
+            val matchesSearch = searchQuery.isEmpty() ||
+                    transaction.party.name.contains(searchQuery, ignoreCase = true) ||
+                    transaction.description.contains(searchQuery, ignoreCase = true) ||
+                    transaction.category.name.contains(searchQuery, ignoreCase = true) ||
+                    transaction.subcategory?.name?.contains(searchQuery, ignoreCase = true) == true ||
+                    transaction.tags?.any { it.name.contains(searchQuery, ignoreCase = true) } == true
+            val matchesAccount = filterAccount == null || transaction.account.id == filterAccount!!.id
+            val matchesCategory = filterCategoryItem == null ||
+                    (filterCategoryItem!!.second == null && transaction.category.id == filterCategoryItem!!.first.id) ||
+                    (filterCategoryItem!!.second != null && transaction.subcategory?.id == filterCategoryItem!!.second!!.id)
+            val matchesTag = filterTag == null || transaction.tags?.any { it.id == filterTag!!.id } == true
+            val matchesType = filterType == null || transaction.type == filterType
+            matchesSearch && matchesAccount && matchesCategory && matchesTag && matchesType
+        }
+    }
 
     var transactionType by remember { mutableStateOf(selectedTransaction?.type) }
 
@@ -115,30 +141,39 @@ fun TransactionsScreen(
 
         // ********** HEADER **********
         Column(modifier = Modifier.fillMaxWidth().padding(start = 20.dp, top = 20.dp, end = 20.dp)) {
-            // address row
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                ClickableIcon(
-                    enabled = backIcon,
-                    icon = PhosphorIcons.Bold.ArrowLeft,
-                    iconSize = 22.dp,
-                    boxSize = 25.dp
-                ) {
-                    addresses = initialAddress
-                    selectedTransaction = null
-                    showEditTransaction = false
-                    backIcon = false
-                    showTransactionsList = true
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                // address row
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    ClickableIcon(
+                        enabled = backIcon,
+                        icon = PhosphorIcons.Bold.ArrowLeft,
+                        iconSize = 22.dp,
+                        boxSize = 25.dp
+                    ) {
+                        addresses = initialAddress
+                        selectedTransaction = null
+                        showEditTransaction = false
+                        backIcon = false
+                        showTransactionsList = true
+                    }
+                    Spacer(Modifier.width(10.dp))
+                    addresses.forEach {
+                        AddressView(
+                            icon = it.iconVector,
+                            iconSize = it.iconSize!!,
+                            value = it.name,
+                            rootPath = it.rootPath
+                        )
+                    }
                 }
-                Spacer(Modifier.width(10.dp))
-                addresses.forEach {
-                    AddressView(
-                        icon = it.iconVector,
-                        iconSize = it.iconSize!!,
-                        value = it.name,
-                        rootPath = it.rootPath
+
+                if (showTransactionsList && transactionsState.isNotEmpty())
+                    SearchField(
+                        value = searchQuery,
+                        onValueChange = { searchQuery = it }
                     )
-                }
             }
+
             if (account?.description?.isNotEmpty() == true) {
                 TextNormal(
                     text = account.description,
@@ -147,155 +182,172 @@ fun TransactionsScreen(
                 )
             }
 
-            if (showTransactionsList && transactionsState.isNotEmpty()) {
-                FilterTransactionBar(
-                    items = viewModel.transactions,
-                    searchQuery = searchQuery,
-                    onSearchQueryChange = { searchQuery = it },
-                    currentAccountView = account,
-                    filterAccount = filterAccount,
-                    onFilterAccountChange = { filterAccount = it },
-                    filterType = filterType,
-                    onFilterTypeChange = { filterType = it },
-                    filterCategoryItem = filterCategoryItem,
-                    onFilterCategoryItemChange = { filterCategoryItem = it },
-                    filterTag = filterTag,
-                    onFilterTagChange = { filterTag = it },
-                    groups = viewModel.groups
-                )
 
-            }
         }
 
         // ********** BODY **********
         if (showTransactionsList) {
-            val displayedTransactions = viewModel.transactions.value.filter { transaction ->
-                val matchesSearch = searchQuery.isEmpty() ||
-                        transaction.party.name.contains(searchQuery, ignoreCase = true) ||
-                        transaction.description.contains(searchQuery, ignoreCase = true) ||
-                        transaction.category.name.contains(searchQuery, ignoreCase = true) ||
-                        transaction.subcategory?.name?.contains(searchQuery, ignoreCase = true) == true ||
-                        transaction.tags?.any { it.name.contains(searchQuery, ignoreCase = true) } == true
-                val matchesAccount = filterAccount == null || transaction.account.id == filterAccount!!.id
-                val matchesCategory = filterCategoryItem == null ||
-                        (filterCategoryItem!!.second == null && transaction.category.id == filterCategoryItem!!.first.id) ||
-                        (filterCategoryItem!!.second != null && transaction.subcategory?.id == filterCategoryItem!!.second!!.id)
-                val matchesTag = filterTag == null || transaction.tags?.any { it.id == filterTag!!.id } == true
-                val matchesType = filterType == null || transaction.type == filterType
-                matchesSearch && matchesAccount && matchesCategory && matchesTag && matchesType
-            }
-
-            Box(modifier = Modifier.fillMaxSize()) {
-                if (displayedTransactions.isEmpty())
-                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        TextH2(text = "Nenhuma transação encontrada.")
-                    }
-
-                val listState = rememberLazyListState()
-
-                LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
-                    val monthTransactions = displayedTransactions.groupBy { it.date.month }
-
-                    item { Spacer(modifier = Modifier.height(30.dp)) }
-                    monthTransactions.forEach { (month, transactions) ->
-
-                        item {
-                            MonthHeader(modifier = Modifier.zIndex(1f), month = month)
-                            Column(
-                                modifier = Modifier
-                                    .padding(horizontal = 90.dp)
-                                    .zIndex(2f)
-                                    .clip(RoundedCornerShape(topEnd = 0.dp, bottomStart = 0.dp))
-                                    .background(
-                                        MaterialTheme.colors.surface,
-                                        RoundedCornerShape(topEnd = 0.dp, bottomStart = 0.dp)
-                                    )
-                                    .border(
-                                        0.5.dp,
-                                        MaterialTheme.colors.onSurface,
-                                        RoundedCornerShape(topEnd = 0.dp, bottomStart = 0.dp)
-                                    )
-                            ) {
-                                Spacer(Modifier.height(20.dp))
-                                transactions.forEach { transaction ->
-                                    TransactionRow(
-                                        viewModel = viewModel,
-                                        transaction = transaction,
-                                        onClick = {
-                                            addresses = addresses + PageAddress(
-                                                iconVector = PhosphorIcons.Regular.Pencil,
-                                                iconSize = DpSize(21.dp, 18.dp),
-                                                name = "Editar " + if (transaction.type == TransactionType.GAIN) "receita" else "despesa"
-                                            )
-                                            selectedTransaction = transaction
-                                            showEditTransaction = true
-                                            backIcon = true
-                                            showTransactionsList = false
-                                        }
-                                    )
-                                }
-                                Spacer(Modifier.height(20.dp))
+            val listState = rememberLazyListState()
+            Row(modifier = Modifier.fillMaxSize()) {
+                Row(modifier = Modifier.weight(1f)) {
+                    Box(modifier = Modifier.fillMaxSize()) {
+                        if (displayedTransactions.isEmpty())
+                            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                                TextH2(text = "Nenhuma transação encontrada.")
                             }
 
-                            val positive =
-                                displayedTransactions.filter { it.date.month == month && it.balance >= 0 }
-                                    .sumOf { it.balance }
-                            val negative =
-                                displayedTransactions.filter { it.date.month == month && it.balance < 0 }
-                                    .sumOf { it.balance } * -1
-                            TotalFooter(
-                                modifier = Modifier.zIndex(1f),
-                                incomeBalance = positive,
-                                outcomeBalance = negative
-                            )
-                            Spacer(Modifier.height(30.dp))
+                        LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
+                            val monthTransactions = displayedTransactions.groupBy { it.date.month }
+
+                            item { Spacer(modifier = Modifier.height(30.dp)) }
+                            monthTransactions.forEach { (month, transactions) ->
+
+                                item {
+                                    MonthHeader(modifier = Modifier.zIndex(1f), month = month)
+                                    Column(
+                                        modifier = Modifier
+                                            .padding(start = 80.dp, end = 30.dp)
+                                            .zIndex(2f)
+                                            .clip(RoundedCornerShape(topEnd = 0.dp, bottomStart = 0.dp))
+                                            .background(
+                                                MaterialTheme.colors.surface,
+                                                RoundedCornerShape(topEnd = 0.dp, bottomStart = 0.dp)
+                                            )
+                                            .border(
+                                                0.5.dp,
+                                                MaterialTheme.colors.onSurface,
+                                                RoundedCornerShape(topEnd = 0.dp, bottomStart = 0.dp)
+                                            )
+                                    ) {
+                                        Spacer(Modifier.height(20.dp))
+                                        transactions.forEach { transaction ->
+                                            TransactionRow(
+                                                viewModel = viewModel,
+                                                transaction = transaction,
+                                                onClick = {
+                                                    addresses = addresses + PageAddress(
+                                                        iconVector = PhosphorIcons.Regular.Pencil,
+                                                        iconSize = DpSize(21.dp, 18.dp),
+                                                        name = "Editar " + if (transaction.type == TransactionType.GAIN) "receita" else "despesa"
+                                                    )
+                                                    selectedTransaction = transaction
+                                                    showEditTransaction = true
+                                                    backIcon = true
+                                                    showTransactionsList = false
+                                                }
+                                            )
+                                        }
+                                        Spacer(Modifier.height(20.dp))
+                                    }
+
+                                    val positive =
+                                        displayedTransactions.filter { it.date.month == month && it.balance >= 0 }
+                                            .sumOf { it.balance }
+                                    val negative =
+                                        displayedTransactions.filter { it.date.month == month && it.balance < 0 }
+                                            .sumOf { it.balance } * -1
+                                    TotalFooter(
+                                        modifier = Modifier.zIndex(1f),
+                                        incomeBalance = positive,
+                                        outcomeBalance = negative
+                                    )
+                                    Spacer(Modifier.height(30.dp))
+                                }
+
+                            }
+                            item { Spacer(Modifier.height(50.dp)) }
+
                         }
 
+
+                        if (showAddButton)
+                            AddTransactionButton(
+                                onClickGain = {
+                                    transactionType = TransactionType.GAIN
+                                    showTransactionsList = false
+                                    showEditTransaction = true
+                                    addresses = addresses + PageAddress(
+                                        iconVector = PhosphorIcons.Regular.PlusSquare,
+                                        iconSize = DpSize(21.dp, 18.dp),
+                                        name = "Nova receita"
+                                    )
+                                    backIcon = true
+                                },
+                                onClickExpense = {
+                                    transactionType = TransactionType.EXPENSE
+                                    showTransactionsList = false
+                                    showEditTransaction = true
+
+                                    addresses = addresses + PageAddress(
+                                        iconVector = PhosphorIcons.Regular.MinusSquare,
+                                        iconSize = DpSize(21.dp, 18.dp),
+                                        name = "Nova despesa"
+                                    )
+                                    backIcon = true
+                                },
+                                onDismiss = {
+                                    selectedTransaction = null
+                                    showEditTransaction = false
+                                    showTransactionsList = true
+                                    backIcon = false
+                                }
+                            )
                     }
-                    item { Spacer(Modifier.height(50.dp)) }
 
                 }
 
-
-                VerticalScrollbar(
-                    adapter = rememberScrollbarAdapter(listState),
-                    modifier = Modifier.align(Alignment.CenterEnd)
-                )
-
-
-                if (showAddButton)
-                    AddTransactionButton(
-                        onClickGain = {
-                            transactionType = TransactionType.GAIN
-                            showTransactionsList = false
-                            showEditTransaction = true
-                            addresses = addresses + PageAddress(
-                                iconVector = PhosphorIcons.Regular.PlusSquare,
-                                iconSize = DpSize(21.dp, 18.dp),
-                                name = "Nova receita"
-                            )
-                            backIcon = true
-                        },
-                        onClickExpense = {
-                            transactionType = TransactionType.EXPENSE
-                            showTransactionsList = false
-                            showEditTransaction = true
-
-                            addresses = addresses + PageAddress(
-                                iconVector = PhosphorIcons.Regular.MinusSquare,
-                                iconSize = DpSize(21.dp, 18.dp),
-                                name = "Nova despesa"
-                            )
-                            backIcon = true
-                        },
-                        onDismiss = {
-                            selectedTransaction = null
-                            showEditTransaction = false
-                            showTransactionsList = true
-                            backIcon = false
-                        }
+                Box(modifier = Modifier.fillMaxHeight()) {
+                    VerticalScrollbar(
+                        adapter = rememberScrollbarAdapter(listState),
+                        modifier = Modifier.fillMaxHeight().align(Alignment.CenterEnd)
                     )
-
+                    Row(
+                        modifier = Modifier.fillMaxHeight().width(45.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(topStart = 14.dp, bottomStart = 14.dp))
+                                .background(LightColorScheme.surface)
+                                .padding(vertical = 5.dp)
+                        ) {
+                            if (showTransactionsList && transactionsState.isNotEmpty()) {
+                                FilterTransactionBar(
+                                    items = viewModel.transactions,
+                                    searchQuery = searchQuery,
+                                    currentAccountView = account,
+                                    filterAccount = filterAccount,
+                                    onFilterAccountChange = { filterAccount = it },
+                                    filterType = filterType,
+                                    onFilterTypeChange = { filterType = it },
+                                    filterCategoryItem = filterCategoryItem,
+                                    onFilterCategoryItemChange = { filterCategoryItem = it },
+                                    onFilterTagChange = { filterTag = it },
+                                    groups = viewModel.groups,
+                                    onExportExcel = {
+                                        val dialog =
+                                            FileDialog(null as Frame?, "Exportar transações para Excel", FileDialog.SAVE)
+                                        dialog.file = "transacoes_${LocalDate.now()}.xlsx"
+                                        dialog.isVisible = true
+                                        val dir = dialog.directory
+                                        val name = dialog.file
+                                        dialog.dispose()
+                                        if (dir != null && name != null) {
+                                            val safeName = if (name.endsWith(".xlsx")) name else "$name.xlsx"
+                                            val target = File(dir, safeName)
+                                            scope.launch(Dispatchers.IO) {
+                                                viewModel.exportToExcel(
+                                                    displayedTransactions,
+                                                    target
+                                                )
+                                            }
+                                        }
+                                    }
+                                )
+                            }
+                        }
+                    }
+                }
 
             }
         }

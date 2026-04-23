@@ -7,6 +7,7 @@ import application.account.AccountHandler
 import application.group.GroupHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import application.transaction.TransactionHandler
+import java.io.File
 
 class TransactionViewModel(
     account: BankAccount? = null,
@@ -39,6 +40,9 @@ class TransactionViewModel(
         transactionHandler.deleteTransaction(transaction)
         getTransactions()
     }
+
+    fun exportToExcel(transactions: List<Transaction>, file: File) =
+        transactionHandler.exportTransactionsToExcel(transactions, file)
 
     fun updateBalance(accountId: Long, amount: Double) {
         accountHandler.updateBalance(accountId, amount)
