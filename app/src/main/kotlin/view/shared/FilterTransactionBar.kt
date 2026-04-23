@@ -3,6 +3,7 @@ package view.shared
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Divider
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
@@ -60,7 +61,7 @@ fun FilterTransactionBar(
     }
 
     Column(
-        verticalArrangement = Arrangement.spacedBy(10.dp)
+        verticalArrangement = Arrangement.spacedBy(5.dp)
     ) {
         AccountDropDown(
             currentAccountView = currentAccountView,
@@ -84,6 +85,8 @@ fun FilterTransactionBar(
             filterCategoryItem = filterCategoryItem,
             onFilterTagChange = onFilterTagChange
         )
+
+        Divider(Modifier.fillMaxWidth().height(1.dp).background(MaterialTheme.colors.background))
 
         ExportDropDown(onExportExcel = onExportExcel)
 
@@ -116,16 +119,16 @@ private fun AccountDropDown(
         ) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(0.dp)) {
                 Icon(
-                    imageVector = PhosphorIcons.Light.CaretDown,
-                    contentDescription = "",
-                    tint = MaterialTheme.colors.secondary,
-                    modifier = Modifier.size(10.dp)
-                )
-                Icon(
                     imageVector = PhosphorIcons.Light.Bank,
                     contentDescription = "",
                     tint = MaterialTheme.colors.secondary,
                     modifier = Modifier.size(20.dp)
+                )
+                Icon(
+                    imageVector = PhosphorIcons.Light.CaretDown,
+                    contentDescription = "",
+                    tint = MaterialTheme.colors.secondary,
+                    modifier = Modifier.size(8.dp)
                 )
             }
         }
@@ -169,16 +172,16 @@ private fun TypeDropDown(
         ) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(0.dp)) {
                 Icon(
-                    imageVector = PhosphorIcons.Light.CaretDown,
-                    contentDescription = "",
-                    tint = MaterialTheme.colors.secondary,
-                    modifier = Modifier.size(10.dp)
-                )
-                Icon(
                     imageVector = PhosphorIcons.Light.ArrowsDownUp,
                     contentDescription = "",
                     tint = MaterialTheme.colors.secondary,
                     modifier = Modifier.size(20.dp)
+                )
+                Icon(
+                    imageVector = PhosphorIcons.Light.CaretDown,
+                    contentDescription = "",
+                    tint = MaterialTheme.colors.secondary,
+                    modifier = Modifier.size(8.dp)
                 )
             }
         }
@@ -233,16 +236,16 @@ private fun CategoriesDropDown(
         ) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(0.dp)) {
                 Icon(
-                    imageVector = PhosphorIcons.Light.CaretDown,
-                    contentDescription = "",
-                    tint = MaterialTheme.colors.secondary,
-                    modifier = Modifier.size(10.dp)
-                )
-                Icon(
                     imageVector = PhosphorIcons.Light.Shapes,
                     contentDescription = "",
                     tint = MaterialTheme.colors.secondary,
                     modifier = Modifier.size(20.dp)
+                )
+                Icon(
+                    imageVector = PhosphorIcons.Light.CaretDown,
+                    contentDescription = "",
+                    tint = MaterialTheme.colors.secondary,
+                    modifier = Modifier.size(8.dp)
                 )
             }
         }
@@ -306,16 +309,16 @@ private fun TagsDropDown(
         ) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(0.dp)) {
                 Icon(
-                    imageVector = PhosphorIcons.Light.CaretDown,
-                    contentDescription = "",
-                    tint = MaterialTheme.colors.secondary,
-                    modifier = Modifier.size(10.dp)
-                )
-                Icon(
                     imageVector = PhosphorIcons.Light.Tag,
                     contentDescription = "",
                     tint = MaterialTheme.colors.secondary,
                     modifier = Modifier.size(20.dp)
+                )
+                Icon(
+                    imageVector = PhosphorIcons.Light.CaretDown,
+                    contentDescription = "",
+                    tint = MaterialTheme.colors.secondary,
+                    modifier = Modifier.size(8.dp)
                 )
             }
         }
@@ -359,16 +362,16 @@ private fun ExportDropDown(onExportExcel: () -> Unit = {}){
         ) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(0.dp)) {
                 Icon(
-                    imageVector = PhosphorIcons.Light.CaretDown,
-                    contentDescription = "",
-                    tint = MaterialTheme.colors.secondary,
-                    modifier = Modifier.size(10.dp)
-                )
-                Icon(
                     imageVector = PhosphorIcons.Light.Export,
                     contentDescription = "",
                     tint = MaterialTheme.colors.secondary,
                     modifier = Modifier.size(20.dp)
+                )
+                Icon(
+                    imageVector = PhosphorIcons.Light.CaretDown,
+                    contentDescription = "",
+                    tint = MaterialTheme.colors.secondary,
+                    modifier = Modifier.size(8.dp)
                 )
             }
         }

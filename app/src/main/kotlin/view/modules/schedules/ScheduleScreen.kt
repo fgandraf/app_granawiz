@@ -9,6 +9,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -43,6 +45,9 @@ import view.theme.ButtonPurple
 import viewModel.ScheduleViewModel
 import java.time.LocalDate
 import java.time.LocalTime
+import java.awt.FileDialog
+import java.awt.Frame
+import java.io.File
 import domain.entity.Tag as TagEntity
 
 
@@ -65,6 +70,8 @@ fun ScheduleScreen(
     var addresses by remember { mutableStateOf(initialAddress) }
     var backIcon by remember { mutableStateOf(false) }
     var newType by remember { mutableStateOf<TransactionType?>(null) }
+
+    val scope = rememberCoroutineScope()
 
     var searchQuery by remember { mutableStateOf("") }
     var filterAccount by remember { mutableStateOf<BankAccount?>(null) }
@@ -265,7 +272,22 @@ fun ScheduleScreen(
                                     filterCategoryItem = filterCategoryItem,
                                     onFilterCategoryItemChange = { filterCategoryItem = it },
                                     onFilterTagChange = { filterTag = it },
-                                    groups = viewModel.groups
+                                    groups = viewModel.groups,
+                                    onExportExcel = {
+                                        val dialog = FileDialog(null as Frame?, "Exportar agendamentos para Excel", FileDialog.SAVE)
+                                        dialog.file = "agendamentos_${LocalDate.now()}.xlsx"
+                                        dialog.isVisible = true
+                                        val dir = dialog.directory
+                                        val name = dialog.file
+                                        dialog.dispose()
+                                        if (dir != null && name != null) {
+                                            val safeName = if (name.endsWith(".xlsx")) name else "$name.xlsx"
+                                            val target = File(dir, safeName)
+                                            scope.launch(Dispatchers.IO) {
+                                                viewModel.exportToExcel(filtered, target)
+                                            }
+                                        }
+                                    }
                                 )
                             }
                         }

@@ -9,6 +9,7 @@ import application.schedule.ScheduleHandler
 import application.schedule.usecases.ScheduleOccurrence
 import application.transaction.TransactionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
+import java.io.File
 import java.time.LocalDateTime
 
 class ScheduleViewModel(
@@ -53,6 +54,9 @@ class ScheduleViewModel(
         scheduleHandler.markAsPaid(occurrence.schedule, occurrence.dueDate)
         getSchedules()
     }
+
+    fun exportToExcel(occurrences: List<ScheduleOccurrence>, file: File) =
+        scheduleHandler.exportSchedulesToExcel(occurrences, file)
 
     fun buildOccurrences(
         windowStart: LocalDateTime,
