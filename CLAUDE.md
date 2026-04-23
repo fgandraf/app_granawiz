@@ -33,7 +33,7 @@ Hexagonal (Ports & Adapters) architecture with five main layers inside `app/src/
 domain/         → Entities (JPA), repository contracts (IXxxRepository), enums, structs
 application/    → Business logic: Handler classes coordinate UseCases per feature
 infrastructure/ → Hibernate/SQLite config, repository implementations, Flyway migrations
-view/           → Compose Desktop UI: screens, dialogs, forms, shared components
+view/           → Compose Desktop UI: screens, dialogs, forms (modules/, shared/, theme/)
 viewModel/      → Kotlin Flow-based state management for each screen
 utils/          → DateTimeUtils, CurrencyUtils, PainterUtils, IconPaths
 ```
@@ -43,14 +43,18 @@ utils/          → DateTimeUtils, CurrencyUtils, PainterUtils, IconPaths
 ### Key Patterns
 
 - **Handlers** (`application/*/Handler`) act as facades, coordinating multiple use cases for a feature area.
-- **Use cases** (`application/*/*UseCase`) are single-responsibility business operations (~44 total).
+- **Use cases** (`application/*/*UseCase`) are single-responsibility business operations (51 total).
 - **Repository contracts** in `domain/contracts/` define interfaces (`IAccountRepository`, etc.) implemented by `infrastructure/repository/`.
 - **Repositories** use Hibernate Criteria API with explicit `Hibernate.initialize()` calls to handle lazy loading.
 - **Database** is SQLite at `~/.granawiz/database/granawiz.db`, managed by Flyway migrations in `src/main/resources/db/migration/`. Migrations run automatically on startup via `DatabaseConfig.runMigrations()`.
 - **Account types** use JPA single-table inheritance with discriminator column: `BankAccount` → `CheckingAccount`, `SavingsAccount`, `CreditCardAccount`.
 - **IFilterable** is a marker interface implemented by entities that support filtering (party, account, category, etc.).
-- **Navigation** uses a `Screen` sealed class (`view/modules/Screen.kt`) routed by `MainContent.kt`.
+- **Navigation** uses a `Screen` sealed class (`view/modules/Screen.kt`) routed by `MainContent.kt`. Defined screens: `Dashboard`, `Schedules`, `Categories`, `Tags`, `Receivers`, `Payers`, `Transactions`, `NewTransactionForm`.
 - **UserPreferences** (`view/modules/UserPreferences.kt`) is an app-wide singleton for theme state.
+- **CustomTitleBar** (`view/modules/CustomTitleBar.kt`) — custom window title bar component.
+- **SplashWindow** (`view/modules/SplashWindow.kt`) — splash screen shown during app initialization.
+- **Shared components** (`view/shared/`) — 25 reusable Compose components (text fields, dropdowns, dialogs, list items, date pickers, etc.).
+- **Theme** (`view/theme/`) — `Theme.kt` (light/dark color schemes) and `Type.kt` (typography).
 
 ### Feature Modules
 
@@ -85,6 +89,7 @@ utils/          → DateTimeUtils, CurrencyUtils, PainterUtils, IconPaths
 | Migrations | Flyway 11.1.1 |
 | Logging | Logback 1.5.16 |
 | Icons | Phosphor Icons 1.0.0 (Bold & Regular variants) |
+| Excel Export | Apache POI OOXML 5.4.0 |
 | Packaging | JPackage via Compose Multiplatform plugin |
 
 ## Entry Point

@@ -352,7 +352,8 @@ fun TransactionsScreen(
         }
 
         if (showEditTransaction) {
-            if (viewModel.selectedAccount == null) viewModel.selectAccount(selectedTransaction!!.account)
+            val tx = selectedTransaction
+            if (tx != null && viewModel.selectedAccount == null) viewModel.selectAccount(tx.account)
             TransactionForm(
                 transaction = selectedTransaction,
                 transactionType = transactionType,
