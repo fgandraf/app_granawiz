@@ -54,7 +54,6 @@ fun SettingsScreen(
                     .padding(horizontal = 30.dp, vertical = 20.dp),
                 verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
-                // Cabeçalho: Logo + Nome + Versão
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.fillMaxWidth()
@@ -81,7 +80,7 @@ fun SettingsScreen(
                         )
                     )
                     Spacer(Modifier.height(2.dp))
-                    TextSmall(text = "Versão Alpha-2", italic = true)
+                    TextSmall(text = "0.0.1-Beta", italic = true)
                 }
 
                 Divider(color = MaterialTheme.colors.onSurface)

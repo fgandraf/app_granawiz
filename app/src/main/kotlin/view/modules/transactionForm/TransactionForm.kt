@@ -5,42 +5,12 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.*
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Divider
-import androidx.compose.material.DropdownMenu
-import androidx.compose.material.DropdownMenuItem
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -67,18 +37,8 @@ import domain.enums.TransactionType
 import utils.IconPaths
 import utils.rememberSvgPainter
 import utils.toBrMoney
-import view.modules.transactionForm.components.RecurrencePicker
-import view.modules.transactionForm.components.RecurrenceSetView
-import view.modules.transactionForm.components.buildRecurrenceSummary
-import view.modules.transactionForm.components.CategoriesPicker
-import view.modules.transactionForm.components.PartiesPicker
-import view.modules.transactionForm.components.TagsPicker
-import view.shared.DateTimePicker
-import view.shared.DefaultTextField
-import view.shared.DropDownTextField
-import view.shared.TagListView
-import view.shared.TextNormal
-import view.shared.TextSmall
+import view.modules.transactionForm.components.*
+import view.shared.*
 import view.theme.ButtonGreen
 import view.theme.Ubuntu
 import viewModel.TransactionFormViewModel
@@ -180,13 +140,9 @@ fun TransactionForm(
                     //==== HEADER (type label + account)
                     Row(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
+                        horizontalArrangement = Arrangement.End,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        TextSmall(
-                            text = scheduleFormViewModel.typeLabel.value,
-                            color = typeColor.value
-                        )
                         if (lockAccount) {
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
