@@ -23,7 +23,9 @@ import com.adamglin.phosphoricons.Bold
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.Regular
 import com.adamglin.phosphoricons.bold.ArrowLeft
-import com.adamglin.phosphoricons.light.*
+import com.adamglin.phosphoricons.light.MinusSquare
+import com.adamglin.phosphoricons.light.Plus
+import com.adamglin.phosphoricons.light.PlusSquare
 import com.adamglin.phosphoricons.regular.Calendar
 import com.adamglin.phosphoricons.regular.Pencil
 import domain.entity.Category
@@ -38,7 +40,6 @@ import view.modules.schedules.component.ScheduleRow
 import view.modules.transactionForm.TransactionForm
 import view.shared.*
 import view.theme.ButtonPurple
-import view.theme.LightColorScheme
 import viewModel.ScheduleViewModel
 import java.time.LocalDate
 import java.time.LocalTime
@@ -250,7 +251,7 @@ fun ScheduleScreen(
                         Box(
                             modifier = Modifier
                                 .clip(RoundedCornerShape(topStart = 14.dp, bottomStart = 14.dp))
-                                .background(LightColorScheme.surface)
+                                .background(MaterialTheme.colors.surface)
                                 .padding(vertical = 5.dp)
                         ) {
                             if (schedulesState.isNotEmpty()) {

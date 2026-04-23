@@ -25,7 +25,7 @@ import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.Regular
 import com.adamglin.phosphoricons.bold.ArrowLeft
 import com.adamglin.phosphoricons.bold.ListBullets
-import com.adamglin.phosphoricons.light.*
+import com.adamglin.phosphoricons.light.Plus
 import com.adamglin.phosphoricons.regular.*
 import domain.entity.Category
 import domain.entity.Subcategory
@@ -42,7 +42,6 @@ import view.modules.transactions.component.TotalFooter
 import view.modules.transactions.component.TransactionRow
 import view.shared.*
 import view.theme.ButtonPurple
-import view.theme.LightColorScheme
 import viewModel.TransactionViewModel
 import java.awt.FileDialog
 import java.awt.Frame
@@ -308,7 +307,7 @@ fun TransactionsScreen(
                         Box(
                             modifier = Modifier
                                 .clip(RoundedCornerShape(topStart = 14.dp, bottomStart = 14.dp))
-                                .background(LightColorScheme.surface)
+                                .background(MaterialTheme.colors.surface)
                                 .padding(vertical = 5.dp)
                         ) {
                             if (showTransactionsList && transactionsState.isNotEmpty()) {
