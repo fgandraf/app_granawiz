@@ -61,7 +61,24 @@ class AccountFormViewModel(private val accountHandler: AccountHandler = AccountH
     }
 
     fun saveAccount() {
-        val account = accountHandler.buildAccount(this)
+        val account: BankAccount = when (type) {
+            AccountType.CHECKING -> CheckingAccount(
+                id = id, name = name, description = description,
+                position = position, icon = icon, balance = balance,
+                group = group, openBalance = balance, overdraftLimit = limit,
+            )
+            AccountType.SAVINGS -> SavingsAccount(
+                id = id, name = name, description = description,
+                position = position, icon = icon, balance = balance,
+                group = group, openBalance = balance,
+            )
+            AccountType.CREDIT_CARD -> CreditCardAccount(
+                id = id, name = name, description = description,
+                position = position, icon = icon, balance = 0.0,
+                group = group, creditLimit = limit,
+                closingDay = closingDay, dueDay = dueDay,
+            )
+        }
         accountHandler.saveAccount(account)
     }
 }

@@ -9,7 +9,6 @@ import application.schedule.usecases.GenerateOccurrencesUseCase
 import application.schedule.usecases.MarkAsPaidUseCase
 import application.schedule.usecases.SaveScheduleUseCase
 import application.schedule.usecases.ScheduleOccurrence
-import viewModel.TransactionFormViewModel
 import java.time.LocalDateTime
 
 class ScheduleHandler {
@@ -20,7 +19,7 @@ class ScheduleHandler {
     private val generateOccurrencesUseCase = GenerateOccurrencesUseCase()
     private val markAsPaidUseCase = MarkAsPaidUseCase()
 
-    fun saveSchedule(viewModel: TransactionFormViewModel) = saveScheduleUseCase.execute(viewModel)
+    fun saveSchedule(schedule: Schedule) = saveScheduleUseCase.execute(schedule)
     fun deleteThisOccurrence(occurrence: ScheduleOccurrence) = deleteScheduleUseCase.deleteThisOccurrence(occurrence)
     fun deleteThisAndFuture(occurrence: ScheduleOccurrence) = deleteScheduleUseCase.deleteThisAndFuture(occurrence)
     fun fetchSchedules(account: BankAccount? = null) = fetchSchedulesUseCase.execute(account)

@@ -137,7 +137,25 @@ class TransactionFormViewModel(
                 )
             )
         } else {
-            scheduleHandler.saveSchedule(this)
+            scheduleHandler.saveSchedule(
+                Schedule(
+                    id = id,
+                    party = party.value!!,
+                    account = account,
+                    category = category.value!!,
+                    subcategory = subCategory,
+                    tags = tags.value,
+                    startDate = startDate,
+                    description = description,
+                    balance = balance,
+                    type = type,
+                    frequency = frequency,
+                    interval = interval,
+                    dayOfMonth = dayOfMonth,
+                    endDate = endDate,
+                    installments = installments,
+                )
+            )
         }
     }
 
