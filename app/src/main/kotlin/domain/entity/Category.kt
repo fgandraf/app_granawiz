@@ -10,7 +10,7 @@ open class Category(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id", columnDefinition = "INTEGER")
-    open val id: Long = 0,
+    open var id: Long = 0,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "category_type", insertable = true, updatable = true)

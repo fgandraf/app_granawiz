@@ -8,7 +8,7 @@ open class PartyName(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "party_name_id", columnDefinition = "INTEGER")
-    open val id: Long = 0,
+    open var id: Long = 0,
 
     open var name: String = "",
 

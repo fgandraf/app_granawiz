@@ -71,7 +71,7 @@ fun main() = application {
                 } else {
                     val w = windowState.size.width.value.toDouble()
                     val h = windowState.size.height.value.toDouble()
-                    window.shape = RoundRectangle2D.Double(0.0, 0.0, w, h, 20.0, 20.0)
+                    window.shape = RoundRectangle2D.Double(0.0, 0.0, w, h, 25.0, 25.0)
                 }
             }
 

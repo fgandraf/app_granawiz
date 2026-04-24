@@ -15,7 +15,7 @@ open class Schedule(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "schedule_id", columnDefinition = "INTEGER")
-    open val id: Long = 0,
+    open var id: Long = 0,
 
     @ManyToOne
     @JoinColumn(name = "party_id", referencedColumnName = "party_id")

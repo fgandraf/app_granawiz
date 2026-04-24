@@ -7,7 +7,7 @@ import jakarta.persistence.*
 open class UserPreference(
     @Id
     @Column(name = "preference_id", columnDefinition = "INTEGER")
-    open val id: Long = 1,
+    open var id: Long = 1,
     @Column(name = "is_light_theme", columnDefinition = "INTEGER")
     open var isLightTheme: Boolean = true,
 ) {

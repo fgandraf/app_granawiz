@@ -1,14 +1,18 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
-    kotlin("jvm") version "2.1.0"
-    kotlin("plugin.jpa") version "2.1.0"
-    id("org.jetbrains.compose") version "1.7.3"
-    id("org.jetbrains.kotlin.plugin.compose") version "2.0.21"
+    kotlin("jvm") version "2.3.21"
+    kotlin("plugin.jpa") version "2.3.21"
+    id("org.jetbrains.compose") version "1.10.3"
+    id("org.jetbrains.kotlin.plugin.compose") version "2.3.21"
 }
 
 group = "com.felipegandra"
 version = "0.0.1-Beta"
+
+kotlin {
+    jvmToolchain(25)
+}
 
 repositories {
     mavenCentral()
@@ -47,9 +51,21 @@ dependencies {
 
 }
 
+tasks.withType<JavaExec> {
+    jvmArgs(
+        "--enable-native-access=ALL-UNNAMED",
+        "--enable-final-field-mutation=ALL-UNNAMED"
+    )
+}
+
 compose.desktop {
     application {
         mainClass = "MainKt"
+
+        jvmArgs += listOf(
+            "--enable-native-access=ALL-UNNAMED",
+            "--enable-final-field-mutation=ALL-UNNAMED"
+        )
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)

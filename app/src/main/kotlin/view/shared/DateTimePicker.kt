@@ -6,9 +6,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,8 +19,10 @@ import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.Regular
 import com.adamglin.phosphoricons.light.Calendar
+import com.adamglin.phosphoricons.regular.ArrowDown
 import com.adamglin.phosphoricons.regular.ArrowLeft
 import com.adamglin.phosphoricons.regular.ArrowRight
+import com.adamglin.phosphoricons.regular.ArrowUp
 import utils.generateWeeks
 import view.theme.ButtonPurple
 import java.time.LocalDateTime
@@ -204,7 +203,7 @@ fun NumberPicker(
                     onValueChange(newValue)
                 }
         ) {
-            Icon(Icons.Default.KeyboardArrowUp, contentDescription = "Up", tint = MaterialTheme.colors.primary)
+            Icon(PhosphorIcons.Regular.ArrowUp, contentDescription = "Up", tint = MaterialTheme.colors.primary)
         }
         // Value Text
         Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.width(50.dp)) {
@@ -224,7 +223,7 @@ fun NumberPicker(
                     onValueChange(newValue)
                 }
         ) {
-            Icon(Icons.Default.KeyboardArrowDown, contentDescription = "Down", tint = MaterialTheme.colors.primary)
+            Icon(PhosphorIcons.Regular.ArrowDown, contentDescription = "Down", tint = MaterialTheme.colors.primary)
         }
     }
 }
