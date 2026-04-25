@@ -23,7 +23,7 @@ repositories {
 
 dependencies {
     implementation(compose.desktop.currentOs)
-    implementation(compose.components.resources)
+    implementation("org.jetbrains.compose.components:components-resources:1.10.3")
     implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
 
@@ -48,6 +48,9 @@ dependencies {
     // Excel export
     implementation("org.apache.poi:poi-ooxml:5.4.0")
     implementation("org.apache.logging.log4j:log4j-to-slf4j:2.24.3")
+
+    // OFX parsing
+    implementation("com.webcohesion.ofx4j:ofx4j:1.39")
 
 }
 
