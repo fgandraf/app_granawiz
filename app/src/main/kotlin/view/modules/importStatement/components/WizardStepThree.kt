@@ -22,6 +22,7 @@ import view.shared.DefaultButton
 import view.shared.TextH1
 import view.shared.TextH4
 import view.shared.TextNormal
+import view.shared.TransparentButton
 
 private data class MockEntry(
     val type: TransactionType,
@@ -135,11 +136,8 @@ fun WizardStepThree(onBack: () -> Unit, onNext: () -> Unit) {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            DefaultButton(
-                modifier = Modifier.width(160.dp),
+            TransparentButton(
                 text = "Voltar",
-                color = MaterialTheme.colors.onSurface,
-                textColor = if (MaterialTheme.colors.isLight) Color.White else MaterialTheme.colors.secondary,
                 onClick = onBack
             )
             DefaultButton(

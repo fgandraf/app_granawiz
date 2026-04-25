@@ -27,10 +27,11 @@ fun TooltipBox(
                 shape = RoundedCornerShape(6.dp),
                 color = MaterialTheme.colors.surface,
             ) {
-                TextSmall(
-                    text = label,
-                    modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
-                )
+                if (label != "")
+                    TextSmall(
+                        text = label,
+                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+                    )
             }
         },
         tooltipPlacement = TooltipPlacement.CursorPoint(offset = DpOffset(0.dp, 16.dp)),

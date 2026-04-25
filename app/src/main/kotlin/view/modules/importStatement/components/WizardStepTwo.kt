@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.sp
 import view.shared.DefaultButton
 import view.shared.TextH1
 import view.shared.TextNormal
+import view.shared.TransparentButton
 import java.io.File
 
 private val WarningOrange = Color(0xFFE67E22)
@@ -103,13 +104,11 @@ fun WizardStepTwo(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            DefaultButton(
-                modifier = Modifier.width(160.dp),
+            TransparentButton(
                 text = "Voltar",
-                color = MaterialTheme.colors.onSurface,
-                textColor = if (MaterialTheme.colors.isLight) Color.White else MaterialTheme.colors.secondary,
                 onClick = onBack
             )
+
             DefaultButton(
                 modifier = Modifier.width(160.dp),
                 text = "Próximo",

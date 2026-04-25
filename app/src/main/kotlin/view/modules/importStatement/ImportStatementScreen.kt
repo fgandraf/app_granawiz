@@ -105,7 +105,7 @@ fun ImportStatementScreen(
                         onNext = { currentStep = 2 }
                     )
                     2 -> WizardStepThree(
-                        onBack = { currentStep = 1 },
+                        onBack = { currentStep = 0 },
                         onNext = { currentStep = 3 }
                     )
                     3 -> WizardStepFour(

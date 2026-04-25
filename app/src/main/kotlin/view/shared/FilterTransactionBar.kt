@@ -40,12 +40,16 @@ fun FilterTransactionBar(
     onFilterTypeChange: (TransactionType?) -> Unit,
     filterCategoryItem: Pair<Category, Subcategory?>? = null,
     onFilterCategoryItemChange: (Pair<Category, Subcategory?>?) -> Unit,
+    filterTag: Tag? = null,
     onFilterTagChange: (Tag?) -> Unit,
     groups: MutableStateFlow<List<Group>>,
     onExportExcel: () -> Unit = {},
+    onClearFilters: () -> Unit = {},
 ) {
     val list by items.collectAsState(initial = emptyList())
     val entries: List<FilterEntry> = list.map { it.toFilterEntry() }
+
+    val hasActiveFilters = filterAccount != null || filterType != null || filterCategoryItem != null || filterTag != null
 
     val preFiltered = remember(entries, searchQuery, filterAccount) {
         entries.filter { entry ->
@@ -63,6 +67,14 @@ fun FilterTransactionBar(
     Column(
         verticalArrangement = Arrangement.spacedBy(5.dp)
     ) {
+
+        ClearFiltersButton(
+            hasActiveFilters = hasActiveFilters,
+            onClearFilters = onClearFilters
+        )
+
+        Divider(Modifier.fillMaxWidth().height(1.dp).background(MaterialTheme.colors.background))
+
         AccountDropDown(
             currentAccountView = currentAccountView,
             groups = groups,
@@ -345,6 +357,34 @@ private fun TagsDropDown(
 
 }
 
+
+@Composable
+private fun ClearFiltersButton(
+    hasActiveFilters: Boolean,
+    onClearFilters: () -> Unit
+) {
+    val tint = if (hasActiveFilters) MaterialTheme.colors.secondary else MaterialTheme.colors.secondary.copy(alpha = 0.3f)
+
+    TooltipBox(if (hasActiveFilters) "Limpar filtros" else "") {
+        Box(
+            modifier = Modifier
+                .height(30.dp)
+                .fillMaxWidth()
+                .background(Color.Transparent)
+                .pointerHoverIcon(if (hasActiveFilters) PointerIcon.Hand else PointerIcon.Default)
+                .clickable(enabled = hasActiveFilters) { onClearFilters() }
+                .padding(end = 8.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                imageVector = PhosphorIcons.Light.FunnelX,
+                contentDescription = "Limpar filtros",
+                tint = tint,
+                modifier = Modifier.size(20.dp)
+            )
+        }
+    }
+}
 
 @Composable
 private fun ExportDropDown(onExportExcel: () -> Unit = {}){

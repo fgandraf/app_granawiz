@@ -325,8 +325,15 @@ fun TransactionsScreen(
                                     onFilterTypeChange = { filterType = it },
                                     filterCategoryItem = filterCategoryItem,
                                     onFilterCategoryItemChange = { filterCategoryItem = it },
+                                    filterTag = filterTag,
                                     onFilterTagChange = { filterTag = it },
                                     groups = viewModel.groups,
+                                    onClearFilters = {
+                                        filterAccount = null
+                                        filterType = null
+                                        filterCategoryItem = null
+                                        filterTag = null
+                                    },
                                     onExportExcel = {
                                         val dialog =
                                             FileDialog(null as Frame?, "Exportar transações para Excel", FileDialog.SAVE)

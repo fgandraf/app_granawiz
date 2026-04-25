@@ -3,13 +3,13 @@ package view.modules.importStatement.components
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Regular
-import com.adamglin.phosphoricons.regular.FileCsv
+import com.adamglin.phosphoricons.regular.Receipt
 import com.adamglin.phosphoricons.regular.UploadSimple
 import view.shared.FocusableBox
 import view.shared.TextNormal
@@ -48,7 +48,7 @@ fun FilePickerField(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Icon(
-                    imageVector = PhosphorIcons.Regular.FileCsv,
+                    imageVector = PhosphorIcons.Regular.Receipt,
                     contentDescription = null,
                     tint = MaterialTheme.colors.primary,
                     modifier = Modifier.size(16.dp)
