@@ -37,6 +37,7 @@ import java.util.*
 @Composable
 fun DateTimePicker(
     modifier: Modifier = Modifier,
+    showLabel: Boolean = true,
     value: LocalDateTime,
     selectedDateTime: (LocalDateTime) -> Unit,
 ) {
@@ -44,7 +45,7 @@ fun DateTimePicker(
     Column(modifier = modifier) {
         var expanded by remember { mutableStateOf(false) }
 
-        TextSmall(modifier = Modifier.padding(bottom = 5.dp), text = "Data e horário:")
+        if (showLabel) TextSmall(modifier = Modifier.padding(bottom = 5.dp), text = "Data e horário:")
 
         ExposedDropdownMenuBox(expanded = expanded, onExpandedChange = { expanded = true }) {
 

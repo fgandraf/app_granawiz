@@ -11,49 +11,44 @@ import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import application.importStatement.LogLevel
 import view.shared.DefaultButton
 import view.shared.TextH1
 import view.shared.TextNormal
 import view.shared.TransparentButton
-import java.io.File
+import viewModel.ImportStatementViewModel
+import viewModel.WizardLogLine
 
 private val WarningOrange = Color(0xFFE67E22)
 
-private enum class LogLevel { INFO, OK, WARN, ERROR }
-
-private data class LogLine(val level: LogLevel, val text: String)
-
-private fun buildLogLines(file: File?): List<LogLine> = buildList {
-    add(LogLine(LogLevel.INFO, "Iniciando análise do arquivo..."))
-    if (file == null) {
-        add(LogLine(LogLevel.ERROR, "Nenhum arquivo selecionado."))
-        return@buildList
-    }
-    add(LogLine(LogLevel.INFO,  "Arquivo: ${file.name}"))
-    add(LogLine(LogLevel.INFO,  "Lendo conteúdo do arquivo..."))
-    add(LogLine(LogLevel.INFO,  "Carregando registros em memória..."))
-    add(LogLine(LogLevel.OK,    "8 transações encontradas."))
-    add(LogLine(LogLevel.INFO,  "Verificando inconsistências de formato..."))
-    add(LogLine(LogLevel.OK,    "Nenhuma inconsistência de formato encontrada."))
-    add(LogLine(LogLevel.INFO,  "Verificando duplicidades com a base de dados..."))
-    add(LogLine(LogLevel.WARN,  "2 possíveis duplicatas detectadas."))
-    add(LogLine(LogLevel.INFO,  "Análise concluída. Revise os dados na próxima etapa."))
-}
-
 @Composable
 fun WizardStepTwo(
-    selectedFile: File?,
+    viewModel: ImportStatementViewModel,
     onBack: () -> Unit,
     onNext: () -> Unit,
 ) {
-    val logLines = buildLogLines(selectedFile)
+    LaunchedEffect(viewModel.selectedFile) {
+        viewModel.parseSelectedFile()
+    }
+
+    val logLines by viewModel.parseLog.collectAsState()
+    val isParsing by viewModel.isParsing.collectAsState()
+    val parseFailed by viewModel.parseFailed.collectAsState()
+    val entries by viewModel.parsedEntries.collectAsState()
+
+    val canProceed = !isParsing && !parseFailed && entries.isNotEmpty()
+
+    val listState = rememberLazyListState()
+    LaunchedEffect(logLines.size) {
+        if (logLines.isNotEmpty()) listState.animateScrollToItem(logLines.size - 1)
+    }
 
     Column(modifier = Modifier.fillMaxSize()) {
 
@@ -63,7 +58,6 @@ fun WizardStepTwo(
 
         Spacer(Modifier.height(16.dp))
 
-        val listState = rememberLazyListState()
         Box(
             modifier = Modifier
                 .weight(1f)
@@ -77,12 +71,7 @@ fun WizardStepTwo(
                 items(logLines) { line ->
                     TextNormal(
                         text = line.text,
-                        color = when (line.level) {
-                            LogLevel.OK    -> MaterialTheme.colors.onPrimary
-                            LogLevel.WARN  -> WarningOrange
-                            LogLevel.ERROR -> MaterialTheme.colors.onError
-                            LogLevel.INFO  -> MaterialTheme.colors.primary.copy(alpha = 0.8f)
-                        },
+                        color = logLevelColor(line),
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 2.dp),
@@ -112,9 +101,18 @@ fun WizardStepTwo(
             DefaultButton(
                 modifier = Modifier.width(160.dp),
                 text = "Próximo",
+                confirmed = canProceed,
                 textColor = if (MaterialTheme.colors.isLight) Color.White else MaterialTheme.colors.secondary,
                 onClick = onNext
             )
         }
     }
+}
+
+@Composable
+private fun logLevelColor(line: WizardLogLine): Color = when (line.level) {
+    LogLevel.OK -> MaterialTheme.colors.onPrimary
+    LogLevel.WARN -> WarningOrange
+    LogLevel.ERROR -> MaterialTheme.colors.onError
+    LogLevel.INFO -> MaterialTheme.colors.primary.copy(alpha = 0.8f)
 }

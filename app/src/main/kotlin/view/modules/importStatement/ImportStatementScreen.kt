@@ -24,15 +24,18 @@ import view.modules.Screen
 import view.modules.importStatement.components.*
 import view.shared.AddressView
 import view.shared.ClickableIcon
-import java.io.File
+import viewModel.ImportStatementViewModel
 
 @Composable
 fun ImportStatementScreen(
     account: BankAccount? = null,
     onScreenChange: (Screen) -> Unit,
 ) {
-    var currentStep by remember { mutableStateOf(0) }
-    var selectedFile by remember { mutableStateOf<File?>(null) }
+    val vm = remember { ImportStatementViewModel() }
+
+    LaunchedEffect(account) {
+        vm.account = account
+    }
 
     Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.background)) {
 
@@ -87,29 +90,31 @@ fun ImportStatementScreen(
                     .background(MaterialTheme.colors.surface)
                     .padding(30.dp)
             ) {
-                WizardStepIndicator(currentStep = currentStep)
+                WizardStepIndicator(currentStep = vm.currentStep)
 
                 Spacer(Modifier.height(16.dp))
                 Divider(modifier = Modifier.padding(bottom = 20.dp))
 
-                when (currentStep) {
+                when (vm.currentStep) {
                     0 -> WizardStepOne(
                         account = account,
-                        selectedFile = selectedFile,
-                        onFileSelected = { selectedFile = it },
-                        onNext = { currentStep = 1 }
+                        selectedFile = vm.selectedFile,
+                        onFileSelected = { vm.selectedFile = it },
+                        onNext = { vm.currentStep = 1 }
                     )
                     1 -> WizardStepTwo(
-                        selectedFile = selectedFile,
-                        onBack = { currentStep = 0 },
-                        onNext = { currentStep = 2 }
+                        viewModel = vm,
+                        onBack = { vm.currentStep = 0 },
+                        onNext = { vm.currentStep = 2 }
                     )
                     2 -> WizardStepThree(
-                        onBack = { currentStep = 0 },
-                        onNext = { currentStep = 3 }
+                        viewModel = vm,
+                        onBack = { vm.currentStep = 0 },
+                        onNext = { vm.currentStep = 3 }
                     )
                     3 -> WizardStepFour(
                         onFinish = {
+                            vm.clearAll()
                             onScreenChange(Screen.Transactions(account = account, showAddButton = true))
                         }
                     )
