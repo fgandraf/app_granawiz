@@ -35,6 +35,7 @@ import domain.enums.TransactionType
 import domain.structs.PageAddress
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import view.modules.Screen
 import view.modules.transactionForm.TransactionForm
 import view.modules.transactions.component.DropDownAddTransaction
 import view.modules.transactions.component.MonthHeader
@@ -55,8 +56,8 @@ fun TransactionsScreen(
     account: BankAccount? = null,
     showAddButton: Boolean = true,
     viewModel: TransactionViewModel = remember(account) { TransactionViewModel(account) },
-
-    ) {
+    onScreenChange: (Screen) -> Unit = {},
+) {
 
     val initialAddress =
         if (account != null)
@@ -284,6 +285,9 @@ fun TransactionsScreen(
                                     )
                                     backIcon = true
                                 },
+                                onClickImport = {
+                                    onScreenChange(Screen.ImportStatement(account = viewModel.selectedAccount))
+                                },
                                 onDismiss = {
                                     selectedTransaction = null
                                     showEditTransaction = false
@@ -384,6 +388,7 @@ fun TransactionsScreen(
 fun AddTransactionButton(
     onClickGain: () -> Unit,
     onClickExpense: () -> Unit,
+    onClickImport: () -> Unit,
     onDismiss: () -> Unit,
 ) {
     var showAddTransactionDropDownMenu by remember { mutableStateOf(false) }
@@ -410,6 +415,10 @@ fun AddTransactionButton(
                     expanded = showAddTransactionDropDownMenu,
                     onClickGain = onClickGain,
                     onClickExpense = onClickExpense,
+                    onClickImport = {
+                        showAddTransactionDropDownMenu = false
+                        onClickImport()
+                    },
                     onDismissRequest = {
                         onDismiss()
                         showAddTransactionDropDownMenu = false

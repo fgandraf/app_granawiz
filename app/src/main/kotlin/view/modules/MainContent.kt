@@ -7,10 +7,11 @@ import view.modules.party.PayersScreen
 import view.modules.party.ReceiversScreen
 import view.modules.schedules.ScheduleScreen
 import view.modules.tags.TagsScreen
+import view.modules.importStatement.ImportStatementScreen
 import view.modules.transactions.TransactionsScreen
 
 @Composable
-fun MainContent(screen: Screen) {
+fun MainContent(screen: Screen, onScreenChange: (Screen) -> Unit) {
     when (screen) {
         is Screen.Dashboard -> DashboardScreen()
         is Screen.Schedules -> ScheduleScreen()
@@ -18,7 +19,8 @@ fun MainContent(screen: Screen) {
         is Screen.Tags -> TagsScreen()
         is Screen.Receivers -> ReceiversScreen()
         is Screen.Payers -> PayersScreen()
-        is Screen.Transactions -> TransactionsScreen(screen.account, screen.showAddButton)
-        is Screen.NewTransactionForm -> Screen.NewTransactionForm(screen.transactions)
+        is Screen.Transactions -> TransactionsScreen(screen.account, screen.showAddButton, onScreenChange = onScreenChange)
+        is Screen.NewTransactionForm -> TransactionsScreen(screen.transactions.account, screen.transactions.showAddButton, onScreenChange = onScreenChange)
+        is Screen.ImportStatement -> ImportStatementScreen(account = screen.account, onScreenChange = onScreenChange)
     }
 }

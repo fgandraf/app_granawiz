@@ -11,7 +11,6 @@ val RedWarning = Color(0xFFFF6961)
 val ButtonGreen = Color(0xFF8BB581)
 val ButtonPurple = Color(0xFF73378a)
 
-
 val LightColorScheme = lightColors(
     primary = GrayPrimaryLight, // text
     primaryVariant = Color(0xFFa6a6a6), //lighter text

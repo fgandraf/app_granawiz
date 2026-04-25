@@ -94,7 +94,7 @@ fun main() = application {
                             .background(MaterialTheme.colors.background)
                     ) {
                         Sidebar(currentScreen = currentScreen) { screen -> currentScreen = screen }
-                        MainContent(currentScreen)
+                        MainContent(currentScreen, onScreenChange = { currentScreen = it })
                     }
                 }
 
