@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import view.shared.TextSmall
 import view.theme.ButtonPurple
 
-private val steps = listOf("Arquivo", "Conciliação", "Processamento")
+private val steps = listOf("Arquivo", "Análise", "Conciliação", "Importação")
 
 @Composable
 fun WizardStepIndicator(currentStep: Int) {

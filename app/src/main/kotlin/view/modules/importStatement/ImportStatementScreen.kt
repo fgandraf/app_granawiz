@@ -23,8 +23,9 @@ import domain.entity.account.BankAccount
 import view.modules.Screen
 import view.modules.importStatement.components.WizardStepIndicator
 import view.modules.importStatement.components.WizardStepOne
-import view.modules.importStatement.components.WizardStepThree
 import view.modules.importStatement.components.WizardStepTwo
+import view.modules.importStatement.components.WizardStepFour
+import view.modules.importStatement.components.WizardStepThree
 import view.shared.AddressView
 import view.shared.ClickableIcon
 import java.io.File
@@ -103,10 +104,15 @@ fun ImportStatementScreen(
                         onNext = { currentStep = 1 }
                     )
                     1 -> WizardStepTwo(
+                        selectedFile = selectedFile,
                         onBack = { currentStep = 0 },
                         onNext = { currentStep = 2 }
                     )
                     2 -> WizardStepThree(
+                        onBack = { currentStep = 1 },
+                        onNext = { currentStep = 3 }
+                    )
+                    3 -> WizardStepFour(
                         onFinish = {
                             onScreenChange(Screen.Transactions(account = account, showAddButton = true))
                         }

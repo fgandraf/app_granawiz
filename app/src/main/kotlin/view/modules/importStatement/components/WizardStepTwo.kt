@@ -5,9 +5,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollbarAdapter
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
@@ -17,114 +17,82 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import domain.enums.TransactionType
+import androidx.compose.ui.unit.sp
 import view.shared.DefaultButton
 import view.shared.TextH1
-import view.shared.TextH4
 import view.shared.TextNormal
+import java.io.File
 
-private data class MockEntry(
-    val type: TransactionType,
-    val date: String,
-    val party: String,
-    val description: String,
-    val value: String,
-    val category: String,
-)
+private val WarningOrange = Color(0xFFE67E22)
 
-private val mockEntries = listOf(
-    MockEntry(TransactionType.EXPENSE, "01/04/2025", "Supermercado Extra", "Compras do mês", "R$ 230,50", "Alimentação"),
-    MockEntry(TransactionType.GAIN,    "02/04/2025", "Empresa LTDA",       "Salário",        "R$ 5.000,00", "Rendimentos"),
-    MockEntry(TransactionType.EXPENSE, "03/04/2025", "Netflix",            "Assinatura",     "R$ 55,90", "Lazer"),
-    MockEntry(TransactionType.EXPENSE, "05/04/2025", "Farmácia Popular",   "Medicamentos",   "R$ 45,00", "Saúde"),
-    MockEntry(TransactionType.GAIN,    "07/04/2025", "Cliente XYZ",        "Freelance",      "R$ 800,00", "Rendimentos"),
-    MockEntry(TransactionType.EXPENSE, "08/04/2025", "Posto Ipiranga",     "Abastecimento",  "R$ 180,00", "Transporte"),
-    MockEntry(TransactionType.EXPENSE, "10/04/2025", "Restaurante Central","Almoço",         "R$ 92,00", "Alimentação"),
-    MockEntry(TransactionType.EXPENSE, "12/04/2025", "Renner",             "Roupas",         "R$ 320,00", "Vestuário"),
-)
+private enum class LogLevel { INFO, OK, WARN, ERROR }
+
+private data class LogLine(val level: LogLevel, val text: String)
+
+private fun buildLogLines(file: File?): List<LogLine> = buildList {
+    add(LogLine(LogLevel.INFO, "[INFO]   Iniciando análise do arquivo..."))
+    if (file == null) {
+        add(LogLine(LogLevel.ERROR, "[ERRO]   Nenhum arquivo selecionado."))
+        return@buildList
+    }
+    add(LogLine(LogLevel.INFO,  "[INFO]   Arquivo: ${file.name}"))
+    add(LogLine(LogLevel.INFO,  "[INFO]   Lendo conteúdo do arquivo..."))
+    add(LogLine(LogLevel.INFO,  "[INFO]   Carregando registros em memória..."))
+    add(LogLine(LogLevel.OK,    "[OK]     8 transações encontradas."))
+    add(LogLine(LogLevel.INFO,  "[INFO]   Verificando inconsistências de formato..."))
+    add(LogLine(LogLevel.OK,    "[OK]     Nenhuma inconsistência de formato encontrada."))
+    add(LogLine(LogLevel.INFO,  "[INFO]   Verificando duplicidades com a base de dados..."))
+    add(LogLine(LogLevel.WARN,  "[AVISO]  2 possíveis duplicatas detectadas."))
+    add(LogLine(LogLevel.INFO,  "[INFO]   Análise concluída. Revise os dados na próxima etapa."))
+}
 
 @Composable
-fun WizardStepTwo(onBack: () -> Unit, onNext: () -> Unit) {
+fun WizardStepTwo(
+    selectedFile: File?,
+    onBack: () -> Unit,
+    onNext: () -> Unit,
+) {
+    val logLines = buildLogLines(selectedFile)
+
     Column(modifier = Modifier.fillMaxSize()) {
 
-        TextH1(text = "Revise a conciliação")
+        TextH1(text = "Analisando arquivo")
         Spacer(Modifier.height(8.dp))
-        TextNormal(text = "Ajuste os dados antes de continuar.")
+        TextNormal(text = "Verificando transações, inconsistências e duplicidades antes da conciliação.")
 
         Spacer(Modifier.height(16.dp))
 
-        Column(
+        val listState = rememberLazyListState()
+        Box(
             modifier = Modifier
                 .weight(1f)
                 .fillMaxWidth()
                 .border(0.5.dp, MaterialTheme.colors.onSurface, RoundedCornerShape(6.dp))
                 .clip(RoundedCornerShape(6.dp))
+                .background(MaterialTheme.colors.background)
+                .padding(12.dp)
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(MaterialTheme.colors.onSurface.copy(alpha = 0.07f))
-                    .padding(horizontal = 16.dp, vertical = 10.dp)
-            ) {
-                Box(modifier = Modifier.width(30.dp))
-                TextH4(text = "Data", modifier = Modifier.weight(1.5f))
-                TextH4(text = "Pagador/Beneficiário", modifier = Modifier.weight(2.5f))
-                TextH4(text = "Descrição", modifier = Modifier.weight(2.5f))
-                TextH4(text = "Valor", modifier = Modifier.weight(1.5f))
-                TextH4(text = "Categoria sugerida", modifier = Modifier.weight(2f))
-            }
-
-            Divider()
-
-            val listState = rememberLazyListState()
-            Box(modifier = Modifier.weight(1f)) {
-                LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
-                    items(mockEntries.size) { i ->
-                        val entry = mockEntries[i]
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 16.dp, vertical = 8.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Box(
-                                modifier = Modifier.width(30.dp),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Box(
-                                    modifier = Modifier
-                                        .size(10.dp)
-                                        .clip(CircleShape)
-                                        .background(
-                                            if (entry.type == TransactionType.GAIN) MaterialTheme.colors.onPrimary
-                                            else MaterialTheme.colors.onError
-                                        )
-                                )
-                            }
-                            TextNormal(text = entry.date, modifier = Modifier.weight(1.5f))
-                            TextNormal(text = entry.party, modifier = Modifier.weight(2.5f))
-                            TextNormal(text = entry.description, modifier = Modifier.weight(2.5f))
-                            TextNormal(
-                                text = if (entry.type == TransactionType.EXPENSE) "- ${entry.value}" else entry.value,
-                                color = if (entry.type == TransactionType.GAIN) MaterialTheme.colors.onPrimary
-                                        else MaterialTheme.colors.onError,
-                                modifier = Modifier.weight(1.5f)
-                            )
-                            TextNormal(
-                                text = entry.category,
-                                color = MaterialTheme.colors.primary.copy(alpha = 0.7f),
-                                modifier = Modifier.weight(2f)
-                            )
-                        }
-                        if (i < mockEntries.lastIndex)
-                            Divider(modifier = Modifier.padding(horizontal = 16.dp))
-                    }
+            LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
+                items(logLines) { line ->
+                    TextNormal(
+                        text = line.text,
+                        color = when (line.level) {
+                            LogLevel.OK    -> MaterialTheme.colors.onPrimary
+                            LogLevel.WARN  -> WarningOrange
+                            LogLevel.ERROR -> MaterialTheme.colors.onError
+                            LogLevel.INFO  -> MaterialTheme.colors.primary.copy(alpha = 0.8f)
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 2.dp),
+                        fontSize = 11.sp
+                    )
                 }
-                VerticalScrollbar(
-                    adapter = rememberScrollbarAdapter(listState),
-                    modifier = Modifier.align(Alignment.CenterEnd)
-                )
             }
+            VerticalScrollbar(
+                adapter = rememberScrollbarAdapter(listState),
+                modifier = Modifier.align(Alignment.CenterEnd)
+            )
         }
 
         Spacer(Modifier.height(16.dp))
