@@ -97,8 +97,6 @@ fun FrameWindowScope.CustomTitleBar(
 
                     TitleBarButton(
                         icon = PhosphorIcons.Light.X,
-                        //hoverBackground = Color(0xFFEF5350).copy(alpha = 0.15f),
-                        //hoverTint = Color(0xFFEF5350),
                         onClick = onCloseRequest
                     )
                 }

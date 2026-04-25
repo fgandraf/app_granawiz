@@ -44,7 +44,7 @@ fun WizardStepOne(
                 TextH1(text = "Selecione o arquivo de extrato")
 
                 TextNormal(
-                    text = "Escolha um arquivo .csv ou .ofx exportado do seu banco. O sistema irá processar " +
+                    text = "Escolha um arquivo .ofx exportado do seu banco. O sistema irá processar " +
                             "o arquivo e sugerir categorias para cada transação com base nas suas categorias existentes " +
                             "e conciliar com os pagadores ou beneficiários já cadastrados.",
                     align = TextAlign.Justify,
