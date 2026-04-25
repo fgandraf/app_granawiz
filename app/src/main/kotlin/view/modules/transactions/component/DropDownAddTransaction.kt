@@ -14,7 +14,7 @@ import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Fill
 import com.adamglin.phosphoricons.Regular
 import com.adamglin.phosphoricons.fill.Circle
-import com.adamglin.phosphoricons.regular.FileCsv
+import com.adamglin.phosphoricons.regular.Receipt
 import view.shared.ClickableRow
 
 @Composable
@@ -53,10 +53,10 @@ fun DropDownAddTransaction(
             )
 
             ClickableRow(
-                icon = PhosphorIcons.Regular.FileCsv,
+                icon = PhosphorIcons.Regular.Receipt,
                 iconColor = MaterialTheme.colors.primary,
                 iconSize = androidx.compose.ui.unit.DpSize(14.dp, 14.dp),
-                label = "Importar CSV/OFX"
+                label = "Importar extrato"
             )
             { onClickImport() }
         }

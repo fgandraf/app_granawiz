@@ -30,20 +30,20 @@ private enum class LogLevel { INFO, OK, WARN, ERROR }
 private data class LogLine(val level: LogLevel, val text: String)
 
 private fun buildLogLines(file: File?): List<LogLine> = buildList {
-    add(LogLine(LogLevel.INFO, "[INFO]   Iniciando análise do arquivo..."))
+    add(LogLine(LogLevel.INFO, "Iniciando análise do arquivo..."))
     if (file == null) {
-        add(LogLine(LogLevel.ERROR, "[ERRO]   Nenhum arquivo selecionado."))
+        add(LogLine(LogLevel.ERROR, "Nenhum arquivo selecionado."))
         return@buildList
     }
-    add(LogLine(LogLevel.INFO,  "[INFO]   Arquivo: ${file.name}"))
-    add(LogLine(LogLevel.INFO,  "[INFO]   Lendo conteúdo do arquivo..."))
-    add(LogLine(LogLevel.INFO,  "[INFO]   Carregando registros em memória..."))
-    add(LogLine(LogLevel.OK,    "[OK]     8 transações encontradas."))
-    add(LogLine(LogLevel.INFO,  "[INFO]   Verificando inconsistências de formato..."))
-    add(LogLine(LogLevel.OK,    "[OK]     Nenhuma inconsistência de formato encontrada."))
-    add(LogLine(LogLevel.INFO,  "[INFO]   Verificando duplicidades com a base de dados..."))
-    add(LogLine(LogLevel.WARN,  "[AVISO]  2 possíveis duplicatas detectadas."))
-    add(LogLine(LogLevel.INFO,  "[INFO]   Análise concluída. Revise os dados na próxima etapa."))
+    add(LogLine(LogLevel.INFO,  "Arquivo: ${file.name}"))
+    add(LogLine(LogLevel.INFO,  "Lendo conteúdo do arquivo..."))
+    add(LogLine(LogLevel.INFO,  "Carregando registros em memória..."))
+    add(LogLine(LogLevel.OK,    "8 transações encontradas."))
+    add(LogLine(LogLevel.INFO,  "Verificando inconsistências de formato..."))
+    add(LogLine(LogLevel.OK,    "Nenhuma inconsistência de formato encontrada."))
+    add(LogLine(LogLevel.INFO,  "Verificando duplicidades com a base de dados..."))
+    add(LogLine(LogLevel.WARN,  "2 possíveis duplicatas detectadas."))
+    add(LogLine(LogLevel.INFO,  "Análise concluída. Revise os dados na próxima etapa."))
 }
 
 @Composable

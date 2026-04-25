@@ -16,16 +16,12 @@ import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Bold
 import com.adamglin.phosphoricons.Regular
 import com.adamglin.phosphoricons.bold.ArrowLeft
-import com.adamglin.phosphoricons.regular.FileCsv
 import com.adamglin.phosphoricons.regular.Folders
+import com.adamglin.phosphoricons.regular.Receipt
 import com.adamglin.phosphoricons.regular.Wallet
 import domain.entity.account.BankAccount
 import view.modules.Screen
-import view.modules.importStatement.components.WizardStepIndicator
-import view.modules.importStatement.components.WizardStepOne
-import view.modules.importStatement.components.WizardStepTwo
-import view.modules.importStatement.components.WizardStepFour
-import view.modules.importStatement.components.WizardStepThree
+import view.modules.importStatement.components.*
 import view.shared.AddressView
 import view.shared.ClickableIcon
 import java.io.File
@@ -67,9 +63,9 @@ fun ImportStatementScreen(
                     )
                 }
                 AddressView(
-                    icon = PhosphorIcons.Regular.FileCsv,
+                    icon = PhosphorIcons.Regular.Receipt,
                     iconSize = DpSize(21.dp, 18.dp),
-                    value = "Importar CSV/OFX",
+                    value = "Importar extrato",
                     rootPath = account == null
                 )
             }

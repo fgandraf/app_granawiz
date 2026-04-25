@@ -22,10 +22,10 @@ import view.shared.TextH1
 import view.shared.TextNormal
 
 private val mockLogLines = listOf(
-    "[INFO]  Iniciando importação...",
-    "[INFO]  Lendo arquivo de extrato...",
-    "[INFO]  Aguardando processamento real.",
-    "[INFO]  Esta etapa será implementada em breve.",
+    "Iniciando importação...",
+    "Lendo arquivo de extrato...",
+    "Aguardando processamento real.",
+    "Esta etapa será implementada em breve.",
 )
 
 @Composable
