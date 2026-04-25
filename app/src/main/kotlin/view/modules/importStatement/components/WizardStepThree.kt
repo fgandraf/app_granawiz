@@ -142,7 +142,7 @@ fun WizardStepThree(onBack: () -> Unit, onNext: () -> Unit) {
             )
             DefaultButton(
                 modifier = Modifier.width(160.dp),
-                text = "Próximo",
+                text = "Importar",
                 textColor = if (MaterialTheme.colors.isLight) Color.White else MaterialTheme.colors.secondary,
                 onClick = onNext
             )
