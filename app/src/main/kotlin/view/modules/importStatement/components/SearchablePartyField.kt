@@ -26,7 +26,7 @@ import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
-import com.adamglin.phosphoricons.light.CaretRight
+import com.adamglin.phosphoricons.light.CaretDown
 import domain.entity.Party
 import view.shared.TextNormal
 import view.shared.TextSmall
@@ -51,11 +51,12 @@ fun SearchablePartyField(
     var text by remember { mutableStateOf(value) }
     var expanded by remember { mutableStateOf(false) }
     var isFocused by remember { mutableStateOf(false) }
-    var borderSize by remember { mutableStateOf(1.dp) }
-    var borderColor by remember { mutableStateOf(primaryColor) }
     var fieldSize by remember { mutableStateOf(IntSize.Zero) }
 
-    val effectiveShowBorder = if (borderOnActive) isFocused else showBorder
+    val isActive = isFocused || expanded
+    val borderSize = if (isActive) 1.2.dp else 1.dp
+    val borderColor = if (isActive) secondaryColor else primaryColor
+    val effectiveShowBorder = if (borderOnActive) isActive else showBorder
     val filtered = remember(text, options) {
         if (text.isBlank()) options
         else options.filter { it.name.contains(text, ignoreCase = true) }
@@ -71,7 +72,7 @@ fun SearchablePartyField(
     Box(modifier = modifier.onSizeChanged { fieldSize = it }) {
         Box(
             contentAlignment = Alignment.CenterStart,
-            modifier = boxModifier.padding(horizontal = 10.dp)
+            modifier = boxModifier.padding(start = 10.dp)
         ) {
             BasicTextField(
                 modifier = Modifier
@@ -79,13 +80,7 @@ fun SearchablePartyField(
                     .padding(end = 20.dp)
                     .onFocusChanged { fs ->
                         isFocused = fs.isFocused
-                        if (fs.isFocused) {
-                            borderSize = 1.2.dp
-                            borderColor = secondaryColor
-                            expanded = true
-                        } else {
-                            borderSize = 1.dp
-                            borderColor = primaryColor
+                        if (!fs.isFocused) {
                             expanded = false
                             onFreeText(text)
                         }
@@ -112,12 +107,23 @@ fun SearchablePartyField(
                 }
             )
 
-            Icon(
-                imageVector = PhosphorIcons.Light.CaretRight,
-                contentDescription = null,
-                modifier = Modifier.size(15.dp).align(Alignment.CenterEnd),
-                tint = MaterialTheme.colors.primary
-            )
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .width(30.dp)
+                    .fillMaxHeight()
+                    .clip(RoundedCornerShape(topEnd = 5.dp, bottomEnd = 5.dp))
+                    .align(Alignment.CenterEnd)
+                    .pointerHoverIcon(PointerIcon.Hand)
+                    .clickable { expanded = !expanded }
+            ) {
+                Icon(
+                    imageVector = PhosphorIcons.Light.CaretDown,
+                    contentDescription = null,
+                    modifier = Modifier.size(15.dp),
+                    tint = MaterialTheme.colors.primary
+                )
+            }
         }
 
         if (expanded && filtered.isNotEmpty()) {
@@ -128,7 +134,7 @@ fun SearchablePartyField(
                 alignment = Alignment.TopStart,
                 offset = IntOffset(x = 0, y = offsetY),
                 onDismissRequest = { expanded = false },
-                properties = PopupProperties(focusable = false, dismissOnClickOutside = false),
+                properties = PopupProperties(focusable = false, dismissOnClickOutside = true),
             ) {
                 Column(
                     modifier = Modifier
