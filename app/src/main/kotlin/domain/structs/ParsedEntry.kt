@@ -21,4 +21,5 @@ data class ParsedEntry(
     val category: Category? = null,
     val subcategory: Subcategory? = null,
     val customCategoryText: String? = null,
+    val isPossibleDuplicate: Boolean = false,
 )

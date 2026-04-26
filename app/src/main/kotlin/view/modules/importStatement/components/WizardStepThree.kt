@@ -28,6 +28,7 @@ import application.party.PartyHandler
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.Trash
+import com.adamglin.phosphoricons.light.Warning
 import domain.entity.Category
 import domain.entity.Party
 import domain.enums.CategoryType
@@ -113,6 +114,27 @@ fun WizardStepThree(
 
         Spacer(Modifier.height(16.dp))
 
+        val hasDuplicates = entries.any { it.isPossibleDuplicate }
+        if (hasDuplicates) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Icon(
+                    imageVector = PhosphorIcons.Light.Warning,
+                    contentDescription = null,
+                    tint = Color(0xFFB7950B),
+                    modifier = Modifier.size(15.dp)
+                )
+                Spacer(Modifier.width(6.dp))
+                TextNormal(
+                    text = "Os registros destacados em amarelo podem ser duplicações de transações já cadastradas nessa conta. Revise antes de prosseguir.",
+                    color = Color(0xFFB7950B),
+                )
+            }
+            Spacer(Modifier.height(16.dp))
+        }
+
         Divider(modifier = Modifier.padding(bottom = 16.dp))
 
         Row(
@@ -147,9 +169,15 @@ private fun EntryRow(
     }
     val categoryList = if (entry.type == TransactionType.GAIN) incomeCats else expenseCats
 
+    val isLight = MaterialTheme.colors.isLight
+    val rowBackground = if (entry.isPossibleDuplicate)
+        if (isLight) Color(0xFFFFF9C4) else Color(0xFF3D3500)
+    else Color.Transparent
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .background(rowBackground)
             .padding(horizontal = 16.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {

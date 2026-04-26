@@ -32,24 +32,25 @@ class ImportStatementViewModel(
     val importDone = MutableStateFlow(false)
     val importFailed = MutableStateFlow(false)
 
-    private var hasParsedFor: File? = null
+    private var hasParsedFor: Pair<File, BankAccount>? = null
 
     suspend fun parseSelectedFile() {
         val file = selectedFile ?: return
-        if (hasParsedFor == file && parsedEntries.value.isNotEmpty()) return
+        val acct = account ?: return
+        if (hasParsedFor == (file to acct) && parsedEntries.value.isNotEmpty()) return
         isParsing.value = true
         parseFailed.value = false
         parseLog.value = emptyList()
         val result = withContext(Dispatchers.IO) {
             runCatching {
-                importHandler.parseAndResolve(file) { msg, lvl ->
+                importHandler.parseAndResolve(file, acct) { msg, lvl ->
                     parseLog.value = parseLog.value + WizardLogLine(lvl, msg)
                 }
             }
         }
         result.onSuccess { entries ->
             parsedEntries.value = entries
-            hasParsedFor = file
+            hasParsedFor = file to acct
             if (entries.isEmpty()) parseFailed.value = true
         }.onFailure { e ->
             parseLog.value = parseLog.value +
@@ -108,5 +109,6 @@ class ImportStatementViewModel(
         importDone.value = false
         importFailed.value = false
         hasParsedFor = null
+        account = null
     }
 }
