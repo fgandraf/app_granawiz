@@ -99,7 +99,7 @@ fun WizardStepTwo(
             )
 
             DefaultButton(
-                modifier = Modifier.width(160.dp),
+                modifier = Modifier.width(200.dp),
                 text = "Próximo",
                 confirmed = canProceed,
                 textColor = if (MaterialTheme.colors.isLight) Color.White else MaterialTheme.colors.secondary,

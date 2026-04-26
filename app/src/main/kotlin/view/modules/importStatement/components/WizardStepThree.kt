@@ -121,7 +121,7 @@ fun WizardStepThree(
         ) {
             TransparentButton(text = "Voltar", onClick = onBack)
             DefaultButton(
-                modifier = Modifier.width(160.dp),
+                modifier = Modifier.width(200.dp),
                 text = "Importar",
                 textColor = if (MaterialTheme.colors.isLight) Color.White else MaterialTheme.colors.secondary,
                 onClick = onNext
@@ -181,11 +181,12 @@ private fun EntryRow(
         // Party
         SearchablePartyField(
             modifier = Modifier.weight(2.5f).padding(end = 8.dp),
-            value = entry.party?.name ?: entry.customPartyName ?: "",
-            placeholder = entry.rawCounterpartyName.ifBlank { "Selecionar" },
+            value = entry.party?.name ?: entry.customPartyName ?: entry.rawCounterpartyName,
+            placeholder = "Selecionar",
             options = partyList,
             showBorder = false,
             borderOnActive = true,
+            maxLength = 100,
             onPartySelected = { p: Party ->
                 onEntryChange { it.copy(party = p, needsNewParty = false, customPartyName = null) }
             },
@@ -200,7 +201,7 @@ private fun EntryRow(
             value = entry.description,
             showBorder = false,
             borderOnActive = true,
-            onValueChange = { onEntryChange { e -> e.copy(description = it) } }
+            onValueChange = { if (it.length <= 255) onEntryChange { e -> e.copy(description = it) } }
         )
 
         // Value
@@ -231,6 +232,8 @@ private fun EntryRow(
             options = categoryList,
             showBorder = false,
             borderOnActive = true,
+            maxCategoryLength = 100,
+            maxSubcategoryLength = 100,
             onCategorySelected = { c, sub -> onEntryChange { it.copy(category = c, subcategory = sub) } }
         )
 

@@ -9,13 +9,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.adamglin.PhosphorIcons
-import com.adamglin.phosphoricons.Regular
-import com.adamglin.phosphoricons.regular.Wallet
 import domain.entity.account.BankAccount
+import utils.IconPaths
+import utils.rememberSvgPainter
 import view.shared.DefaultButton
 import view.shared.TextH1
 import view.shared.TextNormal
@@ -36,13 +34,13 @@ fun WizardStepOne(
             val hPad = maxWidth / 4
             Column(modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(0.7f)
+                .fillMaxHeight(0.8f)
                 .padding(horizontal = hPad),
                 verticalArrangement = Arrangement.SpaceEvenly
             ) {
-
-                TextH1(text = "Selecione o arquivo de extrato")
-
+                Spacer(Modifier.height(10.dp))
+                TextH1(modifier = Modifier.fillMaxWidth(), text = "Selecione o arquivo de extrato", align = TextAlign.Center)
+                Spacer(Modifier.height(10.dp))
                 TextNormal(
                     text = "Escolha um arquivo .ofx exportado do seu banco. O sistema irá processar " +
                             "o arquivo e sugerir categorias para cada transação com base nas suas categorias existentes " +
@@ -52,6 +50,8 @@ fun WizardStepOne(
                     modifier = Modifier.fillMaxWidth()
                 )
 
+                Spacer(Modifier.height(10.dp))
+
                 FilePickerField(
                     modifier = Modifier.fillMaxWidth(),
                     label = "Arquivo de extrato",
@@ -59,24 +59,19 @@ fun WizardStepOne(
                     onFileSelected = onFileSelected
                 )
 
-                Column {
-                    TextSmall(text = "Conta destino", modifier = Modifier.padding(bottom = 5.dp))
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(vertical = 6.dp)
-                    ) {
+                Spacer(Modifier.height(30.dp))
+
+                Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+                    TextSmall(text = "Conta destino:", modifier = Modifier.padding(bottom = 5.dp))
+                    Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
-                            imageVector = PhosphorIcons.Regular.Wallet,
+                            painter = rememberSvgPainter(IconPaths.BANK_LOGOS + (account?.icon ?: "_default.svg")),
                             contentDescription = null,
                             tint = MaterialTheme.colors.primary,
-                            modifier = Modifier.size(DpSize(16.dp, 16.dp))
+                            modifier = Modifier.size(28.dp)
                         )
                         Spacer(Modifier.width(6.dp))
-                        TextNormal(
-                            text = account?.name ?: "Conta não selecionada",
-                            color = if (account != null) MaterialTheme.colors.primary
-                            else MaterialTheme.colors.primary.copy(alpha = 0.5f)
-                        )
+                        TextH1(text = account?.name ?: "Conta não selecionada")
                     }
                 }
             }
@@ -88,7 +83,7 @@ fun WizardStepOne(
 
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
             DefaultButton(
-                modifier = Modifier.width(160.dp),
+                modifier = Modifier.width(200.dp),
                 text = "Próximo",
                 confirmed = selectedFile != null,
                 textColor = if (MaterialTheme.colors.isLight) Color.White else MaterialTheme.colors.secondary,

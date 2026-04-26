@@ -21,10 +21,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.input.key.*
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
@@ -78,6 +82,8 @@ fun SearchableCategoryField(
     options: List<Category>,
     showBorder: Boolean = true,
     borderOnActive: Boolean = false,
+    maxCategoryLength: Int = Int.MAX_VALUE,
+    maxSubcategoryLength: Int = Int.MAX_VALUE,
     onCategorySelected: (Category, Subcategory?) -> Unit,
 ) {
     val primaryColor = MaterialTheme.colors.primary
@@ -85,12 +91,14 @@ fun SearchableCategoryField(
     val surfaceColor = MaterialTheme.colors.surface
     val density = LocalDensity.current
 
+    val focusRequester = remember { FocusRequester() }
     var text by remember { mutableStateOf(value) }
     var expanded by remember { mutableStateOf(false) }
     var isFocused by remember { mutableStateOf(false) }
     var selectedIndex by remember { mutableStateOf(-1) }
     var fieldSize by remember { mutableStateOf(IntSize.Zero) }
     var filterByText by remember { mutableStateOf(false) }
+    var togglePressedWhileExpanded by remember { mutableStateOf(false) }
 
     val isActive = isFocused || expanded
     val borderSize = if (isActive) 1.2.dp else 1.dp
@@ -134,10 +142,11 @@ fun SearchableCategoryField(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(end = 20.dp)
+                    .focusRequester(focusRequester)
                     .onFocusChanged { fs ->
                         isFocused = fs.isFocused
                         if (!fs.isFocused) {
-                            expanded = false
+                            if (!togglePressedWhileExpanded) expanded = false
                             selectedIndex = -1
                             if (allItems.none { it.selectedText.equals(text, ignoreCase = true) }) {
                                 text = value
@@ -182,10 +191,18 @@ fun SearchableCategoryField(
                 ),
                 value = text,
                 onValueChange = { newText ->
-                    text = newText
-                    selectedIndex = -1
-                    filterByText = true
-                    expanded = true
+                    val slashIdx = newText.indexOf('/')
+                    val allowed = if (slashIdx < 0) {
+                        newText.length <= maxCategoryLength
+                    } else {
+                        slashIdx <= maxCategoryLength && (newText.length - slashIdx - 1) <= maxSubcategoryLength
+                    }
+                    if (allowed) {
+                        text = newText
+                        selectedIndex = -1
+                        filterByText = true
+                        expanded = true
+                    }
                 },
                 decorationBox = { innerTextField ->
                     if (text.isEmpty())
@@ -210,9 +227,16 @@ fun SearchableCategoryField(
                     .clip(RoundedCornerShape(topEnd = 5.dp, bottomEnd = 5.dp))
                     .align(Alignment.CenterEnd)
                     .pointerHoverIcon(PointerIcon.Hand)
-                    .clickable {
-                        filterByText = false
-                        expanded = !expanded
+                    .pointerInput(Unit) {
+                        detectTapGestures(onPress = {
+                            togglePressedWhileExpanded = expanded
+                            if (tryAwaitRelease()) {
+                                filterByText = false
+                                expanded = !togglePressedWhileExpanded
+                                if (!togglePressedWhileExpanded) focusRequester.requestFocus()
+                            }
+                            togglePressedWhileExpanded = false
+                        })
                     }
             ) {
                 Icon(

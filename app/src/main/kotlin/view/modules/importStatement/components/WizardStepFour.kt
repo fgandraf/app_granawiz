@@ -75,7 +75,7 @@ fun WizardStepFour(onFinish: () -> Unit) {
 
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
             DefaultButton(
-                modifier = Modifier.width(160.dp),
+                modifier = Modifier.width(200.dp),
                 text = "Concluir",
                 textColor = if (MaterialTheme.colors.isLight) Color.White else MaterialTheme.colors.secondary,
                 onClick = onFinish

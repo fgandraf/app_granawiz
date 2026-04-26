@@ -20,10 +20,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.input.key.*
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
@@ -49,6 +53,7 @@ fun SearchablePartyField(
     options: List<Party>,
     showBorder: Boolean = true,
     borderOnActive: Boolean = false,
+    maxLength: Int = Int.MAX_VALUE,
     onPartySelected: (Party) -> Unit,
     onFreeText: (String) -> Unit,
 ) {
@@ -57,12 +62,14 @@ fun SearchablePartyField(
     val surfaceColor = MaterialTheme.colors.surface
     val density = LocalDensity.current
 
-    var text by remember { mutableStateOf(value) }
+    val focusRequester = remember { FocusRequester() }
+    var text by remember(value) { mutableStateOf(value) }
     var expanded by remember { mutableStateOf(false) }
     var isFocused by remember { mutableStateOf(false) }
     var selectedIndex by remember { mutableStateOf(-1) }
     var fieldSize by remember { mutableStateOf(IntSize.Zero) }
     var filterByText by remember { mutableStateOf(false) }
+    var togglePressedWhileExpanded by remember { mutableStateOf(false) }
 
     val isActive = isFocused || expanded
     val borderSize = if (isActive) 1.2.dp else 1.dp
@@ -89,10 +96,11 @@ fun SearchablePartyField(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(end = 20.dp)
+                    .focusRequester(focusRequester)
                     .onFocusChanged { fs ->
                         isFocused = fs.isFocused
                         if (!fs.isFocused) {
-                            expanded = false
+                            if (!togglePressedWhileExpanded) expanded = false
                             selectedIndex = -1
                             onFreeText(text)
                         }
@@ -135,10 +143,12 @@ fun SearchablePartyField(
                 ),
                 value = text,
                 onValueChange = { newText ->
-                    text = newText
-                    selectedIndex = -1
-                    filterByText = true
-                    expanded = true
+                    if (newText.length <= maxLength) {
+                        text = newText
+                        selectedIndex = -1
+                        filterByText = true
+                        expanded = true
+                    }
                 },
                 decorationBox = { innerTextField ->
                     if (text.isEmpty())
@@ -163,9 +173,16 @@ fun SearchablePartyField(
                     .clip(RoundedCornerShape(topEnd = 5.dp, bottomEnd = 5.dp))
                     .align(Alignment.CenterEnd)
                     .pointerHoverIcon(PointerIcon.Hand)
-                    .clickable {
-                        filterByText = false
-                        expanded = !expanded
+                    .pointerInput(Unit) {
+                        detectTapGestures(onPress = {
+                            togglePressedWhileExpanded = expanded
+                            if (tryAwaitRelease()) {
+                                filterByText = false
+                                expanded = !togglePressedWhileExpanded
+                                if (!togglePressedWhileExpanded) focusRequester.requestFocus()
+                            }
+                            togglePressedWhileExpanded = false
+                        })
                     }
             ) {
                 Icon(
