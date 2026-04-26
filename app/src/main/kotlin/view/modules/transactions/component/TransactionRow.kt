@@ -12,6 +12,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import utils.rememberSvgPainter
@@ -57,10 +59,11 @@ fun TransactionRow(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxHeight().padding(start = 30.dp, end = 20.dp)
             ) {
+                val gainColor = if (MaterialTheme.colors.isLight) MaterialTheme.colors.onPrimary else lerp(MaterialTheme.colors.onPrimary, Color.Green, 0.4f)
                 Box(
                     modifier = Modifier
                         .clip(CircleShape)
-                        .background(if (transaction.type == TransactionType.GAIN) MaterialTheme.colors.onPrimary else if (transaction.type == TransactionType.EXPENSE) MaterialTheme.colors.onError else MaterialTheme.colors.primaryVariant)
+                        .background(if (transaction.type == TransactionType.GAIN) gainColor else if (transaction.type == TransactionType.EXPENSE) MaterialTheme.colors.onError else MaterialTheme.colors.primaryVariant)
                         .size(10.dp)
                 )
             }

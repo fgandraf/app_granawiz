@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import utils.rememberSvgPainter
@@ -65,9 +66,11 @@ fun AccountMenuItem(
             TextH3(
                 text = account.name,
             )
+            val positiveBalanceColor = if (MaterialTheme.colors.isLight) lerp(MaterialTheme.colors.onPrimary, Color.Black, 0.2f) else MaterialTheme.colors.onPrimary
+
             TextSmall(
                 text = brMoney.format(account.balance),
-                color = if (account.balance > 0f) MaterialTheme.colors.onPrimary else if (account.balance < 0f) MaterialTheme.colors.onError else MaterialTheme.colors.primaryVariant,
+                color = if (account.balance > 0f) positiveBalanceColor else if (account.balance < 0f) MaterialTheme.colors.onError else MaterialTheme.colors.primaryVariant,
             )
         }
 

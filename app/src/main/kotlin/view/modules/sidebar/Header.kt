@@ -34,9 +34,10 @@ fun Header(viewModel: SidebarViewModel) {
                 SettingsScreen(onDismiss = { showDialog = false })
         }
 
+        val total by viewModel.total.collectAsState()
         Column(modifier = Modifier.align(Alignment.Center)) {
             TextH2(
-                text = brMoney.format(viewModel.total.value),
+                text = brMoney.format(total),
                 modifier = Modifier.fillMaxWidth().padding(bottom = 3.dp),
                 align = TextAlign.Center
             )
