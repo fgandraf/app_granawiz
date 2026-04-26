@@ -30,6 +30,7 @@ import viewModel.ImportStatementViewModel
 fun ImportStatementScreen(
     account: BankAccount? = null,
     onScreenChange: (Screen) -> Unit,
+    onSidebarReload: () -> Unit = {},
 ) {
     val vm = remember { ImportStatementViewModel() }
 
@@ -116,6 +117,7 @@ fun ImportStatementScreen(
                         viewModel = vm,
                         onFinish = {
                             vm.clearAll()
+                            onSidebarReload()
                             onScreenChange(Screen.Transactions(account = account, showAddButton = true))
                         }
                     )

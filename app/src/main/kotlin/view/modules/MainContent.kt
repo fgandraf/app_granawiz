@@ -21,6 +21,6 @@ fun MainContent(screen: Screen, onScreenChange: (Screen) -> Unit, onSidebarReloa
         is Screen.Payers -> PayersScreen()
         is Screen.Transactions -> TransactionsScreen(screen.account, screen.showAddButton, onScreenChange = onScreenChange, onSidebarReload = onSidebarReload)
         is Screen.NewTransactionForm -> TransactionsScreen(screen.transactions.account, screen.transactions.showAddButton, onScreenChange = onScreenChange, onSidebarReload = onSidebarReload)
-        is Screen.ImportStatement -> ImportStatementScreen(account = screen.account, onScreenChange = onScreenChange)
+        is Screen.ImportStatement -> ImportStatementScreen(account = screen.account, onScreenChange = onScreenChange, onSidebarReload = onSidebarReload)
     }
 }
