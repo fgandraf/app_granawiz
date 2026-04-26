@@ -57,6 +57,7 @@ fun TransactionsScreen(
     showAddButton: Boolean = true,
     viewModel: TransactionViewModel = remember(account) { TransactionViewModel(account) },
     onScreenChange: (Screen) -> Unit = {},
+    onSidebarReload: () -> Unit = {},
 ) {
 
     val initialAddress =
@@ -224,6 +225,7 @@ fun TransactionsScreen(
                                             TransactionRow(
                                                 viewModel = viewModel,
                                                 transaction = transaction,
+                                                onDeleted = onSidebarReload,
                                                 onClick = {
                                                     addresses = addresses + PageAddress(
                                                         iconVector = PhosphorIcons.Regular.Pencil,
@@ -382,6 +384,7 @@ fun TransactionsScreen(
                             val calculated = viewModel.transactions.value.sumOf { it.balance }
                             viewModel.updateBalance(acc.id, calculated)
                         }
+                        onSidebarReload()
                     }
                 }
             )

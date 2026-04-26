@@ -99,12 +99,14 @@ fun ScheduleRow(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxHeight().weight(0.9f).padding(end = 10.dp)
         ) {
-            Icon(
-                painter = rememberSvgPainter(IconPaths.CATEGORY_PACK + schedule.category.icon),
-                contentDescription = null,
-                tint = MaterialTheme.colors.primary,
-                modifier = Modifier.size(15.dp)
-            )
+            if (schedule.category.icon.isNotBlank()) {
+                Icon(
+                    painter = rememberSvgPainter(IconPaths.CATEGORY_PACK + schedule.category.icon),
+                    contentDescription = null,
+                    tint = MaterialTheme.colors.primary,
+                    modifier = Modifier.size(15.dp)
+                )
+            }
             Spacer(Modifier.width(10.dp))
             TextNormal(text = schedule.category.name)
             if (schedule.subcategory != null) {

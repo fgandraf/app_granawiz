@@ -113,6 +113,7 @@ fun ImportStatementScreen(
                         onNext = { vm.currentStep = 3 }
                     )
                     3 -> WizardStepFour(
+                        viewModel = vm,
                         onFinish = {
                             vm.clearAll()
                             onScreenChange(Screen.Transactions(account = account, showAddButton = true))

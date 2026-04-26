@@ -11,7 +11,7 @@ import view.modules.importStatement.ImportStatementScreen
 import view.modules.transactions.TransactionsScreen
 
 @Composable
-fun MainContent(screen: Screen, onScreenChange: (Screen) -> Unit) {
+fun MainContent(screen: Screen, onScreenChange: (Screen) -> Unit, onSidebarReload: () -> Unit = {}) {
     when (screen) {
         is Screen.Dashboard -> DashboardScreen()
         is Screen.Schedules -> ScheduleScreen()
@@ -19,8 +19,8 @@ fun MainContent(screen: Screen, onScreenChange: (Screen) -> Unit) {
         is Screen.Tags -> TagsScreen()
         is Screen.Receivers -> ReceiversScreen()
         is Screen.Payers -> PayersScreen()
-        is Screen.Transactions -> TransactionsScreen(screen.account, screen.showAddButton, onScreenChange = onScreenChange)
-        is Screen.NewTransactionForm -> TransactionsScreen(screen.transactions.account, screen.transactions.showAddButton, onScreenChange = onScreenChange)
+        is Screen.Transactions -> TransactionsScreen(screen.account, screen.showAddButton, onScreenChange = onScreenChange, onSidebarReload = onSidebarReload)
+        is Screen.NewTransactionForm -> TransactionsScreen(screen.transactions.account, screen.transactions.showAddButton, onScreenChange = onScreenChange, onSidebarReload = onSidebarReload)
         is Screen.ImportStatement -> ImportStatementScreen(account = screen.account, onScreenChange = onScreenChange)
     }
 }

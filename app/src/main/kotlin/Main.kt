@@ -35,6 +35,7 @@ import view.modules.Screen
 import view.modules.SplashWindow
 import view.modules.UserPreferences
 import view.modules.sidebar.Sidebar
+import viewModel.SidebarViewModel
 import view.theme.DarkColorScheme
 import view.theme.LightColorScheme
 import java.awt.Toolkit
@@ -163,6 +164,7 @@ fun main() = application {
             MaterialTheme(colors = currentColorScheme) {
 
                 var currentScreen by remember { mutableStateOf<Screen>(Screen.Dashboard) }
+                val sidebarViewModel = remember { SidebarViewModel() }
 
                 Column(modifier = Modifier.fillMaxSize().clip(RoundedCornerShape(10.dp))) {
                     CustomTitleBar(
@@ -175,8 +177,8 @@ fun main() = application {
                             .weight(1f)
                             .background(MaterialTheme.colors.background)
                     ) {
-                        Sidebar(currentScreen = currentScreen) { screen -> currentScreen = screen }
-                        MainContent(currentScreen, onScreenChange = { currentScreen = it })
+                        Sidebar(viewModel = sidebarViewModel, currentScreen = currentScreen) { screen -> currentScreen = screen }
+                        MainContent(currentScreen, onScreenChange = { currentScreen = it }, onSidebarReload = sidebarViewModel::reload)
                     }
                 }
 

@@ -54,7 +54,7 @@ fun DropDownTextField(
                     horizontalArrangement = horizontalArrangement,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    if (icon != null)
+                    if (icon != null && icon.isNotBlank())
                         Icon(
                             painter = rememberSvgPainter(IconPaths.CATEGORY_PACK + icon),
                             contentDescription = "Category Icon",

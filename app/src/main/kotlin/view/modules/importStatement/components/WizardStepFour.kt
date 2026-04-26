@@ -11,25 +11,41 @@ import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import application.importStatement.LogLevel
 import view.shared.DefaultButton
 import view.shared.TextH1
 import view.shared.TextNormal
+import viewModel.ImportStatementViewModel
+import viewModel.WizardLogLine
 
-private val mockLogLines = listOf(
-    "Iniciando importação...",
-    "Lendo arquivo de extrato...",
-    "Aguardando processamento real.",
-    "Esta etapa será implementada em breve.",
-)
+private val WarningOrange = Color(0xFFE67E22)
 
 @Composable
-fun WizardStepFour(onFinish: () -> Unit) {
+fun WizardStepFour(
+    viewModel: ImportStatementViewModel,
+    onFinish: () -> Unit,
+) {
+    val logLines by viewModel.importLog.collectAsState()
+    val isImporting by viewModel.isImporting.collectAsState()
+    val importDone by viewModel.importDone.collectAsState()
+    val importFailed by viewModel.importFailed.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.executeImport()
+    }
+
+    val listState = rememberLazyListState()
+    LaunchedEffect(logLines.size) {
+        if (logLines.isNotEmpty()) listState.animateScrollToItem(logLines.size - 1)
+    }
+
     Column(modifier = Modifier.fillMaxSize()) {
 
         TextH1(text = "Processando importação")
@@ -38,7 +54,6 @@ fun WizardStepFour(onFinish: () -> Unit) {
 
         Spacer(Modifier.height(16.dp))
 
-        val listState = rememberLazyListState()
         Box(
             modifier = Modifier
                 .weight(1f)
@@ -49,17 +64,14 @@ fun WizardStepFour(onFinish: () -> Unit) {
                 .padding(12.dp)
         ) {
             LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
-                items(mockLogLines) { line ->
+                items(logLines) { line ->
                     TextNormal(
-                        text = line,
-                        color = MaterialTheme.colors.primary.copy(alpha = 0.8f),
+                        text = line.text,
+                        color = logLevelColor(line),
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 2.dp),
-                        fontSize = androidx.compose.ui.unit.TextUnit(
-                            11f,
-                            androidx.compose.ui.unit.TextUnitType.Sp
-                        )
+                        fontSize = 11.sp
                     )
                 }
             }
@@ -76,10 +88,19 @@ fun WizardStepFour(onFinish: () -> Unit) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
             DefaultButton(
                 modifier = Modifier.width(200.dp),
-                text = "Concluir",
+                text = if (importFailed && !importDone) "Fechar" else "Concluir",
+                confirmed = !isImporting,
                 textColor = if (MaterialTheme.colors.isLight) Color.White else MaterialTheme.colors.secondary,
                 onClick = onFinish
             )
         }
     }
+}
+
+@Composable
+private fun logLevelColor(line: WizardLogLine): Color = when (line.level) {
+    LogLevel.OK -> MaterialTheme.colors.onPrimary
+    LogLevel.WARN -> WarningOrange
+    LogLevel.ERROR -> MaterialTheme.colors.onError
+    LogLevel.INFO -> MaterialTheme.colors.primary.copy(alpha = 0.8f)
 }

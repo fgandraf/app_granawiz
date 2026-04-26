@@ -27,6 +27,11 @@ class ImportStatementViewModel(
     val isParsing = MutableStateFlow(false)
     val parseFailed = MutableStateFlow(false)
 
+    val importLog = MutableStateFlow<List<WizardLogLine>>(emptyList())
+    val isImporting = MutableStateFlow(false)
+    val importDone = MutableStateFlow(false)
+    val importFailed = MutableStateFlow(false)
+
     private var hasParsedFor: File? = null
 
     suspend fun parseSelectedFile() {
@@ -54,6 +59,33 @@ class ImportStatementViewModel(
         isParsing.value = false
     }
 
+    suspend fun executeImport() {
+        val acct = account ?: run {
+            importLog.value = listOf(WizardLogLine(LogLevel.ERROR, "Conta não selecionada."))
+            importFailed.value = true
+            return
+        }
+        isImporting.value = true
+        importLog.value = emptyList()
+        importFailed.value = false
+        importDone.value = false
+        val result = withContext(Dispatchers.IO) {
+            runCatching {
+                importHandler.executeImport(parsedEntries.value, acct) { msg, lvl ->
+                    importLog.value = importLog.value + WizardLogLine(lvl, msg)
+                }
+            }
+        }
+        result.onSuccess {
+            importDone.value = true
+        }.onFailure { e ->
+            importLog.value = importLog.value +
+                WizardLogLine(LogLevel.ERROR, "Erro inesperado: ${e.message ?: "erro desconhecido"}")
+            importFailed.value = true
+        }
+        isImporting.value = false
+    }
+
     fun updateEntry(rowId: String, updater: (ParsedEntry) -> ParsedEntry) {
         parsedEntries.value = parsedEntries.value.map {
             if (it.rowId == rowId) updater(it) else it
@@ -71,6 +103,10 @@ class ImportStatementViewModel(
         parseLog.value = emptyList()
         isParsing.value = false
         parseFailed.value = false
+        importLog.value = emptyList()
+        isImporting.value = false
+        importDone.value = false
+        importFailed.value = false
         hasParsedFor = null
     }
 }

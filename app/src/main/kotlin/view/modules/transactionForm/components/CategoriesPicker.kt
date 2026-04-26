@@ -119,7 +119,7 @@ fun AddCategoryItem(
     val deleteDialogIsVisible = remember { mutableStateOf(false) }
     CategoryListItem(
         label = item.name,
-        icon = IconPaths.CATEGORY_PACK + item.icon,
+        icon = if (item.icon.isBlank()) null else IconPaths.CATEGORY_PACK + item.icon,
         clickableIcon = true,
         hasSubItem = item.subcategories.size > 0,
         isActive = item.id == viewModel.selectedCategory.value.id,

@@ -20,4 +20,5 @@ data class ParsedEntry(
     val customPartyName: String? = null,
     val category: Category? = null,
     val subcategory: Subcategory? = null,
+    val customCategoryText: String? = null,
 )

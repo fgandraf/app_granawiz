@@ -35,6 +35,7 @@ import java.util.*
 fun TransactionRow(
     viewModel: TransactionViewModel,
     transaction: Transaction,
+    onDeleted: () -> Unit = {},
     onClick: () -> Unit
 ){
 
@@ -92,12 +93,14 @@ fun TransactionRow(
                     .padding(end = 10.dp)
             ) {
 
-                Icon(
-                    painter = rememberSvgPainter(IconPaths.CATEGORY_PACK + transaction.category.icon),
-                    contentDescription = null,
-                    tint = MaterialTheme.colors.primary,
-                    modifier = Modifier.size(15.dp)
-                )
+                if (transaction.category.icon.isNotBlank()) {
+                    Icon(
+                        painter = rememberSvgPainter(IconPaths.CATEGORY_PACK + transaction.category.icon),
+                        contentDescription = null,
+                        tint = MaterialTheme.colors.primary,
+                        modifier = Modifier.size(15.dp)
+                    )
+                }
 
                 Spacer(Modifier.width(10.dp))
                 TextNormal(text = transaction.category.name)
@@ -175,9 +178,9 @@ fun TransactionRow(
                                 message = "Tem certeza que deseja excluir essa transação?",
                                 onConfirmRequest = {
                                     viewModel.deleteTransaction(transaction)
+                                    onDeleted()
                                     showDeleteTransaction = false
                                     showEditTransaction = false
-                                    viewModel.getTransactions()
                                 },
                                 onDismissRequest = { showDeleteTransaction = false; showEditTransaction = false },
                             )

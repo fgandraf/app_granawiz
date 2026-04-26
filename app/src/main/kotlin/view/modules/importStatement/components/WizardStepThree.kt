@@ -218,11 +218,11 @@ private fun EntryRow(
         )
 
         // Category
-        val categoryDisplayValue = remember(entry.category, entry.subcategory) {
+        val categoryDisplayValue = remember(entry.category, entry.subcategory, entry.customCategoryText) {
             when {
                 entry.subcategory != null -> "${entry.category!!.name}/${entry.subcategory.name}"
                 entry.category != null -> entry.category.name
-                else -> ""
+                else -> entry.customCategoryText.orEmpty()
             }
         }
         SearchableCategoryField(
@@ -234,7 +234,18 @@ private fun EntryRow(
             borderOnActive = true,
             maxCategoryLength = 100,
             maxSubcategoryLength = 100,
-            onCategorySelected = { c, sub -> onEntryChange { it.copy(category = c, subcategory = sub) } }
+            onCategorySelected = { c, sub ->
+                onEntryChange { it.copy(category = c, subcategory = sub, customCategoryText = null) }
+            },
+            onFreeText = { text ->
+                onEntryChange {
+                    it.copy(
+                        category = null,
+                        subcategory = null,
+                        customCategoryText = text.takeIf { t -> t.isNotBlank() }
+                    )
+                }
+            }
         )
 
 

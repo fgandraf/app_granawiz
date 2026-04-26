@@ -85,6 +85,7 @@ fun SearchableCategoryField(
     maxCategoryLength: Int = Int.MAX_VALUE,
     maxSubcategoryLength: Int = Int.MAX_VALUE,
     onCategorySelected: (Category, Subcategory?) -> Unit,
+    onFreeText: (String) -> Unit = {},
 ) {
     val primaryColor = MaterialTheme.colors.primary
     val secondaryColor = MaterialTheme.colors.secondary
@@ -149,7 +150,7 @@ fun SearchableCategoryField(
                             if (!togglePressedWhileExpanded) expanded = false
                             selectedIndex = -1
                             if (allItems.none { it.selectedText.equals(text, ignoreCase = true) }) {
-                                text = value
+                                onFreeText(text)
                             }
                         }
                     }

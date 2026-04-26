@@ -39,6 +39,8 @@ class TransactionViewModel(
     fun deleteTransaction(transaction: Transaction) {
         transactionHandler.deleteTransaction(transaction)
         getTransactions()
+        val accountTransactions = transactionHandler.fetchTransactions(account = transaction.account)
+        accountHandler.updateBalance(transaction.account.id, accountTransactions.sumOf { it.balance })
     }
 
     fun exportToExcel(transactions: List<Transaction>, file: File) =

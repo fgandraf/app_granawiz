@@ -148,7 +148,7 @@ fun CategoriesScreen(
 
                                     CategoryListItem(
                                         label = category.name,
-                                        icon = IconPaths.CATEGORY_PACK + category.icon,
+                                        icon = if (category.icon.isBlank()) null else IconPaths.CATEGORY_PACK + category.icon,
                                         clickableIcon = true,
                                         hasSubItem = category.subcategories.size > 0,
                                         deleteDialogIsVisible = deleteDialogIsVisible,
