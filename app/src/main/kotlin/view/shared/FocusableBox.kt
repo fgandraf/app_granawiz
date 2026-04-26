@@ -17,7 +17,9 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun FocusableBox(
     modifier: Modifier = Modifier,
+    showBorder: Boolean = true,
     onClick: () -> Unit = {},
+    onFocusChange: ((Boolean) -> Unit)? = null,
     content: @Composable BoxScope.() -> Unit,
 ) {
     val primaryColor = MaterialTheme.colors.primary
@@ -26,13 +28,16 @@ fun FocusableBox(
     var borderSize by remember { mutableStateOf(1.dp) }
     var borderColor by remember { mutableStateOf(primaryColor) }
 
+    val baseModifier = if (showBorder)
+        modifier.border(borderSize, borderColor, shape = RoundedCornerShape(5.dp)).clip(RoundedCornerShape(5.dp))
+    else
+        modifier
+
     Box(
         contentAlignment = Alignment.CenterStart,
-        modifier = modifier
+        modifier = baseModifier
             .fillMaxWidth()
             .height(35.dp)
-            .border(borderSize, borderColor, shape = RoundedCornerShape(5.dp))
-            .clip(RoundedCornerShape(5.dp))
             .pointerHoverIcon(PointerIcon.Hand)
             .onFocusChanged { focusState ->
                 if (focusState.isFocused) {
@@ -40,6 +45,7 @@ fun FocusableBox(
                 } else {
                     borderSize = 1.dp; borderColor = primaryColor
                 }
+                onFocusChange?.invoke(focusState.isFocused)
             }
             .clickable { onClick() }
             .padding(horizontal = 10.dp)

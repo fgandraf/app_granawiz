@@ -138,7 +138,6 @@ private fun EntryRow(
     }
     val categoryList = if (entry.type == TransactionType.GAIN) incomeCats else expenseCats
 
-    var partyExpanded by remember { mutableStateOf(false) }
     var categoryExpanded by remember { mutableStateOf(false) }
 
     Row(
@@ -165,43 +164,33 @@ private fun EntryRow(
             modifier = Modifier.weight(1.5f).padding(end = 8.dp),
             showLabel = false,
             value = entry.date,
+            showBorder = false,
+            borderOnActive = true,
             selectedDateTime = { newDt -> onEntryChange { it.copy(date = newDt) } }
         )
 
         // Party
-        Box(modifier = Modifier.weight(2.5f).padding(end = 8.dp)) {
-            DropDownTextField(
-                value = entry.party?.name ?: "",
-                placeholder = entry.rawCounterpartyName.ifBlank { "Selecionar" },
-                onClick = { partyExpanded = true }
-            )
-            DropdownMenu(
-                expanded = partyExpanded,
-                onDismissRequest = { partyExpanded = false }
-            ) {
-                partyList.forEach { p ->
-                    DropdownMenuItem(onClick = {
-                        onEntryChange { it.copy(party = p, needsNewParty = false) }
-                        partyExpanded = false
-                    }) {
-                        TextNormal(text = p.name)
-                    }
-                }
-                if (partyList.isEmpty()) {
-                    DropdownMenuItem(onClick = { partyExpanded = false }) {
-                        TextNormal(
-                            text = "Nenhum cadastrado",
-                            color = MaterialTheme.colors.primary.copy(alpha = 0.5f)
-                        )
-                    }
-                }
+        SearchablePartyField(
+            modifier = Modifier.weight(2.5f).padding(end = 8.dp),
+            value = entry.party?.name ?: entry.customPartyName ?: "",
+            placeholder = entry.rawCounterpartyName.ifBlank { "Selecionar" },
+            options = partyList,
+            showBorder = false,
+            borderOnActive = true,
+            onPartySelected = { p: Party ->
+                onEntryChange { it.copy(party = p, needsNewParty = false, customPartyName = null) }
+            },
+            onFreeText = { name: String ->
+                onEntryChange { it.copy(party = null, needsNewParty = name.isNotBlank(), customPartyName = name.takeIf { name.isNotBlank() }) }
             }
-        }
+        )
 
         // Description
         DefaultTextField(
             modifier = Modifier.weight(2.5f).padding(end = 8.dp),
             value = entry.description,
+            showBorder = false,
+            borderOnActive = true,
             onValueChange = { onEntryChange { e -> e.copy(description = it) } }
         )
 
@@ -211,6 +200,8 @@ private fun EntryRow(
             modifier = Modifier.weight(1.5f).padding(end = 8.dp),
             value = balanceText,
             textAlign = TextAlign.End,
+            showBorder = false,
+            borderOnActive = true,
             onValueChange = { input ->
                 val digits = input.filter { c -> c.isDigit() || c == ',' || c == '.' }
                 if (digits.isNotEmpty()) {
@@ -227,6 +218,8 @@ private fun EntryRow(
                 value = entry.category?.name ?: "",
                 placeholder = "—",
                 icon = entry.category?.icon,
+                showBorder = false,
+                borderOnActive = true,
                 onClick = { categoryExpanded = true }
             )
             DropdownMenu(

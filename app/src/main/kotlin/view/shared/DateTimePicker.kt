@@ -39,17 +39,21 @@ fun DateTimePicker(
     modifier: Modifier = Modifier,
     showLabel: Boolean = true,
     value: LocalDateTime,
+    showBorder: Boolean = true,
+    borderOnActive: Boolean = false,
     selectedDateTime: (LocalDateTime) -> Unit,
 ) {
 
     Column(modifier = modifier) {
         var expanded by remember { mutableStateOf(false) }
 
+        val effectiveShowBorder = if (borderOnActive) expanded else showBorder
+
         if (showLabel) TextSmall(modifier = Modifier.padding(bottom = 5.dp), text = "Data e horário:")
 
         ExposedDropdownMenuBox(expanded = expanded, onExpandedChange = { expanded = true }) {
 
-            FocusableBox {
+            FocusableBox(showBorder = effectiveShowBorder) {
                 Row(Modifier.fillMaxWidth(), Arrangement.SpaceBetween, Alignment.CenterVertically) {
                     TextNormal(text = value.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")))
                     Icon(
@@ -61,7 +65,11 @@ fun DateTimePicker(
                 }
             }
 
-            ExposedDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+            ExposedDropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false },
+                modifier = Modifier.widthIn(min = 260.dp)
+            ) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.padding(horizontal = 10.dp).padding(top = 10.dp, bottom = 5.dp)

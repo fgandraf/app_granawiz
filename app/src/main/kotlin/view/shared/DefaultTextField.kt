@@ -26,25 +26,33 @@ fun DefaultTextField(
     value: String,
     label: String? = null,
     placeholder: String = "",
+    showBorder: Boolean = true,
+    borderOnActive: Boolean = false,
     onValueChange: (String) -> Unit,
 ) {
     val primaryColor = MaterialTheme.colors.primary
     val secondaryColor = MaterialTheme.colors.secondary
 
+    var isFocused by remember { mutableStateOf(false) }
     var borderSize by remember { mutableStateOf(1.dp) }
     var borderColor by remember { mutableStateOf(primaryColor) }
+
+    val effectiveShowBorder = if (borderOnActive) isFocused else showBorder
 
     Column(modifier = modifier) {
         if (label != null)
             TextSmall(text = label, modifier = Modifier.padding(bottom = 5.dp))
 
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(boxSize)
+        val boxModifier = if (effectiveShowBorder)
+            Modifier.fillMaxWidth().height(boxSize)
                 .border(borderSize, borderColor, shape = RoundedCornerShape(5.dp))
                 .clip(RoundedCornerShape(5.dp))
+        else
+            Modifier.fillMaxWidth().height(boxSize)
+
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = boxModifier
                 .padding(10.dp)
         ) {
             BasicTextField(
@@ -52,6 +60,7 @@ fun DefaultTextField(
                 modifier = Modifier
                     .fillMaxSize()
                     .onFocusChanged { focusState ->
+                        isFocused = focusState.isFocused
                         if (focusState.isFocused) {
                             borderSize = 1.2.dp; borderColor = secondaryColor
                         } else {

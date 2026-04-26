@@ -17,6 +17,7 @@ data class ParsedEntry(
     val type: TransactionType,
     val party: Party? = null,
     val needsNewParty: Boolean = true,
+    val customPartyName: String? = null,
     val category: Category? = null,
     val subcategory: Subcategory? = null,
 )

@@ -4,6 +4,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import utils.rememberSvgPainter
@@ -21,14 +25,23 @@ fun DropDownTextField(
     value: String,
     label: String? = null,
     placeholder: String = "",
+    showBorder: Boolean = true,
+    borderOnActive: Boolean = false,
     onClick: () -> Unit,
 ) {
+
+    var isFocused by remember { mutableStateOf(false) }
+    val effectiveShowBorder = if (borderOnActive) isFocused else showBorder
 
     Column(modifier = modifier) {
         if (label != null)
             TextSmall(text = label, modifier = Modifier.padding(bottom = 5.dp))
 
-        FocusableBox(onClick = onClick) {
+        FocusableBox(
+            showBorder = effectiveShowBorder,
+            onClick = onClick,
+            onFocusChange = if (borderOnActive) { focused -> isFocused = focused } else null,
+        ) {
             if (value.isEmpty())
                 TextSmall(
                     text = placeholder,
