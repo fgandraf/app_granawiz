@@ -60,6 +60,10 @@ class ImportStatementViewModel(
         }
     }
 
+    fun removeEntry(rowId: String) {
+        parsedEntries.value = parsedEntries.value.filter { it.rowId != rowId }
+    }
+
     fun clearAll() {
         currentStep = 0
         selectedFile = null

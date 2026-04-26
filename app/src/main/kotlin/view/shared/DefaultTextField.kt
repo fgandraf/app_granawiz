@@ -10,7 +10,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -23,6 +25,8 @@ fun DefaultTextField(
     enabled: Boolean = true,
     boxSize: Dp = 35.dp,
     textAlign: TextAlign = TextAlign.Start,
+    textColor: Color? = null,
+    fontStyle: FontStyle = FontStyle.Normal,
     value: String,
     label: String? = null,
     placeholder: String = "",
@@ -71,7 +75,8 @@ fun DefaultTextField(
                 textStyle = TextStyle(
                     fontFamily = Ubuntu,
                     fontSize = 12.sp,
-                    color = MaterialTheme.colors.primary,
+                    color = textColor ?: MaterialTheme.colors.primary,
+                    fontStyle = fontStyle,
                     lineHeight = 16.sp,
                     textAlign = textAlign
                 ),

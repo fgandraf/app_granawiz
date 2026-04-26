@@ -1,25 +1,33 @@
 package view.modules.importStatement.components
 
-import androidx.compose.foundation.VerticalScrollbar
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.material.Divider
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.PointerIcon
+import androidx.compose.ui.input.pointer.pointerHoverIcon
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import application.category.CategoryHandler
 import application.party.PartyHandler
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Light
+import com.adamglin.phosphoricons.light.Trash
 import domain.entity.Category
 import domain.entity.Party
 import domain.enums.CategoryType
@@ -29,9 +37,8 @@ import domain.structs.ParsedEntry
 import utils.toBrMoney
 import view.shared.*
 import viewModel.ImportStatementViewModel
-import kotlin.math.abs
+import java.time.format.DateTimeFormatter
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun WizardStepThree(
     viewModel: ImportStatementViewModel,
@@ -76,6 +83,7 @@ fun WizardStepThree(
                 TextH4(text = "Descrição", modifier = Modifier.weight(2.5f))
                 TextH4(text = "Valor", modifier = Modifier.weight(1.5f))
                 TextH4(text = "Categoria", modifier = Modifier.weight(2f))
+                Box(modifier = Modifier.width(32.dp))
             }
 
             Divider()
@@ -90,7 +98,8 @@ fun WizardStepThree(
                             receivers = receivers,
                             expenseCats = expenseCats,
                             incomeCats = incomeCats,
-                            onEntryChange = { updater -> viewModel.updateEntry(entry.rowId, updater) }
+                            onEntryChange = { updater -> viewModel.updateEntry(entry.rowId, updater) },
+                            onRemove = { viewModel.removeEntry(entry.rowId) }
                         )
                         Divider(modifier = Modifier.padding(horizontal = 16.dp))
                     }
@@ -121,7 +130,6 @@ fun WizardStepThree(
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun EntryRow(
     entry: ParsedEntry,
@@ -130,6 +138,7 @@ private fun EntryRow(
     expenseCats: List<Category>,
     incomeCats: List<Category>,
     onEntryChange: ((ParsedEntry) -> ParsedEntry) -> Unit,
+    onRemove: () -> Unit,
 ) {
     val partyList = when (entry.type) {
         TransactionType.GAIN -> payers
@@ -137,8 +146,6 @@ private fun EntryRow(
         else -> payers + receivers
     }
     val categoryList = if (entry.type == TransactionType.GAIN) incomeCats else expenseCats
-
-    var categoryExpanded by remember { mutableStateOf(false) }
 
     Row(
         modifier = Modifier
@@ -160,13 +167,15 @@ private fun EntryRow(
         }
 
         // Date
-        DateTimePicker(
+        val dateText = remember(entry.date) { entry.date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) }
+        DefaultTextField(
             modifier = Modifier.weight(1.5f).padding(end = 8.dp),
-            showLabel = false,
-            value = entry.date,
+            value = dateText,
+            enabled = false,
             showBorder = false,
-            borderOnActive = true,
-            selectedDateTime = { newDt -> onEntryChange { it.copy(date = newDt) } }
+            textColor = MaterialTheme.colors.primary.copy(alpha = 0.5f),
+            fontStyle = FontStyle.Italic,
+            onValueChange = {}
         )
 
         // Party
@@ -195,54 +204,55 @@ private fun EntryRow(
         )
 
         // Value
-        val balanceText = remember(entry.balance) { toBrMoney.format(abs(entry.balance)) }
+        val balanceText = remember(entry.balance) { toBrMoney.format(entry.balance) }
         DefaultTextField(
             modifier = Modifier.weight(1.5f).padding(end = 8.dp),
             value = balanceText,
-            textAlign = TextAlign.End,
+            textAlign = TextAlign.Center,
+            enabled = false,
             showBorder = false,
-            borderOnActive = true,
-            onValueChange = { input ->
-                val digits = input.filter { c -> c.isDigit() || c == ',' || c == '.' }
-                if (digits.isNotEmpty()) {
-                    val parsed = digits.replace(".", "").replace(",", ".").toDoubleOrNull() ?: return@DefaultTextField
-                    val signed = if (entry.type == TransactionType.EXPENSE) -abs(parsed) else abs(parsed)
-                    onEntryChange { it.copy(balance = signed) }
-                }
-            }
+            textColor = MaterialTheme.colors.primary.copy(alpha = 0.5f),
+            fontStyle = FontStyle.Italic,
+            onValueChange = {}
         )
 
         // Category
-        Box(modifier = Modifier.weight(2f)) {
-            DropDownTextField(
-                value = entry.category?.name ?: "",
-                placeholder = "—",
-                icon = entry.category?.icon,
-                showBorder = false,
-                borderOnActive = true,
-                onClick = { categoryExpanded = true }
-            )
-            DropdownMenu(
-                expanded = categoryExpanded,
-                onDismissRequest = { categoryExpanded = false }
-            ) {
-                categoryList.forEach { c ->
-                    DropdownMenuItem(onClick = {
-                        onEntryChange { it.copy(category = c) }
-                        categoryExpanded = false
-                    }) {
-                        TextNormal(text = c.name)
-                    }
-                }
-                if (categoryList.isEmpty()) {
-                    DropdownMenuItem(onClick = { categoryExpanded = false }) {
-                        TextNormal(
-                            text = "Nenhuma cadastrada",
-                            color = MaterialTheme.colors.primary.copy(alpha = 0.5f)
-                        )
-                    }
-                }
+        val categoryDisplayValue = remember(entry.category, entry.subcategory) {
+            when {
+                entry.subcategory != null -> "${entry.category!!.name}/${entry.subcategory.name}"
+                entry.category != null -> entry.category.name
+                else -> ""
             }
         }
+        SearchableCategoryField(
+            modifier = Modifier.weight(2f),
+            value = categoryDisplayValue,
+            placeholder = "—",
+            options = categoryList,
+            showBorder = false,
+            borderOnActive = true,
+            onCategorySelected = { c, sub -> onEntryChange { it.copy(category = c, subcategory = sub) } }
+        )
+
+
+        // Remove button
+        TooltipBox("Remover linha"){
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .size(32.dp)
+                    .clip(RoundedCornerShape(10.dp))
+                    .pointerHoverIcon(PointerIcon.Hand)
+                    .clickable { onRemove() }
+            ) {
+                Icon(
+                    imageVector = PhosphorIcons.Light.Trash,
+                    contentDescription = null,
+                    modifier = Modifier.size(15.dp),
+                    tint = MaterialTheme.colors.primary
+                )
+            }
+        }
+
     }
 }
