@@ -11,7 +11,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import utils.brMoney
+import utils.formatCurrency
+import view.modules.UserPreferences
 import view.shared.TextSmall
 
 @Composable
@@ -41,19 +42,20 @@ fun TotalFooter(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.End
             ) {
+                val currency = UserPreferences.currencySymbol
                 TextSmall(
-                    text = brMoney.format(incomeBalance),
+                    text = formatCurrency(incomeBalance, currency),
                     color = MaterialTheme.colors.onPrimary,
                 )
                 TextSmall(text = " - ", modifier = Modifier.padding(horizontal = 5.dp))
                 TextSmall(
-                    text = brMoney.format(outcomeBalance),
+                    text = formatCurrency(outcomeBalance, currency),
                     color = MaterialTheme.colors.onError,
                 )
                 TextSmall(text = " = ", modifier = Modifier.padding(horizontal = 5.dp))
                 val total: Double = incomeBalance - outcomeBalance
                 TextSmall(
-                    text = brMoney.format(total),
+                    text = formatCurrency(total, currency),
                     color = if (total >= 0.0) MaterialTheme.colors.onPrimary else MaterialTheme.colors.onError
                 )
             }

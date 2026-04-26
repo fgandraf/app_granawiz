@@ -13,7 +13,8 @@ import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.*
 import domain.entity.Group
-import utils.brMoney
+import utils.formatCurrency
+import view.modules.UserPreferences
 import view.modules.groupForm.GroupForm
 import view.shared.ClickableIcon
 import view.shared.ClickableRow
@@ -57,7 +58,7 @@ fun GroupMenuItem(
 
                 val totalGroup = viewModel.fetchGroupBalance(group)
                 TextSmall(
-                    text = brMoney.format(totalGroup),
+                    text = formatCurrency(totalGroup, UserPreferences.currencySymbol),
                     color = if (totalGroup > 0f) MaterialTheme.colors.onPrimary else if (totalGroup < 0f) MaterialTheme.colors.onError else MaterialTheme.colors.primaryVariant
                 )
             }

@@ -13,7 +13,8 @@ import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.CreditCard
 import domain.structs.CreditCardSnapshot
-import utils.brMoney
+import utils.formatCurrency
+import view.modules.UserPreferences
 import view.shared.TextNormal
 import view.shared.TextSmall
 
@@ -51,8 +52,9 @@ private fun CreditCardRow(snap: CreditCardSnapshot) {
             verticalAlignment = Alignment.CenterVertically,
         ) {
             TextNormal(text = snap.account.name)
+            val currency = UserPreferences.currencySymbol
             TextNormal(
-                text = "${brMoney.format(snap.currentInvoice)} / ${brMoney.format(limit)}",
+                text = "${formatCurrency(snap.currentInvoice, currency)} / ${formatCurrency(limit, currency)}",
                 color = color,
             )
         }
@@ -78,6 +80,6 @@ private fun CreditCardRow(snap: CreditCardSnapshot) {
             snap.daysToDue > 0 -> "vence em ${snap.daysToDue} dias"
             else -> "venceu há ${-snap.daysToDue} dias"
         }
-        TextSmall(text = "Disponível: ${brMoney.format(snap.availableLimit)} · $dueLabel")
+        TextSmall(text = "Disponível: ${formatCurrency(snap.availableLimit, UserPreferences.currencySymbol)} · $dueLabel")
     }
 }

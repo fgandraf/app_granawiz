@@ -27,7 +27,7 @@ import com.adamglin.phosphoricons.light.Trash
 import domain.entity.Transaction
 import domain.enums.TransactionType
 import utils.IconPaths
-import utils.brMoney
+import utils.toBrMoney
 import view.shared.*
 import viewModel.TransactionViewModel
 import java.time.format.TextStyle
@@ -151,7 +151,7 @@ fun TransactionRow(
                     .padding(end = 10.dp)
                     .weight(0.4f)
             ) {
-                TextNormal(text = brMoney.format(transaction.balance))
+                TextNormal(text = toBrMoney.format(transaction.balance))
             }
 
 

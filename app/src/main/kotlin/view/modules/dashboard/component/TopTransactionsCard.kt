@@ -10,8 +10,9 @@ import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.CurrencyCircleDollar
 import domain.entity.Transaction
-import utils.brMoney
+import utils.formatCurrency
 import kotlin.math.abs
+import view.modules.UserPreferences
 import view.shared.TextNormal
 import view.shared.TextSmall
 import java.time.format.TextStyle
@@ -49,7 +50,7 @@ fun TopTransactionsCard(
                         val month = tx.date.month.getDisplayName(TextStyle.SHORT, ptBr)
                         TextSmall(text = "$day $month · ${tx.category.name}")
                     }
-                    TextNormal(text = brMoney.format(abs(tx.balance)), color = MaterialTheme.colors.onError)
+                    TextNormal(text = formatCurrency(abs(tx.balance), UserPreferences.currencySymbol), color = MaterialTheme.colors.onError)
                 }
             }
         }

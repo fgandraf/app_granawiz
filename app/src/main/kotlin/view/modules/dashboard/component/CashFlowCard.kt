@@ -10,7 +10,8 @@ import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.ArrowsLeftRight
 import domain.structs.CashFlow
-import utils.brMoney
+import utils.formatCurrency
+import view.modules.UserPreferences
 import view.shared.TextH3
 import view.shared.TextNormal
 import view.shared.TextSmall
@@ -27,12 +28,13 @@ fun CashFlowCard(
         icon = PhosphorIcons.Light.ArrowsLeftRight,
         height = 150.dp
     ) {
-        RowLine(label = "Receitas", value = brMoney.format(cashFlow.income), valueColor = MaterialTheme.colors.onPrimary)
+        val currency = UserPreferences.currencySymbol
+        RowLine(label = "Receitas", value = formatCurrency(cashFlow.income, currency), valueColor = MaterialTheme.colors.onPrimary)
         Spacer(Modifier.height(6.dp))
-        RowLine(label = "Despesas", value = brMoney.format(cashFlow.expense), valueColor = MaterialTheme.colors.onError)
+        RowLine(label = "Despesas", value = formatCurrency(cashFlow.expense, currency), valueColor = MaterialTheme.colors.onError)
         Spacer(Modifier.height(6.dp))
         val netColor = if (cashFlow.net >= 0) MaterialTheme.colors.onPrimary else MaterialTheme.colors.onError
-        RowLine(label = "Saldo", value = brMoney.format(cashFlow.net), valueColor = netColor, bold = true)
+        RowLine(label = "Saldo", value = formatCurrency(cashFlow.net, currency), valueColor = netColor, bold = true)
         Spacer(Modifier.height(10.dp))
         TextSmall(text = "Taxa de poupança: ${String.format("%.1f%%", savingsRatePercent)}")
     }

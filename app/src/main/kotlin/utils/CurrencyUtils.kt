@@ -11,3 +11,5 @@ val toBrMoney: NumberFormat = NumberFormat.getNumberInstance().apply {
     minimumFractionDigits = 2
     maximumFractionDigits = 2
 }
+
+fun formatCurrency(amount: Double, symbol: String): String = "$symbol ${toBrMoney.format(amount)}"

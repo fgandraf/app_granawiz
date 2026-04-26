@@ -13,7 +13,8 @@ import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Regular
 import com.adamglin.phosphoricons.regular.Gear
-import utils.brMoney
+import utils.formatCurrency
+import view.modules.UserPreferences
 import view.modules.settings.SettingsScreen
 import view.shared.ClickableIcon
 import view.shared.TextH4
@@ -37,7 +38,7 @@ fun Header(viewModel: SidebarViewModel) {
         val total by viewModel.total.collectAsState()
         Column(modifier = Modifier.align(Alignment.Center)) {
             TextH2(
-                text = brMoney.format(total),
+                text = formatCurrency(total, UserPreferences.currencySymbol),
                 modifier = Modifier.fillMaxWidth().padding(bottom = 3.dp),
                 align = TextAlign.Center
             )

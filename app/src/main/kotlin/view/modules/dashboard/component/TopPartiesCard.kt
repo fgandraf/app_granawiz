@@ -9,7 +9,8 @@ import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.HandArrowUp
 import domain.structs.PartyVolume
-import utils.brMoney
+import utils.formatCurrency
+import view.modules.UserPreferences
 import view.shared.TextNormal
 import view.shared.TextSmall
 
@@ -38,7 +39,7 @@ fun TopPartiesCard(
                             text = "${pv.transactionCount} ${if (pv.transactionCount == 1) "transação" else "transações"}",
                         )
                     }
-                    TextNormal(text = brMoney.format(pv.amount))
+                    TextNormal(text = formatCurrency(pv.amount, UserPreferences.currencySymbol))
                 }
             }
         }

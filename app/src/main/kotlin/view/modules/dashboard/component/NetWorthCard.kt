@@ -12,7 +12,8 @@ import com.adamglin.phosphoricons.light.TrendDown
 import com.adamglin.phosphoricons.light.TrendUp
 import com.adamglin.phosphoricons.light.Wallet
 import domain.structs.NetWorthSnapshot
-import utils.brMoney
+import utils.formatCurrency
+import view.modules.UserPreferences
 import view.shared.TextH1
 import view.shared.TextNormal
 import view.shared.TextSmall
@@ -24,7 +25,8 @@ fun NetWorthCard(
     snapshot: NetWorthSnapshot,
 ) {
     SummaryCard(modifier = modifier, title = "Patrimônio total", icon = PhosphorIcons.Light.Wallet, height = 150.dp) {
-        TextH1(text = brMoney.format(snapshot.total))
+        val currency = UserPreferences.currencySymbol
+        TextH1(text = formatCurrency(snapshot.total, currency))
         Spacer(Modifier.height(8.dp))
 
         val positive = snapshot.deltaAmount >= 0
@@ -41,7 +43,7 @@ fun NetWorthCard(
                 modifier = Modifier.size(14.dp),
             )
             TextNormal(
-                text = "$sign${brMoney.format(snapshot.deltaAmount)} ($sign$percentStr)",
+                text = "$sign${formatCurrency(snapshot.deltaAmount, currency)} ($sign$percentStr)",
                 color = color,
             )
         }

@@ -25,8 +25,9 @@ import com.adamglin.phosphoricons.light.*
 import com.adamglin.phosphoricons.regular.Wallet
 import domain.entity.account.BankAccount
 import utils.IconPaths
-import utils.brMoney
+import utils.formatCurrency
 import view.modules.Screen
+import view.modules.UserPreferences
 import view.modules.accountForm.AccountForm
 import view.shared.*
 import viewModel.SidebarViewModel
@@ -69,7 +70,7 @@ fun AccountMenuItem(
             val positiveBalanceColor = if (MaterialTheme.colors.isLight) lerp(MaterialTheme.colors.onPrimary, Color.Black, 0.2f) else MaterialTheme.colors.onPrimary
 
             TextSmall(
-                text = brMoney.format(account.balance),
+                text = formatCurrency(account.balance, UserPreferences.currencySymbol),
                 color = if (account.balance > 0f) positiveBalanceColor else if (account.balance < 0f) MaterialTheme.colors.onError else MaterialTheme.colors.primaryVariant,
             )
         }

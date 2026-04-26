@@ -14,7 +14,8 @@ import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.CalendarBlank
 import domain.enums.TransactionType
 import application.schedule.usecases.ScheduleOccurrence
-import utils.brMoney
+import utils.formatCurrency
+import view.modules.UserPreferences
 import view.shared.TextNormal
 import view.shared.TextSmall
 import java.time.format.TextStyle
@@ -74,7 +75,7 @@ fun UpcomingSchedulesCard(
                         TransactionType.EXPENSE -> MaterialTheme.colors.onError
                         else -> MaterialTheme.colors.onSurface
                     }
-                    TextNormal(text = brMoney.format(abs(schedule.balance)), color = balanceColor)
+                    TextNormal(text = formatCurrency(abs(schedule.balance), UserPreferences.currencySymbol), color = balanceColor)
                 }
             }
         }

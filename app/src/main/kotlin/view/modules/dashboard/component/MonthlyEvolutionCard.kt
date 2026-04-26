@@ -19,7 +19,8 @@ import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.ChartLineUp
 import domain.structs.MonthlyFlow
-import utils.brMoney
+import utils.formatCurrency
+import view.modules.UserPreferences
 import view.shared.TextSmall
 
 @Composable
@@ -116,7 +117,7 @@ fun MonthlyEvolutionCard(
 
         Spacer(Modifier.height(8.dp))
         val last = data.last()
-        TextSmall(text = "Saldo de ${last.label}: ${brMoney.format(last.net)}")
+        TextSmall(text = "Saldo de ${last.label}: ${formatCurrency(last.net, UserPreferences.currencySymbol)}")
     }
 }
 

@@ -14,7 +14,8 @@ import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.Gauge
 import domain.structs.SpendingPace
-import utils.brMoney
+import utils.formatCurrency
+import view.modules.UserPreferences
 import view.shared.TextH3
 import view.shared.TextNormal
 import view.shared.TextSmall
@@ -74,8 +75,9 @@ fun SpendingPaceCard(
         Spacer(Modifier.height(8.dp))
         TextH3(text = "${String.format("%.0f%%", pace.percentOfAverage)} da média", color = color)
         Spacer(Modifier.height(4.dp))
+        val currency = UserPreferences.currencySymbol
         TextSmall(
-            text = "${brMoney.format(pace.monthTotalSoFar)} gastos · média ${brMoney.format(pace.averageAtSameDay)}"
+            text = "${formatCurrency(pace.monthTotalSoFar, currency)} gastos · média ${formatCurrency(pace.averageAtSameDay, currency)}"
         )
     }
 }

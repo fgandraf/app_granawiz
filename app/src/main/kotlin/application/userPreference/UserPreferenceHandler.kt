@@ -15,4 +15,10 @@ class UserPreferenceHandler {
         prefs.isLightTheme = isLightTheme
         updateUseCase.execute(prefs)
     }
+
+    fun updateCurrencySymbol(symbol: String) {
+        val prefs = fetchUseCase.execute()
+        prefs.currencySymbol = symbol
+        updateUseCase.execute(prefs)
+    }
 }

@@ -15,8 +15,9 @@ import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.Shapes
 import domain.structs.CategoryBreakdown
 import utils.IconPaths
-import utils.brMoney
+import utils.formatCurrency
 import utils.rememberSvgPainter
+import view.modules.UserPreferences
 import view.shared.TextNormal
 import view.shared.TextSmall
 
@@ -64,7 +65,7 @@ private fun CategoryRow(row: CategoryBreakdown) {
                 TextNormal(text = row.category.name)
             }
             TextNormal(
-                text = "${brMoney.format(row.amount)} (${String.format("%.0f%%", row.percent)})",
+                text = "${formatCurrency(row.amount, UserPreferences.currencySymbol)} (${String.format("%.0f%%", row.percent)})",
             )
         }
         Spacer(Modifier.height(4.dp))

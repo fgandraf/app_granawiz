@@ -9,4 +9,9 @@ class SettingsViewModel(private val handler: UserPreferenceHandler = UserPrefere
         UserPreferences.isLightTheme = isLightTheme
         handler.updateTheme(isLightTheme)
     }
+
+    fun setCurrencySymbol(label: String) {
+        UserPreferences.currencyLabel = label
+        handler.updateCurrencySymbol(label)
+    }
 }
