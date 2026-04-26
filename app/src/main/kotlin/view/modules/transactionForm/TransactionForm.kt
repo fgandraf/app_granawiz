@@ -36,7 +36,8 @@ import domain.enums.PartyType
 import domain.enums.TransactionType
 import utils.IconPaths
 import utils.rememberSvgPainter
-import utils.toBrMoney
+import utils.formatNumber
+import view.modules.UserPreferences
 import view.modules.transactionForm.components.*
 import view.shared.*
 import view.theme.ButtonGreen
@@ -184,13 +185,20 @@ fun TransactionForm(
                             selectedDateTime = { scheduleFormViewModel.startDate = it }
                         )
 
-                        val balance by remember { derivedStateOf { toBrMoney.format(abs(scheduleFormViewModel.balance)) } }
+                        val balance by remember { derivedStateOf { formatNumber(abs(scheduleFormViewModel.balance)) } }
+                        val balancePlaceholder by remember { derivedStateOf {
+                            when (UserPreferences.currencyFormat) {
+                                "comma-dot" -> "0,000.00"
+                                "plain-dot" -> "0.00"
+                                else -> "0.000,00"
+                            }
+                        }}
                         DefaultTextField(
                             modifier = Modifier.weight(1f).padding(start = 10.dp),
                             value = balance,
                             label = "Valor:",
                             textAlign = TextAlign.Right,
-                            placeholder = "0.000,00"
+                            placeholder = balancePlaceholder
                         ) { input ->
                             var filtered = input.filter { c -> c.isDigit() || c == ',' || c == '.' }
                             if (filtered.isEmpty() || filtered == ".") filtered = "0.00"

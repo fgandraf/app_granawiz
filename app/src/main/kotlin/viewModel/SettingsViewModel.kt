@@ -14,4 +14,9 @@ class SettingsViewModel(private val handler: UserPreferenceHandler = UserPrefere
         UserPreferences.currencyLabel = label
         handler.updateCurrencySymbol(label)
     }
+
+    fun setCurrencyFormat(format: String) {
+        UserPreferences.currencyFormat = format
+        handler.updateCurrencyFormat(format)
+    }
 }

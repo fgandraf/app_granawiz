@@ -8,6 +8,7 @@ import application.userPreference.UserPreferenceHandler
 object UserPreferences {
     var isLightTheme by mutableStateOf(true)
     var currencyLabel by mutableStateOf("Brazilian Real (R$)")
+    var currencyFormat by mutableStateOf("dot-comma")
 
     // Derived reactively from currencyLabel — triggers recomposition in any Composable that reads it
     val currencySymbol: String
@@ -21,5 +22,6 @@ object UserPreferences {
         val prefs = UserPreferenceHandler().fetchPreferences()
         isLightTheme = prefs.isLightTheme
         currencyLabel = prefs.currencySymbol
+        currencyFormat = prefs.currencyFormat
     }
 }

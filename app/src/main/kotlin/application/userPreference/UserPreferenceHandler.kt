@@ -21,4 +21,10 @@ class UserPreferenceHandler {
         prefs.currencySymbol = symbol
         updateUseCase.execute(prefs)
     }
+
+    fun updateCurrencyFormat(format: String) {
+        val prefs = fetchUseCase.execute()
+        prefs.currencyFormat = format
+        updateUseCase.execute(prefs)
+    }
 }

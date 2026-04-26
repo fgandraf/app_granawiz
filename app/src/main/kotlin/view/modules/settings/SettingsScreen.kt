@@ -79,12 +79,19 @@ private val CURRENCIES = listOf(
     "₫" to "Vietnamese Dong (₫)",
 )
 
+private val CURRENCY_FORMATS = listOf(
+    "dot-comma" to "1.234,56",
+    "comma-dot" to "1,234.56",
+    "plain-dot" to "1234.56",
+)
+
 @Composable
 fun SettingsScreen(
     onDismiss: () -> Unit,
     viewModel: SettingsViewModel = remember { SettingsViewModel() },
 ) {
     var currencyMenuExpanded by remember { mutableStateOf(false) }
+    var formatMenuExpanded by remember { mutableStateOf(false) }
     Dialog(onDismissRequest = onDismiss) {
         Column(
             modifier = Modifier
@@ -168,6 +175,29 @@ fun SettingsScreen(
                                 DropdownMenuItem(onClick = {
                                     viewModel.setCurrencySymbol(label)
                                     currencyMenuExpanded = false
+                                }) {
+                                    TextNormal(text = label)
+                                }
+                            }
+                        }
+                    }
+                    Box {
+                        val selectedFormat = CURRENCY_FORMATS.find { it.first == UserPreferences.currencyFormat }?.second
+                            ?: CURRENCY_FORMATS.first().second
+                        DropDownTextField(
+                            modifier = Modifier.fillMaxWidth(),
+                            value = selectedFormat,
+                            label = "Formato de número",
+                            onClick = { formatMenuExpanded = true }
+                        )
+                        DropdownMenu(
+                            expanded = formatMenuExpanded,
+                            onDismissRequest = { formatMenuExpanded = false },
+                        ) {
+                            CURRENCY_FORMATS.forEach { (key, label) ->
+                                DropdownMenuItem(onClick = {
+                                    viewModel.setCurrencyFormat(key)
+                                    formatMenuExpanded = false
                                 }) {
                                     TextNormal(text = label)
                                 }

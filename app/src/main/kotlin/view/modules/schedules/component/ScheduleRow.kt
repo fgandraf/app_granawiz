@@ -34,7 +34,7 @@ import domain.enums.ScheduleFrequency
 import domain.enums.TransactionType
 import application.schedule.usecases.ScheduleOccurrence
 import utils.IconPaths
-import utils.toBrMoney
+import utils.formatNumber
 import utils.rememberSvgPainter
 import view.shared.*
 import viewModel.ScheduleViewModel
@@ -154,7 +154,7 @@ fun ScheduleRow(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxHeight().padding(end = 10.dp).weight(0.4f)
         ) {
-            TextNormal(text = toBrMoney.format(schedule.balance))
+            TextNormal(text = formatNumber(schedule.balance))
         }
 
         // Mark as paid
