@@ -85,6 +85,11 @@
     <string name="dashboard_credit_card_available">Available:</string>
     <string name="dashboard_upcoming_schedules_title">Upcoming transactions</string>
     <string name="dashboard_no_upcoming_schedules">No upcoming transactions</string>
+    <string name="dashboard_period_this_month">This month</string>
+    <string name="dashboard_period_last_month">Last month</string>
+    <string name="dashboard_period_last_3_months">Last 3 months</string>
+    <string name="dashboard_period_this_year">This year</string>
+    <string name="dashboard_period_last_3_years">Last 3 years</string>
 
     <!-- ─── Transactions ─────────────────────────────────────────────────── -->
     <string name="transactions_empty">No transactions found.</string>

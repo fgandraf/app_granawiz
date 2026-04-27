@@ -21,8 +21,20 @@ import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.CalendarBlank
 import com.adamglin.phosphoricons.light.CaretDown
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
 import domain.structs.DashboardPeriod
+import org.jetbrains.compose.resources.stringResource
 import view.shared.TextNormal
+
+@Composable
+private fun DashboardPeriod.label(): String = when (this) {
+    DashboardPeriod.ThisMonth   -> stringResource(Res.string.dashboard_period_this_month)
+    DashboardPeriod.LastMonth   -> stringResource(Res.string.dashboard_period_last_month)
+    DashboardPeriod.Last3Months -> stringResource(Res.string.dashboard_period_last_3_months)
+    DashboardPeriod.ThisYear    -> stringResource(Res.string.dashboard_period_this_year)
+    DashboardPeriod.Last3Years  -> stringResource(Res.string.dashboard_period_last_3_years)
+}
 
 @Composable
 fun PeriodSelector(
@@ -53,7 +65,7 @@ fun PeriodSelector(
                     tint = MaterialTheme.colors.secondary,
                     modifier = Modifier.size(16.dp),
                 )
-                TextNormal(text = current.label)
+                TextNormal(text = current.label())
                 Icon(
                     imageVector = PhosphorIcons.Light.CaretDown,
                     contentDescription = null,
@@ -68,7 +80,7 @@ fun PeriodSelector(
                     onSelect(p)
                     expanded = false
                 }) {
-                    TextNormal(text = p.label)
+                    TextNormal(text = p.label())
                 }
             }
         }

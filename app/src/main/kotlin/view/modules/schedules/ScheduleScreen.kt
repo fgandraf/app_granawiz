@@ -178,7 +178,7 @@ fun ScheduleScreen(
                     Box(modifier = Modifier.fillMaxSize()) {
                         if (groups.isEmpty()) {
                             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                                TextH2(text = "Nenhum agendamento encontrado.")
+                                TextH2(text = stringResource(Res.string.schedules_empty))
                             }
                         } else {
                             LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
