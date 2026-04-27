@@ -41,7 +41,7 @@ fun MonthHeader(
 
     val formatedMonth = monthNames[month] ?: stringResource(Res.string.month_unknown)
     val monthTitle = if (month != LocalDate.now().month) formatedMonth else stringResource(Res.string.month_current)
-    val corners = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp)
+    val corners = RoundedCornerShape(topStart = 5.dp, topEnd = 5.dp)
     var boxWidth by remember { mutableStateOf(0) }
 
     Box(

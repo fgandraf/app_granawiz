@@ -8,6 +8,8 @@ interface ICategoryRepository {
 
     fun getAll(type: CategoryType) : List<Category>
 
+    fun findByNameAndType(name: String, type: CategoryType): Category?
+
     fun delete(category: Category)
 
     fun deleteSubcategory(subcategory: Subcategory)

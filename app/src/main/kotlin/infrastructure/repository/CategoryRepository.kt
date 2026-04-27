@@ -35,6 +35,24 @@ class CategoryRepository : ICategoryRepository {
         return categories
     }
 
+    override fun findByNameAndType(name: String, type: CategoryType): Category? {
+        val session = sessionFactory.openSession()
+        session.beginTransaction()
+        val cb = session.criteriaBuilder
+        val cq = cb.createQuery(Category::class.java)
+        val root = cq.from(Category::class.java)
+        cq.where(
+            cb.and(
+                cb.equal(root.get<String>("name"), name),
+                cb.equal(root.get<CategoryType>("type"), type)
+            )
+        )
+        val result = session.createQuery(cq).uniqueResultOptional().orElse(null)
+        session.transaction.commit()
+        session.close()
+        return result
+    }
+
     override fun delete(category: Category) {
         val session = sessionFactory.openSession()
         session.beginTransaction()

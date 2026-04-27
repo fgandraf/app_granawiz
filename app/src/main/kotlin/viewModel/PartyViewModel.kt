@@ -29,9 +29,10 @@ class PartyViewModel(type: PartyType, private val partyHandler: PartyHandler = P
         partyNames.value = partyHandler.fetchNames(selectedParty.value)
     }
 
-    fun deleteParty(party: Party) {
-        partyHandler.deleteParty(party)
-        getParties()
+    fun deleteParty(party: Party): Boolean {
+        val success = partyHandler.deleteParty(party)
+        if (success) getParties()
+        return success
     }
 
     fun deleteName(partyName: PartyName) {

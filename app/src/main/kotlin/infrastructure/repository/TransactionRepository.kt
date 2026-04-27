@@ -1,6 +1,8 @@
 package infrastructure.repository
 
 import domain.contracts.ITransactionRepository
+import domain.entity.Category
+import domain.entity.Subcategory
 import domain.entity.Transaction
 import domain.entity.account.BankAccount
 import domain.enums.TransactionType
@@ -77,6 +79,46 @@ class TransactionRepository : ITransactionRepository {
         criteriaQuery.orderBy(criteriaBuilder.desc(root.get<LocalDateTime>("date")))
 
         val transactions = session.createQuery(criteriaQuery).resultList
+        transactions.forEach { transaction ->
+            Hibernate.initialize(transaction.party)
+            Hibernate.initialize(transaction.account)
+            Hibernate.initialize(transaction.category)
+            Hibernate.initialize(transaction.subcategory)
+            Hibernate.initialize(transaction.tags)
+        }
+        session.transaction.commit()
+        session.close()
+        return transactions
+    }
+
+    override fun getAllByCategory(category: Category): List<Transaction> {
+        val session = sessionFactory.openSession()
+        session.beginTransaction()
+        val cb = session.criteriaBuilder
+        val cq = cb.createQuery(Transaction::class.java)
+        val root = cq.from(Transaction::class.java)
+        cq.where(cb.equal(root.get<Category>("category"), category))
+        val transactions = session.createQuery(cq).resultList
+        transactions.forEach { transaction ->
+            Hibernate.initialize(transaction.party)
+            Hibernate.initialize(transaction.account)
+            Hibernate.initialize(transaction.category)
+            Hibernate.initialize(transaction.subcategory)
+            Hibernate.initialize(transaction.tags)
+        }
+        session.transaction.commit()
+        session.close()
+        return transactions
+    }
+
+    override fun getAllBySubcategory(subcategory: Subcategory): List<Transaction> {
+        val session = sessionFactory.openSession()
+        session.beginTransaction()
+        val cb = session.criteriaBuilder
+        val cq = cb.createQuery(Transaction::class.java)
+        val root = cq.from(Transaction::class.java)
+        cq.where(cb.equal(root.get<Subcategory>("subcategory"), subcategory))
+        val transactions = session.createQuery(cq).resultList
         transactions.forEach { transaction ->
             Hibernate.initialize(transaction.party)
             Hibernate.initialize(transaction.account)

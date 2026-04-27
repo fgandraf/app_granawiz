@@ -12,6 +12,8 @@ interface IPartyRepository {
 
     fun getPartyByName(name: String): Party?
 
+    fun hasTransactions(party: Party): Boolean
+
     fun delete(party: Party)
 
     fun deleteName(partyName: PartyName)

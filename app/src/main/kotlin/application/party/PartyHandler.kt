@@ -27,7 +27,11 @@ class PartyHandler {
 
     fun fetchParties(type: PartyType): List<Party> = fetchPartiesUseCase.execute(type)
     fun fetchNames(party: Party?): List<PartyName> = fetchNamesUseCase.execute(party)
-    fun deleteParty(party: Party) = deletePartyUseCase.execute(party)
+    fun deleteParty(party: Party): Boolean {
+        val error = deletePartyUseCase.execute(party)
+        errorMessage = error
+        return error == null
+    }
     fun deleteName(partyName: PartyName) = deleteNameUseCase.execute(partyName)
 
     fun addParty(name: String, type: PartyType): Party? {

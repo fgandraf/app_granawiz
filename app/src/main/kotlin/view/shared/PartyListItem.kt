@@ -21,6 +21,7 @@ fun PartyListItem(
 ) {
     val deleteDialogIsVisible = remember { mutableStateOf(false) }
     var updatedSuccess by mutableStateOf(true)
+    var deleteSuccess by mutableStateOf(true)
 
     ListItem(
         label = item.name,
@@ -33,6 +34,13 @@ fun PartyListItem(
                 SimpleAlertDialog(
                     onDismissRequest = { viewModel.clearError(); updatedSuccess = true },
                     title = stringResource(Res.string.error_name_already_exists),
+                    message = viewModel.errorMessage.value!!
+                )
+            }
+            if (!deleteSuccess) {
+                SimpleAlertDialog(
+                    onDismissRequest = { viewModel.clearError(); deleteSuccess = true },
+                    title = stringResource(Res.string.error_delete_party_title),
                     message = viewModel.errorMessage.value!!
                 )
             }
@@ -55,7 +63,10 @@ fun PartyListItem(
                 icon = iconResource,
                 objectName = item.name,
                 alertText = stringResource(Res.string.delete_party_confirm, type, item.name),
-                onClickButton = { viewModel.deleteParty(item) },
+                onClickButton = {
+                    deleteSuccess = viewModel.deleteParty(item)
+                    deleteDialogIsVisible.value = false
+                },
                 onDismiss = { deleteDialogIsVisible.value = false }
             )
         }

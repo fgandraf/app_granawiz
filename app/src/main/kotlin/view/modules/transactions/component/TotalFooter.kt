@@ -22,7 +22,7 @@ fun TotalFooter(
     outcomeBalance: Double,
 ) {
 
-    val corners = RoundedCornerShape(bottomEnd = 10.dp, bottomStart = 10.dp)
+    val corners = RoundedCornerShape(bottomEnd = 5.dp, bottomStart = 5.dp)
     var boxWidth by remember { mutableStateOf(0) }
 
     Box(

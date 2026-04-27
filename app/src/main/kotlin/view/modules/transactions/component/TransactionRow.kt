@@ -77,7 +77,7 @@ fun TransactionRow(
                 verticalArrangement = Arrangement.Center,
                 modifier = Modifier
                     .fillMaxHeight()
-                    .weight(0.8f)
+                    .weight(1f)
                     .padding(end = 10.dp)
             ) {
                 TextNormal(
@@ -95,7 +95,7 @@ fun TransactionRow(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxHeight()
-                    .weight(0.9f)
+                    .weight(1f)
                     .padding(end = 10.dp)
             ) {
 
@@ -124,7 +124,7 @@ fun TransactionRow(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxHeight()
-                    .weight(0.9f)
+                    .weight(1f)
                     .padding(end = 10.dp)
             ) {
                 if (transaction.tags?.isNotEmpty()!!) {

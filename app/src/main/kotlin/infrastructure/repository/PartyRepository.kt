@@ -3,6 +3,7 @@ package infrastructure.repository
 import domain.contracts.IPartyRepository
 import domain.entity.Party
 import domain.entity.PartyName
+import domain.entity.Transaction
 import domain.enums.PartyType
 import infrastructure.config.HibernateUtil
 
@@ -56,6 +57,20 @@ class PartyRepository : IPartyRepository {
         return party
     }
 
+
+    override fun hasTransactions(party: Party): Boolean {
+        val session = sessionFactory.openSession()
+        session.beginTransaction()
+        val cb = session.criteriaBuilder
+        val cq = cb.createQuery(Long::class.java)
+        val root = cq.from(Transaction::class.java)
+        cq.select(cb.count(root))
+        cq.where(cb.equal(root.get<Party>("party"), party))
+        val count = session.createQuery(cq).singleResult
+        session.transaction.commit()
+        session.close()
+        return count > 0
+    }
 
     override fun delete(party: Party) {
         val session = sessionFactory.openSession()

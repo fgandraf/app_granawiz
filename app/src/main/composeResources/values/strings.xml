@@ -128,6 +128,7 @@
 
     <!-- ─── Parties ─────────────────────────────────────────────────────── -->
     <string name="error_name_already_exists">Name already exists</string>
+    <string name="error_delete_party_title">Deletion not allowed</string>
     <string name="error_association_already_exists">Association already exists</string>
     <string name="party_type_receiver">receiver</string>
     <string name="party_type_payer">payer</string>
