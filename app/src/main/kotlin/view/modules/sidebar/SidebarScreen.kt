@@ -17,13 +17,15 @@ import viewModel.SidebarViewModel
 fun Sidebar(
     viewModel: SidebarViewModel = SidebarViewModel(),
     currentScreen: Screen,
+    showSettings: Boolean = false,
+    onSettingsChange: (Boolean) -> Unit = {},
     onScreenSelected: (Screen) -> Unit,
 ) {
 
     Row {
 
         Column(modifier = Modifier.width(229.5.dp).fillMaxHeight().background(MaterialTheme.colors.surface)) {
-            Header(viewModel)
+            Header(viewModel, showSettings = showSettings, onSettingsChange = onSettingsChange)
             Main(Modifier.weight(1f), viewModel, currentScreen, onScreenSelected)
             Footer(viewModel)
         }

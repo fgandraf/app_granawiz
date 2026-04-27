@@ -32,7 +32,7 @@ import org.flywaydb.core.api.exception.FlywayValidateException
 import view.modules.CustomTitleBar
 import view.modules.MainContent
 import view.modules.Screen
-import view.modules.SplashWindow
+import view.modules.splash.SplashWindow
 import view.modules.UserPreferences
 import view.modules.sidebar.Sidebar
 import viewModel.SidebarViewModel
@@ -157,6 +157,8 @@ fun main() = application {
                 }
             }
 
+            var showSettings by remember { mutableStateOf(false) }
+
             key(UserPreferences.language) {
                 val isLightTheme = UserPreferences.isLightTheme
                 val currentColorScheme = if (isLightTheme) LightColorScheme else DarkColorScheme
@@ -177,7 +179,7 @@ fun main() = application {
                                 .weight(1f)
                                 .background(MaterialTheme.colors.background)
                         ) {
-                            Sidebar(viewModel = sidebarViewModel, currentScreen = currentScreen) { screen -> currentScreen = screen }
+                            Sidebar(viewModel = sidebarViewModel, currentScreen = currentScreen, showSettings = showSettings, onSettingsChange = { showSettings = it }) { screen -> currentScreen = screen }
                             MainContent(currentScreen, onScreenChange = { currentScreen = it }, onSidebarReload = sidebarViewModel::reload)
                         }
                     }

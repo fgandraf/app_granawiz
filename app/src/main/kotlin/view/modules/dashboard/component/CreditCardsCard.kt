@@ -26,7 +26,7 @@ fun CreditCardsCard(
     modifier: Modifier = Modifier,
     snapshots: List<CreditCardSnapshot>,
 ) {
-    SummaryCard(modifier = modifier, title = stringResource(Res.string.dashboard_credit_cards_title), icon = PhosphorIcons.Light.CreditCard) {
+    SummaryCard(modifier = modifier.height(150.dp), title = stringResource(Res.string.dashboard_credit_cards_title), icon = PhosphorIcons.Light.CreditCard) {
         if (snapshots.isEmpty()) {
             TextSmall(text = stringResource(Res.string.dashboard_no_credit_cards), italic = true)
             return@SummaryCard

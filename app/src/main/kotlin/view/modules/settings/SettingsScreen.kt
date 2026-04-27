@@ -5,12 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Divider
-import androidx.compose.material.DropdownMenu
-import androidx.compose.material.DropdownMenuItem
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Switch
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,7 +19,6 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import com.felipegandra.generated.resources.Res
 import com.felipegandra.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 import utils.rememberSvgPainter
@@ -153,8 +147,10 @@ fun SettingsScreen(
                     TextH4(text = stringResource(Res.string.settings_section_appearance))
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Switch(
+                            modifier = Modifier.pointerHoverIcon(PointerIcon.Hand),
                             checked = isLightTheme,
-                            onCheckedChange = { viewModel.setTheme(!isLightTheme) }
+                            onCheckedChange = { viewModel.setTheme(!isLightTheme) },
+                            colors = SwitchDefaults.colors(uncheckedThumbColor = MaterialTheme.colors.primary, checkedThumbColor = MaterialTheme.colors.primary)
                         )
                         Spacer(Modifier.width(10.dp))
                         TextNormal(text = if (isLightTheme) stringResource(Res.string.settings_theme_dark) else stringResource(Res.string.settings_theme_light))

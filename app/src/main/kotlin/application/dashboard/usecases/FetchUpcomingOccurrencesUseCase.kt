@@ -13,7 +13,7 @@ class FetchUpcomingOccurrencesUseCase(
     private val transactionRepository: ITransactionRepository = TransactionRepository(),
 ) {
 
-    fun execute(today: LocalDate = LocalDate.now(), limit: Int = 5): List<ScheduleOccurrence> {
+    fun execute(today: LocalDate = LocalDate.now(), limit: Int = 3): List<ScheduleOccurrence> {
         val windowStart = today.atStartOfDay()
         val windowEnd = today.plusMonths(3).atStartOfDay()
         val paidTxs = transactionRepository.getAll()

@@ -12,7 +12,7 @@ class FetchTopPartiesUseCase(private val transactionRepository: ITransactionRepo
         from: LocalDateTime,
         to: LocalDateTime,
         type: TransactionType = TransactionType.EXPENSE,
-        limit: Int = 5,
+        limit: Int = 3,
     ): List<PartyVolume> {
         return transactionRepository.getByDateRange(from, to, type)
             .groupBy { it.party }

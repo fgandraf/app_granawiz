@@ -34,7 +34,7 @@ fun UpcomingSchedulesCard(
         modifier = modifier,
         title = stringResource(Res.string.dashboard_upcoming_schedules_title),
         icon = PhosphorIcons.Light.CalendarBlank,
-        height = 240.dp,
+        height = 170.dp,
     ) {
         if (occurrences.isEmpty()) {
             TextSmall(text = stringResource(Res.string.dashboard_no_upcoming_schedules), italic = true)

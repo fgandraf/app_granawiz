@@ -30,7 +30,7 @@ fun TopTransactionsCard(
         modifier = modifier,
         title = stringResource(Res.string.dashboard_top_expenses_title),
         icon = PhosphorIcons.Light.CurrencyCircleDollar,
-        height = 240.dp
+        height = 170.dp
     ) {
         if (transactions.isEmpty()) {
             TextSmall(text = stringResource(Res.string.dashboard_no_category_expenses), italic = true)

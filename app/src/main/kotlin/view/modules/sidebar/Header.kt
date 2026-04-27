@@ -5,7 +5,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -25,17 +27,20 @@ import view.shared.TextH2
 import viewModel.SidebarViewModel
 
 @Composable
-fun Header(viewModel: SidebarViewModel) {
+fun Header(
+    viewModel: SidebarViewModel,
+    showSettings: Boolean = false,
+    onSettingsChange: (Boolean) -> Unit = {},
+) {
 
     Box(modifier = Modifier.fillMaxWidth().height(60.dp).padding(horizontal = 20.dp)) {
 
         Row(modifier = Modifier.fillMaxHeight(), verticalAlignment = Alignment.CenterVertically) {
-            var showDialog by remember { mutableStateOf(false) }
             ClickableIcon(icon = PhosphorIcons.Regular.Gear, iconSize = 22.dp, shape = CircleShape) {
-                showDialog = true
+                onSettingsChange(true)
             }
-            if (showDialog)
-                SettingsScreen(onDismiss = { showDialog = false })
+            if (showSettings)
+                SettingsScreen(onDismiss = { onSettingsChange(false) })
         }
 
         val total by viewModel.total.collectAsState()
