@@ -30,6 +30,9 @@ import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.Check
 import com.adamglin.phosphoricons.light.Plus
 import com.adamglin.phosphoricons.light.X
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.add
+import org.jetbrains.compose.resources.stringResource
 import view.theme.Afacade
 
 @Composable
@@ -116,7 +119,7 @@ fun AddListItem(
 
                         Text(
                             modifier = Modifier.padding(start = 10.dp),
-                            text = "Adicionar",
+                            text = stringResource(Res.string.add),
                             fontSize = 14.sp,
                             color = MaterialTheme.colors.primary,
                             fontWeight = FontWeight.Medium,

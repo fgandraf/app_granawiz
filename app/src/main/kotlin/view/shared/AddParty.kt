@@ -1,6 +1,9 @@
 package view.shared
 
 import androidx.compose.runtime.*
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import viewModel.PartyViewModel
 
 @Composable
@@ -16,7 +19,7 @@ fun AddParty(viewModel: PartyViewModel) {
             if (!success) {
                 SimpleAlertDialog(
                     onDismissRequest = { viewModel.clearError(); success = true },
-                    title = "Nome já existente",
+                    title = stringResource(Res.string.error_name_already_exists),
                     message = viewModel.errorMessage.value!!
                 )
             }

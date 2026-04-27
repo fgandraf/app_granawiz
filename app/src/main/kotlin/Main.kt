@@ -46,7 +46,7 @@ import kotlin.time.Duration.Companion.milliseconds
 
 fun main() = application {
 
-    Locale.setDefault(Locale.forLanguageTag("pt-BR"))
+    Locale.setDefault(Locale.forLanguageTag("en-US"))
 
     var isReady by remember { mutableStateOf(false) }
     var dbError by remember { mutableStateOf<String?>(null) }

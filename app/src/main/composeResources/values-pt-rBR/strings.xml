@@ -121,6 +121,16 @@
     <string name="delete_tag_title">Excluir etiqueta</string>
     <string name="delete_tag_confirm">Isso irá excluir permanentemente a etiqueta %1$s e remover todas as associações feitas à ela.</string>
 
+    <!-- ─── Parties ─────────────────────────────────────────────────────── -->
+    <string name="error_name_already_exists">Nome já existente</string>
+    <string name="error_association_already_exists">Associação já existente</string>
+    <string name="party_type_receiver">recebedor</string>
+    <string name="party_type_payer">pagador</string>
+    <string name="delete_party_title">Excluir %1$s</string>
+    <string name="delete_party_confirm">Isso irá excluir permanentemente o %1$s %2$s e remover todas as associações feitas à ele.</string>
+    <string name="delete_party_name_title">Excluir nome</string>
+    <string name="delete_party_name_confirm">Isso irá excluir permanentemente o nome %1$s e remover todas as associações feitas à ele.</string>
+
     <!-- ─── Schedules ─────────────────────────────────────────────────────── -->
     <string name="schedules_empty">Nenhum agendamento encontrado.</string>
     <string name="schedules_group_overdue">Atrasados</string>
@@ -195,6 +205,7 @@
     <string name="form_field_category">Categoria:</string>
     <string name="form_field_recurrence">Recorrência:</string>
     <string name="form_field_associated_names">Nomes associados:</string>
+    <string name="form_field_date_time">Data e horário:</string>
     <string name="form_placeholder_amount">0.000,00</string>
     <string name="form_placeholder_day">1 à 31</string>
     <string name="form_placeholder_tags">Etiquetas</string>
@@ -216,6 +227,15 @@
     <string name="group_form_field_name">Nome do grupo:</string>
 
     <!-- ─── Recurrence picker ────────────────────────────────────────────── -->
+    <string name="recurrence_frequency">Frequência:</string>
+    <string name="recurrence_unit_day">dia</string>
+    <string name="recurrence_unit_days">dias</string>
+    <string name="recurrence_unit_week">semana</string>
+    <string name="recurrence_unit_weeks">semanas</string>
+    <string name="recurrence_unit_month">mês</string>
+    <string name="recurrence_unit_months">meses</string>
+    <string name="recurrence_unit_year">ano</string>
+    <string name="recurrence_unit_years">anos</string>
     <string name="recurrence_every">A cada:</string>
     <string name="recurrence_month_day">Dia do mês:</string>
     <string name="recurrence_month_day_hint">(se o mês tiver menos dias, cai no último dia)</string>

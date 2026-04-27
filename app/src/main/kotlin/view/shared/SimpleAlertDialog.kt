@@ -16,6 +16,9 @@ import androidx.compose.ui.unit.sp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.Warning
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun SimpleAlertDialog(
@@ -47,7 +50,7 @@ fun SimpleAlertDialog(
                 confirmed = true,
                 textColor = Color.White,
                 onClick = { onDismissRequest() },
-                text = "OK"
+                text = stringResource(Res.string.ok)
             )
         }
     )

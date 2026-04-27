@@ -5,7 +5,10 @@ import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.HandArrowUp
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
 import domain.entity.PartyName
+import org.jetbrains.compose.resources.stringResource
 import viewModel.PartyViewModel
 
 @Composable
@@ -27,7 +30,7 @@ fun PartyNameListItem(
             if (!updatedSuccess) {
                 SimpleAlertDialog(
                     onDismissRequest = { viewModel.clearError(); updatedSuccess = true },
-                    title = "Associação já existente",
+                    title = stringResource(Res.string.error_association_already_exists),
                     message = viewModel.errorMessage.value!!
                 )
             }
@@ -35,10 +38,10 @@ fun PartyNameListItem(
         onContentClick = null,
         deleteDialog = {
             DialogDelete(
-                title = "Excluir nome",
+                title = stringResource(Res.string.delete_party_name_title),
                 icon = PhosphorIcons.Light.HandArrowUp,
                 objectName = item.name,
-                alertText = "Isso irá excluir permanentemente o nome ${item.name} e remover todas as associações feitas à ele.",
+                alertText = stringResource(Res.string.delete_party_name_confirm, item.name),
                 onClickButton = { viewModel.deleteName(item) },
                 onDismiss = { deleteDialogIsVisible.value = false }
             )

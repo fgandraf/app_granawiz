@@ -16,7 +16,10 @@ import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.Plus
 import com.adamglin.phosphoricons.light.Tag
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
 import domain.entity.Tag
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun TagListView(
@@ -81,7 +84,7 @@ fun TagListView(
                         )
                         TextSmall(
                             modifier = Modifier.padding(start = 5.dp),
-                            text = "Adicionar",
+                            text = stringResource(Res.string.add),
                         )
                     }
                 }

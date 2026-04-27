@@ -23,8 +23,12 @@ import com.adamglin.phosphoricons.regular.ArrowDown
 import com.adamglin.phosphoricons.regular.ArrowLeft
 import com.adamglin.phosphoricons.regular.ArrowRight
 import com.adamglin.phosphoricons.regular.ArrowUp
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import utils.generateWeeks
 import view.theme.ButtonPurple
+import java.time.DayOfWeek
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.YearMonth
@@ -49,7 +53,7 @@ fun DateTimePicker(
 
         val effectiveShowBorder = if (borderOnActive) expanded else showBorder
 
-        if (showLabel) TextSmall(modifier = Modifier.padding(bottom = 5.dp), text = "Data e horário:")
+        if (showLabel) TextSmall(modifier = Modifier.padding(bottom = 5.dp), text = stringResource(Res.string.form_field_date_time))
 
         ExposedDropdownMenuBox(expanded = expanded, onExpandedChange = { expanded = true }) {
 
@@ -106,7 +110,8 @@ fun DateTimePicker(
                         }
                         Divider()
                         //--weekday header
-                        val weekDayNames = listOf("Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab")
+                        val weekDayNames = listOf(DayOfWeek.SUNDAY, DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY, DayOfWeek.FRIDAY, DayOfWeek.SATURDAY)
+                            .map { it.getDisplayName(TextStyle.SHORT_STANDALONE, Locale.of("pt", "br")).take(3).replaceFirstChar { c -> c.uppercase() } }
                         Row(modifier = Modifier.fillMaxWidth().padding(top = 10.dp)) {
                             for (dayName in weekDayNames) {
                                 TextSmall(

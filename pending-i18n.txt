@@ -1,37 +1,36 @@
+PROMPT PARA RETOMAR ESTA TAREFA
+================================
+Continue a internacionalização (i18n) dos arquivos Kotlin listados abaixo.
+O projeto é o GranaWiz (Kotlin Compose Desktop, pt-BR). Os recursos de string
+ficam em:
+  - app/src/main/composeResources/values/strings.xml         (inglês — padrão)
+  - app/src/main/composeResources/values-pt-rBR/strings.xml  (português)
+
+Regras:
+1. Para cada arquivo da lista, localize as strings hardcoded visíveis ao usuário.
+2. Se a chave já existir no strings.xml, use-a diretamente.
+3. Se a chave não existir, adicione-a nos DOIS arquivos XML antes de usar.
+4. Substitua a string hardcoded por stringResource(Res.string.<chave>).
+5. Adicione os imports necessários (Res, * e stringResource) se ainda não estiverem.
+6. Strings em funções NÃO-composable (ex: buildRecurrenceSummary em
+   RecurrencePicker.kt) não podem usar stringResource — avalie refatorar para
+   receber as strings como parâmetros vindos do contexto composable chamador.
+7. Após cada lote de 5 arquivos, pare e pergunte se deve continuar.
+8. Ao concluir cada arquivo, remova-o desta lista.
+
+Padrão de import usado no projeto:
+  import com.felipegandra.generated.resources.Res
+  import com.felipegandra.generated.resources.*
+  import org.jetbrains.compose.resources.stringResource
+
+==========================================================================
 Arquivos que ainda não tiveram as strings substituídas por stringResource()
 ==========================================================================
 
-view/modules/sidebar/SidebarScreen.kt
-view/modules/sidebar/components/AccountType.kt
-view/modules/sidebar/components/ButtonFooterItem.kt
-view/modules/sidebar/components/SectionTitle.kt
-view/modules/sidebar/components/StaticMenuItem.kt
-view/shared/AddListItem.kt
-view/shared/AddParty.kt
-view/shared/AddPartyName.kt
-view/shared/AddressView.kt
-view/shared/ClickableIcon.kt
-view/shared/ClickableRow.kt
-view/shared/DateTimePicker.kt
-view/shared/DefaultButton.kt
-view/shared/DefaultTextField.kt
-view/shared/DialogTitleBar.kt
-view/shared/DropDownTextField.kt
-view/shared/ListItem.kt
-view/shared/PartyListItem.kt
-view/shared/PartyNameListItem.kt
-view/shared/SearchField.kt
-view/shared/SimpleAlertDialog.kt
-view/shared/TagListView.kt
-view/shared/Text.kt
-view/shared/TooltipBox.kt
-view/shared/TransparentButton.kt
 view/modules/transactionForm/TransactionForm.kt
 view/modules/transactionForm/components/CategoriesPicker.kt
 view/modules/transactionForm/components/PartiesPicker.kt
 view/modules/transactionForm/components/RecurrencePicker.kt
-view/modules/transactionForm/components/RecurrenceSection.kt
-view/modules/transactionForm/components/RecurrenceSetView.kt
 view/modules/transactionForm/components/TagsPicker.kt
 view/modules/transactions/component/MonthHeader.kt
 view/modules/transactions/component/TotalFooter.kt

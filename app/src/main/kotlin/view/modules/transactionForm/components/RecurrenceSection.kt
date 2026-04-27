@@ -19,7 +19,10 @@ import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.CaretDown
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
 import domain.enums.ScheduleFrequency
+import org.jetbrains.compose.resources.stringResource
 import view.shared.DateTimePicker
 import view.shared.FocusableBox
 import view.shared.TextNormal
@@ -35,10 +38,10 @@ fun RecurrenceSection(viewModel: TransactionFormViewModel) {
     val frequency = viewModel.frequency
     val intervalLabel = when (frequency) {
         ScheduleFrequency.ONCE -> ""
-        ScheduleFrequency.DAILY -> if (viewModel.interval == 1) "dia" else "dias"
-        ScheduleFrequency.WEEKLY -> if (viewModel.interval == 1) "semana" else "semanas"
-        ScheduleFrequency.MONTHLY -> if (viewModel.interval == 1) "mês" else "meses"
-        ScheduleFrequency.YEARLY -> if (viewModel.interval == 1) "ano" else "anos"
+        ScheduleFrequency.DAILY -> if (viewModel.interval == 1) stringResource(Res.string.recurrence_unit_day) else stringResource(Res.string.recurrence_unit_days)
+        ScheduleFrequency.WEEKLY -> if (viewModel.interval == 1) stringResource(Res.string.recurrence_unit_week) else stringResource(Res.string.recurrence_unit_weeks)
+        ScheduleFrequency.MONTHLY -> if (viewModel.interval == 1) stringResource(Res.string.recurrence_unit_month) else stringResource(Res.string.recurrence_unit_months)
+        ScheduleFrequency.YEARLY -> if (viewModel.interval == 1) stringResource(Res.string.recurrence_unit_year) else stringResource(Res.string.recurrence_unit_years)
     }
 
     Column(modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp)) {
@@ -60,7 +63,7 @@ fun RecurrenceSection(viewModel: TransactionFormViewModel) {
 
         if (frequency != ScheduleFrequency.ONCE) {
             Column {
-                TextSmall(text = "A cada:", modifier = Modifier.padding(bottom = 5.dp))
+                TextSmall(text = stringResource(Res.string.recurrence_every), modifier = Modifier.padding(bottom = 5.dp))
                 Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(bottom = 20.dp)) {
                     IntStepper(
                         value = viewModel.interval,
@@ -79,7 +82,7 @@ fun RecurrenceSection(viewModel: TransactionFormViewModel) {
 
         if (frequency == ScheduleFrequency.MONTHLY) {
             Column(modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp)) {
-                TextSmall(text = "Dia do mês:", modifier = Modifier.padding(bottom = 5.dp))
+                TextSmall(text = stringResource(Res.string.recurrence_month_day), modifier = Modifier.padding(bottom = 5.dp))
                 Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(bottom = 20.dp)) {
                     val current = viewModel.dayOfMonth ?: viewModel.startDate.dayOfMonth
                     IntStepper(
@@ -90,7 +93,7 @@ fun RecurrenceSection(viewModel: TransactionFormViewModel) {
                     )
                     TextSmall(
                         modifier = Modifier.padding(start = 10.dp),
-                        text = "(se o mês tiver menos dias, cai no último dia)"
+                        text = stringResource(Res.string.recurrence_month_day_hint)
                     )
                 }
             }
@@ -108,10 +111,10 @@ fun RecurrenceSection(viewModel: TransactionFormViewModel) {
             )
         }
 
-        TextSmall(text = "Termina em:", modifier = Modifier.padding(bottom = 5.dp))
+        TextSmall(text = stringResource(Res.string.recurrence_ends_on), modifier = Modifier.padding(bottom = 5.dp))
         Row(modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp), verticalAlignment = Alignment.CenterVertically, ) {
             TerminationRadio(
-                label = "Nunca",
+                label = stringResource(Res.string.recurrence_ends_never),
                 selected = mode == TerminationMode.NEVER,
                 onClick = {
                     mode = TerminationMode.NEVER
@@ -121,7 +124,7 @@ fun RecurrenceSection(viewModel: TransactionFormViewModel) {
             )
             Spacer(Modifier.width(15.dp))
             TerminationRadio(
-                label = "Após",
+                label = stringResource(Res.string.recurrence_ends_after),
                 selected = mode == TerminationMode.INSTALLMENTS,
                 onClick = {
                     mode = TerminationMode.INSTALLMENTS
@@ -138,13 +141,13 @@ fun RecurrenceSection(viewModel: TransactionFormViewModel) {
                     onChange = { viewModel.installments = it }
                 )
                 TextNormal(
-                    text = "parcela(s)",
+                    text = stringResource(Res.string.recurrence_installments_suffix),
                     modifier = Modifier.padding(start = 8.dp)
                 )
             }
             Spacer(Modifier.width(15.dp))
             TerminationRadio(
-                label = "Em data",
+                label = stringResource(Res.string.recurrence_ends_on_date),
                 selected = mode == TerminationMode.END_DATE,
                 onClick = {
                     mode = TerminationMode.END_DATE
@@ -172,14 +175,14 @@ private fun FrequencyDropdown(
     onChange: (ScheduleFrequency) -> Unit,
 ) {
     val label = when (value) {
-        ScheduleFrequency.ONCE -> "Uma única vez"
-        ScheduleFrequency.DAILY -> "Diária"
-        ScheduleFrequency.WEEKLY -> "Semanal"
-        ScheduleFrequency.MONTHLY -> "Mensal"
-        ScheduleFrequency.YEARLY -> "Anual"
+        ScheduleFrequency.ONCE -> stringResource(Res.string.recurrence_once)
+        ScheduleFrequency.DAILY -> stringResource(Res.string.recurrence_daily)
+        ScheduleFrequency.WEEKLY -> stringResource(Res.string.recurrence_weekly)
+        ScheduleFrequency.MONTHLY -> stringResource(Res.string.recurrence_monthly)
+        ScheduleFrequency.YEARLY -> stringResource(Res.string.recurrence_yearly)
     }
     Column(modifier = modifier) {
-        TextSmall(text = "Frequência:", modifier = Modifier.padding(bottom = 5.dp))
+        TextSmall(text = stringResource(Res.string.recurrence_frequency), modifier = Modifier.padding(bottom = 5.dp))
         var expanded by remember { mutableStateOf(false) }
         Box {
             FocusableBox(onClick = { expanded = true }) {
@@ -200,11 +203,11 @@ private fun FrequencyDropdown(
             DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
                 ScheduleFrequency.entries.forEach { freq ->
                     val freqLabel = when (freq) {
-                        ScheduleFrequency.ONCE -> "Uma única vez"
-                        ScheduleFrequency.DAILY -> "Diária"
-                        ScheduleFrequency.WEEKLY -> "Semanal"
-                        ScheduleFrequency.MONTHLY -> "Mensal"
-                        ScheduleFrequency.YEARLY -> "Anual"
+                        ScheduleFrequency.ONCE -> stringResource(Res.string.recurrence_once)
+                        ScheduleFrequency.DAILY -> stringResource(Res.string.recurrence_daily)
+                        ScheduleFrequency.WEEKLY -> stringResource(Res.string.recurrence_weekly)
+                        ScheduleFrequency.MONTHLY -> stringResource(Res.string.recurrence_monthly)
+                        ScheduleFrequency.YEARLY -> stringResource(Res.string.recurrence_yearly)
                     }
                     DropdownMenuItem(onClick = {
                         onChange(freq)

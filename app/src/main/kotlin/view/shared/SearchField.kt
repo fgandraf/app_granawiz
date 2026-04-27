@@ -35,6 +35,9 @@ import androidx.compose.ui.unit.sp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.MagnifyingGlass
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import view.theme.Ubuntu
 
 @Composable
@@ -82,7 +85,7 @@ fun SearchField(
             decorationBox = { innerTextField ->
                 if (textFieldValue.text.isEmpty()) {
                     Text(
-                        text = "Pesquisar",
+                        text = stringResource(Res.string.search),
                         color = Color.Gray.copy(alpha = 0.5f),
                         fontSize = 14.sp,
                         lineHeight = 0.sp,

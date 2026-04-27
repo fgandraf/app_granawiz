@@ -15,6 +15,9 @@ import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.PencilLine
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import view.shared.TextSmall
 
 @Composable
@@ -63,7 +66,7 @@ fun RecurrenceSetView(
                         )
                         TextSmall(
                             modifier = Modifier.padding(start = 5.dp),
-                            text = "Editar",
+                            text = stringResource(Res.string.edit),
                         )
                     }
                 }
