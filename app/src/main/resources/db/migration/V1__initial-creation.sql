@@ -87,7 +87,8 @@ CREATE TABLE tbl_transaction_tag (
 CREATE TABLE tbl_user_preferences (
     preference_id INTEGER PRIMARY KEY,
     is_light_theme INTEGER NOT NULL DEFAULT 1,
-    currency_symbol TEXT NOT NULL DEFAULT 'Brazilian Real (R$)'
+    currency_symbol TEXT NOT NULL DEFAULT 'Brazilian Real (R$)',
+    currency_format TEXT NOT NULL DEFAULT 'dot-comma'
 );
 
 CREATE TABLE tbl_schedules (

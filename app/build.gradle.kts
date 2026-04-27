@@ -61,6 +61,12 @@ tasks.withType<JavaExec> {
     )
 }
 
+compose.resources {
+    publicResClass = true
+    packageOfResClass = "com.felipegandra.generated.resources"
+    generateResClass = always
+}
+
 compose.desktop {
     application {
         mainClass = "MainKt"
