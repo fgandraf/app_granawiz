@@ -50,7 +50,7 @@ import domain.entity.Subcategory
 import utils.IconPaths
 import utils.rememberSvgPainter
 import view.shared.TextNormal
-import view.theme.Ubuntu
+import view.theme.DefaultFont
 
 private sealed class CategoryItem {
     data class Parent(val category: Category) : CategoryItem()
@@ -189,7 +189,7 @@ fun SearchableCategoryField(
                     },
                 singleLine = true,
                 textStyle = TextStyle(
-                    fontFamily = Ubuntu,
+                    fontFamily = DefaultFont,
                     fontSize = 12.sp,
                     color = MaterialTheme.colors.primary,
                 ),
@@ -213,7 +213,7 @@ fun SearchableCategoryField(
                         Text(
                             text = placeholder,
                             style = TextStyle(
-                                fontFamily = Ubuntu,
+                                fontFamily = DefaultFont,
                                 fontSize = 12.sp,
                                 color = primaryColor,
                             ),

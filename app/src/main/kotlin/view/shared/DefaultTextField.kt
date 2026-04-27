@@ -17,7 +17,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import view.theme.Ubuntu
+import view.theme.DefaultFont
 
 @Composable
 fun DefaultTextField(
@@ -73,7 +73,7 @@ fun DefaultTextField(
                     },
                 singleLine = boxSize <= 35.dp,
                 textStyle = TextStyle(
-                    fontFamily = Ubuntu,
+                    fontFamily = DefaultFont,
                     fontSize = 12.sp,
                     color = textColor ?: MaterialTheme.colors.primary,
                     fontStyle = fontStyle,

@@ -33,7 +33,7 @@ import view.modules.UserPreferences.isLightTheme
 import view.shared.*
 import view.theme.Afacade
 import view.theme.ButtonPurple
-import view.theme.Ubuntu
+import view.theme.DefaultFont
 import viewModel.SettingsViewModel
 import java.awt.Desktop
 import java.net.URI
@@ -293,7 +293,7 @@ private fun InfoRow(
                 fontSize = 12.sp,
                 color = ButtonPurple,
                 fontWeight = FontWeight.Normal,
-                fontFamily = Ubuntu,
+                fontFamily = DefaultFont,
                 textDecoration = TextDecoration.Underline,
                 modifier = Modifier
                     .clickable(onClick = onClick)

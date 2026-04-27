@@ -38,7 +38,7 @@ import com.adamglin.phosphoricons.light.MagnifyingGlass
 import com.felipegandra.generated.resources.Res
 import com.felipegandra.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
-import view.theme.Ubuntu
+import view.theme.DefaultFont
 
 @Composable
 fun SearchField(
@@ -79,7 +79,7 @@ fun SearchField(
             textStyle = TextStyle(
                 color = MaterialTheme.colors.secondary,
                 fontSize = 14.sp,
-                fontFamily = Ubuntu,
+                fontFamily = DefaultFont,
                 fontWeight = FontWeight.Medium
             ),
             decorationBox = { innerTextField ->
@@ -89,7 +89,7 @@ fun SearchField(
                         color = Color.Gray.copy(alpha = 0.5f),
                         fontSize = 14.sp,
                         lineHeight = 0.sp,
-                        fontFamily = Ubuntu,
+                        fontFamily = DefaultFont,
                         fontWeight = FontWeight.Normal,
                     )
                 }

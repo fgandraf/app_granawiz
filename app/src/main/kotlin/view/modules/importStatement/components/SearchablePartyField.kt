@@ -43,7 +43,7 @@ import com.adamglin.phosphoricons.light.CaretDown
 import com.adamglin.phosphoricons.light.CaretUp
 import domain.entity.Party
 import view.shared.TextNormal
-import view.theme.Ubuntu
+import view.theme.DefaultFont
 
 @Composable
 fun SearchablePartyField(
@@ -137,7 +137,7 @@ fun SearchablePartyField(
                     },
                 singleLine = true,
                 textStyle = TextStyle(
-                    fontFamily = Ubuntu,
+                    fontFamily = DefaultFont,
                     fontSize = 12.sp,
                     color = MaterialTheme.colors.primary,
                 ),
@@ -155,7 +155,7 @@ fun SearchablePartyField(
                         Text(
                             text = placeholder,
                             style = TextStyle(
-                                fontFamily = Ubuntu,
+                                fontFamily = DefaultFont,
                                 fontSize = 12.sp,
                                 color = primaryColor,
                             ),

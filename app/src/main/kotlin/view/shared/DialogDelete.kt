@@ -26,7 +26,7 @@ import com.felipegandra.generated.resources.Res
 import com.felipegandra.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 import view.theme.RedWarning
-import view.theme.Ubuntu
+import view.theme.DefaultFont
 
 
 @Composable
@@ -65,7 +65,7 @@ fun DialogDelete(
                     text = objectName,
                     color = MaterialTheme.colors.secondary,
                     fontWeight = FontWeight.Medium,
-                    fontFamily = Ubuntu,
+                    fontFamily = DefaultFont,
                     fontSize = 16.sp,
                 )
             }

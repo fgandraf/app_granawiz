@@ -44,7 +44,7 @@ import view.modules.UserPreferences
 import view.modules.transactionForm.components.*
 import view.shared.*
 import view.theme.ButtonGreen
-import view.theme.Ubuntu
+import view.theme.DefaultFont
 import viewModel.TransactionFormViewModel
 import kotlin.math.abs
 
@@ -165,7 +165,7 @@ fun TransactionForm(
                                         color = MaterialTheme.colors.primary,
                                         fontWeight = FontWeight.Normal,
                                         lineHeight = 0.sp,
-                                        fontFamily = Ubuntu
+                                        fontFamily = DefaultFont
                                     )
                                 }
                             }
@@ -387,7 +387,7 @@ private fun AccountSelector(
                 lineHeight = 12.sp,
                 color = MaterialTheme.colors.primary,
                 fontWeight = FontWeight.Normal,
-                fontFamily = Ubuntu
+                fontFamily = DefaultFont
             )
             Icon(
                 imageVector = PhosphorIcons.Light.CaretDown,

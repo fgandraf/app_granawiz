@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.sp
 import view.theme.Afacade
 import view.theme.GrayPrimaryDark
 import view.theme.GrayPrimaryLight
-import view.theme.Ubuntu
+import view.theme.DefaultFont
 
 
 @Composable
@@ -33,7 +33,7 @@ fun TextNormal(
         color = color!!,
         fontWeight = FontWeight.Normal,
         lineHeight = lineHeight!!,
-        fontFamily = Ubuntu,
+        fontFamily = DefaultFont,
         textAlign = align,
         fontStyle = fontStyle,
     )
@@ -53,7 +53,7 @@ fun TextMedium(
         color = color!!,
         fontWeight = FontWeight.Medium,
         lineHeight = 14.sp,
-        fontFamily = Ubuntu,
+        fontFamily = DefaultFont,
         textAlign = align
     )
 }
@@ -73,7 +73,7 @@ fun TextSmall(
         color = color!!,
         fontWeight = FontWeight.Medium,
         lineHeight = 10.sp,
-        fontFamily = Ubuntu,
+        fontFamily = DefaultFont,
         textAlign = align,
         fontStyle = if (italic) FontStyle.Italic else FontStyle.Normal
     )

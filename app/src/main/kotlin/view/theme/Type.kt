@@ -15,20 +15,20 @@ val Afacade = FontFamily(
     )
 )
 
-val Ubuntu = FontFamily(
+val DefaultFont = FontFamily(
     fonts = listOf(
         Font(
-            resource = "assets/fonts/ubuntu-regular.ttf",
+            resource = "assets/fonts/inter-regular.ttf",
             weight = FontWeight.Normal,
             style = FontStyle.Normal
         ),
         Font(
-            resource = "assets/fonts/ubuntu-medium.ttf",
+            resource = "assets/fonts/inter-medium.ttf",
             weight = FontWeight.Medium,
             style = FontStyle.Normal
         ),
         Font(
-            resource = "assets/fonts/ubuntu-bold.ttf",
+            resource = "assets/fonts/inter-bold.ttf",
             weight = FontWeight.SemiBold,
             style = FontStyle.Normal
         )

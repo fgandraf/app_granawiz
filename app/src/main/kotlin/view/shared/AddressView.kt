@@ -15,7 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import view.theme.Ubuntu
+import view.theme.DefaultFont
 
 @Composable
 fun AddressView(
@@ -35,7 +35,7 @@ fun AddressView(
                 color = MaterialTheme.colors.primaryVariant,
                 fontWeight = FontWeight.Normal,
                 lineHeight = 0.sp,
-                fontFamily = Ubuntu
+                fontFamily = DefaultFont
             )
 
         if (icon != null)
@@ -59,7 +59,7 @@ fun AddressView(
             color = MaterialTheme.colors.primary,
             fontWeight = FontWeight.Normal,
             lineHeight = 0.sp,
-            fontFamily = Ubuntu
+            fontFamily = DefaultFont
         )
 
 
