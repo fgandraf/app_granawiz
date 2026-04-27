@@ -11,7 +11,7 @@ group = "com.felipegandra"
 version = "0.0.1-Beta"
 
 kotlin {
-    jvmToolchain(20)
+    jvmToolchain(25)
 }
 
 repositories {
