@@ -13,6 +13,7 @@ class CheckingAccount(
     description: String = "",
     position: Int,
     icon: String,
+    iconSvg: String? = null,
     balance: Double,
     group: Group,
     @Column(name = "open_balance")
@@ -24,9 +25,10 @@ class CheckingAccount(
     type = AccountType.CHECKING,
     name = name,
     description = description,
-    position = position,
     icon = icon,
+    iconSvg = iconSvg,
     balance = balance,
+    position = position,
     group = group
 ) {
 
@@ -36,6 +38,7 @@ class CheckingAccount(
         description: String = "",
         position: Int,
         icon: String,
+        iconSvg: String? = null,
         balance: Double,
         group: Group,
         openBalance: Double = 0.0,
@@ -45,6 +48,7 @@ class CheckingAccount(
         description = description,
         position = position,
         icon = icon,
+        iconSvg = iconSvg,
         balance = balance,
         group = group,
         openBalance = openBalance,

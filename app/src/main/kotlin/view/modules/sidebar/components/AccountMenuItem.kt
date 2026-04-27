@@ -16,7 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
-import utils.rememberSvgPainter
+import utils.rememberAccountIconPainter
 import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
@@ -27,7 +27,6 @@ import com.felipegandra.generated.resources.Res
 import com.felipegandra.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 import domain.entity.account.BankAccount
-import utils.IconPaths
 import utils.formatCurrency
 import view.modules.Screen
 import view.modules.UserPreferences
@@ -59,9 +58,9 @@ fun AccountMenuItem(
     ) {
 
         Icon(
-            painter = rememberSvgPainter(IconPaths.BANK_LOGOS + account.icon),
+            painter = rememberAccountIconPainter(account.icon, account.iconSvg),
             contentDescription = null,
-            tint = MaterialTheme.colors.primary,
+            tint = Color.Unspecified,
             modifier = Modifier.size(25.dp).offset(x = 25.dp)
         )
 

@@ -13,19 +13,21 @@ class SavingsAccount(
     description: String,
     position: Int,
     icon: String,
+    iconSvg: String? = null,
     balance: Double,
     group: Group,
 
     @Column(name = "open_balance")
     var openBalance: Double,
 
-    ) : BankAccount(
+) : BankAccount(
     type = AccountType.SAVINGS,
     name = name,
     description = description,
-    position = position,
     icon = icon,
+    iconSvg = iconSvg,
     balance = balance,
+    position = position,
     group = group
 ) {
 
@@ -35,6 +37,7 @@ class SavingsAccount(
         description: String = "",
         position: Int,
         icon: String,
+        iconSvg: String? = null,
         balance: Double,
         group: Group,
         openBalance: Double = 0.0,
@@ -43,6 +46,7 @@ class SavingsAccount(
         description = description,
         position = position,
         icon = icon,
+        iconSvg = iconSvg,
         balance = balance,
         group = group,
         openBalance = openBalance,

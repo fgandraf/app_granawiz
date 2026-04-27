@@ -3,7 +3,10 @@ package view.modules.accountForm.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Divider
 import androidx.compose.material.DropdownMenu
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -12,6 +15,9 @@ import androidx.compose.ui.input.pointer.pointerHoverIcon
 import utils.rememberSvgPainter
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Fill
+import com.adamglin.phosphoricons.fill.FolderOpen
 import view.shared.FlowLayout
 import view.shared.TextSmall
 import utils.IconPaths
@@ -22,6 +28,7 @@ fun DropDownIcons(
     expanded: Boolean,
     onDismissRequest: () -> Unit,
     onIconSelected: (String) -> Unit,
+    onCustomIconRequest: () -> Unit = {},
 ) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         DropdownMenu(
@@ -50,6 +57,30 @@ fun DropDownIcons(
                         TextSmall(text = fileName.removeSuffix(".svg"))
                     }
                 }
+            }
+
+            Divider(modifier = Modifier.fillMaxWidth().padding(vertical = 6.dp))
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .pointerHoverIcon(PointerIcon.Hand)
+                    .clickable {
+                        onDismissRequest()
+                        onCustomIconRequest()
+                    }
+                    .padding(horizontal = 16.dp, vertical = 10.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Icon(
+                    imageVector = PhosphorIcons.Fill.FolderOpen,
+                    contentDescription = null,
+                    modifier = Modifier.size(18.dp),
+                    tint = MaterialTheme.colors.primary
+                )
+                Spacer(Modifier.width(8.dp))
+                TextSmall(text = "Ícone personalizado (SVG)…")
             }
         }
     }

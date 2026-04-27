@@ -18,6 +18,7 @@ CREATE TABLE tbl_bank_accounts (
     credit_limit REAL,
     closing_day INTEGER(2),
     due_day INTEGER(2),
+    icon_svg TEXT,
 
     FOREIGN KEY (group_id) REFERENCES tbl_groups(group_id)
 );

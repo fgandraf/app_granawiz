@@ -27,7 +27,7 @@ INSERT INTO tbl_parties VALUES (19, '99 Freelas', 'PAYER');
 INSERT INTO tbl_parties VALUES (20, 'Mecânica Irmãos', 'RECEIVER');
 
 INSERT INTO tbl_groups VALUES (1, 'Pessoal', 1);
-    INSERT INTO tbl_bank_accounts VALUES(1, 'CHECKING','NuBank', 'Conta Corrente do NuBank', 2, 'nubank.svg', 1045.48, 1, 0.0, 0, null,null,null);
+    INSERT INTO tbl_bank_accounts VALUES(1, 'CHECKING','NuBank', 'Conta Corrente do NuBank', 2, 'nubank.svg', 1045.48, 1, 0.0, 0, null,null,null,null);
         INSERT INTO tbl_transactions VALUES (1,9,1,1, 3,'2026-04-20 15:03:23','Prato feito',-23.50, 'EXPENSE', NULL, NULL);
         INSERT INTO tbl_transactions VALUES (2,10,1,1, 1,'2026-04-19 12:03:31','Frutas e Legumes',-16.00, 'EXPENSE', NULL, NULL);
         INSERT INTO tbl_transactions VALUES (3,1,1,12, 11,'2026-04-08 18:22:56','Laudo de Avalização Imobiliário',650.00, 'GAIN', NULL, NULL);
@@ -57,9 +57,9 @@ INSERT INTO tbl_groups VALUES (1, 'Pessoal', 1);
         INSERT INTO tbl_transactions VALUES (17,19,1,12, 12,'2026-03-21 23:04:21','Projeto AVCB', 800.00, 'GAIN', NULL, NULL);
         INSERT INTO tbl_transactions VALUES (18,20,1,9, 16,'2026-03-08 19:49:48','Troca da Correia do Alternador', -320.00, 'EXPENSE', NULL, NULL);
             INSERT INTO tbl_transaction_tag VALUES (18, 1);
-    INSERT INTO tbl_bank_accounts VALUES(2, 'SAVINGS','Banco do Brasil', 'Conta Poupança do Banco do Brasil', 3, 'bb.svg', 0.0, 1, 0.0, 0, null,null,null);
+    INSERT INTO tbl_bank_accounts VALUES(2, 'SAVINGS','Banco do Brasil', 'Conta Poupança do Banco do Brasil', 3, 'bb.svg', 0.0, 1, 0.0, 0, null,null,null,null);
 INSERT INTO tbl_groups VALUES (2, 'Empresa', 2);
-    INSERT INTO tbl_bank_accounts VALUES(3, 'CHECKING','Caixa Econômica', 'Conta Corrente Corporativa da Caixa Econômica Federal', 2, 'cef.svg', 0.0, 2, 0, 0, null,null,null);
+    INSERT INTO tbl_bank_accounts VALUES(3, 'CHECKING','Caixa Econômica', 'Conta Corrente Corporativa da Caixa Econômica Federal', 2, 'cef.svg', 0.0, 2, 0, 0, null,null,null,null);
 
 
 

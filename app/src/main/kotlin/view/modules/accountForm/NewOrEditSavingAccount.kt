@@ -45,7 +45,10 @@ fun NewOrEditSavingAccount(
     Column(Modifier.fillMaxWidth().padding(top = 30.dp), horizontalAlignment = Alignment.CenterHorizontally) {
 
         //==== ICON
-        IconSelector(accountFormViewModel.icon) { accountFormViewModel.icon = it }
+        IconSelector(accountFormViewModel.icon, accountFormViewModel.iconSvg) { icon, iconSvg ->
+            accountFormViewModel.icon = icon
+            accountFormViewModel.iconSvg = iconSvg
+        }
 
         //==== FORM
         Column(

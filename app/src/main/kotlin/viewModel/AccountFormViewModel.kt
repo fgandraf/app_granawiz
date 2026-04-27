@@ -17,6 +17,7 @@ class AccountFormViewModel(private val accountHandler: AccountHandler = AccountH
     var type by mutableStateOf(AccountType.CHECKING)
     var name by mutableStateOf("")
     var icon by mutableStateOf("_default.svg")
+    var iconSvg by mutableStateOf<String?>(null)
     var balance by mutableStateOf(0.0)
     var limit by mutableStateOf(0.0)
     var group by mutableStateOf(Group())
@@ -31,6 +32,7 @@ class AccountFormViewModel(private val accountHandler: AccountHandler = AccountH
             id = it.id
             type = it.type
             icon = it.icon
+            iconSvg = it.iconSvg
             name = it.name
             group = it.group
             description = it.description
@@ -64,18 +66,18 @@ class AccountFormViewModel(private val accountHandler: AccountHandler = AccountH
         val account: BankAccount = when (type) {
             AccountType.CHECKING -> CheckingAccount(
                 id = id, name = name, description = description,
-                position = position, icon = icon, balance = balance,
-                group = group, openBalance = balance, overdraftLimit = limit,
+                position = position, icon = icon, iconSvg = iconSvg,
+                balance = balance, group = group, openBalance = balance, overdraftLimit = limit,
             )
             AccountType.SAVINGS -> SavingsAccount(
                 id = id, name = name, description = description,
-                position = position, icon = icon, balance = balance,
-                group = group, openBalance = balance,
+                position = position, icon = icon, iconSvg = iconSvg,
+                balance = balance, group = group, openBalance = balance,
             )
             AccountType.CREDIT_CARD -> CreditCardAccount(
                 id = id, name = name, description = description,
-                position = position, icon = icon, balance = 0.0,
-                group = group, creditLimit = limit,
+                position = position, icon = icon, iconSvg = iconSvg,
+                balance = 0.0, group = group, creditLimit = limit,
                 closingDay = closingDay, dueDay = dueDay,
             )
         }

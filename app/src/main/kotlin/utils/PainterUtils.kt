@@ -18,3 +18,29 @@ fun rememberSvgPainter(resourcePath: String): Painter {
             .use { loadSvgPainter(it, density) }
     }
 }
+
+fun isCustomIcon(icon: String): Boolean = icon.startsWith("CUSTOM|")
+
+fun parseCustomIcon(icon: String): Pair<String, String> {
+    val withoutPrefix = icon.removePrefix("CUSTOM|")
+    val idx = withoutPrefix.indexOf('|')
+    return if (idx >= 0) withoutPrefix.substring(0, idx) to withoutPrefix.substring(idx + 1)
+    else withoutPrefix to ""
+}
+
+@Suppress("DEPRECATION")
+@Composable
+fun rememberAccountIconPainter(icon: String, iconSvg: String?): Painter {
+    val density = LocalDensity.current
+    return remember(icon, iconSvg, density) {
+        if (iconSvg != null) {
+            iconSvg.byteInputStream().use { loadSvgPainter(it, density) }
+        } else {
+            val resourcePath = if (isCustomIcon(icon)) IconPaths.BANK_LOGOS + "_default.svg"
+                               else IconPaths.BANK_LOGOS + icon
+            Thread.currentThread().contextClassLoader
+                .getResourceAsStream(resourcePath)!!
+                .use { loadSvgPainter(it, density) }
+        }
+    }
+}

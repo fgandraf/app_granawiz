@@ -13,6 +13,7 @@ class CreditCardAccount(
     description: String,
     position: Int,
     icon: String,
+    iconSvg: String? = null,
     balance: Double,
     group: Group,
 
@@ -28,9 +29,10 @@ class CreditCardAccount(
     type = AccountType.CREDIT_CARD,
     name = name,
     description = description,
-    position = position,
     icon = icon,
+    iconSvg = iconSvg,
     balance = balance,
+    position = position,
     group = group
 ) {
 
@@ -40,6 +42,7 @@ class CreditCardAccount(
         description: String = "",
         position: Int,
         icon: String,
+        iconSvg: String? = null,
         balance: Double,
         group: Group,
         creditLimit: Double = 0.0,
@@ -50,6 +53,7 @@ class CreditCardAccount(
         description = description,
         position = position,
         icon = icon,
+        iconSvg = iconSvg,
         balance = balance,
         group = group,
         creditLimit = creditLimit,
