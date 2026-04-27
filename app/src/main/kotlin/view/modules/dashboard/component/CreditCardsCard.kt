@@ -12,6 +12,9 @@ import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.CreditCard
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import domain.structs.CreditCardSnapshot
 import utils.formatCurrency
 import view.modules.UserPreferences
@@ -23,9 +26,9 @@ fun CreditCardsCard(
     modifier: Modifier = Modifier,
     snapshots: List<CreditCardSnapshot>,
 ) {
-    SummaryCard(modifier = modifier, title = "Cartões de crédito", icon = PhosphorIcons.Light.CreditCard) {
+    SummaryCard(modifier = modifier, title = stringResource(Res.string.dashboard_credit_cards_title), icon = PhosphorIcons.Light.CreditCard) {
         if (snapshots.isEmpty()) {
-            TextSmall(text = "Nenhum cartão cadastrado", italic = true)
+            TextSmall(text = stringResource(Res.string.dashboard_no_credit_cards), italic = true)
             return@SummaryCard
         }
 
@@ -75,11 +78,11 @@ private fun CreditCardRow(snap: CreditCardSnapshot) {
         }
         Spacer(Modifier.height(4.dp))
         val dueLabel = when {
-            snap.daysToDue == 0L -> "vence hoje"
-            snap.daysToDue == 1L -> "vence amanhã"
-            snap.daysToDue > 0 -> "vence em ${snap.daysToDue} dias"
-            else -> "venceu há ${-snap.daysToDue} dias"
+            snap.daysToDue == 0L -> stringResource(Res.string.dashboard_credit_card_due_today)
+            snap.daysToDue == 1L -> stringResource(Res.string.dashboard_credit_card_due_tomorrow)
+            snap.daysToDue > 0 -> stringResource(Res.string.dashboard_credit_card_due_in_days, snap.daysToDue.toInt())
+            else -> stringResource(Res.string.dashboard_credit_card_overdue_by_days, (-snap.daysToDue).toInt())
         }
-        TextSmall(text = "Disponível: ${formatCurrency(snap.availableLimit, UserPreferences.currencySymbol)} · $dueLabel")
+        TextSmall(text = "${stringResource(Res.string.dashboard_credit_card_available)} ${formatCurrency(snap.availableLimit, UserPreferences.currencySymbol)} · $dueLabel")
     }
 }

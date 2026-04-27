@@ -16,6 +16,9 @@ import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.Warning
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import view.theme.RedWarning
 
 @Composable
@@ -45,7 +48,7 @@ fun SimpleQuestionDialog(
         dismissButton = {
             DefaultButton(
                 color = MaterialTheme.colors.secondaryVariant,
-                text = "Não",
+                text = stringResource(Res.string.no),
                 textPadding = 20.dp,
                 onClick = onDismissRequest
             )
@@ -56,7 +59,7 @@ fun SimpleQuestionDialog(
                 color = RedWarning,
                 textColor = Color.White,
                 textPadding = 20.dp,
-                text = "Sim",
+                text = stringResource(Res.string.yes),
                 onClick = onConfirmRequest,
             )
         }

@@ -14,6 +14,9 @@ import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.CalendarBlank
 import domain.enums.TransactionType
 import application.schedule.usecases.ScheduleOccurrence
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import utils.formatCurrency
 import view.modules.UserPreferences
 import view.shared.TextNormal
@@ -29,12 +32,12 @@ fun UpcomingSchedulesCard(
 ) {
     SummaryCard(
         modifier = modifier,
-        title = "Lançamentos futuros",
+        title = stringResource(Res.string.dashboard_upcoming_schedules_title),
         icon = PhosphorIcons.Light.CalendarBlank,
         height = 240.dp,
     ) {
         if (occurrences.isEmpty()) {
-            TextSmall(text = "Nenhum lançamento futuro", italic = true)
+            TextSmall(text = stringResource(Res.string.dashboard_no_upcoming_schedules), italic = true)
             return@SummaryCard
         }
 

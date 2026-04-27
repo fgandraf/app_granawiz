@@ -29,6 +29,9 @@ import com.adamglin.phosphoricons.regular.Shapes
 import domain.entity.Category
 import domain.entity.Subcategory
 import domain.enums.CategoryType
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import utils.IconPaths
 import view.modules.categories.components.CategoryListItem
 import view.modules.categories.components.ListTypeItem
@@ -62,7 +65,7 @@ fun CategoriesScreen(
                     AddressView(
                         icon = PhosphorIcons.Regular.Shapes,
                         iconSize = DpSize(21.dp, 18.dp),
-                        value = "Categorias",
+                        value = stringResource(Res.string.nav_categories),
                         rootPath = true
                     )
                 }
@@ -105,7 +108,7 @@ fun CategoriesScreen(
                                 icon = PhosphorIcons.Light.Invoice,
                                 color = MaterialTheme.colors.primary,
                                 isActive = activeType == CategoryType.EXPENSE,
-                                label = "Gastos"
+                                label = stringResource(Res.string.category_type_expense)
                             ) {
                                 activeType = CategoryType.EXPENSE
                             }
@@ -114,7 +117,7 @@ fun CategoriesScreen(
                                 icon = PhosphorIcons.Light.ChartLineUp,
                                 color = MaterialTheme.colors.primary,
                                 isActive = activeType == CategoryType.INCOME,
-                                label = "Rendimentos"
+                                label = stringResource(Res.string.category_type_income)
                             ) {
                                 activeType = CategoryType.INCOME
                             }
@@ -169,10 +172,10 @@ fun CategoriesScreen(
                                         },
                                         deleteDialog = {
                                             DialogDelete(
-                                                title = "Excluir categoria",
+                                                title = stringResource(Res.string.delete_category_title),
                                                 icon = PhosphorIcons.Light.Shapes,
                                                 objectName = category.name,
-                                                alertText = "Isso irá excluir permanentemente a categoria ${category.name} e remover todas as associações feitas à ela.",
+                                                alertText = stringResource(Res.string.delete_category_confirm, category.name),
                                                 onClickButton = { viewModel.deleteCategory(category) },
                                                 onDismiss = { deleteDialogIsVisible.value = false }
                                             )
@@ -238,10 +241,10 @@ fun CategoriesScreen(
                                         onContentClick = {},
                                         deleteDialog = {
                                             DialogDelete(
-                                                title = "Excluir subcategoria",
+                                                title = stringResource(Res.string.delete_subcategory_title),
                                                 icon = PhosphorIcons.Light.Shapes,
                                                 objectName = subcategory.name,
-                                                alertText = "Isso irá excluir permanentemente a subcategoria ${subcategory.name} e remover todas as associações feitas à ela.",
+                                                alertText = stringResource(Res.string.delete_subcategory_confirm, subcategory.name),
                                                 onClickButton = { viewModel.deleteSubcategory(subcategory) },
                                                 onDismiss = { deleteDialogIsVisible.value = false }
                                             )

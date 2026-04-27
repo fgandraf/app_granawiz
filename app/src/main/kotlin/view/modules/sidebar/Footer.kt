@@ -15,6 +15,9 @@ import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.*
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import view.modules.accountForm.AccountForm
 import view.modules.groupForm.GroupForm
 import view.modules.sidebar.components.AccountType
@@ -38,7 +41,7 @@ fun Footer(viewModel: SidebarViewModel) {
     ) {
 
         var showNewGroupDialog by remember { mutableStateOf(false) }
-        ButtonFooterItem(Modifier.weight(1f), PhosphorIcons.Light.Folders, "Novo grupo") { showNewGroupDialog = true }
+        ButtonFooterItem(Modifier.weight(1f), PhosphorIcons.Light.Folders, stringResource(Res.string.sidebar_new_group)) { showNewGroupDialog = true }
         if (showNewGroupDialog) GroupForm(viewModel = viewModel, onDismiss = { showNewGroupDialog = false })
 
         Divider(modifier = Modifier.fillMaxHeight().width(0.5.dp).background(MaterialTheme.colors.onSurface))
@@ -47,7 +50,7 @@ fun Footer(viewModel: SidebarViewModel) {
         ButtonFooterItem(
             modifier = Modifier.weight(1f),
             icon = PhosphorIcons.Light.Wallet,
-            label = "Nova conta",
+            label = stringResource(Res.string.sidebar_new_account),
             enabled = viewModel.groups.value.isNotEmpty()
         ) {
             showNewAccountMenu = !showNewAccountMenu
@@ -80,7 +83,7 @@ fun DropDownNewAccount(
                 AccountType(
                     icon = PhosphorIcons.Light.Bank,
                     color = MaterialTheme.colors.primary,
-                    label = "Conta Corrente",
+                    label = stringResource(Res.string.account_type_checking),
                     onContainerClick = {
                         accountType = domain.enums.AccountType.CHECKING
                         showNewAccountDialog = true
@@ -91,7 +94,7 @@ fun DropDownNewAccount(
                 AccountType(
                     icon = PhosphorIcons.Light.PiggyBank,
                     color = MaterialTheme.colors.primary,
-                    label = "Conta Poupança",
+                    label = stringResource(Res.string.account_type_savings),
                     onContainerClick = {
                         accountType = domain.enums.AccountType.SAVINGS
                         showNewAccountDialog = true
@@ -102,7 +105,7 @@ fun DropDownNewAccount(
                 AccountType(
                     icon = PhosphorIcons.Light.CreditCard,
                     color = MaterialTheme.colors.primary,
-                    label = "Cartão de Crédito",
+                    label = stringResource(Res.string.account_type_credit_card),
                     onContainerClick = {
                         accountType = domain.enums.AccountType.CREDIT_CARD
                         showNewAccountDialog = true

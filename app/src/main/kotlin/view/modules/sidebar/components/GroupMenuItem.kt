@@ -12,6 +12,9 @@ import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.*
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import domain.entity.Group
 import utils.formatCurrency
 import view.modules.UserPreferences
@@ -97,12 +100,12 @@ fun DropDownGroupMenu(
             onDismissRequest = { onDismissRequest() }
         ) {
 
-            ClickableRow(icon = PhosphorIcons.Light.ArrowLineUp, label = "Mover para cima") {
+            ClickableRow(icon = PhosphorIcons.Light.ArrowLineUp, label = stringResource(Res.string.move_up)) {
                 viewModel.moveGroupPosition(group, -1)
                 onDismissRequest()
             }
 
-            ClickableRow(icon = PhosphorIcons.Light.ArrowLineDown, label = "Mover para baixo") {
+            ClickableRow(icon = PhosphorIcons.Light.ArrowLineDown, label = stringResource(Res.string.move_down)) {
                 viewModel.moveGroupPosition(group, 1)
                 onDismissRequest()
             }
@@ -110,7 +113,7 @@ fun DropDownGroupMenu(
             Divider(modifier = Modifier.padding(vertical = 3.dp))
 
             var showNewGroupDialog by remember { mutableStateOf(false) }
-            ClickableRow(icon = PhosphorIcons.Light.PencilLine, label = "Editar") { showNewGroupDialog = true }
+            ClickableRow(icon = PhosphorIcons.Light.PencilLine, label = stringResource(Res.string.edit)) { showNewGroupDialog = true }
             if (showNewGroupDialog) GroupForm(
                 viewModel = viewModel,
                 group = group,
@@ -120,7 +123,7 @@ fun DropDownGroupMenu(
 
             ClickableRow(
                 icon = PhosphorIcons.Light.Trash,
-                label = "Excluir",
+                label = stringResource(Res.string.delete),
                 enabled = group.accounts.isEmpty()
             ) { viewModel.deleteGroup(group) }
 

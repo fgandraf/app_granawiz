@@ -11,6 +11,9 @@ import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Fill
 import com.adamglin.phosphoricons.fill.Circle
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import view.shared.ClickableRow
 
 @Composable
@@ -29,13 +32,13 @@ fun DropDownAddSchedule(
             ClickableRow(
                 icon = PhosphorIcons.Fill.Circle,
                 iconColor = MaterialTheme.colors.onPrimary,
-                label = "Nova receita agendada"
+                label = stringResource(Res.string.schedule_new_income)
             ) { onClickGain() }
 
             ClickableRow(
                 icon = PhosphorIcons.Fill.Circle,
                 iconColor = MaterialTheme.colors.onError,
-                label = "Nova despesa agendada"
+                label = stringResource(Res.string.schedule_new_expense)
             ) { onClickExpense() }
         }
     }

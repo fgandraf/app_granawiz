@@ -18,6 +18,9 @@ import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.ChartLineUp
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import domain.structs.MonthlyFlow
 import utils.formatCurrency
 import view.modules.UserPreferences
@@ -30,12 +33,12 @@ fun MonthlyEvolutionCard(
 ) {
     SummaryCard(
         modifier = modifier,
-        title = "Evolução",
+        title = stringResource(Res.string.dashboard_evolution_title),
         icon = PhosphorIcons.Light.ChartLineUp,
         height = 290.dp,
     ) {
         if (data.isEmpty() || data.all { it.income == 0.0 && it.expense == 0.0 }) {
-            TextSmall(text = "Sem dados suficientes", italic = true)
+            TextSmall(text = stringResource(Res.string.dashboard_no_sufficient_data), italic = true)
             return@SummaryCard
         }
 
@@ -117,16 +120,16 @@ fun MonthlyEvolutionCard(
 
         Spacer(Modifier.height(8.dp))
         val last = data.last()
-        TextSmall(text = "Saldo de ${last.label}: ${formatCurrency(last.net, UserPreferences.currencySymbol)}")
+        TextSmall(text = stringResource(Res.string.dashboard_balance_of, last.label) + " ${formatCurrency(last.net, UserPreferences.currencySymbol)}")
     }
 }
 
 @Composable
 private fun Legend() {
     Row(horizontalArrangement = Arrangement.spacedBy(16.dp), verticalAlignment = Alignment.CenterVertically) {
-        LegendDot(MaterialTheme.colors.onPrimary, "Receitas")
-        LegendDot(MaterialTheme.colors.onError, "Despesas")
-        LegendDot(MaterialTheme.colors.secondary, "Saldo")
+        LegendDot(MaterialTheme.colors.onPrimary, stringResource(Res.string.dashboard_evolution_income))
+        LegendDot(MaterialTheme.colors.onError, stringResource(Res.string.dashboard_evolution_expenses))
+        LegendDot(MaterialTheme.colors.secondary, stringResource(Res.string.dashboard_evolution_balance))
     }
 }
 

@@ -13,6 +13,9 @@ import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.Warning
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import view.theme.RedWarning
 
 @Composable
@@ -35,7 +38,7 @@ fun DeleteScheduleDialog(
                     tint = MaterialTheme.colors.primary,
                 )
                 TextNormal(
-                    text = "Como deseja excluir este agendamento?",
+                    text = stringResource(Res.string.schedule_delete_title),
                     modifier = Modifier.padding(start = 15.dp),
                 )
             }
@@ -52,20 +55,20 @@ fun DeleteScheduleDialog(
                     modifier = Modifier.fillMaxWidth(),
                     color = RedWarning,
                     textColor = Color.White,
-                    text = "Excluir somente este",
+                    text = stringResource(Res.string.schedule_delete_only_this),
                     onClick = onDeleteThis,
                 )
                 DefaultButton(
                     modifier = Modifier.fillMaxWidth(),
                     color = RedWarning,
                     textColor = Color.White,
-                    text = "Excluir este e todos os futuros",
+                    text = stringResource(Res.string.schedule_delete_this_and_future),
                     onClick = onDeleteThisAndFuture,
                 )
                 DefaultButton(
                     modifier = Modifier.fillMaxWidth(),
                     color = MaterialTheme.colors.secondaryVariant,
-                    text = "Cancelar",
+                    text = stringResource(Res.string.cancel),
                     onClick = onDismiss,
                 )
             }

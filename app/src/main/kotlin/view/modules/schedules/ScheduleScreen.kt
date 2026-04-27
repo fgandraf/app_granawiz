@@ -36,6 +36,9 @@ import domain.entity.Subcategory
 import domain.entity.account.BankAccount
 import domain.enums.TransactionType
 import domain.structs.PageAddress
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import view.modules.schedules.component.DropDownAddSchedule
 import view.modules.schedules.component.ScheduleGroupHeader
 import view.modules.schedules.component.ScheduleRow
@@ -60,7 +63,7 @@ fun ScheduleScreen(
         PageAddress(
             iconVector = PhosphorIcons.Regular.Calendar,
             iconSize = DpSize(21.dp, 18.dp),
-            name = "Agendamentos",
+            name = stringResource(Res.string.nav_schedules),
             rootPath = true
         )
     )
@@ -70,6 +73,10 @@ fun ScheduleScreen(
     var addresses by remember { mutableStateOf(initialAddress) }
     var backIcon by remember { mutableStateOf(false) }
     var newType by remember { mutableStateOf<TransactionType?>(null) }
+
+    val strScheduleEditTitle = stringResource(Res.string.schedule_edit_title)
+    val strScheduleNewIncome = stringResource(Res.string.schedule_new_income)
+    val strScheduleNewExpense = stringResource(Res.string.schedule_new_expense)
 
     val scope = rememberCoroutineScope()
 
@@ -159,10 +166,10 @@ fun ScheduleScreen(
             val future = filtered.filter { it.dueDate.isAfter(endOfMonth) }
 
             val groups = listOf(
-                "Atrasados" to overdue,
-                "Vencendo hoje" to dueToday,
-                "Vencendo este mês" to dueThisMonth,
-                "Lançamentos futuros" to future,
+                stringResource(Res.string.schedules_group_overdue) to overdue,
+                stringResource(Res.string.schedules_group_due_today) to dueToday,
+                stringResource(Res.string.schedules_group_due_this_month) to dueThisMonth,
+                stringResource(Res.string.schedules_group_upcoming) to future,
             ).filter { it.second.isNotEmpty() }
 
             val listState = rememberLazyListState()
@@ -199,7 +206,7 @@ fun ScheduleScreen(
                                                 ScheduleRow(
                                                     viewModel = viewModel,
                                                     occurrence = occ,
-                                                    overdue = title == "Atrasados",
+                                                    overdue = occ.dueDate.isBefore(today.atStartOfDay()),
                                                     onEdit = {
                                                         selectedSchedule = occ.schedule
                                                         showForm = true
@@ -208,7 +215,7 @@ fun ScheduleScreen(
                                                         addresses = initialAddress + PageAddress(
                                                             iconVector = PhosphorIcons.Regular.Pencil,
                                                             iconSize = DpSize(21.dp, 18.dp),
-                                                            name = "Editar agendamento"
+                                                            name = strScheduleEditTitle
                                                         )
                                                     }
                                                 )
@@ -231,7 +238,7 @@ fun ScheduleScreen(
                                 addresses = initialAddress + PageAddress(
                                     iconVector = PhosphorIcons.Light.PlusSquare,
                                     iconSize = DpSize(21.dp, 18.dp),
-                                    name = "Nova receita agendada"
+                                    name = strScheduleNewIncome
                                 )
                             },
                             onClickExpense = {
@@ -242,7 +249,7 @@ fun ScheduleScreen(
                                 addresses = initialAddress + PageAddress(
                                     iconVector = PhosphorIcons.Light.MinusSquare,
                                     iconSize = DpSize(21.dp, 18.dp),
-                                    name = "Nova despesa agendada"
+                                    name = strScheduleNewExpense
                                 )
                             },
                         )

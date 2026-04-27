@@ -13,6 +13,9 @@ import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.Gauge
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import domain.structs.SpendingPace
 import utils.formatCurrency
 import view.modules.UserPreferences
@@ -26,7 +29,7 @@ fun SpendingPaceCard(
     modifier: Modifier = Modifier,
     pace: SpendingPace?,
 ) {
-    SummaryCard(modifier = modifier, title = "Ritmo do mês", icon = PhosphorIcons.Light.Gauge, height = 150.dp) {
+    SummaryCard(modifier = modifier, title = stringResource(Res.string.dashboard_spending_pace_title), icon = PhosphorIcons.Light.Gauge, height = 150.dp) {
         if (pace == null) {
             Box(
                 modifier = Modifier.fillMaxWidth().weight(1f),
@@ -40,14 +43,14 @@ fun SpendingPaceCard(
                         modifier = Modifier.size(32.dp),
                     )
                     Spacer(Modifier.height(8.dp))
-                    TextSmall(text = "Disponível após 3 meses de registros")
+                    TextSmall(text = stringResource(Res.string.dashboard_spending_pace_unavailable))
                 }
             }
             return@SummaryCard
         }
 
         val lengthOfMonth = YearMonth.from(pace.today).lengthOfMonth()
-        TextNormal(text = "Dia ${pace.today.dayOfMonth} de $lengthOfMonth")
+        TextNormal(text = stringResource(Res.string.dashboard_spending_pace_day, pace.today.dayOfMonth, lengthOfMonth))
         Spacer(Modifier.height(8.dp))
 
         val percent = pace.percentOfAverage.coerceIn(0.0, 200.0)
@@ -73,11 +76,11 @@ fun SpendingPaceCard(
             )
         }
         Spacer(Modifier.height(8.dp))
-        TextH3(text = "${String.format("%.0f%%", pace.percentOfAverage)} da média", color = color)
+        TextH3(text = "${String.format("%.0f%%", pace.percentOfAverage)} ${stringResource(Res.string.dashboard_spending_pace_above_average)}", color = color)
         Spacer(Modifier.height(4.dp))
         val currency = UserPreferences.currencySymbol
         TextSmall(
-            text = "${formatCurrency(pace.monthTotalSoFar, currency)} gastos · média ${formatCurrency(pace.averageAtSameDay, currency)}"
+            text = "${formatCurrency(pace.monthTotalSoFar, currency)} ${stringResource(Res.string.dashboard_spending_pace_detail)} ${formatCurrency(pace.averageAtSameDay, currency)}"
         )
     }
 }

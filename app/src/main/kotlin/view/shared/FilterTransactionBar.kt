@@ -18,6 +18,9 @@ import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.*
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import domain.contracts.IFilterable
 import domain.entity.Category
 import domain.entity.Group
@@ -119,7 +122,7 @@ private fun AccountDropDown(
     val groupsList by groups.collectAsState(initial = emptyList())
     val allAccounts = groupsList.flatMap { it.accounts }
 
-    TooltipBox("Conta"){
+    TooltipBox(stringResource(Res.string.filter_account)){
         Box(
             modifier = Modifier
                 .height(30.dp)
@@ -152,7 +155,7 @@ private fun AccountDropDown(
                 onFilterAccountChange(null)
                 showAccountDropdown = false
             }) {
-                TextNormal(text = "Todas as contas")
+                TextNormal(text = stringResource(Res.string.filter_all_accounts))
             }
             allAccounts.forEach { acc: BankAccount ->
                 DropdownMenuItem(onClick = {
@@ -172,7 +175,7 @@ private fun TypeDropDown(
     onFilterTypeChange: (TransactionType?) -> Unit
 ){
     var showTypeDropdown by remember { mutableStateOf(false) }
-    TooltipBox("Tipo"){
+    TooltipBox(stringResource(Res.string.filter_type)){
         Box(
             modifier = Modifier
                 .height(30.dp)
@@ -205,19 +208,19 @@ private fun TypeDropDown(
                 onFilterTypeChange(null)
                 showTypeDropdown = false
             }) {
-                TextNormal(text = "Todos os tipos")
+                TextNormal(text = stringResource(Res.string.filter_all_types))
             }
             DropdownMenuItem(onClick = {
                 onFilterTypeChange(TransactionType.GAIN)
                 showTypeDropdown = false
             }) {
-                TextNormal(text = "Receitas")
+                TextNormal(text = stringResource(Res.string.filter_incomes))
             }
             DropdownMenuItem(onClick = {
                 onFilterTypeChange(TransactionType.EXPENSE)
                 showTypeDropdown = false
             }) {
-                TextNormal(text = "Despesas")
+                TextNormal(text = stringResource(Res.string.filter_expenses))
             }
         }
     }
@@ -236,7 +239,7 @@ private fun CategoriesDropDown(
             .groupBy { it.category }
     }
 
-    TooltipBox("Categoria"){
+    TooltipBox(stringResource(Res.string.filter_category)){
         Box(
             modifier = Modifier
                 .height(30.dp)
@@ -269,7 +272,7 @@ private fun CategoriesDropDown(
                 onFilterCategoryItemChange(null)
                 showCategoryDropdown = false
             }) {
-                TextNormal(text = "Todas as categorias")
+                TextNormal(text = stringResource(Res.string.filter_all_categories))
             }
             availableCategoriesMap.forEach { (cat, entries) ->
                 DropdownMenuItem(onClick = {
@@ -309,7 +312,7 @@ private fun TagsDropDown(
         }.flatMap { it.tags ?: emptyList() }.distinctBy { it.id }
     }
 
-    TooltipBox("Etiqueta"){
+    TooltipBox(stringResource(Res.string.filter_tag)){
         Box(
             modifier = Modifier
                 .height(30.dp)
@@ -342,7 +345,7 @@ private fun TagsDropDown(
                 onFilterTagChange(null)
                 showTagDropdown = false
             }) {
-                TextNormal(text = "Todas as tags")
+                TextNormal(text = stringResource(Res.string.filter_all_tags))
             }
             availableTags.forEach { tag ->
                 DropdownMenuItem(onClick = {
@@ -365,7 +368,7 @@ private fun ClearFiltersButton(
 ) {
     val tint = if (hasActiveFilters) MaterialTheme.colors.secondary else MaterialTheme.colors.secondary.copy(alpha = 0.3f)
 
-    TooltipBox(if (hasActiveFilters) "Limpar filtros" else "") {
+    TooltipBox(if (hasActiveFilters) stringResource(Res.string.filter_clear) else "") {
         Box(
             modifier = Modifier
                 .height(30.dp)
@@ -378,7 +381,7 @@ private fun ClearFiltersButton(
         ) {
             Icon(
                 imageVector = PhosphorIcons.Light.FunnelX,
-                contentDescription = "Limpar filtros",
+                contentDescription = null,
                 tint = tint,
                 modifier = Modifier.size(20.dp)
             )
@@ -390,7 +393,7 @@ private fun ClearFiltersButton(
 private fun ExportDropDown(onExportExcel: () -> Unit = {}){
     var showExportDropdown by remember { mutableStateOf(false) }
 
-    TooltipBox("Exportar"){
+    TooltipBox(stringResource(Res.string.filter_export)){
         Box(
             modifier = Modifier
                 .height(30.dp)
@@ -432,7 +435,7 @@ private fun ExportDropDown(onExportExcel: () -> Unit = {}){
                     modifier = Modifier.size(16.dp)
                 )
                 Spacer(Modifier.width(5.dp))
-                TextNormal(text = "Exportar para o Excel")
+                TextNormal(text = stringResource(Res.string.filter_export_to_excel))
             }
         }
     }

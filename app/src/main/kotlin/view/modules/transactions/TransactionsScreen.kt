@@ -35,6 +35,9 @@ import domain.enums.TransactionType
 import domain.structs.PageAddress
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import view.modules.Screen
 import view.modules.transactionForm.TransactionForm
 import view.modules.transactions.component.DropDownAddTransaction
@@ -80,7 +83,7 @@ fun TransactionsScreen(
                 PageAddress(
                     iconVector = PhosphorIcons.Bold.ListBullets,
                     iconSize = DpSize(21.dp, 18.dp),
-                    name = "Todas as transações",
+                    name = stringResource(Res.string.nav_all_transactions),
                     rootPath = true
                 )
             )
@@ -102,6 +105,12 @@ fun TransactionsScreen(
 
 
     var addresses by remember { mutableStateOf(emptyList<PageAddress>()) }
+
+    val strTransactionEditIncome = stringResource(Res.string.transaction_edit_income)
+    val strTransactionEditExpense = stringResource(Res.string.transaction_edit_expense)
+    val strTransactionNewIncome = stringResource(Res.string.transaction_new_income)
+    val strTransactionNewExpense = stringResource(Res.string.transaction_new_expense)
+
     LaunchedEffect(account) {
         addresses = initialAddress
         showEditTransaction = false
@@ -194,7 +203,7 @@ fun TransactionsScreen(
                     Box(modifier = Modifier.fillMaxSize()) {
                         if (displayedTransactions.isEmpty())
                             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                                TextH2(text = "Nenhuma transação encontrada.")
+                                TextH2(text = stringResource(Res.string.transactions_empty))
                             }
 
                         LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
@@ -230,7 +239,7 @@ fun TransactionsScreen(
                                                     addresses = addresses + PageAddress(
                                                         iconVector = PhosphorIcons.Regular.Pencil,
                                                         iconSize = DpSize(21.dp, 18.dp),
-                                                        name = "Editar " + if (transaction.type == TransactionType.GAIN) "receita" else "despesa"
+                                                        name = if (transaction.type == TransactionType.GAIN) strTransactionEditIncome else strTransactionEditExpense
                                                     )
                                                     selectedTransaction = transaction
                                                     showEditTransaction = true
@@ -271,7 +280,7 @@ fun TransactionsScreen(
                                     addresses = addresses + PageAddress(
                                         iconVector = PhosphorIcons.Regular.PlusSquare,
                                         iconSize = DpSize(21.dp, 18.dp),
-                                        name = "Nova receita"
+                                        name = strTransactionNewIncome
                                     )
                                     backIcon = true
                                 },
@@ -283,7 +292,7 @@ fun TransactionsScreen(
                                     addresses = addresses + PageAddress(
                                         iconVector = PhosphorIcons.Regular.MinusSquare,
                                         iconSize = DpSize(21.dp, 18.dp),
-                                        name = "Nova despesa"
+                                        name = strTransactionNewExpense
                                     )
                                     backIcon = true
                                 },

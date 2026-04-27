@@ -13,6 +13,9 @@ import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Regular
 import com.adamglin.phosphoricons.regular.Gear
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import utils.formatCurrency
 import view.modules.UserPreferences
 import view.modules.settings.SettingsScreen
@@ -42,7 +45,7 @@ fun Header(viewModel: SidebarViewModel) {
                 modifier = Modifier.fillMaxWidth().padding(bottom = 3.dp),
                 align = TextAlign.Center
             )
-            TextH4(text = "SALDO TOTAL", modifier = Modifier.fillMaxWidth(), align = TextAlign.Center)
+            TextH4(text = stringResource(Res.string.sidebar_total_balance), modifier = Modifier.fillMaxWidth(), align = TextAlign.Center)
         }
     }
     Divider(Modifier.height(0.5.dp).background(MaterialTheme.colors.onSurface))

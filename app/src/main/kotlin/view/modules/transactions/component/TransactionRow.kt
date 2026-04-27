@@ -26,6 +26,9 @@ import com.adamglin.phosphoricons.light.Tag
 import com.adamglin.phosphoricons.light.Trash
 import domain.entity.Transaction
 import domain.enums.TransactionType
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import utils.IconPaths
 import utils.formatNumber
 import view.shared.*
@@ -171,11 +174,11 @@ fun TransactionRow(
                         onDismissRequest = { showEditTransaction = false }
                     ) {
                         var showForm by remember { mutableStateOf(false) }
-                        ClickableRow(icon = PhosphorIcons.Light.Pen, label = "Editar") { showForm = true }
+                        ClickableRow(icon = PhosphorIcons.Light.Pen, label = stringResource(Res.string.edit)) { showForm = true }
                         if (showForm) onClick()
 
                         var showDeleteTransaction by remember { mutableStateOf(false) }
-                        ClickableRow(icon = PhosphorIcons.Light.Trash, label = "Excluir") { showDeleteTransaction = true }
+                        ClickableRow(icon = PhosphorIcons.Light.Trash, label = stringResource(Res.string.delete)) { showDeleteTransaction = true }
                         if (showDeleteTransaction) {
                             SimpleQuestionDialog(
                                 message = "Tem certeza que deseja excluir essa transação?",

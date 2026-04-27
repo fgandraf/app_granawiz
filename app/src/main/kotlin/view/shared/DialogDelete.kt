@@ -22,6 +22,9 @@ import androidx.compose.ui.window.Dialog
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Regular
 import com.adamglin.phosphoricons.regular.Warning
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import view.theme.RedWarning
 import view.theme.Ubuntu
 
@@ -93,7 +96,7 @@ fun DialogDelete(
                     )
                     TextNormal(
                         modifier = Modifier.padding(start = 10.dp),
-                        text = "Esta ação é irreversível! Leia com atenção!",
+                        text = stringResource(Res.string.irreversible_warning),
                         color = RedWarning
                     )
                 }
@@ -124,7 +127,7 @@ fun DialogDelete(
             ) {
                 TextNormal(
                     modifier = Modifier.padding(bottom = 5.dp),
-                    text = "Digite \"${objectName}\"",
+                    text = stringResource(Res.string.confirm_delete_input_label, objectName),
                     align = TextAlign.Start
                 )
                 DefaultTextField(

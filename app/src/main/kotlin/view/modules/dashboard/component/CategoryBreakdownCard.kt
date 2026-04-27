@@ -13,6 +13,9 @@ import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.Shapes
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import domain.structs.CategoryBreakdown
 import utils.IconPaths
 import utils.formatCurrency
@@ -28,12 +31,12 @@ fun CategoryBreakdownCard(
 ) {
     SummaryCard(
         modifier = modifier,
-        title = "Despesas por categoria",
+        title = stringResource(Res.string.dashboard_category_breakdown_title),
         icon = PhosphorIcons.Light.Shapes,
         height = 290.dp,
     ) {
         if (breakdown.isEmpty()) {
-            TextSmall(text = "Sem despesas no período", italic = true)
+            TextSmall(text = stringResource(Res.string.dashboard_no_category_expenses), italic = true)
             return@SummaryCard
         }
 

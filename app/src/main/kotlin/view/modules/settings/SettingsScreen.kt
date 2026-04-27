@@ -24,6 +24,9 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import utils.rememberSvgPainter
 import view.modules.UserPreferences
 import view.modules.UserPreferences.isLightTheme
@@ -99,7 +102,7 @@ fun SettingsScreen(
                 .height(700.dp)
                 .background(MaterialTheme.colors.surface, shape = RoundedCornerShape(8.dp))
         ) {
-            DialogTitleBar(title = "Configurações", onCloseRequest = onDismiss)
+            DialogTitleBar(title = stringResource(Res.string.settings_title), onCloseRequest = onDismiss)
 
             Column(
                 modifier = Modifier
@@ -119,7 +122,7 @@ fun SettingsScreen(
                     )
                     Spacer(Modifier.height(4.dp))
                     Text(
-                        text = "GranaWiz",
+                        text = stringResource(Res.string.settings_app_name),
                         fontSize = 26.sp,
                         fontWeight = FontWeight.Bold,
                         fontFamily = Afacade,
@@ -134,21 +137,21 @@ fun SettingsScreen(
                         )
                     )
                     Spacer(Modifier.height(2.dp))
-                    TextSmall(text = "0.0.1-Beta", italic = true)
+                    TextSmall(text = stringResource(Res.string.settings_app_version), italic = true)
                 }
 
                 Divider(color = MaterialTheme.colors.onSurface)
 
                 // Aparência
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    TextH4(text = "APARÊNCIA")
+                    TextH4(text = stringResource(Res.string.settings_section_appearance))
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Switch(
                             checked = isLightTheme,
                             onCheckedChange = { viewModel.setTheme(!isLightTheme) }
                         )
                         Spacer(Modifier.width(10.dp))
-                        TextNormal(text = if (isLightTheme) "Apagar" else "Acender")
+                        TextNormal(text = if (isLightTheme) stringResource(Res.string.settings_theme_dark) else stringResource(Res.string.settings_theme_light))
                     }
                 }
 
@@ -156,7 +159,7 @@ fun SettingsScreen(
 
                 // Moeda
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    TextH4(text = "MOEDA")
+                    TextH4(text = stringResource(Res.string.settings_section_currency))
                     Box {
                         val selectedLabel = CURRENCIES.find { it.second == UserPreferences.currencyLabel }?.second
                             ?: CURRENCIES.find { it.first == UserPreferences.currencyLabel }?.second
@@ -164,7 +167,7 @@ fun SettingsScreen(
                         DropDownTextField(
                             modifier = Modifier.fillMaxWidth(),
                             value = selectedLabel,
-                            label = "Moeda padrão",
+                            label = stringResource(Res.string.settings_default_currency),
                             onClick = { currencyMenuExpanded = true }
                         )
                         DropdownMenu(
@@ -187,7 +190,7 @@ fun SettingsScreen(
                         DropDownTextField(
                             modifier = Modifier.fillMaxWidth(),
                             value = selectedFormat,
-                            label = "Formato de número",
+                            label = stringResource(Res.string.settings_number_format),
                             onClick = { formatMenuExpanded = true }
                         )
                         DropdownMenu(
@@ -210,16 +213,16 @@ fun SettingsScreen(
 
                 // Sobre
                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                    TextH4(text = "SOBRE")
+                    TextH4(text = stringResource(Res.string.settings_section_about))
                     Spacer(Modifier.height(2.dp))
-                    InfoRow(label = "Desenvolvedor", value = "Felipe Gandra")
+                    InfoRow(label = stringResource(Res.string.settings_developer), value = stringResource(Res.string.settings_developer_name))
                     InfoRow(
-                        label = "Site",
-                        value = "www.felipegandra.com",
+                        label = stringResource(Res.string.settings_site),
+                        value = stringResource(Res.string.settings_site_url),
                         isLink = true,
                         onClick = { Desktop.getDesktop().browse(URI("https://www.felipegandra.com")) }
                     )
-                    InfoRow(label = "Distribuição", value = "Gratuita")
+                    InfoRow(label = stringResource(Res.string.settings_distribution), value = stringResource(Res.string.settings_distribution_value))
                 }
             }
 
@@ -229,7 +232,7 @@ fun SettingsScreen(
                     .padding(bottom = 12.dp),
                 contentAlignment = Alignment.Center
             ) {
-                TextSmall(text = "© 2026 Felipe Gandra. Todos os direitos reservados.")
+                TextSmall(text = stringResource(Res.string.settings_copyright))
             }
         }
     }

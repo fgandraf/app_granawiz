@@ -23,6 +23,9 @@ import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.Regular
 import com.adamglin.phosphoricons.light.*
 import com.adamglin.phosphoricons.regular.Wallet
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import domain.entity.account.BankAccount
 import utils.IconPaths
 import utils.formatCurrency
@@ -107,12 +110,12 @@ fun DropDownAccountMenu(
             onDismissRequest = { onDismissRequest() }
         ) {
 
-            ClickableRow(icon = PhosphorIcons.Light.ArrowLineUp, label = "Mover para cima") {
+            ClickableRow(icon = PhosphorIcons.Light.ArrowLineUp, label = stringResource(Res.string.move_up)) {
                 viewModel.moveAccountPosition(account, -1)
                 onDismissRequest()
             }
 
-            ClickableRow(icon = PhosphorIcons.Light.ArrowLineDown, label = "Mover para baixo") {
+            ClickableRow(icon = PhosphorIcons.Light.ArrowLineDown, label = stringResource(Res.string.move_down)) {
                 viewModel.moveAccountPosition(account, 1)
                 onDismissRequest()
             }
@@ -120,7 +123,7 @@ fun DropDownAccountMenu(
             Divider(modifier = Modifier.padding(vertical = 3.dp))
 
             var showEditAccount by remember { mutableStateOf(false) }
-            ClickableRow(icon = PhosphorIcons.Light.PencilLine, label = "Editar") { showEditAccount = true; }
+            ClickableRow(icon = PhosphorIcons.Light.PencilLine, label = stringResource(Res.string.edit)) { showEditAccount = true; }
             if (showEditAccount) AccountForm(
                 sidebarViewModel = viewModel,
                 account = account,
@@ -131,7 +134,7 @@ fun DropDownAccountMenu(
 
 
             var deleteDialog by remember { mutableStateOf(false) }
-            ClickableRow(icon = PhosphorIcons.Light.Trash, label = "Excluir") { deleteDialog = true }
+            ClickableRow(icon = PhosphorIcons.Light.Trash, label = stringResource(Res.string.delete)) { deleteDialog = true }
             if (deleteDialog)
 
                 DialogDelete(

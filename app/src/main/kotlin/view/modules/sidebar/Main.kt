@@ -11,6 +11,9 @@ import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.*
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import view.modules.Screen
 import view.modules.sidebar.components.AccountMenuItem
 import view.modules.sidebar.components.GroupMenuItem
@@ -35,7 +38,7 @@ fun Main(
         Spacer(modifier = Modifier.height(25.dp))
         StaticMenuItem(
             icon = PhosphorIcons.Light.SquaresFour,
-            label = "Dashboard",
+            label = stringResource(Res.string.nav_dashboard),
             isActive = currentScreen == Screen.Dashboard,
             screen = Screen.Dashboard,
             onClick = { onScreenSelected(it); activeAccountId = 0L }
@@ -44,46 +47,46 @@ fun Main(
 
         StaticMenuItem(
             icon = PhosphorIcons.Light.Calendar,
-            label = "Agendamentos",
+            label = stringResource(Res.string.nav_schedules),
             isActive = currentScreen == Screen.Schedules,
             screen = Screen.Schedules,
             onClick = { onScreenSelected(it); activeAccountId = 0L }
         )
 
 
-        SectionTitle("Base de dados")
+        SectionTitle(stringResource(Res.string.sidebar_database_section))
         StaticMenuItem(
             icon = PhosphorIcons.Light.Shapes,
-            label = "Categorias",
+            label = stringResource(Res.string.nav_categories),
             isActive = currentScreen == Screen.Categories,
             screen = Screen.Categories,
             onClick = { onScreenSelected(it); activeAccountId = 0L }
         )
         StaticMenuItem(
             icon = PhosphorIcons.Light.Tag,
-            label = "Etiquetas",
+            label = stringResource(Res.string.nav_tags),
             isActive = currentScreen == Screen.Tags,
             screen = Screen.Tags,
             onClick = { onScreenSelected(it); activeAccountId = 0L }
         )
         StaticMenuItem(
             icon = PhosphorIcons.Light.HandArrowUp,
-            label = "Beneficiários",
+            label = stringResource(Res.string.nav_receivers),
             isActive = currentScreen == Screen.Receivers,
             screen = Screen.Receivers,
             onClick = { onScreenSelected(it); activeAccountId = 0L }
         )
         StaticMenuItem(
             icon = PhosphorIcons.Light.HandArrowDown,
-            label = "Pagadores",
+            label = stringResource(Res.string.nav_payers),
             isActive = currentScreen == Screen.Payers,
             screen = Screen.Payers,
             onClick = { onScreenSelected(it); activeAccountId = 0L }
         )
-        SectionTitle("Transações")
+        SectionTitle(stringResource(Res.string.sidebar_transactions_section))
         StaticMenuItem(
             icon = PhosphorIcons.Light.ListBullets,
-            label = "Todas as transações",
+            label = stringResource(Res.string.nav_all_transactions),
             isActive = currentScreen == Screen.Transactions(),
             screen = Screen.Transactions(),
             onClick = { onScreenSelected(it); activeAccountId = 0L }
@@ -99,7 +102,7 @@ fun Main(
                 verticalArrangement = Arrangement.Center,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                TextSmall(text = "Nenhum grupo criado", italic = true)
+                TextSmall(text = stringResource(Res.string.sidebar_no_groups), italic = true)
             }
         else {
             val expandedGroups = remember { mutableStateMapOf<String, Boolean>() }

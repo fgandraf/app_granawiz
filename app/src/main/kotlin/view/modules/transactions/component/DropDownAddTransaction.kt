@@ -15,6 +15,9 @@ import com.adamglin.phosphoricons.Fill
 import com.adamglin.phosphoricons.Regular
 import com.adamglin.phosphoricons.fill.Circle
 import com.adamglin.phosphoricons.regular.Receipt
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import view.shared.ClickableRow
 
 @Composable
@@ -35,14 +38,14 @@ fun DropDownAddTransaction(
             ClickableRow(
                 icon = PhosphorIcons.Fill.Circle,
                 iconColor = MaterialTheme.colors.onPrimary,
-                label = "Nova receita"
+                label = stringResource(Res.string.transaction_new_income)
             )
             { onClickGain() }
 
             ClickableRow(
                 icon = PhosphorIcons.Fill.Circle,
                 iconColor = MaterialTheme.colors.onError,
-                label = "Nova despesa"
+                label = stringResource(Res.string.transaction_new_expense)
             )
             { onClickExpense() }
 
@@ -56,7 +59,7 @@ fun DropDownAddTransaction(
                 icon = PhosphorIcons.Regular.Receipt,
                 iconColor = MaterialTheme.colors.primary,
                 iconSize = androidx.compose.ui.unit.DpSize(14.dp, 14.dp),
-                label = "Importar extrato"
+                label = stringResource(Res.string.transaction_import_statement)
             )
             { onClickImport() }
         }

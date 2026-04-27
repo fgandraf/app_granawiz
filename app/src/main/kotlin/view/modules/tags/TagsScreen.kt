@@ -26,6 +26,9 @@ import com.adamglin.phosphoricons.Regular
 import com.adamglin.phosphoricons.bold.ArrowLeft
 import com.adamglin.phosphoricons.light.Tag
 import com.adamglin.phosphoricons.regular.Tag
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import view.shared.*
 import viewModel.TagViewModel
 
@@ -53,7 +56,7 @@ fun TagsScreen(
                     AddressView(
                         icon = PhosphorIcons.Regular.Tag,
                         iconSize = DpSize(21.dp, 18.dp),
-                        value = "Etiquetas",
+                        value = stringResource(Res.string.nav_tags),
                         rootPath = true
                     )
                 }
@@ -91,10 +94,10 @@ fun TagsScreen(
                             onUpdateConfirmation = { tagViewModel.updateTag(tag, it) },
                             deleteDialog = {
                                 DialogDelete(
-                                    title = "Excluir etiqueta",
+                                    title = stringResource(Res.string.delete_tag_title),
                                     icon = PhosphorIcons.Light.Tag,
                                     objectName = tag.name,
-                                    alertText = "Isso irá excluir permanentemente a etiqueta ${tag.name} e remover todas as associações feitas à ela.",
+                                    alertText = stringResource(Res.string.delete_tag_confirm, tag.name),
                                     onClickButton = { tagViewModel.deleteTag(tag) },
                                     onDismiss = { deleteDialogIsVisible.value = false }
                                 )

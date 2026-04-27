@@ -9,6 +9,9 @@ import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.ArrowsLeftRight
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import domain.structs.CashFlow
 import utils.formatCurrency
 import view.modules.UserPreferences
@@ -24,19 +27,19 @@ fun CashFlowCard(
 ) {
     SummaryCard(
         modifier = modifier,
-        title = "Fluxo do período",
+        title = stringResource(Res.string.dashboard_cash_flow_title),
         icon = PhosphorIcons.Light.ArrowsLeftRight,
         height = 150.dp
     ) {
         val currency = UserPreferences.currencySymbol
-        RowLine(label = "Receitas", value = formatCurrency(cashFlow.income, currency), valueColor = MaterialTheme.colors.onPrimary)
+        RowLine(label = stringResource(Res.string.dashboard_income), value = formatCurrency(cashFlow.income, currency), valueColor = MaterialTheme.colors.onPrimary)
         Spacer(Modifier.height(6.dp))
-        RowLine(label = "Despesas", value = formatCurrency(cashFlow.expense, currency), valueColor = MaterialTheme.colors.onError)
+        RowLine(label = stringResource(Res.string.dashboard_expenses), value = formatCurrency(cashFlow.expense, currency), valueColor = MaterialTheme.colors.onError)
         Spacer(Modifier.height(6.dp))
         val netColor = if (cashFlow.net >= 0) MaterialTheme.colors.onPrimary else MaterialTheme.colors.onError
-        RowLine(label = "Saldo", value = formatCurrency(cashFlow.net, currency), valueColor = netColor, bold = true)
+        RowLine(label = stringResource(Res.string.dashboard_balance), value = formatCurrency(cashFlow.net, currency), valueColor = netColor, bold = true)
         Spacer(Modifier.height(10.dp))
-        TextSmall(text = "Taxa de poupança: ${String.format("%.1f%%", savingsRatePercent)}")
+        TextSmall(text = "${stringResource(Res.string.dashboard_savings_rate)} ${String.format("%.1f%%", savingsRatePercent)}")
     }
 }
 

@@ -9,6 +9,9 @@ import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.CurrencyCircleDollar
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import domain.entity.Transaction
 import utils.formatCurrency
 import kotlin.math.abs
@@ -25,12 +28,12 @@ fun TopTransactionsCard(
 ) {
     SummaryCard(
         modifier = modifier,
-        title = "Maiores despesas",
+        title = stringResource(Res.string.dashboard_top_expenses_title),
         icon = PhosphorIcons.Light.CurrencyCircleDollar,
         height = 240.dp
     ) {
         if (transactions.isEmpty()) {
-            TextSmall(text = "Sem despesas no período", italic = true)
+            TextSmall(text = stringResource(Res.string.dashboard_no_category_expenses), italic = true)
             return@SummaryCard
         }
 

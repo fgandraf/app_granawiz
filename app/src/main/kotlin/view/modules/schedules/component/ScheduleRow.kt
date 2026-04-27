@@ -33,6 +33,9 @@ import com.adamglin.phosphoricons.light.Trash
 import domain.enums.ScheduleFrequency
 import domain.enums.TransactionType
 import application.schedule.usecases.ScheduleOccurrence
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import utils.IconPaths
 import utils.formatNumber
 import utils.rememberSvgPainter
@@ -91,7 +94,7 @@ fun ScheduleRow(
             val day = dueDate.dayOfMonth
             val month = dueDate.month.getDisplayName(TextStyle.FULL, Locale.of("pt", "BR"))
             val color = if (overdue) MaterialTheme.colors.onError else MaterialTheme.colors.primary
-            TextSmall(text = "Vence em $day $month", color = color)
+            TextSmall(text = stringResource(Res.string.schedule_due_date, day.toString(), month), color = color)
         }
 
         // Category + subcategory
@@ -184,7 +187,7 @@ fun ScheduleRow(
                         color = MaterialTheme.colors.surface,
                     ) {
                         TextSmall(
-                            text = "Marcar como pago",
+                            text = stringResource(Res.string.mark_as_paid),
                             modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
                         )
                     }
@@ -226,7 +229,7 @@ fun ScheduleRow(
                     onDismissRequest = { showMenu = false }
                 ) {
                     var triggerEdit by remember { mutableStateOf(false) }
-                    ClickableRow(icon = PhosphorIcons.Light.Pen, label = "Editar") {
+                    ClickableRow(icon = PhosphorIcons.Light.Pen, label = stringResource(Res.string.edit)) {
                         triggerEdit = true
                     }
                     if (triggerEdit) {
@@ -235,7 +238,7 @@ fun ScheduleRow(
                     }
 
                     var confirmDelete by remember { mutableStateOf(false) }
-                    ClickableRow(icon = PhosphorIcons.Light.Trash, label = "Excluir") {
+                    ClickableRow(icon = PhosphorIcons.Light.Trash, label = stringResource(Res.string.delete)) {
                         confirmDelete = true
                     }
                     if (confirmDelete) {
@@ -259,6 +262,7 @@ fun ScheduleRow(
     }
 }
 
+// TODO: frequencyLabel is used in a non-composable context; strings cannot use stringResource here
 private fun frequencyLabel(frequency: ScheduleFrequency, interval: Int): String {
     val base = when (frequency) {
         ScheduleFrequency.ONCE -> "Uma única vez"

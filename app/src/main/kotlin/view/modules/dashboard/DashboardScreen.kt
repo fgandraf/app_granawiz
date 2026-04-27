@@ -17,6 +17,9 @@ import com.adamglin.phosphoricons.Bold
 import com.adamglin.phosphoricons.Regular
 import com.adamglin.phosphoricons.bold.ArrowLeft
 import com.adamglin.phosphoricons.regular.SquaresFour
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import view.modules.dashboard.component.*
 import view.shared.AddressView
 import view.shared.ClickableIcon
@@ -51,7 +54,7 @@ fun DashboardScreen() {
                 Spacer(Modifier.width(10.dp))
                 AddressView(
                     icon = PhosphorIcons.Regular.SquaresFour,
-                    value = "Dashboard",
+                    value = stringResource(Res.string.nav_dashboard),
                     rootPath = true,
                 )
             }
@@ -62,7 +65,7 @@ fun DashboardScreen() {
         val current = summary
         if (current == null) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                TextH2(text = "Carregando...")
+                TextH2(text = stringResource(Res.string.loading))
             }
             return
         }

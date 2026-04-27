@@ -11,6 +11,9 @@ import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.TrendDown
 import com.adamglin.phosphoricons.light.TrendUp
 import com.adamglin.phosphoricons.light.Wallet
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import domain.structs.NetWorthSnapshot
 import utils.formatCurrency
 import view.modules.UserPreferences
@@ -24,7 +27,7 @@ fun NetWorthCard(
     modifier: Modifier = Modifier,
     snapshot: NetWorthSnapshot,
 ) {
-    SummaryCard(modifier = modifier, title = "Patrimônio total", icon = PhosphorIcons.Light.Wallet, height = 150.dp) {
+    SummaryCard(modifier = modifier, title = stringResource(Res.string.dashboard_net_worth_title), icon = PhosphorIcons.Light.Wallet, height = 150.dp) {
         val currency = UserPreferences.currencySymbol
         TextH1(text = formatCurrency(snapshot.total, currency))
         Spacer(Modifier.height(8.dp))
@@ -48,6 +51,6 @@ fun NetWorthCard(
             )
         }
         Spacer(Modifier.height(4.dp))
-        TextSmall(text = "variação no mês")
+        TextSmall(text = stringResource(Res.string.dashboard_net_worth_variation))
     }
 }
