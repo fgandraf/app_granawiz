@@ -4,17 +4,15 @@ import jakarta.persistence.*
 
 @Entity
 @Table(name = "tbl_party_names")
-open class PartyName(
+class PartyName(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "party_name_id", columnDefinition = "INTEGER")
-    open var id: Long = 0,
+    @Column(name = "party_name_id", columnDefinition = "INTEGER") var id: Long = 0,
 
-    open var name: String = "",
+    var name: String = "",
 
     @ManyToOne
-    @JoinColumn(name = "party_id", referencedColumnName = "party_id")
-    open val party: Party,
+    @JoinColumn(name = "party_id", referencedColumnName = "party_id") val party: Party,
 ) {
     constructor() : this(0, "", Party())
 }

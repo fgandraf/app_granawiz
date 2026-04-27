@@ -4,13 +4,12 @@ import jakarta.persistence.*
 
 @Entity
 @Table(name = "tbl_tags")
-open class Tag(
+class Tag(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "tag_id", columnDefinition = "INTEGER")
-    open var id: Long = 0,
+    @Column(name = "tag_id", columnDefinition = "INTEGER") var id: Long = 0,
 
-    open var name: String = "",
+    var name: String = "",
 
     @ManyToMany(mappedBy = "tags")
     val transactions: MutableSet<Transaction>? = mutableSetOf(),

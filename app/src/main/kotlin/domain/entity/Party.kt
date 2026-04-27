@@ -5,20 +5,17 @@ import jakarta.persistence.*
 
 @Entity
 @Table(name = "tbl_parties")
-open class Party(
+class Party(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "party_id", columnDefinition = "INTEGER")
-    open var id: Long = 0,
+    @Column(name = "party_id", columnDefinition = "INTEGER") var id: Long = 0,
 
-    open var name: String = "",
+    var name: String = "",
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "type", insertable = true, updatable = true)
-    open val type: PartyType,
+    @Column(name = "type", insertable = true, updatable = true) val type: PartyType,
 
-    @OneToMany(mappedBy = "party", cascade = [CascadeType.ALL], fetch = FetchType.LAZY, orphanRemoval = true)
-    open val partiesNames: MutableList<PartyName> = mutableListOf(),
+    @OneToMany(mappedBy = "party", cascade = [CascadeType.ALL], fetch = FetchType.LAZY, orphanRemoval = true) val partiesNames: MutableList<PartyName> = mutableListOf(),
 ) {
     constructor() : this(0, "", PartyType.PAYER, mutableListOf())
 }

@@ -9,12 +9,11 @@ import java.time.LocalDateTime
 
 @Entity
 @Table(name = "tbl_transactions")
-open class Transaction(
+class Transaction(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "transaction_id", columnDefinition = "INTEGER")
-    open var id: Long = 0,
+    @Column(name = "transaction_id", columnDefinition = "INTEGER") var id: Long = 0,
 
     @ManyToOne
     @JoinColumn(name = "party_id", referencedColumnName = "party_id")
@@ -41,23 +40,20 @@ open class Transaction(
     override val tags: List<Tag>? = listOf(),
 
     @Column(name = "date", columnDefinition = "DATETIME")
-    @Convert(converter = LocalDateTimeConverter::class)
-    open val date: LocalDateTime,
+    @Convert(converter = LocalDateTimeConverter::class) val date: LocalDateTime,
 
     override val description: String,
 
-    open val balance: Double,
+    val balance: Double,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type", insertable = true, updatable = true)
     override val type: TransactionType,
 
-    @Column(name = "schedule_id", columnDefinition = "INTEGER")
-    open val scheduleId: Long? = null,
+    @Column(name = "schedule_id", columnDefinition = "INTEGER") val scheduleId: Long? = null,
 
     @Column(name = "original_due_date", columnDefinition = "DATETIME")
-    @Convert(converter = LocalDateTimeConverter::class)
-    open val originalDueDate: LocalDateTime? = null,
+    @Convert(converter = LocalDateTimeConverter::class) val originalDueDate: LocalDateTime? = null,
 
     ) : IFilterable {
 

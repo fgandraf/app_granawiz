@@ -10,12 +10,11 @@ import java.time.LocalDateTime
 
 @Entity
 @Table(name = "tbl_schedules")
-open class Schedule(
+class Schedule(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "schedule_id", columnDefinition = "INTEGER")
-    open var id: Long = 0,
+    @Column(name = "schedule_id", columnDefinition = "INTEGER") var id: Long = 0,
 
     @ManyToOne
     @JoinColumn(name = "party_id", referencedColumnName = "party_id")
@@ -42,35 +41,29 @@ open class Schedule(
     override val tags: List<Tag>? = listOf(),
 
     @Column(name = "start_date", columnDefinition = "DATETIME")
-    @Convert(converter = LocalDateTimeConverter::class)
-    open val startDate: LocalDateTime,
+    @Convert(converter = LocalDateTimeConverter::class) val startDate: LocalDateTime,
 
     override val description: String,
 
-    open val balance: Double,
+    val balance: Double,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type", insertable = true, updatable = true)
     override val type: TransactionType,
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "frequency", insertable = true, updatable = true)
-    open val frequency: ScheduleFrequency,
+    @Column(name = "frequency", insertable = true, updatable = true) val frequency: ScheduleFrequency,
 
-    @Column(name = "interval_value")
-    open val interval: Int = 1,
+    @Column(name = "interval_value") val interval: Int = 1,
 
-    @Column(name = "day_of_month")
-    open val dayOfMonth: Int? = null,
+    @Column(name = "day_of_month") val dayOfMonth: Int? = null,
 
     @Column(name = "end_date", columnDefinition = "DATETIME")
-    @Convert(converter = LocalDateTimeConverter::class)
-    open val endDate: LocalDateTime? = null,
+    @Convert(converter = LocalDateTimeConverter::class) val endDate: LocalDateTime? = null,
 
-    @Column(name = "installments")
-    open val installments: Int? = null,
+    @Column(name = "installments") val installments: Int? = null,
 
-) : IFilterable {
+    ) : IFilterable {
 
     constructor() : this(
         0, Party(), BankAccount(), Category(), null, null,

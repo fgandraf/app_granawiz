@@ -5,19 +5,17 @@ import jakarta.persistence.*
 
 @Entity
 @Table(name = "tbl_groups")
-open class Group(
+class Group(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "group_id", columnDefinition = "INTEGER")
-    open var id: Long = 0,
+    @Column(name = "group_id", columnDefinition = "INTEGER") var id: Long = 0,
 
-    open var name: String = "",
+    var name: String = "",
 
-    open var position: Int = 0,
+    var position: Int = 0,
 
-    @OneToMany(mappedBy = "group", cascade = [CascadeType.ALL], fetch = FetchType.LAZY, orphanRemoval = true)
-    open val accounts: MutableList<BankAccount> = mutableListOf(),
+    @OneToMany(mappedBy = "group", cascade = [CascadeType.ALL], fetch = FetchType.LAZY, orphanRemoval = true) val accounts: MutableList<BankAccount> = mutableListOf(),
 
     ) {
     constructor() : this(0, "", 0, mutableListOf())

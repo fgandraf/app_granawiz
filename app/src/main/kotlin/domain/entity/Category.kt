@@ -5,24 +5,21 @@ import jakarta.persistence.*
 
 @Entity
 @Table(name = "tbl_categories")
-open class Category(
+class Category(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "category_id", columnDefinition = "INTEGER")
-    open var id: Long = 0,
+    @Column(name = "category_id", columnDefinition = "INTEGER") var id: Long = 0,
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "category_type", insertable = true, updatable = true)
-    open val type: CategoryType,
+    @Column(name = "category_type", insertable = true, updatable = true) val type: CategoryType,
 
-    open var name: String = "",
+    var name: String = "",
 
-    open var icon: String = "",
+    var icon: String = "",
 
 
-    @OneToMany(mappedBy = "category", cascade = [CascadeType.ALL], fetch = FetchType.LAZY, orphanRemoval = true)
-    open val subcategories: MutableList<Subcategory> = mutableListOf(),
+    @OneToMany(mappedBy = "category", cascade = [CascadeType.ALL], fetch = FetchType.LAZY, orphanRemoval = true) val subcategories: MutableList<Subcategory> = mutableListOf(),
 
     ) {
     constructor() : this(0, CategoryType.INCOME, "", "", mutableListOf())
