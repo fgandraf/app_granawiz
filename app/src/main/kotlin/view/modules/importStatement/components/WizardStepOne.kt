@@ -11,6 +11,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import domain.entity.account.BankAccount
 import utils.IconPaths
 import utils.rememberSvgPainter
@@ -39,12 +42,10 @@ fun WizardStepOne(
                 verticalArrangement = Arrangement.SpaceEvenly
             ) {
                 Spacer(Modifier.height(10.dp))
-                TextH1(modifier = Modifier.fillMaxWidth(), text = "Selecione o arquivo de extrato", align = TextAlign.Center)
+                TextH1(modifier = Modifier.fillMaxWidth(), text = stringResource(Res.string.import_step1_title), align = TextAlign.Center)
                 Spacer(Modifier.height(10.dp))
                 TextNormal(
-                    text = "Escolha um arquivo .ofx exportado do seu banco. O sistema irá processar " +
-                            "o arquivo e sugerir categorias para cada transação com base nas suas categorias existentes " +
-                            "e conciliar com os pagadores ou beneficiários já cadastrados.",
+                    text = stringResource(Res.string.import_step1_instruction),
                     align = TextAlign.Justify,
                     lineHeight = 18.sp,
                     modifier = Modifier.fillMaxWidth()
@@ -54,7 +55,7 @@ fun WizardStepOne(
 
                 FilePickerField(
                     modifier = Modifier.fillMaxWidth(),
-                    label = "Arquivo de extrato",
+                    label = stringResource(Res.string.import_file_picker),
                     selectedFile = selectedFile,
                     onFileSelected = onFileSelected
                 )
@@ -62,7 +63,7 @@ fun WizardStepOne(
                 Spacer(Modifier.height(30.dp))
 
                 Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-                    TextSmall(text = "Conta destino:", modifier = Modifier.padding(bottom = 5.dp))
+                    TextSmall(text = stringResource(Res.string.import_target_account), modifier = Modifier.padding(bottom = 5.dp))
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
                             painter = rememberSvgPainter(IconPaths.BANK_LOGOS + (account?.icon ?: "_default.svg")),
@@ -71,7 +72,7 @@ fun WizardStepOne(
                             modifier = Modifier.size(28.dp)
                         )
                         Spacer(Modifier.width(6.dp))
-                        TextH1(text = account?.name ?: "Conta não selecionada")
+                        TextH1(text = account?.name ?: stringResource(Res.string.import_account_not_selected))
                     }
                 }
             }
@@ -84,7 +85,7 @@ fun WizardStepOne(
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
             DefaultButton(
                 modifier = Modifier.width(200.dp),
-                text = "Próximo",
+                text = stringResource(Res.string.next),
                 confirmed = selectedFile != null,
                 textColor = if (MaterialTheme.colors.isLight) Color.White else MaterialTheme.colors.secondary,
                 onClick = onNext

@@ -23,6 +23,9 @@ import view.shared.DefaultButton
 import view.shared.TextH1
 import view.shared.TextNormal
 import view.shared.TransparentButton
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import viewModel.ImportStatementViewModel
 import viewModel.WizardLogLine
 
@@ -52,9 +55,9 @@ fun WizardStepTwo(
 
     Column(modifier = Modifier.fillMaxSize()) {
 
-        TextH1(text = "Analisando arquivo")
+        TextH1(text = stringResource(Res.string.import_step2_title))
         Spacer(Modifier.height(8.dp))
-        TextNormal(text = "Verificando transações, inconsistências e duplicidades antes da conciliação.")
+        TextNormal(text = stringResource(Res.string.import_step2_instruction))
 
         Spacer(Modifier.height(16.dp))
 
@@ -94,13 +97,13 @@ fun WizardStepTwo(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             TransparentButton(
-                text = "Voltar",
+                text = stringResource(Res.string.back),
                 onClick = onBack
             )
 
             DefaultButton(
                 modifier = Modifier.width(200.dp),
-                text = "Próximo",
+                text = stringResource(Res.string.next),
                 confirmed = canProceed,
                 textColor = if (MaterialTheme.colors.isLight) Color.White else MaterialTheme.colors.secondary,
                 onClick = onNext

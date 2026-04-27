@@ -18,6 +18,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import domain.entity.Party
 import domain.entity.PartyName
 import domain.enums.PartyType
@@ -84,7 +87,7 @@ fun PartiesPicker(
                     item {
                         TextNormal(
                             modifier = Modifier.padding(start = 20.dp, bottom = 10.dp),
-                            text = "Nomes associados:"
+                            text = stringResource(Res.string.form_field_associated_names)
                         )
                     }
                     items(names, key = { it.id }) { item -> PartyNameListItem(viewModel, item) }

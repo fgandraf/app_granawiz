@@ -9,13 +9,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import view.shared.TextSmall
 import view.theme.ButtonPurple
 
-private val steps = listOf("Arquivo", "Análise", "Conciliação", "Importação")
-
 @Composable
 fun WizardStepIndicator(currentStep: Int) {
+    val steps = listOf(
+        stringResource(Res.string.import_step_file),
+        stringResource(Res.string.import_step_analysis),
+        stringResource(Res.string.import_step_conciliation),
+        stringResource(Res.string.import_step_import_label),
+    )
     Row(
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,

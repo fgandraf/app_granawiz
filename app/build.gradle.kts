@@ -11,7 +11,7 @@ group = "com.felipegandra"
 version = "0.0.1-Beta"
 
 kotlin {
-    jvmToolchain(25)
+    jvmToolchain(20)
 }
 
 repositories {
@@ -56,8 +56,7 @@ dependencies {
 
 tasks.withType<JavaExec> {
     jvmArgs(
-        "--enable-native-access=ALL-UNNAMED",
-        "--enable-final-field-mutation=ALL-UNNAMED"
+        "--enable-native-access=ALL-UNNAMED"
     )
 }
 
@@ -72,8 +71,7 @@ compose.desktop {
         mainClass = "MainKt"
 
         jvmArgs += listOf(
-            "--enable-native-access=ALL-UNNAMED",
-            "--enable-final-field-mutation=ALL-UNNAMED"
+            "--enable-native-access=ALL-UNNAMED"
         )
 
         nativeDistributions {

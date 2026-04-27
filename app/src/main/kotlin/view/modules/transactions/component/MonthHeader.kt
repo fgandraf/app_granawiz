@@ -12,6 +12,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import view.shared.TextH1
 import java.time.LocalDate
 import java.time.Month
@@ -22,22 +25,22 @@ fun MonthHeader(
     month: Month,
 ) {
     val monthNames = mapOf(
-        Month.JANUARY to "Janeiro",
-        Month.FEBRUARY to "Fevereiro",
-        Month.MARCH to "Março",
-        Month.APRIL to "Abril",
-        Month.MAY to "Maio",
-        Month.JUNE to "Junho",
-        Month.JULY to "Julho",
-        Month.AUGUST to "Agosto",
-        Month.SEPTEMBER to "Setembro",
-        Month.OCTOBER to "Outubro",
-        Month.NOVEMBER to "Novembro",
-        Month.DECEMBER to "Dezembro"
+        Month.JANUARY to stringResource(Res.string.month_january),
+        Month.FEBRUARY to stringResource(Res.string.month_february),
+        Month.MARCH to stringResource(Res.string.month_march),
+        Month.APRIL to stringResource(Res.string.month_april),
+        Month.MAY to stringResource(Res.string.month_may),
+        Month.JUNE to stringResource(Res.string.month_june),
+        Month.JULY to stringResource(Res.string.month_july),
+        Month.AUGUST to stringResource(Res.string.month_august),
+        Month.SEPTEMBER to stringResource(Res.string.month_september),
+        Month.OCTOBER to stringResource(Res.string.month_october),
+        Month.NOVEMBER to stringResource(Res.string.month_november),
+        Month.DECEMBER to stringResource(Res.string.month_december),
     )
 
-    val formatedMonth = monthNames[month] ?: "Mês desconhecido"
-    val monthTitle = if (month != LocalDate.now().month) formatedMonth else "Esse mês"
+    val formatedMonth = monthNames[month] ?: stringResource(Res.string.month_unknown)
+    val monthTitle = if (month != LocalDate.now().month) formatedMonth else stringResource(Res.string.month_current)
     val corners = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp)
     var boxWidth by remember { mutableStateOf(0) }
 

@@ -16,6 +16,9 @@ import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.Folders
 import domain.entity.Group
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import view.shared.DefaultButton
 import view.shared.DefaultTextField
 import view.shared.DialogTitleBar
@@ -35,8 +38,8 @@ fun GroupForm(
                 .background(MaterialTheme.colors.surface, shape = RoundedCornerShape(8.dp))
         ) {
 
-            val title by remember { mutableStateOf(if (group == null) "Adicionar novo grupo" else "Editar grupo") }
-            val buttonLabel by remember { mutableStateOf(if (group == null) "Adicionar" else "Editar") }
+            val title = if (group == null) stringResource(Res.string.group_form_add_title) else stringResource(Res.string.group_form_edit_title)
+            val buttonLabel = if (group == null) stringResource(Res.string.add) else stringResource(Res.string.edit)
             var value by remember { mutableStateOf(group?.name ?: "") }
 
             DialogTitleBar(title = title, onCloseRequest = onDismiss)
@@ -59,7 +62,7 @@ fun GroupForm(
                 )
                 TextNormal(
                     modifier = Modifier.padding(top = 20.dp, bottom = 5.dp),
-                    text = "Nome do grupo:"
+                    text = stringResource(Res.string.group_form_field_name)
                 )
                 DefaultTextField(value = value) { value = it }
             }

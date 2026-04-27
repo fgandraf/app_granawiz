@@ -19,6 +19,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import application.importStatement.LogLevel
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import view.shared.DefaultButton
 import view.shared.TextH1
 import view.shared.TextNormal
@@ -48,9 +51,9 @@ fun WizardStepFour(
 
     Column(modifier = Modifier.fillMaxSize()) {
 
-        TextH1(text = "Processando importação")
+        TextH1(text = stringResource(Res.string.import_step4_title))
         Spacer(Modifier.height(8.dp))
-        TextNormal(text = "Acompanhe o progresso da importação abaixo.")
+        TextNormal(text = stringResource(Res.string.import_step4_instruction))
 
         Spacer(Modifier.height(16.dp))
 
@@ -88,7 +91,7 @@ fun WizardStepFour(
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
             DefaultButton(
                 modifier = Modifier.width(200.dp),
-                text = if (importFailed && !importDone) "Fechar" else "Concluir",
+                text = if (importFailed && !importDone) stringResource(Res.string.close) else stringResource(Res.string.finish),
                 confirmed = !isImporting,
                 textColor = if (MaterialTheme.colors.isLight) Color.White else MaterialTheme.colors.secondary,
                 onClick = onFinish

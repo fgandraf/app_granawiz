@@ -27,4 +27,10 @@ class UserPreferenceHandler {
         prefs.currencyFormat = format
         updateUseCase.execute(prefs)
     }
+
+    fun updateLanguage(language: String) {
+        val prefs = fetchUseCase.execute()
+        prefs.language = language
+        updateUseCase.execute(prefs)
+    }
 }

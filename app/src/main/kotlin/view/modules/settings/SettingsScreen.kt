@@ -88,18 +88,24 @@ private val CURRENCY_FORMATS = listOf(
     "plain-dot" to "1234.56",
 )
 
+private val LANGUAGES = listOf(
+    "pt-BR" to "Português (Brasil)",
+    "en-US" to "English (US)",
+)
+
 @Composable
 fun SettingsScreen(
     onDismiss: () -> Unit,
     viewModel: SettingsViewModel = remember { SettingsViewModel() },
 ) {
+    var languageMenuExpanded by remember { mutableStateOf(false) }
     var currencyMenuExpanded by remember { mutableStateOf(false) }
     var formatMenuExpanded by remember { mutableStateOf(false) }
     Dialog(onDismissRequest = onDismiss) {
         Column(
             modifier = Modifier
                 .width(520.dp)
-                .height(700.dp)
+                .height(760.dp)
                 .background(MaterialTheme.colors.surface, shape = RoundedCornerShape(8.dp))
         ) {
             DialogTitleBar(title = stringResource(Res.string.settings_title), onCloseRequest = onDismiss)
@@ -152,6 +158,36 @@ fun SettingsScreen(
                         )
                         Spacer(Modifier.width(10.dp))
                         TextNormal(text = if (isLightTheme) stringResource(Res.string.settings_theme_dark) else stringResource(Res.string.settings_theme_light))
+                    }
+                }
+
+                Divider(color = MaterialTheme.colors.onSurface)
+
+                // Idioma
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    TextH4(text = stringResource(Res.string.settings_section_language))
+                    Box {
+                        val selectedLanguage = LANGUAGES.find { it.first == UserPreferences.language }?.second
+                            ?: LANGUAGES.first().second
+                        DropDownTextField(
+                            modifier = Modifier.fillMaxWidth(),
+                            value = selectedLanguage,
+                            label = stringResource(Res.string.settings_language),
+                            onClick = { languageMenuExpanded = true }
+                        )
+                        DropdownMenu(
+                            expanded = languageMenuExpanded,
+                            onDismissRequest = { languageMenuExpanded = false },
+                        ) {
+                            LANGUAGES.forEach { (tag, label) ->
+                                DropdownMenuItem(onClick = {
+                                    viewModel.setLanguage(tag)
+                                    languageMenuExpanded = false
+                                }) {
+                                    TextNormal(text = label)
+                                }
+                            }
+                        }
                     }
                 }
 

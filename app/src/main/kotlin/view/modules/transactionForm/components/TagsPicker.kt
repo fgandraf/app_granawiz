@@ -17,6 +17,9 @@ import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.Tag
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import domain.entity.Tag
 import view.shared.AddListItem
 import view.shared.DialogDelete
@@ -84,10 +87,10 @@ fun AddTagItem(
         onContentClick = { viewModel.toggleTagSelection(item); onClick(viewModel.selectedTags.value) },
         deleteDialog = {
             DialogDelete(
-                title = "Excluir etiqueta",
+                title = stringResource(Res.string.delete_tag_title),
                 icon = PhosphorIcons.Light.Tag,
                 objectName = item.name,
-                alertText = "Isso irá excluir permanentemente a etiqueta ${item.name} e remover todas as associações feitas à ela.",
+                alertText = stringResource(Res.string.delete_tag_confirm, item.name),
                 onClickButton = { viewModel.deleteTag(item) },
                 onDismiss = { deleteDialogIsVisible.value = false }
             )

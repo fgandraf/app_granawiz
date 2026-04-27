@@ -18,6 +18,9 @@ import androidx.compose.ui.unit.dp
 import domain.entity.account.CheckingAccount
 import domain.enums.AccountType
 import utils.toBrMoney
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import view.modules.accountForm.components.GroupListComboBox
 import view.modules.accountForm.components.IconSelector
 import view.shared.DefaultButton
@@ -36,7 +39,7 @@ fun NewOrEditCheckingAccount(
     if (account != null) {
         LaunchedEffect(account) { accountFormViewModel.initializeFromAccount(account) }
     }
-    val buttonLabel by remember { mutableStateOf(if (account == null) "Adicionar" else "Editar") }
+    val buttonLabel = if (account == null) stringResource(Res.string.add) else stringResource(Res.string.edit)
 
     accountFormViewModel.type = AccountType.CHECKING
 
@@ -59,8 +62,8 @@ fun NewOrEditCheckingAccount(
                 DefaultTextField(
                     modifier = Modifier.padding(bottom = 20.dp),
                     value = accountFormViewModel.name,
-                    label = "Nome:",
-                    placeholder = "Nome da conta",
+                    label = stringResource(Res.string.form_field_name),
+                    placeholder = stringResource(Res.string.form_placeholder_account_name),
                     onValueChange = { accountFormViewModel.name = it }
                 )
 
@@ -70,9 +73,9 @@ fun NewOrEditCheckingAccount(
                     DefaultTextField(
                         modifier = Modifier.weight(1f).padding(end = 10.dp),
                         value = openBalanceText,
-                        label = "Saldo inicial:",
+                        label = stringResource(Res.string.form_field_initial_balance),
                         textAlign = TextAlign.Right,
-                        placeholder = "0.000,00"
+                        placeholder = stringResource(Res.string.form_placeholder_amount)
                     ) {
                         openBalanceText = it.filter { char -> char.isDigit() || char == ',' || char == '.' }
                         accountFormViewModel.balance = it.replace(".", "").replace(",", ".").toDoubleOrNull() ?: 0.0
@@ -83,9 +86,9 @@ fun NewOrEditCheckingAccount(
                     DefaultTextField(
                         modifier = Modifier.weight(1f).padding(start = 10.dp),
                         value = limitText,
-                        label = "Limite:",
+                        label = stringResource(Res.string.form_field_limit),
                         textAlign = TextAlign.Right,
-                        placeholder = "0.000,00"
+                        placeholder = stringResource(Res.string.form_placeholder_amount)
                     ) {
                         limitText = it.filter { char -> char.isDigit() || char == ',' || char == '.' }
                         accountFormViewModel.limit = it.replace(".", "").replace(",", ".").toDoubleOrNull() ?: 0.0
@@ -96,8 +99,8 @@ fun NewOrEditCheckingAccount(
                 GroupListComboBox(
                     modifier = Modifier.padding(bottom = 20.dp),
                     value = accountFormViewModel.group.name,
-                    label = "Grupo:",
-                    placeholder = "Selecione o grupo",
+                    label = stringResource(Res.string.form_field_group),
+                    placeholder = stringResource(Res.string.form_placeholder_select_group),
                     groupList = sidebarViewModel.groups.value,
                     onClickItem = { accountFormViewModel.group = it }
                 )
@@ -105,9 +108,9 @@ fun NewOrEditCheckingAccount(
                 //---description
                 DefaultTextField(
                     value = accountFormViewModel.description,
-                    label = "Descrição:",
+                    label = stringResource(Res.string.form_field_description),
                     boxSize = 80.dp,
-                    placeholder = "Informações adicionais"
+                    placeholder = stringResource(Res.string.additional_info)
                 ) { accountFormViewModel.description = it }
             }
         }

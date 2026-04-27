@@ -11,6 +11,9 @@ import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Regular
 import com.adamglin.phosphoricons.regular.Receipt
 import com.adamglin.phosphoricons.regular.UploadSimple
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import view.shared.FocusableBox
 import view.shared.TextNormal
 import view.shared.TextSmall
@@ -30,8 +33,9 @@ fun FilePickerField(
         if (label != null)
             TextSmall(text = label, modifier = Modifier.padding(bottom = 5.dp))
 
+        val fileDialogTitle = stringResource(Res.string.import_file_dialog_title)
         FocusableBox(onClick = {
-            val dialog = FileDialog(null as Frame?, "Selecionar extrato bancário", FileDialog.LOAD)
+            val dialog = FileDialog(null as Frame?, fileDialogTitle, FileDialog.LOAD)
             dialog.filenameFilter = FilenameFilter { _, name ->
                 name.lowercase().endsWith(".ofx")
             }
@@ -56,7 +60,7 @@ fun FilePickerField(
                 Spacer(Modifier.width(8.dp))
                 if (selectedFile == null)
                     TextNormal(
-                        text = "Clique para selecionar arquivo",
+                        text = stringResource(Res.string.import_file_picker_prompt),
                         color = MaterialTheme.colors.primary.copy(alpha = 0.5f),
                         modifier = Modifier.weight(1f)
                     )

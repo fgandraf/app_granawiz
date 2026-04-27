@@ -14,6 +14,9 @@ import com.adamglin.phosphoricons.Regular
 import com.adamglin.phosphoricons.bold.ArrowLeft
 import com.adamglin.phosphoricons.regular.HandArrowUp
 import domain.enums.PartyType
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import view.modules.party.components.Body
 import view.shared.AddressView
 import view.shared.ClickableIcon
@@ -37,7 +40,7 @@ fun ReceiversScreen() {
                     AddressView(
                         icon = PhosphorIcons.Regular.HandArrowUp,
                         iconSize = DpSize(21.dp, 18.dp),
-                        value = "Beneficiários",
+                        value = stringResource(Res.string.nav_receivers),
                         rootPath = true
                     )
                 }

@@ -46,8 +46,6 @@ import kotlin.time.Duration.Companion.milliseconds
 
 fun main() = application {
 
-    Locale.setDefault(Locale.forLanguageTag("en-US"))
-
     var isReady by remember { mutableStateOf(false) }
     var dbError by remember { mutableStateOf<String?>(null) }
 
@@ -62,6 +60,7 @@ fun main() = application {
             }
         }
         if (dbError == null) {
+            Locale.setDefault(Locale.forLanguageTag(UserPreferences.language))
             delay(1000.milliseconds)
             isReady = true
         }
@@ -158,30 +157,32 @@ fun main() = application {
                 }
             }
 
-            val isLightTheme = UserPreferences.isLightTheme
-            val currentColorScheme = if (isLightTheme) LightColorScheme else DarkColorScheme
+            key(UserPreferences.language) {
+                val isLightTheme = UserPreferences.isLightTheme
+                val currentColorScheme = if (isLightTheme) LightColorScheme else DarkColorScheme
 
-            MaterialTheme(colors = currentColorScheme) {
+                MaterialTheme(colors = currentColorScheme) {
 
-                var currentScreen by remember { mutableStateOf<Screen>(Screen.Dashboard) }
-                val sidebarViewModel = remember { SidebarViewModel() }
+                    var currentScreen by remember { mutableStateOf<Screen>(Screen.Dashboard) }
+                    val sidebarViewModel = remember { SidebarViewModel() }
 
-                Column(modifier = Modifier.fillMaxSize().clip(RoundedCornerShape(10.dp))) {
-                    CustomTitleBar(
-                        windowState = windowState,
-                        onCloseRequest = ::exitApplication
-                    )
-                    Row(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .weight(1f)
-                            .background(MaterialTheme.colors.background)
-                    ) {
-                        Sidebar(viewModel = sidebarViewModel, currentScreen = currentScreen) { screen -> currentScreen = screen }
-                        MainContent(currentScreen, onScreenChange = { currentScreen = it }, onSidebarReload = sidebarViewModel::reload)
+                    Column(modifier = Modifier.fillMaxSize().clip(RoundedCornerShape(10.dp))) {
+                        CustomTitleBar(
+                            windowState = windowState,
+                            onCloseRequest = ::exitApplication
+                        )
+                        Row(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .weight(1f)
+                                .background(MaterialTheme.colors.background)
+                        ) {
+                            Sidebar(viewModel = sidebarViewModel, currentScreen = currentScreen) { screen -> currentScreen = screen }
+                            MainContent(currentScreen, onScreenChange = { currentScreen = it }, onSidebarReload = sidebarViewModel::reload)
+                        }
                     }
-                }
 
+                }
             }
         }
     } else {

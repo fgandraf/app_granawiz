@@ -18,6 +18,9 @@ import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.Shapes
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import domain.entity.Category
 import domain.entity.Subcategory
 import domain.enums.CategoryType
@@ -134,10 +137,10 @@ fun AddCategoryItem(
         },
         deleteDialog = {
             DialogDelete(
-                title = "Excluir categoria",
+                title = stringResource(Res.string.delete_category_title),
                 icon = PhosphorIcons.Light.Shapes,
                 objectName = item.name,
-                alertText = "Isso irá excluir permanentemente a categoria ${item.name} e remover todas as associações feitas à ela.",
+                alertText = stringResource(Res.string.delete_category_confirm, item.name),
                 onClickButton = { viewModel.deleteCategory(item) },
                 onDismiss = { deleteDialogIsVisible.value = false }
             )
@@ -184,10 +187,10 @@ fun AddSubcategoryItem(
         },
         deleteDialog = {
             DialogDelete(
-                title = "Excluir subcategoria",
+                title = stringResource(Res.string.delete_subcategory_title),
                 icon = PhosphorIcons.Light.Shapes,
                 objectName = item.name,
-                alertText = "Isso irá excluir permanentemente a subcategoria ${item.name} e remover todas as associações feitas à ela.",
+                alertText = stringResource(Res.string.delete_subcategory_confirm, item.name),
                 onClickButton = { viewModel.deleteSubcategory(item) },
                 onDismiss = { deleteDialogIsVisible.value = false }
             )

@@ -16,6 +16,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import domain.enums.PartyType
 import view.shared.*
 import viewModel.PartyViewModel
@@ -83,7 +86,7 @@ fun Body(
             // PARTYNAMES
             Box(modifier = Modifier.weight(1f).fillMaxHeight().padding(35.dp)) {
                 if (addNameButton) {
-                    TextNormal(text = "Nomes associados:")
+                    TextNormal(text = stringResource(Res.string.form_field_associated_names))
                     val listState = rememberLazyListState()
                     LazyColumn(state = listState, modifier = Modifier.fillMaxSize().padding(top = 30.dp)) {
                         items(names, key = { it.id }) { item -> PartyNameListItem(viewModel, item) }

@@ -42,6 +42,9 @@ import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.CaretDown
 import com.adamglin.phosphoricons.light.CaretUp
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import domain.entity.Category
 import domain.entity.Subcategory
 import utils.IconPaths
@@ -281,7 +284,7 @@ fun SearchableCategoryField(
                                     .padding(horizontal = 12.dp, vertical = 8.dp)
                             ) {
                                 TextNormal(
-                                    text = "Nenhuma encontrada",
+                                    text = stringResource(Res.string.search_no_results),
                                     color = primaryColor.copy(alpha = 0.5f)
                                 )
                             }

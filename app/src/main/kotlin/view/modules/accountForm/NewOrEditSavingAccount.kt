@@ -17,6 +17,9 @@ import androidx.compose.ui.unit.dp
 import domain.entity.account.SavingsAccount
 import domain.enums.AccountType
 import utils.toBrMoney
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import view.modules.accountForm.components.IconSelector
 import view.shared.DefaultButton
 import view.shared.DefaultTextField
@@ -35,7 +38,7 @@ fun NewOrEditSavingAccount(
     if (account != null) {
         LaunchedEffect(account) { accountFormViewModel.initializeFromAccount(account) }
     }
-    val buttonLabel by remember { mutableStateOf(if (account == null) "Adicionar" else "Editar") }
+    val buttonLabel = if (account == null) stringResource(Res.string.add) else stringResource(Res.string.edit)
 
     accountFormViewModel.type = AccountType.SAVINGS
 
@@ -58,8 +61,8 @@ fun NewOrEditSavingAccount(
                 DefaultTextField(
                     modifier = Modifier.padding(bottom = 20.dp),
                     value = accountFormViewModel.name,
-                    label = "Nome:",
-                    placeholder = "Nome da conta"
+                    label = stringResource(Res.string.form_field_name),
+                    placeholder = stringResource(Res.string.form_placeholder_account_name)
                 ) { accountFormViewModel.name = it }
 
 
@@ -68,9 +71,9 @@ fun NewOrEditSavingAccount(
                 DefaultTextField(
                     modifier = Modifier.padding(bottom = 20.dp),
                     value = openBalanceText,
-                    label = "Saldo inicial:",
+                    label = stringResource(Res.string.form_field_initial_balance),
                     textAlign = TextAlign.Right,
-                    placeholder = "0.000,00"
+                    placeholder = stringResource(Res.string.form_placeholder_amount)
                 ) {
                     openBalanceText = it.filter { char -> char.isDigit() || char == ',' || char == '.' }
                     accountFormViewModel.balance = it.replace(".", "").replace(",", ".").toDoubleOrNull() ?: 0.0
@@ -80,8 +83,8 @@ fun NewOrEditSavingAccount(
                 GroupListComboBox(
                     modifier = Modifier.padding(bottom = 20.dp),
                     value = accountFormViewModel.group.name,
-                    label = "Grupo:",
-                    placeholder = "Selecione o grupo",
+                    label = stringResource(Res.string.form_field_group),
+                    placeholder = stringResource(Res.string.form_placeholder_select_group),
                     groupList = sidebarViewModel.groups.value,
                     onClickItem = { accountFormViewModel.group = it }
                 )
@@ -89,9 +92,9 @@ fun NewOrEditSavingAccount(
                 //---description
                 DefaultTextField(
                     value = accountFormViewModel.description,
-                    label = "Descrição:",
+                    label = stringResource(Res.string.form_field_description),
                     boxSize = 80.dp,
-                    placeholder = "Informações adicionais"
+                    placeholder = stringResource(Res.string.additional_info)
                 ) { accountFormViewModel.description = it }
             }
         }

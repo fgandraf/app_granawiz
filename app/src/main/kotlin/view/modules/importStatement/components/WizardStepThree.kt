@@ -25,6 +25,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import application.category.CategoryHandler
 import application.party.PartyHandler
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.Trash
@@ -57,9 +60,9 @@ fun WizardStepThree(
 
     Column(modifier = Modifier.fillMaxSize()) {
 
-        TextH1(text = "Revise a conciliação")
+        TextH1(text = stringResource(Res.string.import_step3_title))
         Spacer(Modifier.height(8.dp))
-        TextNormal(text = "Ajuste os dados antes de continuar.")
+        TextNormal(text = stringResource(Res.string.import_step3_instruction))
 
         Spacer(Modifier.height(16.dp))
 
@@ -79,11 +82,11 @@ fun WizardStepThree(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Box(modifier = Modifier.width(30.dp))
-                TextH4(text = "Data", modifier = Modifier.weight(1.5f))
-                TextH4(text = "Pagador/Beneficiário", modifier = Modifier.weight(2.5f))
-                TextH4(text = "Descrição", modifier = Modifier.weight(2.5f))
-                TextH4(text = "Valor", modifier = Modifier.weight(1.5f))
-                TextH4(text = "Categoria", modifier = Modifier.weight(2f))
+                TextH4(text = stringResource(Res.string.import_column_date), modifier = Modifier.weight(1.5f))
+                TextH4(text = stringResource(Res.string.import_column_party), modifier = Modifier.weight(2.5f))
+                TextH4(text = stringResource(Res.string.import_column_description), modifier = Modifier.weight(2.5f))
+                TextH4(text = stringResource(Res.string.import_column_amount), modifier = Modifier.weight(1.5f))
+                TextH4(text = stringResource(Res.string.import_column_category), modifier = Modifier.weight(2f))
                 Box(modifier = Modifier.width(32.dp))
             }
 
@@ -128,7 +131,7 @@ fun WizardStepThree(
                 )
                 Spacer(Modifier.width(6.dp))
                 TextNormal(
-                    text = "Os registros destacados em amarelo podem ser duplicações de transações já cadastradas nessa conta. Revise antes de prosseguir.",
+                    text = stringResource(Res.string.import_duplicate_warning),
                     color = Color(0xFFB7950B),
                 )
             }
@@ -141,10 +144,10 @@ fun WizardStepThree(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            TransparentButton(text = "Voltar", onClick = onBack)
+            TransparentButton(text = stringResource(Res.string.back), onClick = onBack)
             DefaultButton(
                 modifier = Modifier.width(200.dp),
-                text = "Importar",
+                text = stringResource(Res.string.import),
                 textColor = if (MaterialTheme.colors.isLight) Color.White else MaterialTheme.colors.secondary,
                 onClick = onNext
             )
@@ -210,7 +213,7 @@ private fun EntryRow(
         SearchablePartyField(
             modifier = Modifier.weight(2.5f).padding(end = 8.dp),
             value = entry.party?.name ?: entry.customPartyName ?: entry.rawCounterpartyName,
-            placeholder = "Selecionar",
+            placeholder = stringResource(Res.string.import_category_placeholder),
             options = partyList,
             showBorder = false,
             borderOnActive = true,
@@ -256,7 +259,7 @@ private fun EntryRow(
         SearchableCategoryField(
             modifier = Modifier.weight(2f),
             value = categoryDisplayValue,
-            placeholder = "—",
+            placeholder = stringResource(Res.string.import_empty_category),
             options = categoryList,
             showBorder = false,
             borderOnActive = true,
@@ -278,7 +281,7 @@ private fun EntryRow(
 
 
         // Remove button
-        TooltipBox("Remover linha"){
+        TooltipBox(stringResource(Res.string.remove_row)){
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier

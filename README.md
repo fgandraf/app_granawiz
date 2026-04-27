@@ -10,16 +10,6 @@
 
 > Software desktop multi-plataforma de gestão de finanças pessoais. Com uma interface limpa, intuitiva e sem publicidade, a aplicação está em fase inicial de desenvolvimentos.
 
-## # Ajustes e melhorias
-
-O projeto ainda está em desenvolvimento e as próximas atualizações serão voltadas para as seguintes tarefas:
-
-- [ ] Importar arquivo .OFX
-- [ ] Ajustes em Agendamentos
-- [ ] Ajustes em Dashboard
-- [ ] Suporte multi-idiomas
-- [ ] Tradução para o inglês
-- [ ] Tela de carregamento (splash)
 
 ## # Instalando GranaWiz
 

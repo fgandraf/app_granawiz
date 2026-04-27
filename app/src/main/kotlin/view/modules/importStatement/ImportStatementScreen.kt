@@ -19,6 +19,9 @@ import com.adamglin.phosphoricons.bold.ArrowLeft
 import com.adamglin.phosphoricons.regular.Folders
 import com.adamglin.phosphoricons.regular.Receipt
 import com.adamglin.phosphoricons.regular.Wallet
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import domain.entity.account.BankAccount
 import view.modules.Screen
 import view.modules.importStatement.components.*
@@ -69,7 +72,7 @@ fun ImportStatementScreen(
                 AddressView(
                     icon = PhosphorIcons.Regular.Receipt,
                     iconSize = DpSize(21.dp, 18.dp),
-                    value = "Importar extrato",
+                    value = stringResource(Res.string.import_title),
                     rootPath = account == null
                 )
             }

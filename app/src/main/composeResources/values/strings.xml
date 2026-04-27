@@ -172,6 +172,8 @@
     <string name="import_step4_instruction">Track the import progress below.</string>
     <string name="import_file_picker">Statement file</string>
     <string name="import_file_picker_prompt">Click to select file</string>
+    <string name="import_file_dialog_title">Select bank statement</string>
+    <string name="search_no_results">None found</string>
 
     <!-- ─── Settings ─────────────────────────────────────────────────────── -->
     <string name="settings_title">Settings</string>
@@ -180,6 +182,8 @@
     <string name="settings_section_appearance">APPEARANCE</string>
     <string name="settings_theme_dark">Dark</string>
     <string name="settings_theme_light">Light</string>
+    <string name="settings_section_language">LANGUAGE</string>
+    <string name="settings_language">Application language</string>
     <string name="settings_section_currency">CURRENCY</string>
     <string name="settings_default_currency">Default currency</string>
     <string name="settings_number_format">Number format</string>
@@ -199,6 +203,7 @@
     <string name="form_field_limit">Limit:</string>
     <string name="form_field_closing_day">Closing day:</string>
     <string name="form_field_due_day">Due day:</string>
+    <string name="form_field_group">Group:</string>
     <string name="form_field_tags">Tags:</string>
     <string name="form_field_description">Description:</string>
     <string name="form_field_amount">Amount:</string>
@@ -212,6 +217,9 @@
     <string name="form_placeholder_account_name">Account name</string>
     <string name="form_placeholder_select_category">Select category</string>
     <string name="form_placeholder_select_group">Select group</string>
+    <string name="form_placeholder_select_account">Select account</string>
+    <string name="form_field_payer">Payer</string>
+    <string name="form_field_receiver">Receiver</string>
 
     <!-- ─── Account form titles ──────────────────────────────────────────── -->
     <string name="account_form_add_savings">Add savings account</string>
@@ -253,6 +261,23 @@
     <string name="recurrence_every_n_months">Every %1$d months</string>
     <string name="recurrence_yearly">Yearly</string>
     <string name="recurrence_every_n_years">Every %1$d years</string>
+    <string name="recurrence_summary_until_date">until %1$s</string>
+
+    <!-- ─── Month names ────────────────────────────────────────────────────── -->
+    <string name="month_january">January</string>
+    <string name="month_february">February</string>
+    <string name="month_march">March</string>
+    <string name="month_april">April</string>
+    <string name="month_may">May</string>
+    <string name="month_june">June</string>
+    <string name="month_july">July</string>
+    <string name="month_august">August</string>
+    <string name="month_september">September</string>
+    <string name="month_october">October</string>
+    <string name="month_november">November</string>
+    <string name="month_december">December</string>
+    <string name="month_unknown">Unknown month</string>
+    <string name="month_current">This month</string>
 
     <!-- ─── Confirmation dialog ───────────────────────────────────────────── -->
     <string name="confirm_delete_input_label">Type \"%1$s\"</string>

@@ -18,6 +18,9 @@ import androidx.compose.ui.unit.dp
 import domain.entity.account.CreditCardAccount
 import domain.enums.AccountType
 import utils.toBrMoney
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import view.modules.accountForm.components.IconSelector
 import view.shared.DefaultButton
 import view.shared.DefaultTextField
@@ -36,7 +39,7 @@ fun NewOrEditCreditCard(
     if (account != null) {
         LaunchedEffect(account) { accountFormViewModel.initializeFromAccount(account) }
     }
-    val buttonLabel by remember { mutableStateOf(if (account == null) "Adicionar" else "Editar") }
+    val buttonLabel = if (account == null) stringResource(Res.string.add) else stringResource(Res.string.edit)
 
     accountFormViewModel.type = AccountType.CREDIT_CARD
 
@@ -59,8 +62,8 @@ fun NewOrEditCreditCard(
                 DefaultTextField(
                     modifier = Modifier.padding(bottom = 20.dp),
                     value = accountFormViewModel.name,
-                    label = "Nome:",
-                    placeholder = "Nome da conta"
+                    label = stringResource(Res.string.form_field_name),
+                    placeholder = stringResource(Res.string.form_placeholder_account_name)
                 ) { accountFormViewModel.name = it }
 
 
@@ -69,9 +72,9 @@ fun NewOrEditCreditCard(
                 DefaultTextField(
                     modifier = Modifier.padding(bottom = 20.dp),
                     value = limitText,
-                    label = "Limite de crédito:",
+                    label = stringResource(Res.string.form_field_credit_limit),
                     textAlign = TextAlign.Right,
-                    placeholder = "0.000,00"
+                    placeholder = stringResource(Res.string.form_placeholder_amount)
                 ) {
                     limitText = it.filter { char -> char.isDigit() || char == ',' || char == '.' }
                     accountFormViewModel.limit = it.replace(".", "").replace(",", ".").toDoubleOrNull() ?: 0.0
@@ -85,9 +88,9 @@ fun NewOrEditCreditCard(
                     DefaultTextField(
                         modifier = Modifier.weight(1f).padding(end = 10.dp),
                         value = closingDayText,
-                        label = "Dia do fechamento:",
+                        label = stringResource(Res.string.form_field_closing_day),
                         textAlign = TextAlign.Right,
-                        placeholder = "1 à 31"
+                        placeholder = stringResource(Res.string.form_placeholder_day)
                     ) {
                         val filteredInput = it.filter { char -> char.isDigit() }.take(2).toIntOrNull()
                         if (filteredInput != null && filteredInput in 1..31) {
@@ -101,9 +104,9 @@ fun NewOrEditCreditCard(
                     DefaultTextField(
                         modifier = Modifier.weight(1f).padding(start = 10.dp),
                         value = dueDayText,
-                        label = "Dia da fatura:",
+                        label = stringResource(Res.string.form_field_due_day),
                         textAlign = TextAlign.Right,
-                        placeholder = "1 à 31"
+                        placeholder = stringResource(Res.string.form_placeholder_day)
                     ) {
                         val filteredInput = it.filter { char -> char.isDigit() }.take(2).toIntOrNull()
                         if (filteredInput != null && filteredInput in 1..31) {
@@ -118,8 +121,8 @@ fun NewOrEditCreditCard(
                 GroupListComboBox(
                     modifier = Modifier.padding(bottom = 20.dp),
                     value = accountFormViewModel.group.name,
-                    label = "Grupo:",
-                    placeholder = "Selecione o grupo",
+                    label = stringResource(Res.string.form_field_group),
+                    placeholder = stringResource(Res.string.form_placeholder_select_group),
                     groupList = sidebarViewModel.groups.value,
                     onClickItem = { accountFormViewModel.group = it }
                 )
@@ -127,9 +130,9 @@ fun NewOrEditCreditCard(
                 //---description
                 DefaultTextField(
                     value = accountFormViewModel.description,
-                    label = "Descrição:",
+                    label = stringResource(Res.string.form_field_description),
                     boxSize = 80.dp,
-                    placeholder = "Informações adicionais"
+                    placeholder = stringResource(Res.string.additional_info)
                 ) { accountFormViewModel.description = it }
             }
         }

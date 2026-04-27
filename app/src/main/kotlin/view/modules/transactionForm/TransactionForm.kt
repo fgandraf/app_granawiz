@@ -34,6 +34,9 @@ import domain.entity.account.BankAccount
 import domain.enums.CategoryType
 import domain.enums.PartyType
 import domain.enums.TransactionType
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import utils.IconPaths
 import utils.rememberSvgPainter
 import utils.formatNumber
@@ -196,7 +199,7 @@ fun TransactionForm(
                         DefaultTextField(
                             modifier = Modifier.weight(1f).padding(start = 10.dp),
                             value = balance,
-                            label = "Valor:",
+                            label = stringResource(Res.string.form_field_amount),
                             textAlign = TextAlign.Right,
                             placeholder = balancePlaceholder
                         ) { input ->
@@ -210,8 +213,8 @@ fun TransactionForm(
                     DropDownTextField(
                         modifier = Modifier.padding(bottom = 20.dp),
                         value = party.value?.name ?: "",
-                        label = if (scheduleFormViewModel.type == TransactionType.GAIN) "Pagador" else "Recebedor",
-                        placeholder = "Nome",
+                        label = if (scheduleFormViewModel.type == TransactionType.GAIN) stringResource(Res.string.form_field_payer) else stringResource(Res.string.form_field_receiver),
+                        placeholder = stringResource(Res.string.name),
                         onClick = {
                             if (showSide && sideType == "parties") showSide = false
                             else if (showSide) sideType = "parties"
@@ -225,9 +228,9 @@ fun TransactionForm(
                     DefaultTextField(
                         modifier = Modifier.padding(bottom = 20.dp),
                         value = scheduleFormViewModel.description,
-                        label = "Descrição:",
+                        label = stringResource(Res.string.form_field_description),
                         boxSize = 80.dp,
-                        placeholder = "Informações adicionais"
+                        placeholder = stringResource(Res.string.additional_info)
                     ) { scheduleFormViewModel.description = it }
 
                     //---category
@@ -235,8 +238,8 @@ fun TransactionForm(
                         modifier = Modifier.padding(bottom = 20.dp),
                         icon = category.value?.icon,
                         value = if (category.value?.name.isNullOrEmpty()) "" else category.value!!.name + if (subcategory?.name.isNullOrEmpty()) "" else " → ${subcategory.name}",
-                        label = "Categoria:",
-                        placeholder = "Selecione a categoria",
+                        label = stringResource(Res.string.form_field_category),
+                        placeholder = stringResource(Res.string.form_placeholder_select_category),
                         onClick = {
                             if (showSide && sideType == "categories") showSide = false
                             else if (showSide) sideType = "categories"
@@ -248,8 +251,8 @@ fun TransactionForm(
 
                     //---tags
                     TagListView(
-                        label = "Etiquetas:",
-                        placeholder = "Etiquetas",
+                        label = stringResource(Res.string.form_field_tags),
+                        placeholder = stringResource(Res.string.form_placeholder_tags),
                         tags = tags.value,
                         onClickAdd = {
                             if (showSide && sideType == "tags") showSide = false
@@ -267,7 +270,7 @@ fun TransactionForm(
                         Spacer(Modifier.height(20.dp))
 
                         RecurrenceSetView(
-                            label = "Recorrência:",
+                            label = stringResource(Res.string.form_field_recurrence),
                             summary = buildRecurrenceSummary(
                                 frequency = scheduleFormViewModel.frequency,
                                 interval = scheduleFormViewModel.interval,
@@ -342,7 +345,7 @@ fun TransactionForm(
             Icon(
                 modifier = Modifier.size(25.dp),
                 imageVector = PhosphorIcons.Light.Check,
-                contentDescription = "Save",
+                contentDescription = stringResource(Res.string.save),
                 tint = Color.White
             )
         }
@@ -357,7 +360,7 @@ private fun AccountSelector(
     onSelect: (BankAccount) -> Unit,
 ) {
     var expanded by remember { mutableStateOf(false) }
-    val label = if (currentAccount.id == 0L) "Selecione a conta" else currentAccount.name
+    val label = if (currentAccount.id == 0L) stringResource(Res.string.form_placeholder_select_account) else currentAccount.name
 
     Box {
         Row(

@@ -10,6 +10,7 @@ class UserPreference(
     @Column(name = "is_light_theme", columnDefinition = "INTEGER") var isLightTheme: Boolean = true,
     @Column(name = "currency_symbol") var currencySymbol: String = "Brazilian Real (R$)",
     @Column(name = "currency_format") var currencyFormat: String = "dot-comma",
+    @Column(name = "language") var language: String = "pt-BR",
 ) {
-    constructor() : this(1, true, "Brazilian Real (R$)", "dot-comma")
+    constructor() : this(1, true, "Brazilian Real (R$)", "dot-comma", "pt-BR")
 }

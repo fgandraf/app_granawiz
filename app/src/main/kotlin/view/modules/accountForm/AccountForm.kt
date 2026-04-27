@@ -15,6 +15,9 @@ import domain.entity.account.CheckingAccount
 import domain.entity.account.CreditCardAccount
 import domain.entity.account.SavingsAccount
 import domain.enums.AccountType
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import view.shared.DialogTitleBar
 import viewModel.AccountFormViewModel
 import viewModel.SidebarViewModel
@@ -37,12 +40,11 @@ fun AccountForm(
 
 
             val type = account?.type ?: accountType
-            var title = when (type!!) {
-                AccountType.SAVINGS -> "conta poupança"
-                AccountType.CHECKING -> "conta corrente"
-                AccountType.CREDIT_CARD -> "cartão de crédito"
+            val title = when (type!!) {
+                AccountType.SAVINGS -> if (account == null) stringResource(Res.string.account_form_add_savings) else stringResource(Res.string.account_form_edit_savings)
+                AccountType.CHECKING -> if (account == null) stringResource(Res.string.account_form_add_checking) else stringResource(Res.string.account_form_edit_checking)
+                AccountType.CREDIT_CARD -> if (account == null) stringResource(Res.string.account_form_add_credit_card) else stringResource(Res.string.account_form_edit_credit_card)
             }
-            title = if (account == null) "Adicionar $title" else "Editar $title"
 
 
             //===== Title Bar

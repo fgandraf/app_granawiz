@@ -14,6 +14,9 @@ import com.adamglin.phosphoricons.Regular
 import com.adamglin.phosphoricons.bold.ArrowLeft
 import com.adamglin.phosphoricons.regular.HandArrowDown
 import domain.enums.PartyType
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import view.modules.party.components.Body
 import view.shared.AddressView
 import view.shared.ClickableIcon
@@ -36,7 +39,7 @@ fun PayersScreen() {
                     AddressView(
                         icon = PhosphorIcons.Regular.HandArrowDown,
                         iconSize = DpSize(21.dp, 18.dp),
-                        value = "Pagadores",
+                        value = stringResource(Res.string.nav_payers),
                         rootPath = true
                     )
                 }
