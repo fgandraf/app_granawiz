@@ -72,6 +72,17 @@ class PartyRepository : IPartyRepository {
         return count > 0
     }
 
+    override fun reassignTransactions(from: Party, to: Party) {
+        val session = sessionFactory.openSession()
+        session.beginTransaction()
+        session.createMutationQuery("UPDATE Transaction t SET t.party = :to WHERE t.party = :from")
+            .setParameter("to", to)
+            .setParameter("from", from)
+            .executeUpdate()
+        session.transaction.commit()
+        session.close()
+    }
+
     override fun delete(party: Party) {
         val session = sessionFactory.openSession()
         session.beginTransaction()

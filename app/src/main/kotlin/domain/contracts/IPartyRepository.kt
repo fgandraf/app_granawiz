@@ -14,6 +14,8 @@ interface IPartyRepository {
 
     fun hasTransactions(party: Party): Boolean
 
+    fun reassignTransactions(from: Party, to: Party)
+
     fun delete(party: Party)
 
     fun deleteName(partyName: PartyName)

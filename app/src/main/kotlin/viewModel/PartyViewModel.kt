@@ -35,6 +35,13 @@ class PartyViewModel(type: PartyType, private val partyHandler: PartyHandler = P
         return success
     }
 
+    fun hasTransactions(party: Party): Boolean = partyHandler.hasTransactions(party)
+
+    fun reassignAndDelete(from: Party, to: Party) {
+        partyHandler.reassignAndDelete(from, to)
+        getParties()
+    }
+
     fun deleteName(partyName: PartyName) {
         partyHandler.deleteName(partyName)
         getNames()

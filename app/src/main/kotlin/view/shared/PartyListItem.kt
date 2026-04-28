@@ -57,18 +57,35 @@ fun PartyListItem(
                 stringResource(Res.string.party_type_payer)
             val iconResource =
                 if (viewModel.selectedType.value == PartyType.RECEIVER) PhosphorIcons.Light.HandArrowDown else PhosphorIcons.Light.HandArrowUp
+            val hasTransactions = remember(item.id) { viewModel.hasTransactions(item) }
 
-            DialogDelete(
-                title = stringResource(Res.string.delete_party_title, type),
-                icon = iconResource,
-                objectName = item.name,
-                alertText = stringResource(Res.string.delete_party_confirm, type, item.name),
-                onClickButton = {
-                    deleteSuccess = viewModel.deleteParty(item)
-                    deleteDialogIsVisible.value = false
-                },
-                onDismiss = { deleteDialogIsVisible.value = false }
-            )
+            if (hasTransactions) {
+                val otherParties = remember(item.id) { viewModel.parties.value.filter { it.id != item.id } }
+                DialogReassignAndDelete(
+                    title = stringResource(Res.string.delete_party_title, type),
+                    icon = iconResource,
+                    party = item,
+                    partyTypeName = type,
+                    otherParties = otherParties,
+                    onConfirm = { target ->
+                        viewModel.reassignAndDelete(item, target)
+                        deleteDialogIsVisible.value = false
+                    },
+                    onDismiss = { deleteDialogIsVisible.value = false }
+                )
+            } else {
+                DialogDelete(
+                    title = stringResource(Res.string.delete_party_title, type),
+                    icon = iconResource,
+                    objectName = item.name,
+                    alertText = stringResource(Res.string.delete_party_confirm, type, item.name),
+                    onClickButton = {
+                        deleteSuccess = viewModel.deleteParty(item)
+                        deleteDialogIsVisible.value = false
+                    },
+                    onDismiss = { deleteDialogIsVisible.value = false }
+                )
+            }
         }
     )
 }

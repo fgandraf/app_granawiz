@@ -14,6 +14,8 @@ class PartyHandler {
     private val fetchNamesUseCase = FetchNamesUseCase()
     private val deletePartyUseCase = DeletePartyUseCase()
     private val deleteNameUseCase = DeleteNameUseCase()
+    private val hasTransactionsPartyUseCase = HasTransactionsPartyUseCase()
+    private val reassignAndDeletePartyUseCase = ReassignAndDeletePartyUseCase()
     private val addPartyUseCase = AddPartyUseCase()
     private val updatePartyUseCase = UpdatePartyUseCase()
     private val addNameUseCase = AddNameUseCase()
@@ -33,6 +35,8 @@ class PartyHandler {
         return error == null
     }
     fun deleteName(partyName: PartyName) = deleteNameUseCase.execute(partyName)
+    fun hasTransactions(party: Party): Boolean = hasTransactionsPartyUseCase.execute(party)
+    fun reassignAndDelete(from: Party, to: Party) = reassignAndDeletePartyUseCase.execute(from, to)
 
     fun addParty(name: String, type: PartyType): Party? {
         val response = addPartyUseCase.execute(name, type)

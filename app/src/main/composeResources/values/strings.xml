@@ -136,6 +136,10 @@
     <string name="delete_party_confirm">This will permanently delete the %1$s %2$s and remove all associations made to it.</string>
     <string name="delete_party_name_title">Delete name</string>
     <string name="delete_party_name_confirm">This will permanently delete the name %1$s and remove all associations made to it.</string>
+    <string name="delete_party_has_transactions">This %1$s has linked transactions. Select another %1$s to transfer all transactions to before deleting:</string>
+    <string name="delete_party_no_other_parties">This %1$s has linked transactions but there are no other %1$s registered to transfer them to.</string>
+    <string name="delete_party_reassign_label">Transfer transactions to:</string>
+    <string name="delete_party_reassign_button">Move and delete</string>
 
     <!-- ─── Schedules ─────────────────────────────────────────────────────── -->
     <string name="schedules_empty">No schedules found.</string>

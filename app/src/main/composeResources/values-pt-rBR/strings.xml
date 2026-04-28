@@ -136,6 +136,10 @@
     <string name="delete_party_confirm">Isso irá excluir permanentemente o %1$s %2$s e remover todas as associações feitas à ele.</string>
     <string name="delete_party_name_title">Excluir nome</string>
     <string name="delete_party_name_confirm">Isso irá excluir permanentemente o nome %1$s e remover todas as associações feitas à ele.</string>
+    <string name="delete_party_has_transactions">Este %1$s possui transações vinculadas. Selecione outro %1$s para transferir todas as transações antes de excluir:</string>
+    <string name="delete_party_no_other_parties">Este %1$s possui transações vinculadas, mas não há outro %1$s cadastrado para transferi-las.</string>
+    <string name="delete_party_reassign_label">Transferir transações para:</string>
+    <string name="delete_party_reassign_button">Mover e excluir</string>
 
     <!-- ─── Schedules ─────────────────────────────────────────────────────── -->
     <string name="schedules_empty">Nenhum agendamento encontrado.</string>
