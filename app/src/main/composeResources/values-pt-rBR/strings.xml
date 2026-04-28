@@ -290,6 +290,6 @@
     <string name="month_current">Esse mês</string>
 
     <!-- ─── Confirmation dialog ───────────────────────────────────────────── -->
-    <string name="confirm_delete_input_label">Digite \"%1$s\"</string>
+    <string name="confirm_delete_input_label">Digite "%1$s"</string>
 
 </resources>

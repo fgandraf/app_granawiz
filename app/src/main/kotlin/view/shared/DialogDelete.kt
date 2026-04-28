@@ -41,7 +41,7 @@ fun DialogDelete(
     Dialog(onDismissRequest = onDismiss) {
         Column(
             modifier = Modifier
-                .width(420.dp)
+                .width(500.dp)
                 .background(MaterialTheme.colors.surface, shape = RoundedCornerShape(8.dp))
         ) {
 

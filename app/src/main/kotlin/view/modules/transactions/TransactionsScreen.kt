@@ -134,7 +134,8 @@ fun TransactionsScreen(
                     transaction.description.contains(searchQuery, ignoreCase = true) ||
                     transaction.category.name.contains(searchQuery, ignoreCase = true) ||
                     transaction.subcategory?.name?.contains(searchQuery, ignoreCase = true) == true ||
-                    transaction.tags?.any { it.name.contains(searchQuery, ignoreCase = true) } == true
+                    transaction.tags?.any { it.name.contains(searchQuery, ignoreCase = true) } == true ||
+                    transaction.balance.toString().contains(searchQuery, ignoreCase = true)
             val matchesAccount = filterAccount == null || transaction.account.id == filterAccount!!.id
             val matchesCategory = filterCategoryItem == null ||
                     (filterCategoryItem!!.second == null && transaction.category.id == filterCategoryItem!!.first.id) ||
