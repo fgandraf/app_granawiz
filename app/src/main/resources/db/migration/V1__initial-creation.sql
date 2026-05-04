@@ -90,7 +90,8 @@ CREATE TABLE tbl_user_preferences (
     is_light_theme INTEGER NOT NULL DEFAULT 1,
     currency_symbol TEXT NOT NULL DEFAULT 'Brazilian Real (R$)',
     currency_format TEXT NOT NULL DEFAULT 'dot-comma',
-    language TEXT NOT NULL DEFAULT 'en-US'
+    language TEXT NOT NULL DEFAULT 'en-US',
+    title_bar_style TEXT NOT NULL DEFAULT 'default'
 );
 
 CREATE TABLE tbl_schedules (

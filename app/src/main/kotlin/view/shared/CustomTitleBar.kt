@@ -171,8 +171,7 @@ private fun MacOsTitleBarButton(
             .size(14.dp)
             .clip(CircleShape)
             .background(color)
-            .clickable(onClick = onClick)
-            .pointerHoverIcon(PointerIcon.Hand),
+            .clickable(onClick = onClick),
         contentAlignment = Alignment.Center
     ) {
         if (showSymbol) {
