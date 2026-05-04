@@ -192,6 +192,9 @@
     <string name="settings_section_appearance">APARÊNCIA</string>
     <string name="settings_theme_dark">Apagar</string>
     <string name="settings_theme_light">Acender</string>
+    <string name="settings_titlebar_style_label">Estilo da barra de título</string>
+    <string name="settings_titlebar_style_default">Padrão</string>
+    <string name="settings_titlebar_style_macos">Estilo macOS</string>
     <string name="settings_section_language">IDIOMA</string>
     <string name="settings_language">Idioma do aplicativo</string>
     <string name="settings_section_currency">MOEDA</string>

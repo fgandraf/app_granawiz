@@ -11,6 +11,7 @@ class UserPreference(
     @Column(name = "currency_symbol") var currencySymbol: String = "Brazilian Real (R$)",
     @Column(name = "currency_format") var currencyFormat: String = "dot-comma",
     @Column(name = "language") var language: String = "pt-BR",
+    @Column(name = "title_bar_style") var titleBarStyle: String = "default",
 ) {
-    constructor() : this(1, true, "Brazilian Real (R$)", "dot-comma", "pt-BR")
+    constructor() : this(1, true, "Brazilian Real (R$)", "dot-comma", "pt-BR", "default")
 }

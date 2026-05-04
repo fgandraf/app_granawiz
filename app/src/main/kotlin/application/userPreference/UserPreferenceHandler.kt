@@ -33,4 +33,10 @@ class UserPreferenceHandler {
         prefs.language = language
         updateUseCase.execute(prefs)
     }
+
+    fun updateTitleBarStyle(style: String) {
+        val prefs = fetchUseCase.execute()
+        prefs.titleBarStyle = style
+        updateUseCase.execute(prefs)
+    }
 }

@@ -95,11 +95,16 @@ fun SettingsScreen(
     var languageMenuExpanded by remember { mutableStateOf(false) }
     var currencyMenuExpanded by remember { mutableStateOf(false) }
     var formatMenuExpanded by remember { mutableStateOf(false) }
+    var titleBarMenuExpanded by remember { mutableStateOf(false) }
+    val titleBarStyles = listOf(
+        "default" to stringResource(Res.string.settings_titlebar_style_default),
+        "macos" to stringResource(Res.string.settings_titlebar_style_macos),
+    )
     Dialog(onDismissRequest = onDismiss) {
         Column(
             modifier = Modifier
                 .width(520.dp)
-                .height(760.dp)
+                .height(820.dp)
                 .background(MaterialTheme.colors.surface, shape = RoundedCornerShape(8.dp))
         ) {
             DialogTitleBar(title = stringResource(Res.string.settings_title), onCloseRequest = onDismiss)
@@ -154,6 +159,29 @@ fun SettingsScreen(
                         )
                         Spacer(Modifier.width(10.dp))
                         TextNormal(text = if (isLightTheme) stringResource(Res.string.settings_theme_dark) else stringResource(Res.string.settings_theme_light))
+                    }
+                    Box {
+                        val selectedStyleLabel = titleBarStyles.find { it.first == UserPreferences.titleBarStyle }?.second
+                            ?: titleBarStyles.first().second
+                        DropDownTextField(
+                            modifier = Modifier.fillMaxWidth(),
+                            value = selectedStyleLabel,
+                            label = stringResource(Res.string.settings_titlebar_style_label),
+                            onClick = { titleBarMenuExpanded = true }
+                        )
+                        DropdownMenu(
+                            expanded = titleBarMenuExpanded,
+                            onDismissRequest = { titleBarMenuExpanded = false },
+                        ) {
+                            titleBarStyles.forEach { (key, label) ->
+                                DropdownMenuItem(onClick = {
+                                    viewModel.setTitleBarStyle(key)
+                                    titleBarMenuExpanded = false
+                                }) {
+                                    TextNormal(text = label)
+                                }
+                            }
+                        }
                     }
                 }
 

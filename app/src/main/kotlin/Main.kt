@@ -29,7 +29,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import org.flywaydb.core.api.exception.FlywayValidateException
-import view.modules.CustomTitleBar
+import view.shared.CustomTitleBar
 import view.modules.MainContent
 import view.modules.Screen
 import view.modules.splash.SplashWindow

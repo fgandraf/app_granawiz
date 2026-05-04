@@ -26,4 +26,9 @@ class SettingsViewModel(private val handler: UserPreferenceHandler = UserPrefere
         UserPreferences.language = tag
         handler.updateLanguage(tag)
     }
+
+    fun setTitleBarStyle(style: String) {
+        UserPreferences.titleBarStyle = style
+        handler.updateTitleBarStyle(style)
+    }
 }
