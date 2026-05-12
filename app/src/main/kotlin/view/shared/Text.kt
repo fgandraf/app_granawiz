@@ -11,8 +11,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import view.theme.Afacade
-import view.theme.GrayPrimaryDark
-import view.theme.GrayPrimaryLight
 import view.theme.DefaultFont
 
 
@@ -20,7 +18,7 @@ import view.theme.DefaultFont
 fun TextNormal(
     modifier: Modifier = Modifier,
     text: String,
-    color: Color? = if (MaterialTheme.colors.isLight) GrayPrimaryLight else GrayPrimaryDark,
+    color: Color? = MaterialTheme.colors.primary,
     align: TextAlign = TextAlign.Start,
     lineHeight: TextUnit? = 12.sp,
     fontStyle: FontStyle? = FontStyle.Normal,
@@ -43,7 +41,7 @@ fun TextNormal(
 fun TextMedium(
     modifier: Modifier = Modifier,
     text: String,
-    color: Color? = if (MaterialTheme.colors.isLight) GrayPrimaryLight else GrayPrimaryDark,
+    color: Color? = MaterialTheme.colors.primary,
     align: TextAlign = TextAlign.Start
 ) {
     Text(
@@ -61,7 +59,7 @@ fun TextMedium(
 @Composable
 fun TextSmall(
     modifier: Modifier = Modifier,
-    color: Color? = if (MaterialTheme.colors.isLight) GrayPrimaryLight else GrayPrimaryDark,
+    color: Color? = MaterialTheme.colors.primary,
     text: String,
     align: TextAlign = TextAlign.Start,
     italic: Boolean = false,
@@ -84,7 +82,7 @@ fun TextSmall(
 fun TextH1(
     modifier: Modifier = Modifier,
     text: String,
-    color: Color? = if (MaterialTheme.colors.isLight) GrayPrimaryLight else GrayPrimaryDark,
+    color: Color? = MaterialTheme.colors.primary,
     align: TextAlign = TextAlign.Start,
 ) {
     Text(
@@ -110,7 +108,7 @@ fun TextH2(
         modifier = modifier,
         text = text,
         fontSize = 16.sp,
-        color = if (MaterialTheme.colors.isLight) GrayPrimaryLight else GrayPrimaryDark,
+        color = MaterialTheme.colors.primary,
         fontWeight = FontWeight.Bold,
         lineHeight = 16.sp,
         fontFamily = Afacade,
@@ -123,7 +121,7 @@ fun TextH2(
 fun TextH3(
     modifier: Modifier = Modifier,
     text: String,
-    color: Color? = if (MaterialTheme.colors.isLight) GrayPrimaryLight else GrayPrimaryDark,
+    color: Color? = MaterialTheme.colors.primary,
     align: TextAlign = TextAlign.Start,
 ) {
     Text(
@@ -142,7 +140,7 @@ fun TextH3(
 @Composable
 fun TextH4(
     modifier: Modifier = Modifier,
-    color: Color? = if (MaterialTheme.colors.isLight) GrayPrimaryLight else GrayPrimaryDark,
+    color: Color? = MaterialTheme.colors.primary,
     text: String,
     align: TextAlign = TextAlign.Start,
 ) {

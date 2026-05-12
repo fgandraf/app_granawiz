@@ -4,18 +4,15 @@ import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.ui.graphics.Color
 
-
-val GrayPrimaryLight = Color(0xFF282828)
-val GrayPrimaryDark = Color(0xFF9b9b9b)
 val RedWarning = Color(0xFFFF6961)
 val ButtonGreen = Color(0xFF8BB581)
 val ButtonPurple = Color(0xFF73378a)
 
 val LightColorScheme = lightColors(
-    primary = GrayPrimaryLight, // text
+    primary = Color(0xFF282828), //text
     primaryVariant = Color(0xFF3C3C3C), //lighter text
     secondary = Color(0xFF000000), //emphasis text
-    secondaryVariant = Color(0xFFEEEEEE), // lightest gray
+    secondaryVariant = Color(0xFFEEEEEE), //lightest gray
     background = Color(0xFFf8f8f7), // screen background
     surface = Color(0xFFFFFFFF), // sidebar
     onSurface = Color(0xFFbfbfbf), // borders
@@ -25,9 +22,9 @@ val LightColorScheme = lightColors(
 
 
 val DarkColorScheme = darkColors(
-    primary = Color(0xFFC8C8C8), // text *********
-    primaryVariant = Color(0xFFA0A0A0), //lighter text  *******
-    secondary = Color(0xFFd5d5d5), //emphasis text *************
+    primary = Color(0xFF9b9b9b), //text
+    primaryVariant = Color(0xFFA0A0A0), //lighter text
+    secondary = Color(0xFFd5d5d5), //emphasis text
     secondaryVariant = Color(0xFF121212), // darkest gray
     background = Color(0xFF202020), // screen background ***********
     surface = Color(0xFF191919), // sidebar ************

@@ -23,7 +23,7 @@ import view.shared.ClickableIcon
 
 @Composable
 fun PayersScreen() {
-    Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.background)) {
+    Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.surface)) {
 
         //===== HEADER
         Column {

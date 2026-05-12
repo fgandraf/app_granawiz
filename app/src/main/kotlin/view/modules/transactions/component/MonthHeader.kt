@@ -1,5 +1,6 @@
 package view.modules.transactions.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
@@ -53,6 +54,7 @@ fun MonthHeader(
             Modifier
             .clip(corners)
             .border(0.5.dp, MaterialTheme.colors.onSurface, corners)
+            .background(MaterialTheme.colors.background.copy(0.3f))
             .onGloballyPositioned { boxWidth = it.size.width }
             .zIndex(1f)
         ) {

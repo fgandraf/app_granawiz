@@ -148,7 +148,7 @@ fun TransactionsScreen(
 
     var transactionType by remember { mutableStateOf(selectedTransaction?.type) }
 
-    Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.background)) {
+    Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.surface)) {
 
         // ********** HEADER **********
         Column(modifier = Modifier.fillMaxWidth().padding(start = 20.dp, top = 20.dp, end = 20.dp)) {
@@ -221,7 +221,7 @@ fun TransactionsScreen(
                                             .zIndex(2f)
                                             .clip(RoundedCornerShape(topEnd = 0.dp, bottomStart = 0.dp))
                                             .background(
-                                                MaterialTheme.colors.surface,
+                                                MaterialTheme.colors.background.copy(0.3f),
                                                 RoundedCornerShape(topEnd = 0.dp, bottomStart = 0.dp)
                                             )
                                             .border(

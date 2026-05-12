@@ -36,7 +36,7 @@ fun DashboardScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colors.background),
+            .background(MaterialTheme.colors.surface),
     ) {
         //===== HEADER
         Row(
@@ -75,10 +75,10 @@ fun DashboardScreen() {
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 20.dp, vertical = 10.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             //---- Linha 1: Patrimônio + Fluxo + Ritmo
-            Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 NetWorthCard(modifier = Modifier.weight(1f), snapshot = current.netWorth)
                 CashFlowCard(
                     modifier = Modifier.weight(1f),
@@ -89,7 +89,7 @@ fun DashboardScreen() {
             }
 
             //---- Linha 2: Categorias + Evolução
-            Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 CategoryBreakdownCard(modifier = Modifier.weight(1f), breakdown = current.categoryBreakdown)
                 MonthlyEvolutionCard(modifier = Modifier.weight(1f), data = current.monthlyEvolution)
             }
@@ -98,7 +98,7 @@ fun DashboardScreen() {
             CreditCardsCard(modifier = Modifier.fillMaxWidth(), snapshots = current.creditCards)
 
             //---- Linha 4: Top beneficiários + Top despesas + Lançamentos futuros
-            Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 TopPartiesCard(modifier = Modifier.weight(1f), parties = current.topParties)
                 TopTransactionsCard(modifier = Modifier.weight(1f), transactions = current.topTransactions)
                 UpcomingSchedulesCard(modifier = Modifier.weight(1f), occurrences = current.upcomingOccurrences)

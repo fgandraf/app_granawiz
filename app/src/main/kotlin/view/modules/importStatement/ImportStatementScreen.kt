@@ -41,7 +41,7 @@ fun ImportStatementScreen(
         vm.account = account
     }
 
-    Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.background)) {
+    Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.surface)) {
 
         //===== HEADER
         Column {
@@ -91,7 +91,7 @@ fun ImportStatementScreen(
                     .fillMaxWidth(0.85f)
                     .border(0.5.dp, MaterialTheme.colors.onSurface, shape = RoundedCornerShape(corner))
                     .clip(RoundedCornerShape(corner))
-                    .background(MaterialTheme.colors.surface)
+                    .background(MaterialTheme.colors.background.copy(0.5f))
                     .padding(30.dp)
             ) {
                 WizardStepIndicator(currentStep = vm.currentStep)

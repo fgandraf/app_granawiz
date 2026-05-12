@@ -35,7 +35,7 @@ fun AccountForm(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .width(500.dp).defaultMinSize(minHeight = 400.dp)
-                .background(MaterialTheme.colors.background, shape = RoundedCornerShape(8.dp))
+                .background(MaterialTheme.colors.surface, shape = RoundedCornerShape(8.dp))
         ) {
 
 

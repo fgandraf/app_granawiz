@@ -26,11 +26,10 @@ import com.adamglin.phosphoricons.light.ChartLineUp
 import com.adamglin.phosphoricons.light.Invoice
 import com.adamglin.phosphoricons.light.Shapes
 import com.adamglin.phosphoricons.regular.Shapes
+import com.felipegandra.generated.resources.*
 import domain.entity.Category
 import domain.entity.Subcategory
 import domain.enums.CategoryType
-import com.felipegandra.generated.resources.Res
-import com.felipegandra.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 import utils.IconPaths
 import view.modules.categories.components.CategoryListItem
@@ -49,7 +48,7 @@ fun CategoriesScreen(
     var addCategoryButton by remember { mutableStateOf<Boolean>(false) }
     var addSubcategoryButton by remember { mutableStateOf<Boolean>(false) }
 
-    Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.background)) {
+    Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.surface)) {
 
         //===== HEADER
         Column {
@@ -87,7 +86,7 @@ fun CategoriesScreen(
                     .fillMaxWidth(0.85f)
                     .border(0.5.dp, MaterialTheme.colors.onSurface, shape = RoundedCornerShape(corner))
                     .clip(RoundedCornerShape(corner))
-                    .background(MaterialTheme.colors.surface)
+                    .background(MaterialTheme.colors.background.copy(0.3f))
                     .padding(30.dp)
             ) {
                 Row {

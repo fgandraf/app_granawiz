@@ -22,7 +22,7 @@ fun TopPartiesCard(
     modifier: Modifier = Modifier,
     parties: List<PartyVolume>,
 ) {
-    SummaryCard(modifier = modifier, title = stringResource(Res.string.dashboard_top_parties_title), icon = PhosphorIcons.Light.HandArrowUp, height = 170.dp) {
+    SummaryCard(modifier = modifier, title = stringResource(Res.string.dashboard_top_parties_title), icon = PhosphorIcons.Light.HandArrowUp, height = 150.dp) {
         if (parties.isEmpty()) {
             TextSmall(text = stringResource(Res.string.dashboard_no_data_in_period), italic = true)
             return@SummaryCard

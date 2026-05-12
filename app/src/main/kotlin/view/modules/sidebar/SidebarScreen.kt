@@ -24,7 +24,7 @@ fun Sidebar(
 
     Row {
 
-        Column(modifier = Modifier.width(229.5.dp).fillMaxHeight().background(MaterialTheme.colors.surface)) {
+        Column(modifier = Modifier.width(229.5.dp).fillMaxHeight().background(MaterialTheme.colors.background)) {
             Header(viewModel, showSettings = showSettings, onSettingsChange = onSettingsChange)
             Main(Modifier.weight(1f), viewModel, currentScreen, onScreenSelected)
             Footer(viewModel)

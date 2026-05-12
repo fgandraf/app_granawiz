@@ -56,7 +56,7 @@ fun FrameWindowScope.CustomTitleBar(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(32.dp)
-                    .background(MaterialTheme.colors.surface)
+                    .background(MaterialTheme.colors.background)
                     .pointerInput(windowState.placement) {
                         var lastClickMs = 0L
                         awaitPointerEventScope {
