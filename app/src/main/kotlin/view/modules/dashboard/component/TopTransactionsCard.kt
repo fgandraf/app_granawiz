@@ -15,7 +15,7 @@ import org.jetbrains.compose.resources.stringResource
 import domain.entity.Transaction
 import utils.formatCurrency
 import kotlin.math.abs
-import view.modules.UserPreferences
+import viewModel.UserPreferences
 import view.shared.TextNormal
 import view.shared.TextSmall
 import java.time.format.TextStyle

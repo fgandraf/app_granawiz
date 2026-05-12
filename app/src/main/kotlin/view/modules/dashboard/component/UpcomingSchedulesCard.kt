@@ -18,7 +18,7 @@ import com.felipegandra.generated.resources.Res
 import com.felipegandra.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 import utils.formatCurrency
-import view.modules.UserPreferences
+import viewModel.UserPreferences
 import view.shared.TextNormal
 import view.shared.TextSmall
 import java.time.format.TextStyle

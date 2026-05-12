@@ -33,7 +33,7 @@ import view.shared.CustomTitleBar
 import view.modules.MainContent
 import view.modules.Screen
 import view.modules.splash.SplashWindow
-import view.modules.UserPreferences
+import viewModel.UserPreferences
 import view.modules.sidebar.Sidebar
 import viewModel.SidebarViewModel
 import view.theme.DarkColorScheme

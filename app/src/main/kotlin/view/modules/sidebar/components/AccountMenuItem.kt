@@ -29,7 +29,7 @@ import org.jetbrains.compose.resources.stringResource
 import domain.entity.account.BankAccount
 import utils.formatCurrency
 import view.modules.Screen
-import view.modules.UserPreferences
+import viewModel.UserPreferences
 import view.modules.accountForm.AccountForm
 import view.shared.*
 import viewModel.SidebarViewModel

@@ -20,7 +20,7 @@ import domain.structs.CategoryBreakdown
 import utils.IconPaths
 import utils.formatCurrency
 import utils.rememberSvgPainter
-import view.modules.UserPreferences
+import viewModel.UserPreferences
 import view.shared.TextNormal
 import view.shared.TextSmall
 

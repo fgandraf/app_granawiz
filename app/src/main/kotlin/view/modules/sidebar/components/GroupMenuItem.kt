@@ -17,7 +17,7 @@ import com.felipegandra.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 import domain.entity.Group
 import utils.formatCurrency
-import view.modules.UserPreferences
+import viewModel.UserPreferences
 import view.modules.groupForm.GroupForm
 import view.shared.ClickableIcon
 import view.shared.ClickableRow

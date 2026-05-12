@@ -13,7 +13,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import utils.formatCurrency
-import view.modules.UserPreferences
+import viewModel.UserPreferences
 import view.shared.TextSmall
 
 @Composable

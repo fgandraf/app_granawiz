@@ -18,7 +18,7 @@ import com.felipegandra.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 import domain.structs.SpendingPace
 import utils.formatCurrency
-import view.modules.UserPreferences
+import viewModel.UserPreferences
 import view.shared.TextH3
 import view.shared.TextNormal
 import view.shared.TextSmall

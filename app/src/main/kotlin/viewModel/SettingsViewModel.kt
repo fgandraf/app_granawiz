@@ -1,7 +1,7 @@
 package viewModel
 
 import application.userPreference.UserPreferenceHandler
-import view.modules.UserPreferences
+import viewModel.UserPreferences
 import java.util.Locale
 
 class SettingsViewModel(private val handler: UserPreferenceHandler = UserPreferenceHandler()) {

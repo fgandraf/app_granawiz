@@ -13,7 +13,7 @@ import com.felipegandra.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 import domain.structs.PartyVolume
 import utils.formatCurrency
-import view.modules.UserPreferences
+import viewModel.UserPreferences
 import view.shared.TextNormal
 import view.shared.TextSmall
 

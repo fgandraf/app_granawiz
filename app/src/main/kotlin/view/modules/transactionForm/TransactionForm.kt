@@ -40,7 +40,7 @@ import org.jetbrains.compose.resources.stringResource
 import utils.IconPaths
 import utils.rememberSvgPainter
 import utils.formatNumber
-import view.modules.UserPreferences
+import viewModel.UserPreferences
 import view.modules.transactionForm.components.*
 import view.shared.*
 import view.theme.ButtonGreen

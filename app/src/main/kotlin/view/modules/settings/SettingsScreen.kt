@@ -22,8 +22,8 @@ import androidx.compose.ui.window.Dialog
 import com.felipegandra.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 import utils.rememberSvgPainter
-import view.modules.UserPreferences
-import view.modules.UserPreferences.isLightTheme
+import viewModel.UserPreferences
+import viewModel.UserPreferences.isLightTheme
 import view.shared.*
 import view.theme.Afacade
 import view.theme.ButtonPurple

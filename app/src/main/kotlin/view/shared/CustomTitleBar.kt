@@ -37,7 +37,7 @@ import com.adamglin.phosphoricons.light.ArrowsIn
 import com.adamglin.phosphoricons.light.ArrowsOut
 import com.adamglin.phosphoricons.light.Minus
 import com.adamglin.phosphoricons.light.X
-import view.modules.UserPreferences
+import viewModel.UserPreferences
 
 private val MacOsClose = Color(0xFFFF5F56)
 private val MacOsMinimize = Color(0xFFFFBC2E)

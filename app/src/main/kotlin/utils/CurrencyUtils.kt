@@ -2,7 +2,7 @@ package utils
 
 import java.text.NumberFormat
 import java.util.Locale
-import view.modules.UserPreferences
+import viewModel.UserPreferences
 
 val brMoney: NumberFormat = NumberFormat.getCurrencyInstance().apply {
     minimumFractionDigits = 2
