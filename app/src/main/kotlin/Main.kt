@@ -1,12 +1,5 @@
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
@@ -19,25 +12,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Window
-import androidx.compose.ui.window.WindowPlacement
-import androidx.compose.ui.window.WindowPosition
-import androidx.compose.ui.window.WindowState
-import androidx.compose.ui.window.application
+import androidx.compose.ui.window.*
 import infrastructure.config.DatabaseConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import org.flywaydb.core.api.exception.FlywayValidateException
-import view.shared.CustomTitleBar
 import view.modules.MainContent
 import view.modules.Screen
-import view.modules.splash.SplashWindow
-import viewModel.UserPreferences
 import view.modules.sidebar.Sidebar
-import viewModel.SidebarViewModel
+import view.modules.splash.SplashWindow
+import view.shared.CustomTitleBar
 import view.theme.DarkColorScheme
 import view.theme.LightColorScheme
+import viewModel.SidebarViewModel
+import viewModel.UserPreferences
 import java.awt.Toolkit
 import java.awt.geom.RoundRectangle2D
 import java.util.*
@@ -181,6 +170,7 @@ fun main() = application {
                         ) {
                             Sidebar(viewModel = sidebarViewModel, currentScreen = currentScreen, showSettings = showSettings, onSettingsChange = { showSettings = it }) { screen -> currentScreen = screen }
                             MainContent(currentScreen, onScreenChange = { currentScreen = it }, onSidebarReload = sidebarViewModel::reload)
+                            //Row(modifier = Modifier.fillMaxHeight().width(5.dp)) {  }
                         }
                     }
 

@@ -33,8 +33,8 @@ fun Footer(viewModel: SidebarViewModel) {
         horizontalArrangement = Arrangement.Center,
         modifier = Modifier
             .fillMaxWidth()
-            .height(65.dp)
-            .padding(horizontal = 10.dp, vertical = 10.dp)
+            .height(80.dp)
+            .padding(start = 10.dp, end = 10.dp, top = 15.dp, bottom = 20.dp)
             .background(MaterialTheme.colors.surface, RoundedCornerShape(6.dp))
             .clip(RoundedCornerShape(6.dp))
             .border(0.5.dp, MaterialTheme.colors.onSurface, RoundedCornerShape(6.dp))

@@ -150,12 +150,13 @@ fun FrameWindowScope.CustomTitleBar(
             }
         }
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(0.5.dp)
-                .background(MaterialTheme.colors.onSurface)
-        )
+
+//        Box(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .height(0.5.dp)
+//                .background(MaterialTheme.colors.onSurface)
+//        )
     }
 }
 

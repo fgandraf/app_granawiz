@@ -9,8 +9,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,14 +28,15 @@ import com.adamglin.phosphoricons.light.Plus
 import com.adamglin.phosphoricons.light.PlusSquare
 import com.adamglin.phosphoricons.regular.Calendar
 import com.adamglin.phosphoricons.regular.Pencil
+import com.felipegandra.generated.resources.*
 import domain.entity.Category
 import domain.entity.Schedule
 import domain.entity.Subcategory
 import domain.entity.account.BankAccount
 import domain.enums.TransactionType
 import domain.structs.PageAddress
-import com.felipegandra.generated.resources.Res
-import com.felipegandra.generated.resources.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import view.modules.schedules.component.DropDownAddSchedule
 import view.modules.schedules.component.ScheduleGroupHeader
@@ -46,11 +45,11 @@ import view.modules.transactionForm.TransactionForm
 import view.shared.*
 import view.theme.ButtonPurple
 import viewModel.ScheduleViewModel
-import java.time.LocalDate
-import java.time.LocalTime
 import java.awt.FileDialog
 import java.awt.Frame
 import java.io.File
+import java.time.LocalDate
+import java.time.LocalTime
 import domain.entity.Tag as TagEntity
 
 
@@ -100,7 +99,14 @@ fun ScheduleScreen(
         viewModel.buildOccurrences(windowStart, windowEnd)
     }
 
-    Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.surface)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(end = 15.dp, bottom = 15.dp)
+            .border(1.dp, MaterialTheme.colors.onSurface, RoundedCornerShape(15.dp))
+            .clip(RoundedCornerShape(15.dp))
+            .background(MaterialTheme.colors.surface)
+    ) {
 
         // ========== HEADER ==========
         Column(modifier = Modifier.fillMaxWidth().padding(start = 20.dp, top = 20.dp, end = 20.dp)) {

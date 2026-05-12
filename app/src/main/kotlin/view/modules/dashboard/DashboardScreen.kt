@@ -1,16 +1,20 @@
 package view.modules.dashboard
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Bold
@@ -18,7 +22,8 @@ import com.adamglin.phosphoricons.Regular
 import com.adamglin.phosphoricons.bold.ArrowLeft
 import com.adamglin.phosphoricons.regular.SquaresFour
 import com.felipegandra.generated.resources.Res
-import com.felipegandra.generated.resources.*
+import com.felipegandra.generated.resources.loading
+import com.felipegandra.generated.resources.nav_dashboard
 import org.jetbrains.compose.resources.stringResource
 import view.modules.dashboard.component.*
 import view.shared.AddressView
@@ -36,7 +41,10 @@ fun DashboardScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colors.surface),
+            .padding(end = 15.dp, bottom = 15.dp)
+            .border(1.dp, MaterialTheme.colors.onSurface, RoundedCornerShape(15.dp))
+            .clip(RoundedCornerShape(15.dp))
+            .background(MaterialTheme.colors.surface)
     ) {
         //===== HEADER
         Row(
@@ -54,6 +62,7 @@ fun DashboardScreen() {
                 Spacer(Modifier.width(10.dp))
                 AddressView(
                     icon = PhosphorIcons.Regular.SquaresFour,
+                    iconSize = DpSize(21.dp, 18.dp),
                     value = stringResource(Res.string.nav_dashboard),
                     rootPath = true,
                 )
@@ -103,7 +112,6 @@ fun DashboardScreen() {
                 TopTransactionsCard(modifier = Modifier.weight(1f), transactions = current.topTransactions)
                 UpcomingSchedulesCard(modifier = Modifier.weight(1f), occurrences = current.upcomingOccurrences)
             }
-
 
 
             Spacer(Modifier.height(8.dp))

@@ -27,6 +27,7 @@ import com.adamglin.phosphoricons.bold.ArrowLeft
 import com.adamglin.phosphoricons.bold.ListBullets
 import com.adamglin.phosphoricons.light.Plus
 import com.adamglin.phosphoricons.regular.*
+import com.felipegandra.generated.resources.*
 import domain.entity.Category
 import domain.entity.Subcategory
 import domain.entity.Transaction
@@ -35,8 +36,6 @@ import domain.enums.TransactionType
 import domain.structs.PageAddress
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import com.felipegandra.generated.resources.Res
-import com.felipegandra.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 import view.modules.Screen
 import view.modules.transactionForm.TransactionForm
@@ -148,7 +147,14 @@ fun TransactionsScreen(
 
     var transactionType by remember { mutableStateOf(selectedTransaction?.type) }
 
-    Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.surface)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(end = 15.dp, bottom = 15.dp)
+            .border(1.dp, MaterialTheme.colors.onSurface, RoundedCornerShape(15.dp))
+            .clip(RoundedCornerShape(15.dp))
+            .background(MaterialTheme.colors.surface)
+    ) {
 
         // ********** HEADER **********
         Column(modifier = Modifier.fillMaxWidth().padding(start = 20.dp, top = 20.dp, end = 20.dp)) {

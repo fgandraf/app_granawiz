@@ -48,7 +48,14 @@ fun CategoriesScreen(
     var addCategoryButton by remember { mutableStateOf<Boolean>(false) }
     var addSubcategoryButton by remember { mutableStateOf<Boolean>(false) }
 
-    Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.surface)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(end = 15.dp, bottom = 15.dp)
+            .border(1.dp, MaterialTheme.colors.onSurface, RoundedCornerShape(15.dp))
+            .clip(RoundedCornerShape(15.dp))
+            .background(MaterialTheme.colors.surface)
+    ) {
 
         //===== HEADER
         Column {

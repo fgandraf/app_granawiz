@@ -27,7 +27,9 @@ import com.adamglin.phosphoricons.bold.ArrowLeft
 import com.adamglin.phosphoricons.light.Tag
 import com.adamglin.phosphoricons.regular.Tag
 import com.felipegandra.generated.resources.Res
-import com.felipegandra.generated.resources.*
+import com.felipegandra.generated.resources.delete_tag_confirm
+import com.felipegandra.generated.resources.delete_tag_title
+import com.felipegandra.generated.resources.nav_tags
 import org.jetbrains.compose.resources.stringResource
 import view.shared.*
 import viewModel.TagViewModel
@@ -40,7 +42,14 @@ fun TagsScreen(
     tagViewModel.getTags()
 
     val tags = tagViewModel.tags.collectAsState()
-    Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.surface)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(end = 15.dp, bottom = 15.dp)
+            .border(1.dp, MaterialTheme.colors.onSurface, RoundedCornerShape(15.dp))
+            .clip(RoundedCornerShape(15.dp))
+            .background(MaterialTheme.colors.surface)
+    ) {
 
         //===== HEADER
         Column {

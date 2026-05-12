@@ -33,7 +33,7 @@ fun Header(
     onSettingsChange: (Boolean) -> Unit = {},
 ) {
 
-    Box(modifier = Modifier.fillMaxWidth().height(60.dp).padding(horizontal = 20.dp)) {
+    Box(modifier = Modifier.fillMaxWidth().height(50.dp).padding(horizontal = 20.dp)) {
 
         Row(modifier = Modifier.fillMaxHeight(), verticalAlignment = Alignment.CenterVertically) {
             ClickableIcon(icon = PhosphorIcons.Regular.Gear, iconSize = 22.dp, shape = CircleShape) {

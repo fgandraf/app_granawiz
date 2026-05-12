@@ -46,7 +46,7 @@ fun PeriodSelector(
     Box {
         Box(
             modifier = Modifier
-                .height(30.dp)
+                .height(25.dp)
                 .clip(RoundedCornerShape(8.dp))
                 .border(1.dp, MaterialTheme.colors.primaryVariant, RoundedCornerShape(8.dp))
                 .background(Color.Transparent)
