@@ -151,6 +151,17 @@ fun ScheduleRow(
             }
         }
 
+        // Installment (if schedule has installments)
+        if (schedule.installments != null) {
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxHeight().padding(end = 10.dp).weight(0.3f)
+            ) {
+                TextSmall(text = "${occurrence.index + 1}/${schedule.installments}")
+            }
+        }
+
         // Balance
         Row(
             horizontalArrangement = Arrangement.Center,

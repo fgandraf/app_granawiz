@@ -52,6 +52,7 @@ import kotlin.math.abs
 fun TransactionForm(
     allAccounts: List<BankAccount> = emptyList(),
     schedule: Schedule? = null,
+    occurrenceIndex: Int? = null,
     transaction: Transaction? = null,
     scheduleFormViewModel: TransactionFormViewModel = remember { TransactionFormViewModel() },
     transactionType: TransactionType? = null,
@@ -59,9 +60,14 @@ fun TransactionForm(
     lockAccount: Boolean = false,
     onDismiss: (Boolean) -> Unit,
 ) {
-    LaunchedEffect(schedule, transaction) {
+    LaunchedEffect(schedule, transaction, occurrenceIndex) {
         when {
-            schedule != null -> scheduleFormViewModel.loadFromSchedule(schedule)
+            schedule != null -> {
+                scheduleFormViewModel.loadFromSchedule(schedule)
+                if (occurrenceIndex != null && schedule.installments != null) {
+                    scheduleFormViewModel.installment = "${occurrenceIndex + 1}/${schedule.installments}"
+                }
+            }
             transaction != null -> scheduleFormViewModel.loadFromTransaction(transaction)
             else -> {
                 scheduleFormViewModel.clear()
@@ -136,7 +142,7 @@ fun TransactionForm(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .heightIn(max = 650.dp)
+                        .heightIn(max = 700.dp)
                         .verticalScroll(rememberScrollState())
                         .padding(horizontal = 30.dp, vertical = 40.dp)
                 ) {
@@ -263,10 +269,10 @@ fun TransactionForm(
                         }
                     )
 
-                    //---recurrence (hidden when editing an existing transaction)
+
                     if (!isTransactionEdit) {
                         Spacer(Modifier.height(20.dp))
-                        Divider()
+                        Divider(color = MaterialTheme.colors.onSurface)
                         Spacer(Modifier.height(20.dp))
 
                         RecurrenceSetView(
@@ -285,6 +291,20 @@ fun TransactionForm(
                                 }
                             }
                         )
+
+                        if (schedule != null && schedule.installments != null) {
+                            Spacer(Modifier.height(20.dp))
+                            Divider(color = MaterialTheme.colors.onSurface)
+                            Spacer(Modifier.height(20.dp))
+                            InstallmentView(installment = scheduleFormViewModel.installment)
+                        }
+                    } else {
+                        if (scheduleFormViewModel.scheduleId != null) {
+                            Spacer(Modifier.height(20.dp))
+                            Divider()
+                            Spacer(Modifier.height(20.dp))
+                            InstallmentView(installment = scheduleFormViewModel.installment)
+                        }
                     }
                 }
             }

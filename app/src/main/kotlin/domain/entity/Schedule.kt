@@ -38,7 +38,7 @@ class Schedule(
         joinColumns = [JoinColumn(name = "schedule_id")],
         inverseJoinColumns = [JoinColumn(name = "tag_id")]
     )
-    override val tags: List<Tag>? = listOf(),
+    override val tags: MutableList<Tag>? = mutableListOf(),
 
     @Column(name = "start_date", columnDefinition = "DATETIME")
     @Convert(converter = LocalDateTimeConverter::class) val startDate: LocalDateTime,
@@ -77,7 +77,7 @@ class Schedule(
         account: BankAccount = this.account,
         category: Category = this.category,
         subcategory: Subcategory? = this.subcategory,
-        tags: List<Tag>? = this.tags,
+        tags: MutableList<Tag>? = this.tags,
         startDate: LocalDateTime = this.startDate,
         description: String = this.description,
         balance: Double = this.balance,

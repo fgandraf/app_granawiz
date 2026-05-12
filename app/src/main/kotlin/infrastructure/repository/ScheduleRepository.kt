@@ -56,9 +56,12 @@ class ScheduleRepository : IScheduleRepository {
         val session = sessionFactory.openSession()
         session.beginTransaction()
         val saved = session.merge(schedule)
+        session.flush()
+
+        val reloaded = session.get(Schedule::class.java, saved.id)
         session.transaction.commit()
         session.close()
-        return saved
+        return reloaded ?: saved
     }
 
     override fun update(schedule: Schedule) {

@@ -37,7 +37,7 @@ class Transaction(
         joinColumns = [JoinColumn(name = "transaction_id")],
         inverseJoinColumns = [JoinColumn(name = "tag_id")]
     )
-    override val tags: List<Tag>? = listOf(),
+    override val tags: MutableList<Tag>? = mutableListOf(),
 
     @Column(name = "date", columnDefinition = "DATETIME")
     @Convert(converter = LocalDateTimeConverter::class) val date: LocalDateTime,
@@ -55,9 +55,11 @@ class Transaction(
     @Column(name = "original_due_date", columnDefinition = "DATETIME")
     @Convert(converter = LocalDateTimeConverter::class) val originalDueDate: LocalDateTime? = null,
 
+    @Column(name = "installment", columnDefinition = "TEXT") val installment: String = "1/1",
+
     ) : IFilterable {
 
-    constructor() : this(0, Party(), BankAccount(), Category(), null, null, LocalDateTime.now(), "", 0.0, TransactionType.NEUTRAL, null, null)
+    constructor() : this(0, Party(), BankAccount(), Category(), null, null, LocalDateTime.now(), "", 0.0, TransactionType.NEUTRAL, null, null, "1/1")
 
     fun copy(
         id: Long = this.id,
@@ -65,15 +67,16 @@ class Transaction(
         account: BankAccount = this.account,
         category: Category = this.category,
         subcategory: Subcategory? = this.subcategory,
-        tags: List<Tag>? = this.tags,
+        tags: MutableList<Tag>? = this.tags,
         date: LocalDateTime = this.date,
         description: String = this.description,
         balance: Double = this.balance,
         type: TransactionType = this.type,
         scheduleId: Long? = this.scheduleId,
         originalDueDate: LocalDateTime? = this.originalDueDate,
+        installment: String = this.installment,
     ): Transaction {
-        return Transaction(id, party, account, category, subcategory, tags, date, description, balance, type, scheduleId, originalDueDate)
+        return Transaction(id, party, account, category, subcategory, tags, date, description, balance, type, scheduleId, originalDueDate, installment)
     }
 
 }

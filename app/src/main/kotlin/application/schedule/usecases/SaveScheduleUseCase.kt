@@ -32,12 +32,13 @@ class SaveScheduleUseCase(
                         description = schedule.description,
                         balance = schedule.balance,
                         type = schedule.type,
+                        installment = "1/1",
                     )
                 )
             } else {
                 val saved = scheduleRepository.insert(schedule)
                 if (isPastOrToday) {
-                    markAsPaidUseCase.execute(saved, saved.startDate)
+                    markAsPaidUseCase.execute(saved, saved.startDate, occurrenceIndex = 0)
                 }
             }
         } else {

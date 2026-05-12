@@ -131,6 +131,27 @@ class TransactionRepository : ITransactionRepository {
         return transactions
     }
 
+    override fun findByScheduleId(scheduleId: Long): List<Transaction> {
+        val session = sessionFactory.openSession()
+        session.beginTransaction()
+        val cb = session.criteriaBuilder
+        val cq = cb.createQuery(Transaction::class.java)
+        val root = cq.from(Transaction::class.java)
+        cq.where(cb.equal(root.get<Long>("scheduleId"), scheduleId))
+        cq.orderBy(cb.asc(root.get<LocalDateTime>("date")))
+        val transactions = session.createQuery(cq).resultList
+        transactions.forEach { transaction ->
+            Hibernate.initialize(transaction.party)
+            Hibernate.initialize(transaction.account)
+            Hibernate.initialize(transaction.category)
+            Hibernate.initialize(transaction.subcategory)
+            Hibernate.initialize(transaction.tags)
+        }
+        session.transaction.commit()
+        session.close()
+        return transactions
+    }
+
     override fun update(transaction: Transaction) {
         val session = sessionFactory.openSession()
         session.beginTransaction()
@@ -150,7 +171,7 @@ class TransactionRepository : ITransactionRepository {
     override fun delete(transaction: Transaction) {
         val session = sessionFactory.openSession()
         session.beginTransaction()
-        session.remove(transaction)
+        session.remove(session.merge(transaction))
         session.transaction.commit()
         session.close()
     }

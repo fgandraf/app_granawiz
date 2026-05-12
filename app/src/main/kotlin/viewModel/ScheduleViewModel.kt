@@ -51,7 +51,7 @@ class ScheduleViewModel(
     }
 
     fun markAsPaid(occurrence: ScheduleOccurrence) {
-        scheduleHandler.markAsPaid(occurrence.schedule, occurrence.dueDate)
+        scheduleHandler.markAsPaid(occurrence.schedule, occurrence.dueDate, occurrence.index)
         getSchedules()
     }
 

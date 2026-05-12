@@ -69,6 +69,7 @@ fun ScheduleScreen(
     )
 
     var selectedSchedule by remember { mutableStateOf<Schedule?>(null) }
+    var selectedOccurrenceIndex by remember { mutableStateOf(0) }
     var showForm by remember { mutableStateOf(false) }
     var addresses by remember { mutableStateOf(initialAddress) }
     var backIcon by remember { mutableStateOf(false) }
@@ -209,6 +210,7 @@ fun ScheduleScreen(
                                                     overdue = occ.dueDate.isBefore(today.atStartOfDay()),
                                                     onEdit = {
                                                         selectedSchedule = occ.schedule
+                                                        selectedOccurrenceIndex = occ.index
                                                         showForm = true
                                                         newType = null
                                                         backIcon = true
@@ -317,12 +319,14 @@ fun ScheduleScreen(
             TransactionForm(
                 allAccounts = groupsState.flatMap { it.accounts },
                 schedule = selectedSchedule,
+                occurrenceIndex = if (selectedSchedule != null) selectedOccurrenceIndex else null,
                 transactionType = newType,
                 initialAccount = filterAccount,
                 lockAccount = false,
                 onDismiss = { saved ->
                     showForm = false
                     selectedSchedule = null
+                    selectedOccurrenceIndex = 0
                     newType = null
                     backIcon = false
                     addresses = initialAddress

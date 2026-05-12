@@ -19,6 +19,8 @@ interface ITransactionRepository {
 
     fun getByDateRange(from: LocalDateTime, to: LocalDateTime, type: TransactionType? = null): List<Transaction>
 
+    fun findByScheduleId(scheduleId: Long): List<Transaction>
+
     fun insert(transaction: Transaction)
 
     fun update(transaction: Transaction)

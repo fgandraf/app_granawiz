@@ -7,17 +7,18 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.Warning
 import com.felipegandra.generated.resources.Res
-import com.felipegandra.generated.resources.*
+import com.felipegandra.generated.resources.no
+import com.felipegandra.generated.resources.yes
 import org.jetbrains.compose.resources.stringResource
 import view.theme.RedWarning
 
@@ -34,7 +35,7 @@ fun SimpleQuestionDialog(
         shape = RoundedCornerShape(8.dp),
         backgroundColor = surfaceColor,
         onDismissRequest = { onDismissRequest() },
-        title = { Text(title) },
+        title = { TextNormal(text = title) },
         text = {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
@@ -42,7 +43,7 @@ fun SimpleQuestionDialog(
                     contentDescription = "Alert",
                     tint = MaterialTheme.colors.primary
                 )
-                TextNormal(text = message, modifier = Modifier.padding(start = 15.dp))
+                TextNormal(text = message, modifier = Modifier.padding(start = 15.dp), lineHeight = 16.sp)
             }
         },
         dismissButton = {

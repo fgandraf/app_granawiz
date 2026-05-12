@@ -180,8 +180,13 @@ fun TransactionRow(
                         var showDeleteTransaction by remember { mutableStateOf(false) }
                         ClickableRow(icon = PhosphorIcons.Light.Trash, label = stringResource(Res.string.delete)) { showDeleteTransaction = true }
                         if (showDeleteTransaction) {
+                            val deleteMessage = if (transaction.scheduleId != null) {
+                                "Esta transação faz parte de um parcelamento e a mesma voltará para itens agendados.\n\nTem certeza que deseja continuar?"
+                            } else {
+                                "Tem certeza que deseja excluir essa transação?"
+                            }
                             SimpleQuestionDialog(
-                                message = "Tem certeza que deseja excluir essa transação?",
+                                message = deleteMessage,
                                 onConfirmRequest = {
                                     viewModel.deleteTransaction(transaction)
                                     onDeleted()

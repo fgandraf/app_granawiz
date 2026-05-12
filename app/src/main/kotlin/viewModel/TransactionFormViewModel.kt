@@ -1,15 +1,14 @@
 package viewModel
 
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import application.schedule.ScheduleHandler
+import application.transaction.TransactionHandler
 import domain.entity.*
 import domain.entity.account.BankAccount
 import domain.enums.ScheduleFrequency
 import domain.enums.TransactionType
-import application.schedule.ScheduleHandler
-import application.transaction.TransactionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import java.time.LocalDateTime
 import kotlin.math.abs
@@ -32,6 +31,7 @@ class TransactionFormViewModel(
     var type by mutableStateOf(TransactionType.NEUTRAL)
     var scheduleId by mutableStateOf<Long?>(null)
     var originalDueDate by mutableStateOf<LocalDateTime?>(null)
+    var installment by mutableStateOf("1/1")
 
     var frequency by mutableStateOf(ScheduleFrequency.ONCE)
     var interval by mutableStateOf(1)
@@ -74,6 +74,7 @@ class TransactionFormViewModel(
         type = transaction.type
         scheduleId = transaction.scheduleId
         originalDueDate = transaction.originalDueDate
+        installment = transaction.installment
         frequency = ScheduleFrequency.ONCE
         interval = 1
         dayOfMonth = null
@@ -95,6 +96,7 @@ class TransactionFormViewModel(
         type = TransactionType.NEUTRAL
         scheduleId = null
         originalDueDate = null
+        installment = "1/1"
         frequency = ScheduleFrequency.ONCE
         interval = 1
         dayOfMonth = null
@@ -110,14 +112,6 @@ class TransactionFormViewModel(
         balance = if (type == TransactionType.EXPENSE && balance != 0.0) -abs(balance) else abs(balance)
     }
 
-    val typeLabel = derivedStateOf {
-        when (type) {
-            TransactionType.EXPENSE -> if (transactionId != 0L) "Despesa" else "Despesa agendada"
-            TransactionType.GAIN -> if (transactionId != 0L) "Receita" else "Receita agendada"
-            else -> ""
-        }
-    }
-
     fun save() {
         if (transactionId != 0L) {
             transactionHandler.saveTransaction(
@@ -127,13 +121,14 @@ class TransactionFormViewModel(
                     account = account,
                     category = category.value!!,
                     subcategory = subCategory,
-                    tags = tags.value,
+                    tags = tags.value.toMutableList(),
                     date = startDate,
                     description = description,
                     balance = balance,
                     type = type,
                     scheduleId = scheduleId,
                     originalDueDate = originalDueDate,
+                    installment = installment,
                 )
             )
         } else {
@@ -144,7 +139,7 @@ class TransactionFormViewModel(
                     account = account,
                     category = category.value!!,
                     subcategory = subCategory,
-                    tags = tags.value,
+                    tags = tags.value.toMutableList(),
                     startDate = startDate,
                     description = description,
                     balance = balance,

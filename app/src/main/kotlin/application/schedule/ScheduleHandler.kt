@@ -26,7 +26,7 @@ class ScheduleHandler {
     fun deleteThisOccurrence(occurrence: ScheduleOccurrence) = deleteScheduleUseCase.deleteThisOccurrence(occurrence)
     fun deleteThisAndFuture(occurrence: ScheduleOccurrence) = deleteScheduleUseCase.deleteThisAndFuture(occurrence)
     fun fetchSchedules(account: BankAccount? = null) = fetchSchedulesUseCase.execute(account)
-    fun markAsPaid(schedule: Schedule, dueDate: LocalDateTime) = markAsPaidUseCase.execute(schedule, dueDate)
+    fun markAsPaid(schedule: Schedule, dueDate: LocalDateTime, occurrenceIndex: Int? = null) = markAsPaidUseCase.execute(schedule, dueDate, occurrenceIndex)
 
     fun exportSchedulesToExcel(occurrences: List<ScheduleOccurrence>, file: File) =
         exportSchedulesToExcelUseCase.execute(occurrences, file)

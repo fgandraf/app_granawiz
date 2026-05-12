@@ -69,6 +69,7 @@ CREATE TABLE tbl_transactions (
     type TEXT CHECK(type IN ('GAIN', 'EXPENSE', 'NEUTRAL')) NOT NULL,
     schedule_id INTEGER,
     original_due_date DATETIME,
+    installment TEXT DEFAULT '1/1',
 
     FOREIGN KEY (party_id) REFERENCES tbl_parties(party_id),
     FOREIGN KEY (account_id) REFERENCES tbl_bank_accounts(account_id),
