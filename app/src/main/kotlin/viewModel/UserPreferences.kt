@@ -12,7 +12,6 @@ object UserPreferences {
     var language by mutableStateOf("pt-BR")
     var titleBarStyle by mutableStateOf("default")
 
-    // Derived reactively from currencyLabel — triggers recomposition in any Composable that reads it
     val currencySymbol: String
         get() {
             val stored = currencyLabel
