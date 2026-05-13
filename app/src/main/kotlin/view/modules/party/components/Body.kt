@@ -26,10 +26,10 @@ import viewModel.PartyViewModel
 @Composable
 fun Body(
     partyType: PartyType,
-    viewModel: PartyViewModel = PartyViewModel(partyType),
 ) {
+    val viewModel = remember(partyType) { PartyViewModel(partyType) }
 
-    viewModel.getParties()
+    LaunchedEffect(viewModel) { viewModel.getParties() }
 
     val parties by viewModel.parties.collectAsState()
     val names by viewModel.partyNames.collectAsState()
@@ -37,6 +37,11 @@ fun Body(
     val selectedParty by viewModel.selectedParty.collectAsState()
 
     var addNameButton by remember { mutableStateOf(false) }
+    var filterText by remember { mutableStateOf("") }
+    val filteredParties = remember(parties, filterText) {
+        if (filterText.isBlank()) parties
+        else parties.filter { it.name.contains(filterText, ignoreCase = true) }
+    }
 
     // EXTERNAL
     Column(
@@ -60,22 +65,30 @@ fun Body(
 
 
             // PARTIES
-            Box(modifier = Modifier.weight(1f).fillMaxHeight().padding(35.dp)) {
-                val listState = rememberLazyListState()
-                LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
-                    items(parties, key = { it.id }) { item ->
-                        PartyListItem(
-                            viewModel,
-                            selectedParty,
-                            item
-                        ) { addNameButton = true }
-                    }
-                    item { AddParty(viewModel) }
-                }
-                VerticalScrollbar(
-                    adapter = rememberScrollbarAdapter(listState),
-                    modifier = Modifier.align(Alignment.CenterEnd)
+            Column(modifier = Modifier.weight(1f).fillMaxHeight().padding(35.dp)) {
+                SearchField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = filterText,
+                    onValueChange = { filterText = it }
                 )
+                Spacer(Modifier.height(10.dp))
+                Box(modifier = Modifier.weight(1f).fillMaxWidth()) {
+                    val listState = rememberLazyListState()
+                    LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
+                        items(filteredParties, key = { it.id }) { item ->
+                            PartyListItem(
+                                viewModel,
+                                selectedParty,
+                                item
+                            ) { addNameButton = true }
+                        }
+                        item { AddParty(viewModel) }
+                    }
+                    VerticalScrollbar(
+                        adapter = rememberScrollbarAdapter(listState),
+                        modifier = Modifier.align(Alignment.CenterEnd)
+                    )
+                }
             }
 
 
