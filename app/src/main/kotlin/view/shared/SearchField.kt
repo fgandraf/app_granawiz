@@ -42,6 +42,7 @@ import view.theme.DefaultFont
 
 @Composable
 fun SearchField(
+    modifier: Modifier = Modifier.width(320.dp),
     value: String,
     onValueChange: (String) -> Unit
 ) {
@@ -54,9 +55,8 @@ fun SearchField(
     }
 
     Row(
-        modifier = Modifier
+        modifier = modifier
             .height(30.dp)
-            .width(320.dp)
             .border(1.dp, MaterialTheme.colors.primaryVariant, shape = RoundedCornerShape(10.dp))
             .background(Color.Transparent),
         verticalAlignment = Alignment.CenterVertically

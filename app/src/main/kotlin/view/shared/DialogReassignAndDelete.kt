@@ -1,11 +1,14 @@
 package view.shared
 
+import androidx.compose.foundation.VerticalScrollbar
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
@@ -47,6 +50,11 @@ fun DialogReassignAndDelete(
     onDismiss: () -> Unit,
 ) {
     var selectedParty by remember { mutableStateOf<Party?>(null) }
+    var filterText by remember { mutableStateOf("") }
+    val filteredParties = remember(filterText, otherParties) {
+        if (filterText.isBlank()) otherParties
+        else otherParties.filter { it.name.contains(filterText, ignoreCase = true) }
+    }
 
     Dialog(onDismissRequest = onDismiss) {
         Column(
@@ -123,40 +131,52 @@ fun DialogReassignAndDelete(
                         text = stringResource(Res.string.delete_party_reassign_label),
                         modifier = Modifier.padding(top = 4.dp)
                     )
-                    LazyColumn(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .heightIn(max = 180.dp)
-                            .border(1.dp, MaterialTheme.colors.onSurface, RoundedCornerShape(4.dp))
-                            .clip(RoundedCornerShape(4.dp))
-                    ) {
-                        items(otherParties) { target ->
-                            val isSelected = selectedParty?.id == target.id
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .background(
-                                        if (isSelected) MaterialTheme.colors.primary.copy(alpha = 0.08f)
-                                        else Color.Transparent
-                                    )
-                                    .pointerHoverIcon(PointerIcon.Hand)
-                                    .clickable { selectedParty = target }
-                                    .padding(horizontal = 12.dp, vertical = 8.dp),
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.SpaceBetween
-                            ) {
-                                TextNormal(text = target.name)
-                                if (isSelected)
-                                    Icon(
-                                        imageVector = PhosphorIcons.Light.Check,
-                                        contentDescription = null,
-                                        tint = MaterialTheme.colors.primary,
-                                        modifier = Modifier.size(16.dp)
-                                    )
+                    SearchField(
+                        modifier = Modifier.fillMaxWidth(),
+                        value = filterText,
+                        onValueChange = { filterText = it }
+                    )
+                    val listState = rememberLazyListState()
+                    Box(modifier = Modifier.fillMaxWidth().heightIn(max = 180.dp)) {
+                        LazyColumn(
+                            state = listState,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .border(1.dp, MaterialTheme.colors.onSurface, RoundedCornerShape(4.dp))
+                                .clip(RoundedCornerShape(4.dp))
+                        ) {
+                            items(filteredParties) { target ->
+                                val isSelected = selectedParty?.id == target.id
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .background(
+                                            if (isSelected) MaterialTheme.colors.primary.copy(alpha = 0.08f)
+                                            else Color.Transparent
+                                        )
+                                        .pointerHoverIcon(PointerIcon.Hand)
+                                        .clickable { selectedParty = target }
+                                        .padding(horizontal = 12.dp, vertical = 8.dp),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.SpaceBetween
+                                ) {
+                                    TextNormal(text = target.name)
+                                    if (isSelected)
+                                        Icon(
+                                            imageVector = PhosphorIcons.Light.Check,
+                                            contentDescription = null,
+                                            tint = MaterialTheme.colors.primary,
+                                            modifier = Modifier.size(16.dp)
+                                        )
+                                }
+                                if (target.id != filteredParties.last().id)
+                                    Divider(Modifier.background(MaterialTheme.colors.onSurface))
                             }
-                            if (target.id != otherParties.last().id)
-                                Divider(Modifier.background(MaterialTheme.colors.onSurface))
                         }
+                        VerticalScrollbar(
+                            modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
+                            adapter = rememberScrollbarAdapter(listState)
+                        )
                     }
                 }
             }
