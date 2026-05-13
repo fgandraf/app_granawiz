@@ -18,7 +18,7 @@ fun ScheduleGroupHeader(
     modifier: Modifier = Modifier,
     title: String,
 ) {
-    val corners = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp)
+    val corners = RoundedCornerShape(topStart = 5.dp, topEnd = 5.dp)
     Box(
         modifier
             .offset(y = 0.5.dp)

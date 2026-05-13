@@ -8,6 +8,8 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
@@ -60,9 +62,12 @@ fun GroupMenuItem(
                 )
 
                 val totalGroup = viewModel.fetchGroupBalance(group)
+                val positiveBalanceColor = if (MaterialTheme.colors.isLight) lerp(MaterialTheme.colors.onPrimary, Color.Black, 0.2f) else MaterialTheme.colors.onPrimary.copy(green = 0.7f)
+                val negativeBalanceColor = if (MaterialTheme.colors.isLight) MaterialTheme.colors.onError else MaterialTheme.colors.onError.copy(red = 1.5f)
+
                 TextSmall(
                     text = formatCurrency(totalGroup, UserPreferences.currencySymbol),
-                    color = if (totalGroup > 0f) MaterialTheme.colors.onPrimary else if (totalGroup < 0f) MaterialTheme.colors.onError else MaterialTheme.colors.primaryVariant
+                    color = if (totalGroup > 0f) positiveBalanceColor else if (totalGroup < 0f) negativeBalanceColor else MaterialTheme.colors.primaryVariant
                 )
             }
         }

@@ -14,7 +14,7 @@ import view.modules.transactions.TransactionsScreen
 fun MainContent(screen: Screen, onScreenChange: (Screen) -> Unit, onSidebarReload: () -> Unit = {}) {
     when (screen) {
         is Screen.Dashboard -> DashboardScreen()
-        is Screen.Schedules -> ScheduleScreen()
+        is Screen.Schedules -> ScheduleScreen(onSidebarReload = onSidebarReload)
         is Screen.Categories -> CategoriesScreen()
         is Screen.Tags -> TagsScreen()
         is Screen.Receivers -> ReceiversScreen()

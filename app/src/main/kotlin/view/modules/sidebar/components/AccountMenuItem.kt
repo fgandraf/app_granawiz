@@ -53,7 +53,7 @@ fun AccountMenuItem(
             .padding(horizontal = 10.dp)
             .clip(RoundedCornerShape(8.dp))
             .height(40.dp)
-            .background(if (isActive) ButtonPurple.copy(alpha = if (UserPreferences.isLightTheme) 0.2f else 0.6f) else Color.Transparent)
+            .background(if (isActive) ButtonPurple.copy(alpha = if (UserPreferences.isLightTheme) 0.2f else 0.4f) else Color.Transparent)
             .pointerHoverIcon(PointerIcon.Hand)
             .clickable { onClick(screen) }
     ) {
@@ -71,11 +71,12 @@ fun AccountMenuItem(
                 text = account.name,
                 color = if (isActive) MaterialTheme.colors.secondary else MaterialTheme.colors.primary
             )
-            val positiveBalanceColor = if (MaterialTheme.colors.isLight) lerp(MaterialTheme.colors.onPrimary, Color.Black, 0.2f) else MaterialTheme.colors.onPrimary
+            val positiveBalanceColor = if (MaterialTheme.colors.isLight) lerp(MaterialTheme.colors.onPrimary, Color.Black, 0.2f) else MaterialTheme.colors.onPrimary.copy(green = 0.7f)
+            val negativeBalanceColor = if (MaterialTheme.colors.isLight) MaterialTheme.colors.onError else MaterialTheme.colors.onError.copy(red = 1.5f)
 
             TextSmall(
                 text = formatCurrency(account.balance, UserPreferences.currencySymbol),
-                color = if (account.balance > 0f) positiveBalanceColor else if (account.balance < 0f) MaterialTheme.colors.onError else MaterialTheme.colors.primaryVariant,
+                color = if (account.balance > 0f) positiveBalanceColor else if (account.balance < 0f) negativeBalanceColor else MaterialTheme.colors.primaryVariant,
             )
         }
 

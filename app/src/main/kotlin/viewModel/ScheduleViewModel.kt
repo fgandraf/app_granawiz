@@ -4,6 +4,7 @@ import domain.entity.Group
 import domain.entity.Schedule
 import domain.entity.Transaction
 import domain.entity.account.BankAccount
+import application.account.AccountHandler
 import application.group.GroupHandler
 import application.schedule.ScheduleHandler
 import application.schedule.usecases.ScheduleOccurrence
@@ -17,6 +18,7 @@ class ScheduleViewModel(
     private val scheduleHandler: ScheduleHandler = ScheduleHandler(),
     private val transactionHandler: TransactionHandler = TransactionHandler(),
     private val groupHandler: GroupHandler = GroupHandler(),
+    private val accountHandler: AccountHandler = AccountHandler(),
 ) {
 
     var selectedAccount = account
@@ -52,6 +54,8 @@ class ScheduleViewModel(
 
     fun markAsPaid(occurrence: ScheduleOccurrence) {
         scheduleHandler.markAsPaid(occurrence.schedule, occurrence.dueDate, occurrence.index)
+        val accountTransactions = transactionHandler.fetchTransactions(account = occurrence.schedule.account)
+        accountHandler.updateBalance(occurrence.schedule.account.id, accountTransactions.sumOf { it.balance })
         getSchedules()
     }
 

@@ -56,6 +56,7 @@ import domain.entity.Tag as TagEntity
 @Composable
 fun ScheduleScreen(
     viewModel: ScheduleViewModel = remember { ScheduleViewModel() },
+    onSidebarReload: () -> Unit = {},
 ) {
 
     val initialAddress = listOf(
@@ -225,7 +226,8 @@ fun ScheduleScreen(
                                                             iconSize = DpSize(21.dp, 18.dp),
                                                             name = strScheduleEditTitle
                                                         )
-                                                    }
+                                                    },
+                                                    onSidebarReload = onSidebarReload
                                                 )
                                             }
                                             Spacer(Modifier.height(20.dp))

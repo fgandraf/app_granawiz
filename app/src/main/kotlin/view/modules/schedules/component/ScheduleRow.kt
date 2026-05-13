@@ -50,6 +50,7 @@ fun ScheduleRow(
     occurrence: ScheduleOccurrence,
     overdue: Boolean,
     onEdit: () -> Unit,
+    onSidebarReload: () -> Unit = {},
 ) {
     val schedule = occurrence.schedule
     val dueDate = occurrence.dueDate
@@ -178,6 +179,7 @@ fun ScheduleRow(
                 message = "Confirmar pagamento desse agendamento?",
                 onConfirmRequest = {
                     viewModel.markAsPaid(occurrence)
+                    onSidebarReload()
                     confirmMarkAsPaid = false
                 },
                 onDismissRequest = { confirmMarkAsPaid = false },

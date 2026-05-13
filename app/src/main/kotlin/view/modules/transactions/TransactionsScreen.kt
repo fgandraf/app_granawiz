@@ -158,7 +158,7 @@ fun TransactionsScreen(
 
         // ********** HEADER **********
         Column(modifier = Modifier.fillMaxWidth().padding(start = 20.dp, top = 20.dp, end = 20.dp)) {
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+            Row(modifier = Modifier.fillMaxWidth().height(30.dp), horizontalArrangement = Arrangement.SpaceBetween) {
                 // address row
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     ClickableIcon(
