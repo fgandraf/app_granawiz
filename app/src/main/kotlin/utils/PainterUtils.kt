@@ -2,6 +2,8 @@ package utils
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.loadSvgPainter
@@ -14,8 +16,9 @@ fun rememberSvgPainter(resourcePath: String): Painter {
     val density = LocalDensity.current
     return remember(resourcePath, density) {
         Thread.currentThread().contextClassLoader
-            .getResourceAsStream(resourcePath)!!
-            .use { loadSvgPainter(it, density) }
+            .getResourceAsStream(resourcePath)
+            ?.use { loadSvgPainter(it, density) }
+            ?: ColorPainter(Color.Transparent)
     }
 }
 
@@ -39,8 +42,9 @@ fun rememberAccountIconPainter(icon: String, iconSvg: String?): Painter {
             val resourcePath = if (isCustomIcon(icon)) IconPaths.BANK_LOGOS + "_default.svg"
                                else IconPaths.BANK_LOGOS + icon
             Thread.currentThread().contextClassLoader
-                .getResourceAsStream(resourcePath)!!
-                .use { loadSvgPainter(it, density) }
+                .getResourceAsStream(resourcePath)
+                ?.use { loadSvgPainter(it, density) }
+                ?: ColorPainter(Color.Transparent)
         }
     }
 }
