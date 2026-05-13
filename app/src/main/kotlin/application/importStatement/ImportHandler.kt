@@ -2,6 +2,7 @@ package application.importStatement
 
 import application.importStatement.usecases.CheckDuplicatesUseCase
 import application.importStatement.usecases.ImportTransactionsUseCase
+import application.importStatement.usecases.ParseCsvFileUseCase
 import application.importStatement.usecases.ParseOfxFileUseCase
 import application.importStatement.usecases.ResolvePartyByNameUseCase
 import domain.entity.account.BankAccount
@@ -12,6 +13,7 @@ enum class LogLevel { INFO, OK, WARN, ERROR }
 
 class ImportHandler(
     private val parseOfxFile: ParseOfxFileUseCase = ParseOfxFileUseCase(),
+    private val parseCsvFile: ParseCsvFileUseCase = ParseCsvFileUseCase(),
     private val resolveParty: ResolvePartyByNameUseCase = ResolvePartyByNameUseCase(),
     private val checkDuplicates: CheckDuplicatesUseCase = CheckDuplicatesUseCase(),
     private val importTransactions: ImportTransactionsUseCase = ImportTransactionsUseCase(),
@@ -24,7 +26,10 @@ class ImportHandler(
     ): List<ParsedEntry> {
         onLog("Iniciando análise do arquivo...", LogLevel.INFO)
         onLog("Arquivo: ${file.name}", LogLevel.INFO)
-        val raw = parseOfxFile.execute(file, onLog)
+        val raw = when (file.extension.lowercase()) {
+            "csv" -> parseCsvFile.execute(file, onLog)
+            else  -> parseOfxFile.execute(file, onLog)
+        }
         if (raw.isEmpty()) return emptyList()
 
         onLog("Resolvendo pagadores/beneficiários...", LogLevel.INFO)

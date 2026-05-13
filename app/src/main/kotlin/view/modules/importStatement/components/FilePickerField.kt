@@ -37,7 +37,8 @@ fun FilePickerField(
         FocusableBox(onClick = {
             val dialog = FileDialog(null as Frame?, fileDialogTitle, FileDialog.LOAD)
             dialog.filenameFilter = FilenameFilter { _, name ->
-                name.lowercase().endsWith(".ofx")
+                val lower = name.lowercase()
+                lower.endsWith(".ofx") || lower.endsWith(".csv")
             }
             dialog.isVisible = true
             val dir = dialog.directory

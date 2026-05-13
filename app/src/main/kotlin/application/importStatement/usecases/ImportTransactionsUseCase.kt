@@ -40,6 +40,7 @@ class ImportTransactionsUseCase(
                     description = entry.description,
                     balance = entry.balance,
                     type = entry.type,
+                    installment = entry.installment,
                 )
                 transactionHandler.saveTransaction(txn)
                 imported++
