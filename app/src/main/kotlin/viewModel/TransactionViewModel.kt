@@ -43,8 +43,8 @@ class TransactionViewModel(
         accountHandler.updateBalance(transaction.account.id, accountTransactions.sumOf { it.balance })
     }
 
-    fun exportToExcel(transactions: List<Transaction>, file: File) =
-        transactionHandler.exportTransactionsToExcel(transactions, file)
+    fun exportToCsv(transactions: List<Transaction>, file: File) =
+        transactionHandler.exportTransactionsToCsv(transactions, file)
 
     fun updateBalance(accountId: Long, amount: Double) {
         accountHandler.updateBalance(accountId, amount)

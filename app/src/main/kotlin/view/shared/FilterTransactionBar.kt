@@ -20,6 +20,7 @@ import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.*
 import com.felipegandra.generated.resources.Res
 import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import domain.contracts.IFilterable
 import domain.entity.Category
@@ -49,7 +50,8 @@ fun FilterTransactionBar(
     onFilterYearChange: (Int?) -> Unit = {},
     availableYears: List<Int> = emptyList(),
     groups: MutableStateFlow<List<Group>>,
-    onExportExcel: () -> Unit = {},
+    onExport: () -> Unit = {},
+    exportLabel: StringResource = Res.string.filter_export_to_csv,
     onClearFilters: () -> Unit = {},
 ) {
     val list by items.collectAsState(initial = emptyList())
@@ -112,7 +114,7 @@ fun FilterTransactionBar(
 
         Divider(Modifier.fillMaxWidth().height(1.dp).background(MaterialTheme.colors.background))
 
-        ExportDropDown(onExportExcel = onExportExcel)
+        ExportDropDown(onExport = onExport, exportLabel = exportLabel)
 
     }
 }
@@ -453,7 +455,10 @@ private fun ClearFiltersButton(
 }
 
 @Composable
-private fun ExportDropDown(onExportExcel: () -> Unit = {}){
+private fun ExportDropDown(
+    onExport: () -> Unit = {},
+    exportLabel: StringResource = Res.string.filter_export_to_csv,
+){
     var showExportDropdown by remember { mutableStateOf(false) }
 
     TooltipBox(stringResource(Res.string.filter_export)){
@@ -489,7 +494,7 @@ private fun ExportDropDown(onExportExcel: () -> Unit = {}){
                 modifier = Modifier.pointerHoverIcon(PointerIcon.Hand),
                 onClick = {
                 showExportDropdown = false
-                onExportExcel()
+                onExport()
             }) {
                 Icon(
                     imageVector = PhosphorIcons.Light.Table,
@@ -498,7 +503,7 @@ private fun ExportDropDown(onExportExcel: () -> Unit = {}){
                     modifier = Modifier.size(16.dp)
                 )
                 Spacer(Modifier.width(5.dp))
-                TextNormal(text = stringResource(Res.string.filter_export_to_excel))
+                TextNormal(text = stringResource(exportLabel))
             }
         }
     }

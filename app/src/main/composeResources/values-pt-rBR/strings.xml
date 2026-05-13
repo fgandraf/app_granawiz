@@ -114,6 +114,7 @@
     <string name="filter_all_tags">Todas as tags</string>
     <string name="filter_clear">Limpar filtros</string>
     <string name="filter_export">Exportar</string>
+    <string name="filter_export_to_csv">Exportar para CSV</string>
     <string name="filter_export_to_excel">Exportar para o Excel</string>
 
     <!-- ─── Categories ───────────────────────────────────────────────────── -->

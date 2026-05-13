@@ -300,7 +300,7 @@ fun ScheduleScreen(
                                         filterCategoryItem = null
                                         filterTag = null
                                     },
-                                    onExportExcel = {
+                                    onExport = {
                                         val dialog = FileDialog(null as Frame?, "Exportar agendamentos para Excel", FileDialog.SAVE)
                                         dialog.file = "agendamentos_${LocalDate.now()}.xlsx"
                                         dialog.isVisible = true
@@ -314,7 +314,8 @@ fun ScheduleScreen(
                                                 viewModel.exportToExcel(filtered, target)
                                             }
                                         }
-                                    }
+                                    },
+                                    exportLabel = Res.string.filter_export_to_excel
                                 )
                             }
                         }

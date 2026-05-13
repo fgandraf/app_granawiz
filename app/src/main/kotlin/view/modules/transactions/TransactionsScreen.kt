@@ -363,19 +363,19 @@ fun TransactionsScreen(
                                         filterTag = null
                                         filterYear = LocalDate.now().year
                                     },
-                                    onExportExcel = {
+                                    onExport = {
                                         val dialog =
-                                            FileDialog(null as Frame?, "Exportar transações para Excel", FileDialog.SAVE)
-                                        dialog.file = "transacoes_${LocalDate.now()}.xlsx"
+                                            FileDialog(null as Frame?, "Exportar transações para CSV", FileDialog.SAVE)
+                                        dialog.file = "transacoes_${LocalDate.now()}.csv"
                                         dialog.isVisible = true
                                         val dir = dialog.directory
                                         val name = dialog.file
                                         dialog.dispose()
                                         if (dir != null && name != null) {
-                                            val safeName = if (name.endsWith(".xlsx")) name else "$name.xlsx"
+                                            val safeName = if (name.endsWith(".csv")) name else "$name.csv"
                                             val target = File(dir, safeName)
                                             scope.launch(Dispatchers.IO) {
-                                                viewModel.exportToExcel(
+                                                viewModel.exportToCsv(
                                                     displayedTransactions,
                                                     target
                                                 )
