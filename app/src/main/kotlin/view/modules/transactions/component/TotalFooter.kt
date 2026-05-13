@@ -36,7 +36,7 @@ fun TotalFooter(
                 .align(Alignment.BottomEnd)
                 .clip(corners)
                 .border(0.5.dp, MaterialTheme.colors.onSurface, corners)
-                .background(MaterialTheme.colors.background.copy(0.3f))
+                .background(MaterialTheme.colors.background.copy(0.6f))
                 .onGloballyPositioned { boxWidth = it.size.width }
         ) {
             Row(

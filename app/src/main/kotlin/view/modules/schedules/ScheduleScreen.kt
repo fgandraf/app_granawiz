@@ -199,7 +199,7 @@ fun ScheduleScreen(
                                                 .zIndex(2f)
                                                 .clip(RoundedCornerShape(topEnd = 0.dp, bottomStart = 0.dp))
                                                 .background(
-                                                    MaterialTheme.colors.background.copy(0.3f),
+                                                    MaterialTheme.colors.background.copy(0.6f),
                                                     RoundedCornerShape(topEnd = 0.dp, bottomStart = 0.dp)
                                                 )
                                                 .border(

@@ -123,13 +123,14 @@ fun TextH3(
     text: String,
     color: Color? = MaterialTheme.colors.primary,
     align: TextAlign = TextAlign.Start,
+    fontWeight: FontWeight? = FontWeight.Medium,
 ) {
     Text(
         modifier = modifier,
         text = text,
         fontSize = 14.sp,
         color = color!!,
-        fontWeight = FontWeight.Medium,
+        fontWeight = fontWeight,
         lineHeight = 14.sp,
         fontFamily = Afacade,
         textAlign = align

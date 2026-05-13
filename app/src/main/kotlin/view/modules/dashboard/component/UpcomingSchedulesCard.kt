@@ -31,7 +31,7 @@ fun UpcomingSchedulesCard(
     occurrences: List<ScheduleOccurrence>,
 ) {
     SummaryCard(
-        modifier = modifier,
+        modifier = modifier.background(MaterialTheme.colors.background.copy(0.6f)),
         title = stringResource(Res.string.dashboard_upcoming_schedules_title),
         icon = PhosphorIcons.Light.CalendarBlank,
         height = 150.dp,

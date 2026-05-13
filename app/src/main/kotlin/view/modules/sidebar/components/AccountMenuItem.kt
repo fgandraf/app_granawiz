@@ -32,6 +32,7 @@ import view.modules.Screen
 import viewModel.UserPreferences
 import view.modules.accountForm.AccountForm
 import view.shared.*
+import view.theme.ButtonPurple
 import viewModel.SidebarViewModel
 
 @Composable
@@ -52,7 +53,7 @@ fun AccountMenuItem(
             .padding(horizontal = 10.dp)
             .clip(RoundedCornerShape(8.dp))
             .height(40.dp)
-            .background(if (isActive) MaterialTheme.colors.primaryVariant.copy(alpha = 0.5f) else Color.Transparent)
+            .background(if (isActive) ButtonPurple.copy(alpha = if (UserPreferences.isLightTheme) 0.2f else 0.6f) else Color.Transparent)
             .pointerHoverIcon(PointerIcon.Hand)
             .clickable { onClick(screen) }
     ) {
@@ -60,7 +61,7 @@ fun AccountMenuItem(
         Icon(
             painter = rememberAccountIconPainter(account.icon, account.iconSvg),
             contentDescription = null,
-            tint = Color.Unspecified,
+            tint = if (isActive) MaterialTheme.colors.secondary else MaterialTheme.colors.primary,
             modifier = Modifier.size(25.dp).offset(x = 25.dp)
         )
 
@@ -68,6 +69,7 @@ fun AccountMenuItem(
         Column(modifier = Modifier.padding(start = 40.dp).weight(1f)) {
             TextH3(
                 text = account.name,
+                color = if (isActive) MaterialTheme.colors.secondary else MaterialTheme.colors.primary
             )
             val positiveBalanceColor = if (MaterialTheme.colors.isLight) lerp(MaterialTheme.colors.onPrimary, Color.Black, 0.2f) else MaterialTheme.colors.onPrimary
 

@@ -29,7 +29,7 @@ fun SpendingPaceCard(
     modifier: Modifier = Modifier,
     pace: SpendingPace?,
 ) {
-    SummaryCard(modifier = modifier, title = stringResource(Res.string.dashboard_spending_pace_title), icon = PhosphorIcons.Light.Gauge, height = 150.dp) {
+    SummaryCard(modifier = modifier.background(MaterialTheme.colors.background.copy(0.6f)), title = stringResource(Res.string.dashboard_spending_pace_title), icon = PhosphorIcons.Light.Gauge, height = 150.dp) {
         if (pace == null) {
             Box(
                 modifier = Modifier.fillMaxWidth().weight(1f),

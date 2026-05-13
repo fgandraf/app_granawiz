@@ -1,5 +1,6 @@
 package view.modules.dashboard.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -26,7 +27,7 @@ fun CashFlowCard(
     savingsRatePercent: Double,
 ) {
     SummaryCard(
-        modifier = modifier,
+        modifier = modifier.background(MaterialTheme.colors.background.copy(0.6f)),
         title = stringResource(Res.string.dashboard_cash_flow_title),
         icon = PhosphorIcons.Light.ArrowsLeftRight,
         height = 150.dp

@@ -32,7 +32,7 @@ fun MonthlyEvolutionCard(
     data: List<MonthlyFlow>,
 ) {
     SummaryCard(
-        modifier = modifier,
+        modifier = modifier.background(MaterialTheme.colors.background.copy(0.6f)),
         title = stringResource(Res.string.dashboard_evolution_title),
         icon = PhosphorIcons.Light.ChartLineUp,
         height = 290.dp,

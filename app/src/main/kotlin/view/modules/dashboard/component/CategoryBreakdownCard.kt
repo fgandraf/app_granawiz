@@ -30,7 +30,7 @@ fun CategoryBreakdownCard(
     breakdown: List<CategoryBreakdown>,
 ) {
     SummaryCard(
-        modifier = modifier,
+        modifier = modifier.background(MaterialTheme.colors.background.copy(0.6f)),
         title = stringResource(Res.string.dashboard_category_breakdown_title),
         icon = PhosphorIcons.Light.Shapes,
         height = 290.dp,

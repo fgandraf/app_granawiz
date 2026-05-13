@@ -1,5 +1,6 @@
 package view.modules.dashboard.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -27,7 +28,7 @@ fun NetWorthCard(
     modifier: Modifier = Modifier,
     snapshot: NetWorthSnapshot,
 ) {
-    SummaryCard(modifier = modifier, title = stringResource(Res.string.dashboard_net_worth_title), icon = PhosphorIcons.Light.Wallet, height = 150.dp) {
+    SummaryCard(modifier = modifier.background(MaterialTheme.colors.background.copy(0.6f)), title = stringResource(Res.string.dashboard_net_worth_title), icon = PhosphorIcons.Light.Wallet, height = 150.dp) {
         val currency = UserPreferences.currencySymbol
         TextH1(text = formatCurrency(snapshot.total, currency))
         Spacer(Modifier.height(8.dp))

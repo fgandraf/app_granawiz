@@ -26,7 +26,7 @@ fun SummaryCard(
     Column(
         modifier = modifier
             .clip(RoundedCornerShape(8.dp))
-            .background(MaterialTheme.colors.background.copy(0.3f))
+            .background(MaterialTheme.colors.background.copy(0.6f))
             .border(0.5.dp, MaterialTheme.colors.onSurface, RoundedCornerShape(8.dp))
             .height(height)
             .padding(14.dp),

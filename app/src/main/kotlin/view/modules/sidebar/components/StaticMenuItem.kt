@@ -17,6 +17,8 @@ import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.unit.dp
 import view.modules.Screen
 import view.shared.TextH3
+import view.theme.ButtonPurple
+import viewModel.UserPreferences
 
 @Composable
 fun StaticMenuItem(
@@ -33,7 +35,7 @@ fun StaticMenuItem(
             .padding(horizontal = 10.dp)
             .height(35.dp)
             .clip(RoundedCornerShape(8.dp))
-            .background(if (isActive) MaterialTheme.colors.primaryVariant.copy(alpha = 0.5f) else Color.Transparent)
+            .background(if (isActive) ButtonPurple.copy(alpha = if (UserPreferences.isLightTheme) 0.2f else 0.6f) else Color.Transparent)
             .pointerHoverIcon(PointerIcon.Hand)
             .clickable { onClick(screen) }
     ) {
@@ -45,7 +47,8 @@ fun StaticMenuItem(
         )
         TextH3(
             modifier = Modifier.offset(x = 22.dp),
-            text = label
+            text = label,
+            color = if (isActive) MaterialTheme.colors.secondary else MaterialTheme.colors.primary
         )
     }
 }

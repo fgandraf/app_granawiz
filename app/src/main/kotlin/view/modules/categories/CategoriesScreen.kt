@@ -93,7 +93,7 @@ fun CategoriesScreen(
                     .fillMaxWidth(0.85f)
                     .border(0.5.dp, MaterialTheme.colors.onSurface, shape = RoundedCornerShape(corner))
                     .clip(RoundedCornerShape(corner))
-                    .background(MaterialTheme.colors.background.copy(0.3f))
+                    .background(MaterialTheme.colors.background.copy(0.6f))
                     .padding(30.dp)
             ) {
                 Row {

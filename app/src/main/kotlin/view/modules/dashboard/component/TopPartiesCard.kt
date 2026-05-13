@@ -1,6 +1,8 @@
 package view.modules.dashboard.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,7 +24,7 @@ fun TopPartiesCard(
     modifier: Modifier = Modifier,
     parties: List<PartyVolume>,
 ) {
-    SummaryCard(modifier = modifier, title = stringResource(Res.string.dashboard_top_parties_title), icon = PhosphorIcons.Light.HandArrowUp, height = 150.dp) {
+    SummaryCard(modifier = modifier.background(MaterialTheme.colors.background.copy(0.6f)), title = stringResource(Res.string.dashboard_top_parties_title), icon = PhosphorIcons.Light.HandArrowUp, height = 150.dp) {
         if (parties.isEmpty()) {
             TextSmall(text = stringResource(Res.string.dashboard_no_data_in_period), italic = true)
             return@SummaryCard
