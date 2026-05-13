@@ -429,7 +429,7 @@ fun AddTransactionButton(
     onDismiss: () -> Unit,
 ) {
     var showAddTransactionDropDownMenu by remember { mutableStateOf(false) }
-    Box(modifier = Modifier.fillMaxSize().padding(bottom = 50.dp, end = 50.dp)) {
+    Box(modifier = Modifier.fillMaxSize().padding(bottom = 50.dp, end = 5.dp)) {
         Box(
             modifier = Modifier
                 .size(60.dp)
