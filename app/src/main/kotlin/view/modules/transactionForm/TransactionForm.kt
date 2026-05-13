@@ -14,7 +14,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
@@ -127,15 +126,14 @@ fun TransactionForm(
                 modifier = Modifier
                     .width(550.dp)
                     .zIndex(2f)
-                    .shadow(2.dp, RoundedCornerShape(10.dp))
                     .background(
-                        MaterialTheme.colors.surface,
-                        androidx.compose.foundation.shape.RoundedCornerShape(10.dp)
+                        MaterialTheme.colors.background.copy(0.6f),
+                        RoundedCornerShape(10.dp)
                     )
                     .border(
                         0.5.dp,
                         MaterialTheme.colors.onSurface,
-                        androidx.compose.foundation.shape.RoundedCornerShape(10.dp)
+                        RoundedCornerShape(10.dp)
                     )
             ) {
 

@@ -28,6 +28,10 @@ import com.adamglin.phosphoricons.light.Trash
 import com.adamglin.phosphoricons.light.X
 import view.shared.ClickableIcon
 import view.theme.Afacade
+import view.theme.ButtonPurple
+import view.theme.TextChangeDark
+import view.theme.TextChangeLight
+import viewModel.UserPreferences
 
 @Composable
 fun CategoryListItem(
@@ -55,7 +59,7 @@ fun CategoryListItem(
                 .padding(horizontal = 10.dp)
                 .height(30.dp)
                 .clip(RoundedCornerShape(8.dp))
-                .background(if (isActive) MaterialTheme.colors.primaryVariant.copy(alpha = 0.5f) else Color.Transparent)
+                .background(if (isActive) ButtonPurple.copy(alpha = if (UserPreferences.isLightTheme) 0.2f else 0.6f) else Color.Transparent)
                 .clickable { onContentClick() }
                 .pointerHoverIcon(PointerIcon.Hand)
         else
@@ -81,7 +85,11 @@ fun CategoryListItem(
                     Icon(
                         painter = rememberSvgPainter(icon),
                         contentDescription = null,
-                        tint = if (valueChanged) Color.Blue else MaterialTheme.colors.primary,
+                        tint =
+                            if (valueChanged && UserPreferences.isLightTheme) TextChangeLight
+                            else if (valueChanged && !UserPreferences.isLightTheme) TextChangeDark
+                            else if (isActive) MaterialTheme.colors.secondary
+                            else MaterialTheme.colors.primary,
                         modifier = Modifier.size(20.dp)
                     )
                 }
@@ -100,7 +108,11 @@ fun CategoryListItem(
                         fontWeight = FontWeight.Medium,
                         lineHeight = 0.sp,
                         fontFamily = Afacade,
-                        color = if (valueChanged) Color.Blue else MaterialTheme.colors.primary,
+                        color =
+                            if (valueChanged && UserPreferences.isLightTheme) TextChangeLight
+                            else if (valueChanged && !UserPreferences.isLightTheme) TextChangeDark
+                            else if (isActive) MaterialTheme.colors.secondary
+                            else MaterialTheme.colors.primary
                     )
                 )
             }
@@ -110,13 +122,17 @@ fun CategoryListItem(
             if (valueChanged) {
                 ClickableIcon(
                     icon = PhosphorIcons.Light.X,
-                    color = Color.Blue,
+                    color =
+                        if (UserPreferences.isLightTheme) TextChangeLight
+                        else TextChangeDark,
                     shape = RoundedCornerShape(6.dp),
                     onClick = { value = label },
                 )
                 ClickableIcon(
                     icon = PhosphorIcons.Light.Check,
-                    color = Color.Blue,
+                    color =
+                        if (UserPreferences.isLightTheme) TextChangeLight
+                        else TextChangeDark,
                     shape = RoundedCornerShape(6.dp),
                     onClick = { onUpdateConfirmation(value) }
                 )

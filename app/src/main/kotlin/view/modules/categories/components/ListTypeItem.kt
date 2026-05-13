@@ -23,6 +23,8 @@ import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.CaretRight
 import view.theme.Afacade
+import view.theme.ButtonPurple
+import viewModel.UserPreferences
 
 @Composable
 fun ListTypeItem(
@@ -39,7 +41,7 @@ fun ListTypeItem(
             .padding(horizontal = 10.dp)
             .height(30.dp)
             .clip(RoundedCornerShape(8.dp))
-            .background(if (isActive) MaterialTheme.colors.primaryVariant.copy(alpha = 0.5f) else Color.Transparent)
+            .background(if (isActive) ButtonPurple.copy(alpha = if (UserPreferences.isLightTheme) 0.2f else 0.6f) else Color.Transparent)
             .pointerHoverIcon(PointerIcon.Hand)
             .clickable { onClick() }
     ) {
@@ -54,7 +56,7 @@ fun ListTypeItem(
             Text(
                 text = label,
                 fontSize = 14.sp,
-                color = color,
+                color = if (isActive) MaterialTheme.colors.secondary else MaterialTheme.colors.primary,
                 fontWeight = FontWeight.Medium,
                 lineHeight = 0.sp,
                 fontFamily = Afacade,

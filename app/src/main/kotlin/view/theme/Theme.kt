@@ -7,6 +7,8 @@ import androidx.compose.ui.graphics.Color
 val RedWarning = Color(0xFFFF6961)
 val ButtonGreen = Color(0xFF8BB581)
 val ButtonPurple = Color(0xFF73378a)
+val TextChangeLight = Color.Blue
+val TextChangeDark = Color(0xFF9696FF)
 
 val LightColorScheme = lightColors(
     primary = Color(0xFF282828), //text

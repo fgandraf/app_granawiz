@@ -98,18 +98,18 @@ fun DialogReassignAndDelete(
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(5.dp))
                         .border(1.dp, MaterialTheme.colors.onSurface, RoundedCornerShape(5.dp))
-                        .background(Color.Yellow)
+                        .background(Color.Yellow.copy(0.8f))
                 ) {
                     Icon(
                         modifier = Modifier.size(16.dp),
                         imageVector = PhosphorIcons.Regular.Warning,
                         contentDescription = null,
-                        tint = RedWarning
+                        tint = Color.Black
                     )
                     TextNormal(
                         modifier = Modifier.padding(start = 10.dp),
                         text = stringResource(Res.string.irreversible_warning),
-                        color = RedWarning
+                        color = Color.Black
                     )
                 }
 

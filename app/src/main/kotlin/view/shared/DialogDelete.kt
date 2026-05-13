@@ -23,10 +23,11 @@ import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Regular
 import com.adamglin.phosphoricons.regular.Warning
 import com.felipegandra.generated.resources.Res
-import com.felipegandra.generated.resources.*
+import com.felipegandra.generated.resources.confirm_delete_input_label
+import com.felipegandra.generated.resources.irreversible_warning
 import org.jetbrains.compose.resources.stringResource
-import view.theme.RedWarning
 import view.theme.DefaultFont
+import view.theme.RedWarning
 
 
 @Composable
@@ -86,18 +87,18 @@ fun DialogDelete(
                         .padding(horizontal = 30.dp)
                         .clip(RoundedCornerShape(5.dp))
                         .border(1.dp, MaterialTheme.colors.onSurface, shape = RoundedCornerShape(5.dp))
-                        .background(Color.Yellow)
+                        .background(Color.Yellow.copy(0.8f))
                 ) {
                     Icon(
                         modifier = Modifier.size(16.dp),
                         imageVector = PhosphorIcons.Regular.Warning,
                         contentDescription = "Exclamation icon",
-                        tint = RedWarning
+                        tint = Color.Black
                     )
                     TextNormal(
                         modifier = Modifier.padding(start = 10.dp),
                         text = stringResource(Res.string.irreversible_warning),
-                        color = RedWarning
+                        color = Color.Black
                     )
                 }
                 Spacer(Modifier.height(20.dp))

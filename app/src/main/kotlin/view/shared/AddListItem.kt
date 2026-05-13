@@ -18,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.text.TextStyle
@@ -34,6 +33,9 @@ import com.felipegandra.generated.resources.Res
 import com.felipegandra.generated.resources.add
 import org.jetbrains.compose.resources.stringResource
 import view.theme.Afacade
+import view.theme.TextChangeDark
+import view.theme.TextChangeLight
+import viewModel.UserPreferences
 
 @Composable
 fun AddListItem(
@@ -64,20 +66,26 @@ fun AddListItem(
                             fontWeight = FontWeight.Medium,
                             lineHeight = 0.sp,
                             fontFamily = Afacade,
-                            color = Color.Blue
+                            color =
+                                if (UserPreferences.isLightTheme) TextChangeLight
+                                else TextChangeDark
                         ),
                         modifier = Modifier.focusRequester(focusRequester).padding(start = 10.dp)
                     )
                     Row(modifier = Modifier.padding(end = 10.dp)) {
                         ClickableIcon(
                             icon = PhosphorIcons.Light.X,
-                            color = Color.Blue,
+                            color =
+                                if (UserPreferences.isLightTheme) TextChangeLight
+                                else TextChangeDark,
                             shape = RoundedCornerShape(6.dp),
                             onClick = { isVisible.value = false; value.value = "" }
                         )
                         ClickableIcon(
                             icon = PhosphorIcons.Light.Check,
-                            color = Color.Blue,
+                            color =
+                                if (UserPreferences.isLightTheme) TextChangeLight
+                                else TextChangeDark,
                             shape = RoundedCornerShape(6.dp),
                             onClick = { confirmationClick(); isVisible.value = false; value.value = "" }
                         )

@@ -57,7 +57,7 @@ fun SearchField(
     Row(
         modifier = modifier
             .height(30.dp)
-            .border(1.dp, MaterialTheme.colors.primaryVariant, shape = RoundedCornerShape(10.dp))
+            .border(1.dp, MaterialTheme.colors.onSurface, shape = RoundedCornerShape(5.dp))
             .background(Color.Transparent),
         verticalAlignment = Alignment.CenterVertically
     ) {
