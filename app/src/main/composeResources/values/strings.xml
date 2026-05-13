@@ -108,6 +108,8 @@
     <string name="filter_expenses">Expenses</string>
     <string name="filter_category">Category</string>
     <string name="filter_all_categories">All categories</string>
+    <string name="filter_year">Year</string>
+    <string name="filter_all_years">All years</string>
     <string name="filter_tag">Tag</string>
     <string name="filter_all_tags">All tags</string>
     <string name="filter_clear">Clear filters</string>

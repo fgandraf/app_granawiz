@@ -102,6 +102,7 @@ fun TransactionsScreen(
 
     var filterType by remember { mutableStateOf<TransactionType?>(null) }
 
+    var filterYear by remember { mutableStateOf<Int?>(LocalDate.now().year) }
 
     var addresses by remember { mutableStateOf(emptyList<PageAddress>()) }
 
@@ -121,12 +122,17 @@ fun TransactionsScreen(
         filterCategoryItem = null
         filterTag = null
         filterType = null
+        filterYear = LocalDate.now().year
     }
 
     val transactionsState by viewModel.transactions.collectAsState()
     val scope = rememberCoroutineScope()
 
-    val displayedTransactions = remember(transactionsState, searchQuery, filterAccount, filterCategoryItem, filterTag, filterType) {
+    val availableYears = remember(transactionsState) {
+        transactionsState.map { it.date.year }.distinct().sortedDescending()
+    }
+
+    val displayedTransactions = remember(transactionsState, searchQuery, filterAccount, filterCategoryItem, filterTag, filterType, filterYear) {
         transactionsState.filter { transaction ->
             val matchesSearch = searchQuery.isEmpty() ||
                     transaction.party.name.contains(searchQuery, ignoreCase = true) ||
@@ -141,7 +147,8 @@ fun TransactionsScreen(
                     (filterCategoryItem!!.second != null && transaction.subcategory?.id == filterCategoryItem!!.second!!.id)
             val matchesTag = filterTag == null || transaction.tags?.any { it.id == filterTag!!.id } == true
             val matchesType = filterType == null || transaction.type == filterType
-            matchesSearch && matchesAccount && matchesCategory && matchesTag && matchesType
+            val matchesYear = filterYear == null || transaction.date.year == filterYear
+            matchesSearch && matchesAccount && matchesCategory && matchesTag && matchesType && matchesYear
         }
     }
 
@@ -345,12 +352,16 @@ fun TransactionsScreen(
                                     onFilterCategoryItemChange = { filterCategoryItem = it },
                                     filterTag = filterTag,
                                     onFilterTagChange = { filterTag = it },
+                                    filterYear = filterYear,
+                                    onFilterYearChange = { filterYear = it },
+                                    availableYears = availableYears,
                                     groups = viewModel.groups,
                                     onClearFilters = {
                                         filterAccount = null
                                         filterType = null
                                         filterCategoryItem = null
                                         filterTag = null
+                                        filterYear = LocalDate.now().year
                                     },
                                     onExportExcel = {
                                         val dialog =

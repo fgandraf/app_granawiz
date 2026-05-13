@@ -45,6 +45,9 @@ fun FilterTransactionBar(
     onFilterCategoryItemChange: (Pair<Category, Subcategory?>?) -> Unit,
     filterTag: Tag? = null,
     onFilterTagChange: (Tag?) -> Unit,
+    filterYear: Int? = java.time.LocalDate.now().year,
+    onFilterYearChange: (Int?) -> Unit = {},
+    availableYears: List<Int> = emptyList(),
     groups: MutableStateFlow<List<Group>>,
     onExportExcel: () -> Unit = {},
     onClearFilters: () -> Unit = {},
@@ -52,7 +55,8 @@ fun FilterTransactionBar(
     val list by items.collectAsState(initial = emptyList())
     val entries: List<FilterEntry> = list.map { it.toFilterEntry() }
 
-    val hasActiveFilters = filterAccount != null || filterType != null || filterCategoryItem != null || filterTag != null
+    val hasActiveFilters = filterAccount != null || filterType != null || filterCategoryItem != null || filterTag != null ||
+            filterYear == null || filterYear != java.time.LocalDate.now().year
 
     val preFiltered = remember(entries, searchQuery, filterAccount) {
         entries.filter { entry ->
@@ -77,6 +81,11 @@ fun FilterTransactionBar(
         )
 
         Divider(Modifier.fillMaxWidth().height(1.dp).background(MaterialTheme.colors.background))
+
+        YearDropDown(
+            availableYears = availableYears,
+            onFilterYearChange = onFilterYearChange
+        )
 
         AccountDropDown(
             currentAccountView = currentAccountView,
@@ -108,6 +117,60 @@ fun FilterTransactionBar(
     }
 }
 
+
+@Composable
+private fun YearDropDown(
+    availableYears: List<Int>,
+    onFilterYearChange: (Int?) -> Unit
+) {
+    var showYearDropdown by remember { mutableStateOf(false) }
+
+    TooltipBox(stringResource(Res.string.filter_year)) {
+        Box(
+            modifier = Modifier
+                .height(30.dp)
+                .background(Color.Transparent)
+                .pointerHoverIcon(PointerIcon.Hand)
+                .clickable { showYearDropdown = true }
+                .padding(horizontal = 8.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(0.dp)) {
+                Icon(
+                    imageVector = PhosphorIcons.Light.Calendar,
+                    contentDescription = "",
+                    tint = MaterialTheme.colors.secondary,
+                    modifier = Modifier.size(20.dp)
+                )
+                Icon(
+                    imageVector = PhosphorIcons.Light.CaretDown,
+                    contentDescription = "",
+                    tint = MaterialTheme.colors.secondary,
+                    modifier = Modifier.size(8.dp)
+                )
+            }
+        }
+        DropdownMenu(
+            expanded = showYearDropdown,
+            onDismissRequest = { showYearDropdown = false }
+        ) {
+            DropdownMenuItem(onClick = {
+                onFilterYearChange(null)
+                showYearDropdown = false
+            }) {
+                TextNormal(text = stringResource(Res.string.filter_all_years))
+            }
+            availableYears.forEach { year ->
+                DropdownMenuItem(onClick = {
+                    onFilterYearChange(year)
+                    showYearDropdown = false
+                }) {
+                    TextNormal(text = year.toString())
+                }
+            }
+        }
+    }
+}
 
 @Composable
 private fun AccountDropDown(
