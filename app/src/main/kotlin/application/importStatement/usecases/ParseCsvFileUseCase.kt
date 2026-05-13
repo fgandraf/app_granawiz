@@ -83,6 +83,7 @@ class ParseCsvFileUseCase {
                 val description = descricao
 
                 val categoria = cols.col("categoria")
+                val etiquetas = cols.col("etiquetas", "etiqueta", "tags", "tag")
                 val parcela = cols.col("parcela")?.takeIf { it.matches(Regex("""\d+/\d+""")) }
 
                 entries.add(
@@ -97,6 +98,7 @@ class ParseCsvFileUseCase {
                         needsNewParty = true,
                         category = null,
                         customCategoryText = categoria,
+                        customTagsText = etiquetas,
                         installment = parcela ?: "1/1",
                     )
                 )

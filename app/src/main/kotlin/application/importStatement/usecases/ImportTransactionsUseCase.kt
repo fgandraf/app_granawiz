@@ -14,6 +14,7 @@ class ImportTransactionsUseCase(
     private val accountHandler: AccountHandler = AccountHandler(),
     private val resolveOrCreateParty: ResolveOrCreatePartyUseCase = ResolveOrCreatePartyUseCase(),
     private val resolveOrCreateCategory: ResolveOrCreateCategoryUseCase = ResolveOrCreateCategoryUseCase(),
+    private val resolveOrCreateTags: ResolveOrCreateTagsUseCase = ResolveOrCreateTagsUseCase(),
 ) {
     data class Report(val imported: Int, val failed: Int)
 
@@ -31,11 +32,13 @@ class ImportTransactionsUseCase(
             try {
                 val party = resolveOrCreateParty.execute(entry)
                 val cat = resolveOrCreateCategory.execute(entry)
+                val tags = resolveOrCreateTags.execute(entry)
                 val txn = Transaction(
                     party = party,
                     account = account,
                     category = cat.category,
                     subcategory = cat.subcategory,
+                    tags = tags,
                     date = entry.date,
                     description = entry.description,
                     balance = entry.balance,
