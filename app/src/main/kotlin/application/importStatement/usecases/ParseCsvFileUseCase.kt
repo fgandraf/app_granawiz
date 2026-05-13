@@ -20,12 +20,16 @@ class ParseCsvFileUseCase {
         }
 
         val delimiter = if (lines.first().contains(';')) ';' else ','
-        val headerMap = lines.first().split(delimiter).mapIndexed { i, col ->
+        val headerMap = parseCsvLine(lines.first(), delimiter).mapIndexed { i, col ->
             normalize(col) to i
         }.toMap()
 
         fun List<String>.col(vararg names: String): String? =
-            names.firstNotNullOfOrNull { headerMap[it]?.let { idx -> getOrNull(idx)?.trim()?.takeIf { it.isNotBlank() } } }
+            names.firstNotNullOfOrNull {
+                headerMap[it]?.let { idx ->
+                    getOrNull(idx)?.trim()?.takeIf { it.isNotBlank() }
+                }
+            }
 
         val dataLines = lines.drop(1)
         onLog("Carregando registros em memória...", LogLevel.INFO)
@@ -36,7 +40,7 @@ class ParseCsvFileUseCase {
         var skipped = 0
 
         for ((index, line) in dataLines.withIndex()) {
-            val cols = line.split(delimiter).map { it.trim() }
+            val cols = parseCsvLine(line, delimiter)
 
             try {
                 val dateStr = cols.col("data") ?: run {
@@ -112,8 +116,29 @@ class ParseCsvFileUseCase {
         emptyList()
     }
 
+    private fun parseCsvLine(line: String, delimiter: Char): List<String> {
+        val result = mutableListOf<String>()
+        val current = StringBuilder()
+        var inQuotes = false
+        var i = 0
+        while (i < line.length) {
+            when (val c = line[i]) {
+                '"' -> if (inQuotes && i + 1 < line.length && line[i + 1] == '"') {
+                    current.append('"'); i++
+                } else {
+                    inQuotes = !inQuotes
+                }
+                delimiter -> if (inQuotes) current.append(c) else { result.add(current.toString().trim()); current.clear() }
+                else -> current.append(c)
+            }
+            i++
+        }
+        result.add(current.toString().trim())
+        return result
+    }
+
     private fun normalize(col: String): String =
-        col.trim().lowercase()
+        col.trim().trimStart('﻿').lowercase()
             .replace('á', 'a').replace('ã', 'a').replace('â', 'a').replace('à', 'a')
             .replace('é', 'e').replace('ê', 'e')
             .replace('í', 'i')
