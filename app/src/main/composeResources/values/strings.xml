@@ -193,8 +193,9 @@
     <string name="settings_app_name">GranaWiz</string>
     <string name="settings_app_version">0.0.1-Beta</string>
     <string name="settings_section_appearance">APPEARANCE</string>
-    <string name="settings_theme_dark">Dark</string>
-    <string name="settings_theme_light">Light</string>
+    <string name="settings_theme_label">Theme</string>
+    <string name="settings_theme_dark">Dark Mode</string>
+    <string name="settings_theme_light">Light Mode</string>
     <string name="settings_titlebar_style_label">Title bar style</string>
     <string name="settings_titlebar_style_default">Default</string>
     <string name="settings_titlebar_style_macos">macOS Style</string>

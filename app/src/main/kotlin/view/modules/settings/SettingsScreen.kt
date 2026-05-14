@@ -9,6 +9,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerIcon
@@ -19,70 +20,77 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Light
+import com.adamglin.phosphoricons.light.CaretDown
+import com.adamglin.phosphoricons.light.CaretUp
 import com.felipegandra.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 import utils.rememberSvgPainter
-import viewModel.UserPreferences
-import viewModel.UserPreferences.isLightTheme
-import view.shared.*
+import view.shared.DialogTitleBar
+import view.shared.TextH4
+import view.shared.TextNormal
+import view.shared.TextSmall
 import view.theme.Afacade
 import view.theme.ButtonPurple
 import view.theme.DefaultFont
 import viewModel.SettingsViewModel
+import viewModel.UserPreferences
+import viewModel.UserPreferences.isLightTheme
 import java.awt.Desktop
 import java.net.URI
 
-private val CURRENCIES = listOf(
-    "$" to "Argentine Peso ($)",
-    "$" to "Australian Dollar ($)",
-    "R$" to "Brazilian Real (R$)",
-    "£" to "British Pound (£)",
-    "$" to "Canadian Dollar ($)",
-    "$" to "Chilean Peso ($)",
-    "¥" to "Chinese Yuan (¥)",
-    "$" to "Colombian Peso ($)",
-    "Kč" to "Czech Koruna (Kč)",
-    "kr" to "Danish Krone (kr)",
-    "E£" to "Egyptian Pound (E£)",
-    "€" to "Euro (€)",
-    "$" to "Hong Kong Dollar ($)",
-    "Ft" to "Hungarian Forint (Ft)",
-    "₹" to "Indian Rupee (₹)",
-    "Rp" to "Indonesian Rupiah (Rp)",
-    "₪" to "Israeli New Shekel (₪)",
-    "¥" to "Japanese Yen (¥)",
-    "$" to "Mexican Peso ($)",
-    "$" to "New Zealand Dollar ($)",
-    "₦" to "Nigerian Naira (₦)",
-    "kr" to "Norwegian Krone (kr)",
-    "₨" to "Pakistani Rupee (₨)",
-    "S/." to "Peruvian Sol (S/.)",
-    "₱" to "Philippine Peso (₱)",
-    "zł" to "Polish Zloty (zł)",
-    "lei" to "Romanian Leu (lei)",
-    "₽" to "Russian Ruble (₽)",
-    "﷼" to "Saudi Riyal (﷼)",
-    "$" to "Singapore Dollar ($)",
-    "R" to "South African Rand (R)",
-    "₩" to "South Korean Won (₩)",
-    "kr" to "Swedish Krona (kr)",
-    "Fr" to "Swiss Franc (Fr)",
-    "$" to "Taiwan Dollar ($)",
-    "฿" to "Thai Baht (฿)",
-    "₺" to "Turkish Lira (₺)",
-    "د.إ" to "UAE Dirham (د.إ)",
-    "₴" to "Ukrainian Hryvnia (₴)",
-    "$" to "US Dollar ($)",
-    "₫" to "Vietnamese Dong (₫)",
+private val CURRENCIES = mapOf(
+    "Argentine Peso ($)"      to "$",
+    "Australian Dollar ($)"   to "$",
+    "Brazilian Real (R$)"     to "R$",
+    "British Pound (£)"       to "£",
+    "Canadian Dollar ($)"     to "$",
+    "Chilean Peso ($)"        to "$",
+    "Chinese Yuan (¥)"        to "¥",
+    "Colombian Peso ($)"      to "$",
+    "Czech Koruna (Kč)"       to "Kč",
+    "Danish Krone (kr)"       to "kr",
+    "Egyptian Pound (E£)"     to "E£",
+    "Euro (€)"                to "€",
+    "Hong Kong Dollar ($)"    to "$",
+    "Hungarian Forint (Ft)"   to "Ft",
+    "Indian Rupee (₹)"        to "₹",
+    "Indonesian Rupiah (Rp)"  to "Rp",
+    "Israeli New Shekel (₪)"  to "₪",
+    "Japanese Yen (¥)"        to "¥",
+    "Mexican Peso ($)"        to "$",
+    "New Zealand Dollar ($)"  to "$",
+    "Nigerian Naira (₦)"      to "₦",
+    "Norwegian Krone (kr)"    to "kr",
+    "Pakistani Rupee (₨)"     to "₨",
+    "Peruvian Sol (S/.)"      to "S/.",
+    "Philippine Peso (₱)"     to "₱",
+    "Polish Zloty (zł)"       to "zł",
+    "Romanian Leu (lei)"      to "lei",
+    "Russian Ruble (₽)"       to "₽",
+    "Saudi Riyal (﷼)"         to "﷼",
+    "Singapore Dollar ($)"    to "$",
+    "South African Rand (R)"  to "R",
+    "South Korean Won (₩)"    to "₩",
+    "Swedish Krona (kr)"      to "kr",
+    "Swiss Franc (Fr)"        to "Fr",
+    "Taiwan Dollar ($)"       to "$",
+    "Thai Baht (฿)"           to "฿",
+    "Turkish Lira (₺)"        to "₺",
+    "UAE Dirham (د.إ)"        to "د.إ",
+    "Ukrainian Hryvnia (₴)"   to "₴",
+    "US Dollar ($)"           to "$",
+    "Vietnamese Dong (₫)"     to "₫",
 )
 
-private val CURRENCY_FORMATS = listOf(
+private val CURRENCY_FORMATS = mapOf(
     "dot-comma" to "1.234,56",
     "comma-dot" to "1,234.56",
     "plain-dot" to "1234.56",
 )
 
-private val LANGUAGES = listOf(
+private val LANGUAGES = mapOf(
     "pt-BR" to "Português (Brasil)",
     "en-US" to "English (US)",
 )
@@ -92,19 +100,11 @@ fun SettingsScreen(
     onDismiss: () -> Unit,
     viewModel: SettingsViewModel = remember { SettingsViewModel() },
 ) {
-    var languageMenuExpanded by remember { mutableStateOf(false) }
-    var currencyMenuExpanded by remember { mutableStateOf(false) }
-    var formatMenuExpanded by remember { mutableStateOf(false) }
-    var titleBarMenuExpanded by remember { mutableStateOf(false) }
-    val titleBarStyles = listOf(
-        "default" to stringResource(Res.string.settings_titlebar_style_default),
-        "macos" to stringResource(Res.string.settings_titlebar_style_macos),
-    )
     Dialog(onDismissRequest = onDismiss) {
         Column(
             modifier = Modifier
                 .width(520.dp)
-                .height(820.dp)
+                .height(700.dp)
                 .background(MaterialTheme.colors.surface, shape = RoundedCornerShape(8.dp))
         ) {
             DialogTitleBar(title = stringResource(Res.string.settings_title), onCloseRequest = onDismiss)
@@ -147,131 +147,110 @@ fun SettingsScreen(
 
                 Divider(color = MaterialTheme.colors.onSurface)
 
-                // Aparência
-                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    TextH4(text = stringResource(Res.string.settings_section_appearance))
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Switch(
-                            modifier = Modifier.pointerHoverIcon(PointerIcon.Hand),
-                            checked = isLightTheme,
-                            onCheckedChange = { viewModel.setTheme(!isLightTheme) },
-                            colors = SwitchDefaults.colors(uncheckedThumbColor = MaterialTheme.colors.primary, checkedThumbColor = MaterialTheme.colors.primary)
-                        )
-                        Spacer(Modifier.width(10.dp))
-                        TextNormal(text = if (isLightTheme) stringResource(Res.string.settings_theme_dark) else stringResource(Res.string.settings_theme_light))
-                    }
-                    Box {
-                        val selectedStyleLabel = titleBarStyles.find { it.first == UserPreferences.titleBarStyle }?.second
-                            ?: titleBarStyles.first().second
-                        DropDownTextField(
-                            modifier = Modifier.fillMaxWidth(),
-                            value = selectedStyleLabel,
-                            label = stringResource(Res.string.settings_titlebar_style_label),
-                            onClick = { titleBarMenuExpanded = true }
-                        )
-                        DropdownMenu(
-                            expanded = titleBarMenuExpanded,
-                            onDismissRequest = { titleBarMenuExpanded = false },
-                        ) {
-                            titleBarStyles.forEach { (key, label) ->
-                                DropdownMenuItem(onClick = {
-                                    viewModel.setTitleBarStyle(key)
-                                    titleBarMenuExpanded = false
-                                }) {
-                                    TextNormal(text = label)
-                                }
+
+                Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp), verticalAlignment = Alignment.CenterVertically) {
+
+                    val themes = mapOf(
+                        "light" to stringResource(Res.string.settings_theme_light),
+                        "dark"  to stringResource(Res.string.settings_theme_dark),
+                    )
+                    val currentTheme = if (isLightTheme) "light" else "dark"
+
+                    SettingsItem(
+                        label = stringResource(Res.string.settings_theme_label),
+                        value = themes[currentTheme] ?: themes.values.first()
+                    ) { onDismiss ->
+                        themes.forEach { (key, label) ->
+                            DropdownMenuItem(onClick = {
+                                viewModel.setTheme(key == "light")
+                                onDismiss()
+                            }) {
+                                TextNormal(text = label)
                             }
                         }
                     }
                 }
 
-                Divider(color = MaterialTheme.colors.onSurface)
+                Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp), verticalAlignment = Alignment.CenterVertically){
 
-                // Idioma
-                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    TextH4(text = stringResource(Res.string.settings_section_language))
-                    Box {
-                        val selectedLanguage = LANGUAGES.find { it.first == UserPreferences.language }?.second
-                            ?: LANGUAGES.first().second
-                        DropDownTextField(
-                            modifier = Modifier.fillMaxWidth(),
-                            value = selectedLanguage,
-                            label = stringResource(Res.string.settings_language),
-                            onClick = { languageMenuExpanded = true }
-                        )
-                        DropdownMenu(
-                            expanded = languageMenuExpanded,
-                            onDismissRequest = { languageMenuExpanded = false },
-                        ) {
-                            LANGUAGES.forEach { (tag, label) ->
-                                DropdownMenuItem(onClick = {
-                                    viewModel.setLanguage(tag)
-                                    languageMenuExpanded = false
-                                }) {
-                                    TextNormal(text = label)
-                                }
+                    val titleBarStyles = mapOf(
+                        "default" to stringResource(Res.string.settings_titlebar_style_default),
+                        "macos"   to stringResource(Res.string.settings_titlebar_style_macos),
+                    )
+                    SettingsItem(
+                        label = stringResource(Res.string.settings_titlebar_style_label),
+                        value = titleBarStyles[UserPreferences.titleBarStyle] ?: titleBarStyles.values.first()
+                    ) { onDismiss ->
+                        titleBarStyles.forEach { (key, label) ->
+                            DropdownMenuItem(onClick = {
+                                viewModel.setTitleBarStyle(key)
+                                onDismiss()
+                            }) {
+                                TextNormal(text = label)
                             }
                         }
                     }
                 }
 
-                Divider(color = MaterialTheme.colors.onSurface)
 
-                // Moeda
-                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    TextH4(text = stringResource(Res.string.settings_section_currency))
-                    Box {
-                        val selectedLabel = CURRENCIES.find { it.second == UserPreferences.currencyLabel }?.second
-                            ?: CURRENCIES.find { it.first == UserPreferences.currencyLabel }?.second
+
+                Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp), verticalAlignment = Alignment.CenterVertically) {
+                    SettingsItem(
+                        label = stringResource(Res.string.settings_language),
+                        value = LANGUAGES[UserPreferences.language] ?: LANGUAGES.values.first()
+                    ) { onDismiss ->
+                        LANGUAGES.forEach { (tag, label) ->
+                            DropdownMenuItem(onClick = {
+                                viewModel.setLanguage(tag)
+                                onDismiss()
+                            }) {
+                                TextNormal(text = label)
+                            }
+                        }
+                    }
+                }
+
+
+                Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp), verticalAlignment = Alignment.CenterVertically) {
+                    val selectedCurrency = when {
+                        UserPreferences.currencyLabel in CURRENCIES -> UserPreferences.currencyLabel
+                        else -> CURRENCIES.entries.find { it.value == UserPreferences.currencyLabel }?.key
                             ?: UserPreferences.currencyLabel
-                        DropDownTextField(
-                            modifier = Modifier.fillMaxWidth(),
-                            value = selectedLabel,
-                            label = stringResource(Res.string.settings_default_currency),
-                            onClick = { currencyMenuExpanded = true }
-                        )
-                        DropdownMenu(
-                            expanded = currencyMenuExpanded,
-                            onDismissRequest = { currencyMenuExpanded = false },
-                        ) {
-                            CURRENCIES.forEach { (_, label) ->
-                                DropdownMenuItem(onClick = {
-                                    viewModel.setCurrencySymbol(label)
-                                    currencyMenuExpanded = false
-                                }) {
-                                    TextNormal(text = label)
-                                }
-                            }
-                        }
                     }
-                    Box {
-                        val selectedFormat = CURRENCY_FORMATS.find { it.first == UserPreferences.currencyFormat }?.second
-                            ?: CURRENCY_FORMATS.first().second
-                        DropDownTextField(
-                            modifier = Modifier.fillMaxWidth(),
-                            value = selectedFormat,
-                            label = stringResource(Res.string.settings_number_format),
-                            onClick = { formatMenuExpanded = true }
-                        )
-                        DropdownMenu(
-                            expanded = formatMenuExpanded,
-                            onDismissRequest = { formatMenuExpanded = false },
-                        ) {
-                            CURRENCY_FORMATS.forEach { (key, label) ->
-                                DropdownMenuItem(onClick = {
-                                    viewModel.setCurrencyFormat(key)
-                                    formatMenuExpanded = false
-                                }) {
-                                    TextNormal(text = label)
-                                }
+                    SettingsItem(
+                        label = stringResource(Res.string.settings_default_currency),
+                        value = selectedCurrency
+                    ) { onDismiss ->
+                        CURRENCIES.keys.forEach { label ->
+                            DropdownMenuItem(onClick = {
+                                viewModel.setCurrencySymbol(label)
+                                onDismiss()
+                            }) {
+                                TextNormal(text = label)
                             }
                         }
                     }
                 }
 
+                Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp), verticalAlignment = Alignment.CenterVertically) {
+                    SettingsItem(
+                        label = stringResource(Res.string.settings_number_format),
+                        value = CURRENCY_FORMATS[UserPreferences.currencyFormat] ?: CURRENCY_FORMATS.values.first()
+                    ) { onDismiss ->
+                        CURRENCY_FORMATS.forEach { (key, label) ->
+                            DropdownMenuItem(onClick = {
+                                viewModel.setCurrencyFormat(key)
+                                onDismiss()
+                            }) {
+                                TextNormal(text = label)
+                            }
+                        }
+                    }
+                }
+
+
                 Divider(color = MaterialTheme.colors.onSurface)
 
-                // Sobre
                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                     TextH4(text = stringResource(Res.string.settings_section_about))
                     Spacer(Modifier.height(2.dp))
@@ -325,6 +304,65 @@ private fun InfoRow(
             )
         } else {
             TextNormal(text = value)
+        }
+    }
+}
+
+
+@Composable
+private fun SettingsItem(
+    label: String,
+    value: String,
+    dropdownContent: @Composable (onDismiss: () -> Unit) -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
+
+    Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+
+        Row(Modifier.weight(0.5f)) { TextH4(text = "$label:") }
+
+        BoxWithConstraints(Modifier.weight(1f)) {
+            var focused by remember { mutableStateOf(false) }
+
+            Column {
+                Box(
+                    contentAlignment = Alignment.CenterStart,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(35.dp)
+                        .pointerHoverIcon(PointerIcon.Hand)
+                        .onFocusChanged { focusState -> focused = focusState.isFocused}
+                        .clickable { expanded = true }
+                        .padding(horizontal = 10.dp)
+                ) {
+                    if (!value.isEmpty()) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Start,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            TextNormal(text = value, modifier = Modifier.padding(start = 5.dp))
+                        }
+                    }
+
+                    Icon(
+                        imageVector = if (expanded) PhosphorIcons.Light.CaretUp else PhosphorIcons.Light.CaretDown,
+                        contentDescription = "click",
+                        modifier = Modifier.size(15.dp).align(Alignment.CenterEnd),
+                        tint = MaterialTheme.colors.primary
+                    )
+                }
+            }
+
+            DropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false },
+                modifier = Modifier
+                    .wrapContentHeight()
+                    .width(maxWidth)
+            ) {
+                dropdownContent { expanded = false }
+            }
         }
     }
 }
