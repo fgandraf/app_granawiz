@@ -9,6 +9,7 @@ import jakarta.persistence.Entity
 @Entity
 @DiscriminatorValue("CREDIT_CARD")
 class CreditCardAccount(
+    id: Long = 0,
     name: String,
     description: String,
     position: Int,
@@ -16,16 +17,14 @@ class CreditCardAccount(
     iconSvg: String? = null,
     balance: Double,
     group: Group,
-
     @Column(name = "credit_limit")
     var creditLimit: Double,
-
     @Column(name = "closing_day")
     val closingDay: Int,
-
     @Column(name = "due_day")
     val dueDay: Int,
 ) : BankAccount(
+    id = id,
     type = AccountType.CREDIT_CARD,
     name = name,
     description = description,
@@ -34,34 +33,4 @@ class CreditCardAccount(
     balance = balance,
     position = position,
     group = group
-) {
-
-    constructor(
-        id: Long?,
-        name: String,
-        description: String = "",
-        position: Int,
-        icon: String,
-        iconSvg: String? = null,
-        balance: Double,
-        group: Group,
-        creditLimit: Double = 0.0,
-        closingDay: Int = 0,
-        dueDay: Int = 0,
-    ) : this(
-        name = name,
-        description = description,
-        position = position,
-        icon = icon,
-        iconSvg = iconSvg,
-        balance = balance,
-        group = group,
-        creditLimit = creditLimit,
-        closingDay = closingDay,
-        dueDay = dueDay
-    ) {
-        if (id != null) {
-            this.id = id
-        }
-    }
-}
+)

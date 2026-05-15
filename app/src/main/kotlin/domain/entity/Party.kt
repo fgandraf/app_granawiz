@@ -8,7 +8,7 @@ import jakarta.persistence.*
 class Party(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "party_id", columnDefinition = "INTEGER") var id: Long = 0,
+    @Column(name = "party_id", columnDefinition = "INTEGER") val id: Long = 0,
 
     var name: String = "",
 

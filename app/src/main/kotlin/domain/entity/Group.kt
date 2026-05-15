@@ -9,7 +9,7 @@ class Group(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "group_id", columnDefinition = "INTEGER") var id: Long = 0,
+    @Column(name = "group_id", columnDefinition = "INTEGER") val id: Long = 0,
 
     var name: String = "",
 

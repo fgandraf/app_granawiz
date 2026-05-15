@@ -9,7 +9,7 @@ class Category(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "category_id", columnDefinition = "INTEGER") var id: Long = 0,
+    @Column(name = "category_id", columnDefinition = "INTEGER") val id: Long = 0,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "category_type", insertable = true, updatable = true) val type: CategoryType,

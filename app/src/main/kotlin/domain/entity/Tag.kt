@@ -7,7 +7,7 @@ import jakarta.persistence.*
 class Tag(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "tag_id", columnDefinition = "INTEGER") var id: Long = 0,
+    @Column(name = "tag_id", columnDefinition = "INTEGER") val id: Long = 0,
 
     var name: String = "",
 

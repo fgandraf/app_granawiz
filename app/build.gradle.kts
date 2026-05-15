@@ -7,8 +7,11 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose") version "2.3.21"
 }
 
+val appVersion = (project.findProperty("granawiz.version") as? String) ?: "1.0.0"
+val appVersionSuffix = (project.findProperty("granawiz.versionSuffix") as? String) ?: ""
+
 group = "com.felipegandra"
-version = "0.0.1-Beta"
+version = "$appVersion$appVersionSuffix"
 
 kotlin {
     jvmToolchain(25)
@@ -77,8 +80,8 @@ compose.desktop {
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "GranaWiz"
-            description = "Version Alpha 1"
-            packageVersion = "1.0.0"
+            description = "GranaWiz — Personal finance management"
+            packageVersion = appVersion
             modules("java.base", "java.sql", "java.naming")
             macOS {
                 iconFile.set(project.file("src/main/resources/assets/images/icon.icns"))

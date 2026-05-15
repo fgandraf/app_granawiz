@@ -9,6 +9,7 @@ import jakarta.persistence.Entity
 @Entity
 @DiscriminatorValue("SAVINGS")
 class SavingsAccount(
+    id: Long = 0,
     name: String,
     description: String,
     position: Int,
@@ -16,11 +17,10 @@ class SavingsAccount(
     iconSvg: String? = null,
     balance: Double,
     group: Group,
-
     @Column(name = "open_balance")
     var openBalance: Double,
-
 ) : BankAccount(
+    id = id,
     type = AccountType.SAVINGS,
     name = name,
     description = description,
@@ -29,30 +29,4 @@ class SavingsAccount(
     balance = balance,
     position = position,
     group = group
-) {
-
-    constructor(
-        id: Long?,
-        name: String,
-        description: String = "",
-        position: Int,
-        icon: String,
-        iconSvg: String? = null,
-        balance: Double,
-        group: Group,
-        openBalance: Double = 0.0,
-    ) : this(
-        name = name,
-        description = description,
-        position = position,
-        icon = icon,
-        iconSvg = iconSvg,
-        balance = balance,
-        group = group,
-        openBalance = openBalance,
-    ) {
-        if (id != null) {
-            this.id = id
-        }
-    }
-}
+)

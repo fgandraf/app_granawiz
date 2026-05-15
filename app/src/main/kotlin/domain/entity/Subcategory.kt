@@ -8,7 +8,7 @@ class Subcategory(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "subcategory_id", columnDefinition = "INTEGER") var id: Long = 0,
+    @Column(name = "subcategory_id", columnDefinition = "INTEGER") val id: Long = 0,
 
     val name: String,
 

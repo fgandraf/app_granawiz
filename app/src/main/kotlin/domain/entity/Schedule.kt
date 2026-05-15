@@ -14,7 +14,7 @@ class Schedule(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "schedule_id", columnDefinition = "INTEGER") var id: Long = 0,
+    @Column(name = "schedule_id", columnDefinition = "INTEGER") val id: Long = 0,
 
     @ManyToOne
     @JoinColumn(name = "party_id", referencedColumnName = "party_id")
@@ -94,5 +94,6 @@ class Schedule(
             frequency, interval, dayOfMonth, endDate, installments
         )
     }
+
 
 }

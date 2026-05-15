@@ -13,7 +13,7 @@ class Transaction(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "transaction_id", columnDefinition = "INTEGER") var id: Long = 0,
+    @Column(name = "transaction_id", columnDefinition = "INTEGER") val id: Long = 0,
 
     @ManyToOne
     @JoinColumn(name = "party_id", referencedColumnName = "party_id")
@@ -78,5 +78,6 @@ class Transaction(
     ): Transaction {
         return Transaction(id, party, account, category, subcategory, tags, date, description, balance, type, scheduleId, originalDueDate, installment)
     }
+
 
 }
