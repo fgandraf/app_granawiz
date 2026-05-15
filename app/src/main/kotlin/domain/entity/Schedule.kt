@@ -2,6 +2,7 @@ package domain.entity
 
 import domain.contracts.IFilterable
 import domain.entity.account.BankAccount
+import domain.structs.FilterEntry
 import domain.enums.ScheduleFrequency
 import domain.enums.TransactionType
 import jakarta.persistence.*
@@ -17,19 +18,19 @@ class Schedule(
 
     @ManyToOne
     @JoinColumn(name = "party_id", referencedColumnName = "party_id")
-    override val party: Party,
+    val party: Party,
 
     @ManyToOne
     @JoinColumn(name = "account_id", referencedColumnName = "account_id")
-    override val account: BankAccount,
+    val account: BankAccount,
 
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "category_id")
-    override val category: Category,
+    val category: Category,
 
     @ManyToOne
     @JoinColumn(name = "subcategory_id", referencedColumnName = "subcategory_id")
-    override val subcategory: Subcategory?,
+    val subcategory: Subcategory?,
 
     @ManyToMany(cascade = [CascadeType.PERSIST, CascadeType.MERGE])
     @JoinTable(
@@ -37,17 +38,17 @@ class Schedule(
         joinColumns = [JoinColumn(name = "schedule_id")],
         inverseJoinColumns = [JoinColumn(name = "tag_id")]
     )
-    override val tags: MutableList<Tag>? = mutableListOf(),
+    val tags: MutableList<Tag>? = mutableListOf(),
 
     @Column(name = "start_date", columnDefinition = "DATETIME") val startDate: LocalDateTime,
 
-    override val description: String,
+    val description: String,
 
     val balance: Double,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type", insertable = true, updatable = true)
-    override val type: TransactionType,
+    val type: TransactionType,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "frequency", insertable = true, updatable = true) val frequency: ScheduleFrequency,
@@ -61,6 +62,16 @@ class Schedule(
     @Column(name = "installments") val installments: Int? = null,
 
     ) : IFilterable {
+
+    override fun toFilterEntry() = FilterEntry(
+        partyName = party.name,
+        description = description,
+        category = category,
+        subcategory = subcategory,
+        tags = tags,
+        accountId = account.id,
+        type = type,
+    )
 
     constructor() : this(
         0, Party(), BankAccount(), Category(), null, null,

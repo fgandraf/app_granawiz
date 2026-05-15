@@ -3,6 +3,7 @@ package domain.entity
 import domain.contracts.IFilterable
 import domain.entity.account.BankAccount
 import domain.enums.TransactionType
+import domain.structs.FilterEntry
 import jakarta.persistence.*
 import java.time.LocalDateTime
 
@@ -16,19 +17,19 @@ class Transaction(
 
     @ManyToOne
     @JoinColumn(name = "party_id", referencedColumnName = "party_id")
-    override val party: Party,
+    val party: Party,
 
     @ManyToOne
     @JoinColumn(name = "account_id", referencedColumnName = "account_id")
-    override val account: BankAccount,
+    val account: BankAccount,
 
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "category_id")
-    override val category: Category,
+    val category: Category,
 
     @ManyToOne
     @JoinColumn(name = "subcategory_id", referencedColumnName = "subcategory_id")
-    override val subcategory: Subcategory?,
+    val subcategory: Subcategory?,
 
     @ManyToMany(cascade = [CascadeType.PERSIST, CascadeType.MERGE])
     @JoinTable(
@@ -36,17 +37,17 @@ class Transaction(
         joinColumns = [JoinColumn(name = "transaction_id")],
         inverseJoinColumns = [JoinColumn(name = "tag_id")]
     )
-    override val tags: MutableList<Tag>? = mutableListOf(),
+    val tags: MutableList<Tag>? = mutableListOf(),
 
     @Column(name = "date", columnDefinition = "DATETIME") val date: LocalDateTime,
 
-    override val description: String,
+    val description: String,
 
     val balance: Double,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type", insertable = true, updatable = true)
-    override val type: TransactionType,
+    val type: TransactionType,
 
     @Column(name = "schedule_id", columnDefinition = "INTEGER") val scheduleId: Long? = null,
 
@@ -55,6 +56,16 @@ class Transaction(
     @Column(name = "installment", columnDefinition = "TEXT") val installment: String = "1/1",
 
     ) : IFilterable {
+
+    override fun toFilterEntry() = FilterEntry(
+        partyName = party.name,
+        description = description,
+        category = category,
+        subcategory = subcategory,
+        tags = tags,
+        accountId = account.id,
+        type = type,
+    )
 
     constructor() : this(0, Party(), BankAccount(), Category(), null, null, LocalDateTime.now(), "", 0.0, TransactionType.NEUTRAL, null, null, "1/1")
 
