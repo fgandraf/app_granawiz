@@ -4,7 +4,6 @@ import domain.contracts.IFilterable
 import domain.entity.account.BankAccount
 import domain.enums.ScheduleFrequency
 import domain.enums.TransactionType
-import infrastructure.config.LocalDateTimeConverter
 import jakarta.persistence.*
 import java.time.LocalDateTime
 
@@ -40,8 +39,7 @@ class Schedule(
     )
     override val tags: MutableList<Tag>? = mutableListOf(),
 
-    @Column(name = "start_date", columnDefinition = "DATETIME")
-    @Convert(converter = LocalDateTimeConverter::class) val startDate: LocalDateTime,
+    @Column(name = "start_date", columnDefinition = "DATETIME") val startDate: LocalDateTime,
 
     override val description: String,
 
@@ -58,8 +56,7 @@ class Schedule(
 
     @Column(name = "day_of_month") val dayOfMonth: Int? = null,
 
-    @Column(name = "end_date", columnDefinition = "DATETIME")
-    @Convert(converter = LocalDateTimeConverter::class) val endDate: LocalDateTime? = null,
+    @Column(name = "end_date", columnDefinition = "DATETIME") val endDate: LocalDateTime? = null,
 
     @Column(name = "installments") val installments: Int? = null,
 

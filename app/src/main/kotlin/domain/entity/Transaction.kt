@@ -3,7 +3,6 @@ package domain.entity
 import domain.contracts.IFilterable
 import domain.entity.account.BankAccount
 import domain.enums.TransactionType
-import infrastructure.config.LocalDateTimeConverter
 import jakarta.persistence.*
 import java.time.LocalDateTime
 
@@ -39,8 +38,7 @@ class Transaction(
     )
     override val tags: MutableList<Tag>? = mutableListOf(),
 
-    @Column(name = "date", columnDefinition = "DATETIME")
-    @Convert(converter = LocalDateTimeConverter::class) val date: LocalDateTime,
+    @Column(name = "date", columnDefinition = "DATETIME") val date: LocalDateTime,
 
     override val description: String,
 
@@ -52,8 +50,7 @@ class Transaction(
 
     @Column(name = "schedule_id", columnDefinition = "INTEGER") val scheduleId: Long? = null,
 
-    @Column(name = "original_due_date", columnDefinition = "DATETIME")
-    @Convert(converter = LocalDateTimeConverter::class) val originalDueDate: LocalDateTime? = null,
+    @Column(name = "original_due_date", columnDefinition = "DATETIME") val originalDueDate: LocalDateTime? = null,
 
     @Column(name = "installment", columnDefinition = "TEXT") val installment: String = "1/1",
 

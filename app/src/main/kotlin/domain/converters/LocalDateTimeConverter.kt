@@ -1,4 +1,4 @@
-package infrastructure.config
+package domain.converters
 
 import jakarta.persistence.AttributeConverter
 import jakarta.persistence.Converter
