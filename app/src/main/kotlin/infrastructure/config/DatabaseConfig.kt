@@ -14,6 +14,7 @@ object DatabaseConfig {
     fun runMigrations() {
         val flyway = Flyway.configure()
             .dataSource("jdbc:sqlite:${AppConfig.dbAbsolutePath}", null, null)
+            .validateOnMigrate(false)
             .load()
         flyway.migrate()
         restrictDbPermissions()

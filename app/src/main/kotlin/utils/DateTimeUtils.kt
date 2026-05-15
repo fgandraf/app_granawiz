@@ -2,12 +2,18 @@ package utils
 
 import java.time.LocalDate
 import java.time.YearMonth
+import java.time.temporal.WeekFields
+import java.util.Locale
+import viewModel.UserPreferences
 
-
-fun generateWeeks(currentMonth: YearMonth): List<List<LocalDate?>> {
+fun generateWeeks(
+    currentMonth: YearMonth,
+    locale: Locale = Locale.forLanguageTag(UserPreferences.language)
+): List<List<LocalDate?>> {
 
     val daysInMonth = currentMonth.lengthOfMonth()
-    val firstDayOfWeek = currentMonth.atDay(1).dayOfWeek.value % 7 // offset to start on Sunday
+    val localeFirstDay = WeekFields.of(locale).firstDayOfWeek
+    val firstDayOfWeek = (currentMonth.atDay(1).dayOfWeek.value - localeFirstDay.value + 7) % 7
     return mutableListOf<List<LocalDate?>>().apply {
         var week = mutableListOf<LocalDate?>()
         for (i in 0 until firstDayOfWeek) {
