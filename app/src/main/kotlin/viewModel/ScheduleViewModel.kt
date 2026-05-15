@@ -1,9 +1,13 @@
 package viewModel
 
+import domain.entity.Category
 import domain.entity.Group
 import domain.entity.Schedule
+import domain.entity.Subcategory
+import domain.entity.Tag
 import domain.entity.Transaction
 import domain.entity.account.BankAccount
+import domain.enums.TransactionType
 import application.account.AccountHandler
 import infrastructure.di.ApplicationContainer
 import application.group.GroupHandler
@@ -13,10 +17,19 @@ import application.transaction.TransactionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import viewModel.shared.AppEvents
 import viewModel.shared.UiEvent
 import java.io.File
 import java.time.LocalDateTime
+
+data class ScheduleFilterState(
+    val searchQuery: String = "",
+    val account: BankAccount? = null,
+    val type: TransactionType? = null,
+    val categoryItem: Pair<Category, Subcategory?>? = null,
+    val tag: Tag? = null,
+)
 
 class ScheduleViewModel(
     account: BankAccount? = null,
@@ -44,6 +57,17 @@ class ScheduleViewModel(
 
     private val _groups = MutableStateFlow(emptyList<Group>())
     val groups: StateFlow<List<Group>> = _groups.asStateFlow()
+
+    private val _filters = MutableStateFlow(ScheduleFilterState())
+    val filters: StateFlow<ScheduleFilterState> = _filters.asStateFlow()
+
+    fun updateFilters(update: ScheduleFilterState.() -> ScheduleFilterState) {
+        _filters.update { it.update() }
+    }
+
+    fun clearFilters() {
+        _filters.value = ScheduleFilterState()
+    }
 
     fun getGroups() {
         runCatching {
