@@ -10,11 +10,11 @@ import utils.toBrMoney
 import java.time.format.DateTimeFormatter
 
 class ImportTransactionsUseCase(
-    private val transactionHandler: TransactionHandler = TransactionHandler(),
-    private val accountHandler: AccountHandler = AccountHandler(),
-    private val resolveOrCreateParty: ResolveOrCreatePartyUseCase = ResolveOrCreatePartyUseCase(),
-    private val resolveOrCreateCategory: ResolveOrCreateCategoryUseCase = ResolveOrCreateCategoryUseCase(),
-    private val resolveOrCreateTags: ResolveOrCreateTagsUseCase = ResolveOrCreateTagsUseCase(),
+    private val transactionHandler: TransactionHandler,
+    private val accountHandler: AccountHandler,
+    private val resolveOrCreateParty: ResolveOrCreatePartyUseCase,
+    private val resolveOrCreateCategory: ResolveOrCreateCategoryUseCase,
+    private val resolveOrCreateTags: ResolveOrCreateTagsUseCase,
 ) {
     data class Report(val imported: Int, val failed: Int)
 

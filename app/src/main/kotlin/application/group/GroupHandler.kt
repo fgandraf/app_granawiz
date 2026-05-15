@@ -5,14 +5,13 @@ import domain.entity.Group
 import application.group.usecases.AddNewGroupUseCase
 import application.group.usecases.MoveGroupPositionUseCase
 import application.group.usecases.RenameGroupUseCase
-import infrastructure.repository.GroupRepository
 
-class GroupHandler {
-
-    private val groupRepository: IGroupRepository = GroupRepository()
-    private val addNewGroup = AddNewGroupUseCase()
-    private val moveGroupPosition = MoveGroupPositionUseCase()
-    private val renameGroup = RenameGroupUseCase()
+class GroupHandler(
+    private val groupRepository: IGroupRepository,
+    private val addNewGroup: AddNewGroupUseCase,
+    private val moveGroupPosition: MoveGroupPositionUseCase,
+    private val renameGroup: RenameGroupUseCase,
+) {
 
     fun addNewGroup(name: String) = addNewGroup.execute(name)
     fun deleteGroup(group: Group) = groupRepository.delete(group)

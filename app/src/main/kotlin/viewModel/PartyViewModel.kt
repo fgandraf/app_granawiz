@@ -5,9 +5,10 @@ import domain.entity.Party
 import domain.entity.PartyName
 import domain.enums.PartyType
 import application.party.PartyHandler
+import infrastructure.di.ApplicationContainer
 import kotlinx.coroutines.flow.MutableStateFlow
 
-class PartyViewModel(type: PartyType, private val partyHandler: PartyHandler = PartyHandler()) {
+class PartyViewModel(type: PartyType, private val partyHandler: PartyHandler = ApplicationContainer.partyHandler) {
 
     var errorMessage = derivedStateOf { partyHandler.errorMessage }
     fun clearError() {

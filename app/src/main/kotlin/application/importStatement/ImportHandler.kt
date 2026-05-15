@@ -12,11 +12,11 @@ import java.io.File
 enum class LogLevel { INFO, OK, WARN, ERROR }
 
 class ImportHandler(
-    private val parseOfxFile: ParseOfxFileUseCase = ParseOfxFileUseCase(),
-    private val parseCsvFile: ParseCsvFileUseCase = ParseCsvFileUseCase(),
-    private val resolveParty: ResolvePartyByNameUseCase = ResolvePartyByNameUseCase(),
-    private val checkDuplicates: CheckDuplicatesUseCase = CheckDuplicatesUseCase(),
-    private val importTransactions: ImportTransactionsUseCase = ImportTransactionsUseCase(),
+    private val parseOfxFile: ParseOfxFileUseCase,
+    private val parseCsvFile: ParseCsvFileUseCase,
+    private val resolveParty: ResolvePartyByNameUseCase,
+    private val checkDuplicates: CheckDuplicatesUseCase,
+    private val importTransactions: ImportTransactionsUseCase,
 ) {
 
     fun parseAndResolve(

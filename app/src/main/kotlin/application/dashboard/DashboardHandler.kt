@@ -5,7 +5,7 @@ import domain.structs.DashboardSummary
 import application.dashboard.usecases.BuildDashboardSummaryUseCase
 
 class DashboardHandler(
-    private val buildDashboardSummaryUseCase: BuildDashboardSummaryUseCase = BuildDashboardSummaryUseCase(),
+    private val buildDashboardSummaryUseCase: BuildDashboardSummaryUseCase,
 ) {
 
     fun buildSummary(period: DashboardPeriod): DashboardSummary =

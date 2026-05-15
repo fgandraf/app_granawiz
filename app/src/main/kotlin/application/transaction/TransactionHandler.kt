@@ -6,15 +6,14 @@ import domain.entity.account.BankAccount
 import application.transaction.usecases.ExportTransactionsToCsvUseCase
 import application.transaction.usecases.FetchTransactionsUseCase
 import application.transaction.usecases.SaveTransactionUseCase
-import infrastructure.repository.TransactionRepository
 import java.io.File
 
-class TransactionHandler {
-
-    private val transactionRepository: ITransactionRepository = TransactionRepository()
-    private val saveTransactionUseCase = SaveTransactionUseCase()
-    private val fetchTransactionsUseCase = FetchTransactionsUseCase()
-    private val exportTransactionsToCsvUseCase = ExportTransactionsToCsvUseCase()
+class TransactionHandler(
+    private val transactionRepository: ITransactionRepository,
+    private val saveTransactionUseCase: SaveTransactionUseCase,
+    private val fetchTransactionsUseCase: FetchTransactionsUseCase,
+    private val exportTransactionsToCsvUseCase: ExportTransactionsToCsvUseCase,
+) {
 
     fun saveTransaction(transaction: Transaction) = saveTransactionUseCase.execute(transaction)
     fun deleteTransaction(transaction: Transaction) = transactionRepository.delete(transaction)

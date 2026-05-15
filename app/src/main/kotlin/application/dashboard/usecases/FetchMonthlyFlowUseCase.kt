@@ -3,14 +3,13 @@ package application.dashboard.usecases
 import domain.contracts.ITransactionRepository
 import domain.enums.TransactionType
 import domain.structs.MonthlyFlow
-import infrastructure.repository.TransactionRepository
 import java.time.LocalDateTime
 import java.time.YearMonth
 import java.time.format.TextStyle
 import java.time.temporal.ChronoUnit
 import java.util.Locale
 
-class FetchMonthlyFlowUseCase(private val transactionRepository: ITransactionRepository = TransactionRepository()) {
+class FetchMonthlyFlowUseCase(private val transactionRepository: ITransactionRepository) {
 
     enum class Granularity { MONTH, YEAR }
 

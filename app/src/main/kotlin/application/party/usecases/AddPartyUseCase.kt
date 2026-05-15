@@ -3,9 +3,7 @@ package application.party.usecases
 import domain.contracts.IPartyRepository
 import domain.entity.Party
 import domain.enums.PartyType
-import infrastructure.repository.PartyRepository
-
-class AddPartyUseCase(private val partyRepository: IPartyRepository = PartyRepository()) {
+class AddPartyUseCase(private val partyRepository: IPartyRepository) {
 
 
     fun execute(name: String, type: PartyType): Pair<String, Party?> {

@@ -4,6 +4,7 @@ import domain.entity.Group
 import domain.entity.Transaction
 import domain.entity.account.BankAccount
 import application.account.AccountHandler
+import infrastructure.di.ApplicationContainer
 import application.group.GroupHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import application.transaction.TransactionHandler
@@ -11,9 +12,9 @@ import java.io.File
 
 class TransactionViewModel(
     account: BankAccount? = null,
-    private val accountHandler: AccountHandler = AccountHandler(),
-    private val transactionHandler: TransactionHandler = TransactionHandler(),
-    private val groupHandler: GroupHandler = GroupHandler(),
+    private val accountHandler: AccountHandler = ApplicationContainer.accountHandler,
+    private val transactionHandler: TransactionHandler = ApplicationContainer.transactionHandler,
+    private val groupHandler: GroupHandler = ApplicationContainer.groupHandler,
 ) {
 
     var selectedAccount = account

@@ -1,10 +1,10 @@
 package viewModel
 
 import application.userPreference.UserPreferenceHandler
-import viewModel.UserPreferences
-import java.util.Locale
+import infrastructure.di.ApplicationContainer
+import java.util.*
 
-class SettingsViewModel(private val handler: UserPreferenceHandler = UserPreferenceHandler()) {
+class SettingsViewModel(private val handler: UserPreferenceHandler = ApplicationContainer.userPreferenceHandler) {
 
     fun setTheme(isLightTheme: Boolean) {
         UserPreferences.isLightTheme = isLightTheme

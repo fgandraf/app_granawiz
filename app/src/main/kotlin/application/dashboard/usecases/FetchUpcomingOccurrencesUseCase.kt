@@ -4,13 +4,12 @@ import application.schedule.usecases.FetchSchedulesUseCase
 import application.schedule.usecases.GenerateOccurrencesUseCase
 import application.schedule.usecases.ScheduleOccurrence
 import domain.contracts.ITransactionRepository
-import infrastructure.repository.TransactionRepository
 import java.time.LocalDate
 
 class FetchUpcomingOccurrencesUseCase(
-    private val fetchSchedulesUseCase: FetchSchedulesUseCase = FetchSchedulesUseCase(),
-    private val generateOccurrencesUseCase: GenerateOccurrencesUseCase = GenerateOccurrencesUseCase(),
-    private val transactionRepository: ITransactionRepository = TransactionRepository(),
+    private val fetchSchedulesUseCase: FetchSchedulesUseCase,
+    private val generateOccurrencesUseCase: GenerateOccurrencesUseCase,
+    private val transactionRepository: ITransactionRepository,
 ) {
 
     fun execute(today: LocalDate = LocalDate.now(), limit: Int = 3): List<ScheduleOccurrence> {

@@ -5,6 +5,7 @@ import domain.entity.Schedule
 import domain.entity.Transaction
 import domain.entity.account.BankAccount
 import application.account.AccountHandler
+import infrastructure.di.ApplicationContainer
 import application.group.GroupHandler
 import application.schedule.ScheduleHandler
 import application.schedule.usecases.ScheduleOccurrence
@@ -15,10 +16,10 @@ import java.time.LocalDateTime
 
 class ScheduleViewModel(
     account: BankAccount? = null,
-    private val scheduleHandler: ScheduleHandler = ScheduleHandler(),
-    private val transactionHandler: TransactionHandler = TransactionHandler(),
-    private val groupHandler: GroupHandler = GroupHandler(),
-    private val accountHandler: AccountHandler = AccountHandler(),
+    private val scheduleHandler: ScheduleHandler = ApplicationContainer.scheduleHandler,
+    private val transactionHandler: TransactionHandler = ApplicationContainer.transactionHandler,
+    private val groupHandler: GroupHandler = ApplicationContainer.groupHandler,
+    private val accountHandler: AccountHandler = ApplicationContainer.accountHandler,
 ) {
 
     var selectedAccount = account

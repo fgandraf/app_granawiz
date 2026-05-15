@@ -14,18 +14,17 @@ import application.party.usecases.FetchNamesUseCase
 import application.party.usecases.ReassignAndDeletePartyUseCase
 import application.party.usecases.UpdateNameUseCase
 import application.party.usecases.UpdatePartyUseCase
-import infrastructure.repository.PartyRepository
 
-class PartyHandler {
-
-    private val partyRepository: IPartyRepository = PartyRepository()
-    private val deletePartyUseCase = DeletePartyUseCase()
-    private val reassignAndDeletePartyUseCase = ReassignAndDeletePartyUseCase()
-    private val addPartyUseCase = AddPartyUseCase()
-    private val updatePartyUseCase = UpdatePartyUseCase()
-    private val addNameUseCase = AddNameUseCase()
-    private val updateNameUseCase = UpdateNameUseCase()
-    private val fetchNamesUseCase = FetchNamesUseCase()
+class PartyHandler(
+    private val partyRepository: IPartyRepository,
+    private val deletePartyUseCase: DeletePartyUseCase,
+    private val reassignAndDeletePartyUseCase: ReassignAndDeletePartyUseCase,
+    private val addPartyUseCase: AddPartyUseCase,
+    private val updatePartyUseCase: UpdatePartyUseCase,
+    private val addNameUseCase: AddNameUseCase,
+    private val updateNameUseCase: UpdateNameUseCase,
+    private val fetchNamesUseCase: FetchNamesUseCase,
+) {
 
     var errorMessage: String? by mutableStateOf(null); private set
     fun clearError() { errorMessage = null }

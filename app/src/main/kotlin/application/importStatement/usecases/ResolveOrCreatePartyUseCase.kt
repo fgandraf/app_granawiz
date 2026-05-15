@@ -5,11 +5,9 @@ import domain.entity.Party
 import domain.enums.PartyType
 import domain.enums.TransactionType
 import domain.structs.ParsedEntry
-import infrastructure.repository.PartyRepository
-
 class ResolveOrCreatePartyUseCase(
-    private val partyRepository: IPartyRepository = PartyRepository(),
-    private val resolveParty: ResolvePartyByNameUseCase = ResolvePartyByNameUseCase(),
+    private val partyRepository: IPartyRepository,
+    private val resolveParty: ResolvePartyByNameUseCase,
 ) {
     fun execute(entry: ParsedEntry): Party {
         entry.party?.let { return it }

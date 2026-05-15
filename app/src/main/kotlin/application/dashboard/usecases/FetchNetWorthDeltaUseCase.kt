@@ -4,15 +4,13 @@ import domain.contracts.IGroupRepository
 import domain.contracts.ITransactionRepository
 import domain.enums.TransactionType
 import domain.structs.NetWorthSnapshot
-import infrastructure.repository.GroupRepository
-import infrastructure.repository.TransactionRepository
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.YearMonth
 
 class FetchNetWorthDeltaUseCase(
-    private val groupRepository: IGroupRepository = GroupRepository(),
-    private val transactionRepository: ITransactionRepository = TransactionRepository(),
+    private val groupRepository: IGroupRepository,
+    private val transactionRepository: ITransactionRepository,
 ) {
 
     fun execute(today: LocalDate = LocalDate.now()): NetWorthSnapshot {

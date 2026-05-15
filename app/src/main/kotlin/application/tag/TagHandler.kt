@@ -2,11 +2,8 @@ package application.tag
 
 import domain.contracts.ITagRepository
 import domain.entity.Tag
-import infrastructure.repository.TagRepository
 
-class TagHandler {
-
-    private val tagRepository: ITagRepository = TagRepository()
+class TagHandler(private val tagRepository: ITagRepository) {
 
     fun addTag(name: String) = tagRepository.insert(Tag(name = name))
     fun deleteTag(tag: Tag) = tagRepository.delete(tag)

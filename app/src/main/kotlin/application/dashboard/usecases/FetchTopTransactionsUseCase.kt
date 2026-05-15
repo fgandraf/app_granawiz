@@ -3,10 +3,9 @@ package application.dashboard.usecases
 import domain.contracts.ITransactionRepository
 import domain.entity.Transaction
 import domain.enums.TransactionType
-import infrastructure.repository.TransactionRepository
 import java.time.LocalDateTime
 
-class FetchTopTransactionsUseCase(private val transactionRepository: ITransactionRepository = TransactionRepository()) {
+class FetchTopTransactionsUseCase(private val transactionRepository: ITransactionRepository) {
 
     fun execute(
         from: LocalDateTime,

@@ -5,19 +5,18 @@ import domain.enums.TransactionType
 import domain.structs.CashFlow
 import domain.structs.DashboardPeriod
 import domain.structs.DashboardSummary
-import infrastructure.repository.TransactionRepository
 import java.time.LocalDate
 
 class BuildDashboardSummaryUseCase(
-    private val transactionRepository: ITransactionRepository = TransactionRepository(),
-    private val netWorthUseCase: FetchNetWorthDeltaUseCase = FetchNetWorthDeltaUseCase(),
-    private val monthlyFlowUseCase: FetchMonthlyFlowUseCase = FetchMonthlyFlowUseCase(),
-    private val categoryBreakdownUseCase: FetchCategoryBreakdownUseCase = FetchCategoryBreakdownUseCase(),
-    private val creditCardsUseCase: FetchCreditCardSnapshotsUseCase = FetchCreditCardSnapshotsUseCase(),
-    private val topPartiesUseCase: FetchTopPartiesUseCase = FetchTopPartiesUseCase(),
-    private val topTransactionsUseCase: FetchTopTransactionsUseCase = FetchTopTransactionsUseCase(),
-    private val spendingPaceUseCase: FetchSpendingPaceUseCase = FetchSpendingPaceUseCase(),
-    private val upcomingOccurrencesUseCase: FetchUpcomingOccurrencesUseCase = FetchUpcomingOccurrencesUseCase(),
+    private val transactionRepository: ITransactionRepository,
+    private val netWorthUseCase: FetchNetWorthDeltaUseCase,
+    private val monthlyFlowUseCase: FetchMonthlyFlowUseCase,
+    private val categoryBreakdownUseCase: FetchCategoryBreakdownUseCase,
+    private val creditCardsUseCase: FetchCreditCardSnapshotsUseCase,
+    private val topPartiesUseCase: FetchTopPartiesUseCase,
+    private val topTransactionsUseCase: FetchTopTransactionsUseCase,
+    private val spendingPaceUseCase: FetchSpendingPaceUseCase,
+    private val upcomingOccurrencesUseCase: FetchUpcomingOccurrencesUseCase,
 ) {
 
     fun execute(period: DashboardPeriod, today: LocalDate = LocalDate.now()): DashboardSummary {

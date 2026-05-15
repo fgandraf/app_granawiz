@@ -9,16 +9,15 @@ import application.category.usecases.DeleteSubcategoryUseCase
 import application.category.usecases.FetchSubcategoriesUseCase
 import application.category.usecases.UpdateCategoryUseCase
 import application.category.usecases.UpdateSubcategoryUseCase
-import infrastructure.repository.CategoryRepository
 
-class CategoryHandler {
-
-    private val categoryRepository: ICategoryRepository = CategoryRepository()
-    private val fetchSubcategories = FetchSubcategoriesUseCase()
-    private val updateCategory = UpdateCategoryUseCase()
-    private val updateSubcategory = UpdateSubcategoryUseCase()
-    private val deleteCategory = DeleteCategoryUseCase()
-    private val deleteSubcategory = DeleteSubcategoryUseCase()
+class CategoryHandler(
+    private val categoryRepository: ICategoryRepository,
+    private val fetchSubcategories: FetchSubcategoriesUseCase,
+    private val updateCategory: UpdateCategoryUseCase,
+    private val updateSubcategory: UpdateSubcategoryUseCase,
+    private val deleteCategory: DeleteCategoryUseCase,
+    private val deleteSubcategory: DeleteSubcategoryUseCase,
+) {
 
     fun fetchCategories(type: CategoryType): List<Category> = categoryRepository.getAll(type)
     fun fetchSubcategories(category: Category): List<Subcategory> = fetchSubcategories.execute(category)

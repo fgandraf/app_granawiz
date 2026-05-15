@@ -8,7 +8,7 @@ import domain.enums.TransactionType
 import domain.structs.ParsedEntry
 
 class ResolveOrCreateCategoryUseCase(
-    private val categoryHandler: CategoryHandler = CategoryHandler(),
+    private val categoryHandler: CategoryHandler,
 ) {
     data class Resolved(val category: Category, val subcategory: Subcategory?)
 

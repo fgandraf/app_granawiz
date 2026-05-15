@@ -5,16 +5,14 @@ import domain.contracts.ITransactionRepository
 import domain.entity.account.CreditCardAccount
 import domain.enums.TransactionType
 import domain.structs.CreditCardSnapshot
-import infrastructure.repository.GroupRepository
-import infrastructure.repository.TransactionRepository
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.YearMonth
 import java.time.temporal.ChronoUnit
 
 class FetchCreditCardSnapshotsUseCase(
-    private val groupRepository: IGroupRepository = GroupRepository(),
-    private val transactionRepository: ITransactionRepository = TransactionRepository(),
+    private val groupRepository: IGroupRepository,
+    private val transactionRepository: ITransactionRepository,
 ) {
 
     fun execute(today: LocalDate = LocalDate.now()): List<CreditCardSnapshot> {

@@ -3,10 +3,8 @@ package application.importStatement.usecases
 import domain.contracts.ITagRepository
 import domain.entity.Tag
 import domain.structs.ParsedEntry
-import infrastructure.repository.TagRepository
-
 class ResolveOrCreateTagsUseCase(
-    private val tagRepository: ITagRepository = TagRepository(),
+    private val tagRepository: ITagRepository,
 ) {
 
     private var cache: MutableList<Tag>? = null

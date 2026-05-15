@@ -3,10 +3,11 @@ package viewModel
 import domain.structs.DashboardPeriod
 import domain.structs.DashboardSummary
 import application.dashboard.DashboardHandler
+import infrastructure.di.ApplicationContainer
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class DashboardViewModel(
-    private val dashboardHandler: DashboardHandler = DashboardHandler(),
+    private val dashboardHandler: DashboardHandler = ApplicationContainer.dashboardHandler,
 ) {
 
     val summary = MutableStateFlow<DashboardSummary?>(null)

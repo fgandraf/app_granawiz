@@ -10,18 +10,17 @@ import application.schedule.usecases.GenerateOccurrencesUseCase
 import application.schedule.usecases.MarkAsPaidUseCase
 import application.schedule.usecases.SaveScheduleUseCase
 import application.schedule.usecases.ScheduleOccurrence
-import infrastructure.repository.ScheduleRepository
 import java.io.File
 import java.time.LocalDateTime
 
-class ScheduleHandler {
-
-    private val scheduleRepository: IScheduleRepository = ScheduleRepository()
-    private val saveScheduleUseCase = SaveScheduleUseCase()
-    private val deleteScheduleUseCase = DeleteScheduleUseCase()
-    private val generateOccurrencesUseCase = GenerateOccurrencesUseCase()
-    private val markAsPaidUseCase = MarkAsPaidUseCase()
-    private val exportSchedulesToExcelUseCase = ExportSchedulesToExcelUseCase()
+class ScheduleHandler(
+    private val scheduleRepository: IScheduleRepository,
+    private val saveScheduleUseCase: SaveScheduleUseCase,
+    private val deleteScheduleUseCase: DeleteScheduleUseCase,
+    private val generateOccurrencesUseCase: GenerateOccurrencesUseCase,
+    private val markAsPaidUseCase: MarkAsPaidUseCase,
+    private val exportSchedulesToExcelUseCase: ExportSchedulesToExcelUseCase,
+) {
 
     fun saveSchedule(schedule: Schedule) = saveScheduleUseCase.execute(schedule)
     fun deleteThisOccurrence(occurrence: ScheduleOccurrence) = deleteScheduleUseCase.deleteThisOccurrence(occurrence)

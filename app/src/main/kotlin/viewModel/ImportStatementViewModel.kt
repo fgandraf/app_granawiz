@@ -1,6 +1,7 @@
 package viewModel
 
 import application.importStatement.ImportHandler
+import infrastructure.di.ApplicationContainer
 import application.importStatement.LogLevel
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -15,7 +16,7 @@ import java.io.File
 data class WizardLogLine(val level: LogLevel, val text: String)
 
 class ImportStatementViewModel(
-    private val importHandler: ImportHandler = ImportHandler(),
+    private val importHandler: ImportHandler = ApplicationContainer.importHandler,
 ) {
 
     var currentStep by mutableStateOf(0)

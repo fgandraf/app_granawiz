@@ -3,12 +3,13 @@ package viewModel
 import domain.entity.Group
 import domain.entity.account.BankAccount
 import application.account.AccountHandler
+import infrastructure.di.ApplicationContainer
 import application.group.GroupHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class SidebarViewModel(
-    private val groupHandler: GroupHandler = GroupHandler(),
-    private val accountHandler: AccountHandler = AccountHandler(),
+    private val groupHandler: GroupHandler = ApplicationContainer.groupHandler,
+    private val accountHandler: AccountHandler = ApplicationContainer.accountHandler,
 ) {
 
     var total = MutableStateFlow(0.0)

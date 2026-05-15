@@ -3,7 +3,7 @@ package viewModel
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import application.userPreference.UserPreferenceHandler
+import infrastructure.di.ApplicationContainer
 
 object UserPreferences {
     var isLightTheme by mutableStateOf(true)
@@ -20,7 +20,7 @@ object UserPreferences {
         }
 
     fun loadFromDatabase() {
-        val prefs = UserPreferenceHandler().fetchPreferences()
+        val prefs = ApplicationContainer.userPreferenceHandler.fetchPreferences()
         isLightTheme = prefs.isLightTheme
         currencyLabel = prefs.currencySymbol
         currencyFormat = prefs.currencyFormat

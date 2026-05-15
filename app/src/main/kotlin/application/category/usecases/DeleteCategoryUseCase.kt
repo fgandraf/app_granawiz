@@ -3,10 +3,8 @@ package application.category.usecases
 import domain.contracts.ICategoryRepository
 import domain.entity.Category
 import infrastructure.config.transactional
-import infrastructure.repository.CategoryRepository
-
 class DeleteCategoryUseCase(
-    private val categoryRepository: ICategoryRepository = CategoryRepository(),
+    private val categoryRepository: ICategoryRepository,
 ) {
     fun execute(category: Category) {
         val existingUncategorized = categoryRepository.findByNameAndType("Sem categoria", category.type)

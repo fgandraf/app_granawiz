@@ -6,14 +6,13 @@ import domain.entity.account.BankAccount
 import application.account.usecases.MoveAccountPositionUseCase
 import application.account.usecases.SaveAccountUseCase
 import application.account.usecases.UpdateAccountBalanceUseCase
-import infrastructure.repository.AccountRepository
 
-class AccountHandler {
-
-    private val accountRepository: IAccountRepository = AccountRepository()
-    private val moveAccountPosition = MoveAccountPositionUseCase()
-    private val updateAccountBalance = UpdateAccountBalanceUseCase()
-    private val saveAccount = SaveAccountUseCase()
+class AccountHandler(
+    private val accountRepository: IAccountRepository,
+    private val moveAccountPosition: MoveAccountPositionUseCase,
+    private val updateAccountBalance: UpdateAccountBalanceUseCase,
+    private val saveAccount: SaveAccountUseCase,
+) {
 
     fun deleteAccount(account: BankAccount) = accountRepository.delete(account)
     fun moveAccountPosition(groups: List<Group>, account: BankAccount, direction: Int) =

@@ -4,6 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import application.schedule.ScheduleHandler
+import infrastructure.di.ApplicationContainer
 import application.transaction.TransactionHandler
 import domain.entity.*
 import domain.entity.account.BankAccount
@@ -14,8 +15,8 @@ import java.time.LocalDateTime
 import kotlin.math.abs
 
 class TransactionFormViewModel(
-    private val scheduleHandler: ScheduleHandler = ScheduleHandler(),
-    private val transactionHandler: TransactionHandler = TransactionHandler(),
+    private val scheduleHandler: ScheduleHandler = ApplicationContainer.scheduleHandler,
+    private val transactionHandler: TransactionHandler = ApplicationContainer.transactionHandler,
 ) {
 
     var id by mutableStateOf(0L)

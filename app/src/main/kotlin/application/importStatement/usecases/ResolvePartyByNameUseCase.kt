@@ -2,10 +2,8 @@ package application.importStatement.usecases
 
 import domain.contracts.IPartyRepository
 import domain.entity.Party
-import infrastructure.repository.PartyRepository
-
 class ResolvePartyByNameUseCase(
-    private val partyRepository: IPartyRepository = PartyRepository()
+    private val partyRepository: IPartyRepository,
 ) {
     fun execute(rawName: String): Party? {
         val trimmed = rawName.trim()

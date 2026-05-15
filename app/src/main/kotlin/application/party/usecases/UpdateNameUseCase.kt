@@ -2,9 +2,7 @@ package application.party.usecases
 
 import domain.contracts.IPartyRepository
 import domain.entity.PartyName
-import infrastructure.repository.PartyRepository
-
-class UpdateNameUseCase(private val partyRepository: IPartyRepository = PartyRepository()) {
+class UpdateNameUseCase(private val partyRepository: IPartyRepository) {
 
 
     fun execute(partyName: PartyName, name: String): Pair<String, PartyName?> {

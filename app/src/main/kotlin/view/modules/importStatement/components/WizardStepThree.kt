@@ -23,8 +23,7 @@ import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import application.category.CategoryHandler
-import application.party.PartyHandler
+import infrastructure.di.ApplicationContainer
 import com.felipegandra.generated.resources.Res
 import com.felipegandra.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
@@ -51,12 +50,10 @@ fun WizardStepThree(
 ) {
     val entries by viewModel.parsedEntries.collectAsState()
 
-    val partyHandler = remember { PartyHandler() }
-    val categoryHandler = remember { CategoryHandler() }
-    val payers = remember { partyHandler.fetchParties(PartyType.PAYER) }
-    val receivers = remember { partyHandler.fetchParties(PartyType.RECEIVER) }
-    val expenseCats = remember { categoryHandler.fetchCategories(CategoryType.EXPENSE) }
-    val incomeCats = remember { categoryHandler.fetchCategories(CategoryType.INCOME) }
+    val payers = remember { ApplicationContainer.partyHandler.fetchParties(PartyType.PAYER) }
+    val receivers = remember { ApplicationContainer.partyHandler.fetchParties(PartyType.RECEIVER) }
+    val expenseCats = remember { ApplicationContainer.categoryHandler.fetchCategories(CategoryType.EXPENSE) }
+    val incomeCats = remember { ApplicationContainer.categoryHandler.fetchCategories(CategoryType.INCOME) }
 
     Column(modifier = Modifier.fillMaxSize()) {
 

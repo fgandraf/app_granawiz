@@ -2,9 +2,7 @@ package application.party.usecases
 
 import domain.contracts.IPartyRepository
 import domain.entity.Party
-import infrastructure.repository.PartyRepository
-
-class DeletePartyUseCase(private val partyRepository: IPartyRepository = PartyRepository()) {
+class DeletePartyUseCase(private val partyRepository: IPartyRepository) {
 
 
     fun execute(party: Party): String? {

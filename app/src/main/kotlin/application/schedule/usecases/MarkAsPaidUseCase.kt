@@ -3,10 +3,9 @@ package application.schedule.usecases
 import domain.contracts.ITransactionRepository
 import domain.entity.Schedule
 import domain.entity.Transaction
-import infrastructure.repository.TransactionRepository
 import java.time.LocalDateTime
 
-class MarkAsPaidUseCase(private val transactionRepository: ITransactionRepository = TransactionRepository()) {
+class MarkAsPaidUseCase(private val transactionRepository: ITransactionRepository) {
 
     fun execute(schedule: Schedule, dueDate: LocalDateTime, occurrenceIndex: Int? = null) {
         val totalInstallments = schedule.installments ?: 1

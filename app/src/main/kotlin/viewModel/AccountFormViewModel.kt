@@ -10,8 +10,9 @@ import domain.entity.account.CreditCardAccount
 import domain.entity.account.SavingsAccount
 import domain.enums.AccountType
 import application.account.AccountHandler
+import infrastructure.di.ApplicationContainer
 
-class AccountFormViewModel(private val accountHandler: AccountHandler = AccountHandler()) {
+class AccountFormViewModel(private val accountHandler: AccountHandler = ApplicationContainer.accountHandler) {
 
     var id by mutableStateOf(0L)
     var type by mutableStateOf(AccountType.CHECKING)

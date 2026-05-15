@@ -2,9 +2,7 @@ package application.group.usecases
 
 import domain.contracts.IGroupRepository
 import domain.entity.Group
-import infrastructure.repository.GroupRepository
-
-class RenameGroupUseCase(private val groupRepository: IGroupRepository = GroupRepository()) {
+class RenameGroupUseCase(private val groupRepository: IGroupRepository) {
 
 
     fun execute(group: Group, name: String) {

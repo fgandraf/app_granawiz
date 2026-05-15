@@ -2,10 +2,8 @@ package application.userPreference
 
 import domain.contracts.IUserPreferenceRepository
 import domain.entity.UserPreference
-import infrastructure.repository.UserPreferenceRepository
 
-class UserPreferenceHandler {
-    private val dao: IUserPreferenceRepository = UserPreferenceRepository()
+class UserPreferenceHandler(private val dao: IUserPreferenceRepository) {
 
     fun fetchPreferences(): UserPreference = dao.get()
 

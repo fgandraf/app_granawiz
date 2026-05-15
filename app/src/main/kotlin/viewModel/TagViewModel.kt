@@ -3,8 +3,9 @@ package viewModel
 import domain.entity.Tag
 import kotlinx.coroutines.flow.MutableStateFlow
 import application.tag.TagHandler
+import infrastructure.di.ApplicationContainer
 
-class TagViewModel(private val tagHandler : TagHandler = TagHandler()) {
+class TagViewModel(private val tagHandler: TagHandler = ApplicationContainer.tagHandler) {
 
     var tags = MutableStateFlow(emptyList<Tag>())
     fun getTags(){ tags.value = tagHandler.fetchTags() }

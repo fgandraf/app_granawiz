@@ -2,9 +2,7 @@ package application.group.usecases
 
 import domain.contracts.IGroupRepository
 import domain.entity.Group
-import infrastructure.repository.GroupRepository
-
-class MoveGroupPositionUseCase(private val groupRepository: IGroupRepository = GroupRepository()) {
+class MoveGroupPositionUseCase(private val groupRepository: IGroupRepository) {
 
 
     fun execute(groups: List<Group>, group: Group, direction: Int) {

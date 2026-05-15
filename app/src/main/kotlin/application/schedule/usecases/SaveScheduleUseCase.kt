@@ -6,13 +6,11 @@ import domain.entity.Schedule
 import domain.entity.Transaction
 import domain.enums.ScheduleFrequency
 import infrastructure.config.transactional
-import infrastructure.repository.ScheduleRepository
-import infrastructure.repository.TransactionRepository
 import java.time.LocalDate
 
 class SaveScheduleUseCase(
-    private val scheduleRepository: IScheduleRepository = ScheduleRepository(),
-    private val transactionRepository: ITransactionRepository = TransactionRepository(),
+    private val scheduleRepository: IScheduleRepository,
+    private val transactionRepository: ITransactionRepository,
 ) {
     fun execute(schedule: Schedule) {
         if (schedule.id == 0L) {

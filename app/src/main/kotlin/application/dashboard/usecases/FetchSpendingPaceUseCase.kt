@@ -3,12 +3,11 @@ package application.dashboard.usecases
 import domain.contracts.ITransactionRepository
 import domain.enums.TransactionType
 import domain.structs.SpendingPace
-import infrastructure.repository.TransactionRepository
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.YearMonth
 
-class FetchSpendingPaceUseCase(private val transactionRepository: ITransactionRepository = TransactionRepository()) {
+class FetchSpendingPaceUseCase(private val transactionRepository: ITransactionRepository) {
 
     fun execute(
         today: LocalDate = LocalDate.now(),
