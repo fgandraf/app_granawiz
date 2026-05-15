@@ -57,44 +57,6 @@ CREATE TABLE tbl_party_names (
     FOREIGN KEY (party_id) REFERENCES tbl_parties(party_id)
 );
 
-CREATE TABLE tbl_transactions (
-    transaction_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    party_id INTEGER,
-    account_id INTEGER,
-    category_id INTEGER,
-    subcategory_id INTEGER,
-    date DATETIME,
-    description TEXT,
-    balance REAL NOT NULL,
-    type TEXT CHECK(type IN ('GAIN', 'EXPENSE', 'NEUTRAL')) NOT NULL,
-    schedule_id INTEGER,
-    original_due_date DATETIME,
-    installment TEXT DEFAULT '1/1',
-
-    FOREIGN KEY (party_id) REFERENCES tbl_parties(party_id),
-    FOREIGN KEY (account_id) REFERENCES tbl_bank_accounts(account_id),
-    FOREIGN KEY (category_id) REFERENCES tbl_categories(category_id),
-    FOREIGN KEY (subcategory_id) REFERENCES tbl_subcategories(subcategory_id)
-    FOREIGN KEY (schedule_id) REFERENCES tbl_schedules(schedule_id)
-);
-
-CREATE TABLE tbl_transaction_tag (
-    transaction_id INTEGER NOT NULL,
-    tag_id INTEGER NOT NULL,
-    PRIMARY KEY (transaction_id, tag_id),
-    FOREIGN KEY (transaction_id) REFERENCES tbl_transactions(transaction_id),
-    FOREIGN KEY (tag_id) REFERENCES tbl_tags(tag_id)
-);
-
-CREATE TABLE tbl_user_preferences (
-    preference_id INTEGER PRIMARY KEY,
-    is_light_theme INTEGER NOT NULL DEFAULT 1,
-    currency_symbol TEXT NOT NULL DEFAULT 'Brazilian Real (R$)',
-    currency_format TEXT NOT NULL DEFAULT 'dot-comma',
-    language TEXT NOT NULL DEFAULT 'en-US',
-    title_bar_style TEXT NOT NULL DEFAULT 'default'
-);
-
 CREATE TABLE tbl_schedules (
     schedule_id INTEGER PRIMARY KEY AUTOINCREMENT,
     party_id INTEGER,
@@ -117,6 +79,35 @@ CREATE TABLE tbl_schedules (
     FOREIGN KEY (subcategory_id) REFERENCES tbl_subcategories(subcategory_id)
 );
 
+CREATE TABLE tbl_transactions (
+    transaction_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    party_id INTEGER,
+    account_id INTEGER,
+    category_id INTEGER,
+    subcategory_id INTEGER,
+    date DATETIME,
+    description TEXT,
+    balance REAL NOT NULL,
+    type TEXT CHECK(type IN ('GAIN', 'EXPENSE', 'NEUTRAL')) NOT NULL,
+    schedule_id INTEGER,
+    original_due_date DATETIME,
+    installment TEXT DEFAULT '1/1',
+
+    FOREIGN KEY (party_id) REFERENCES tbl_parties(party_id),
+    FOREIGN KEY (account_id) REFERENCES tbl_bank_accounts(account_id),
+    FOREIGN KEY (category_id) REFERENCES tbl_categories(category_id),
+    FOREIGN KEY (subcategory_id) REFERENCES tbl_subcategories(subcategory_id),
+    FOREIGN KEY (schedule_id) REFERENCES tbl_schedules(schedule_id)
+);
+
+CREATE TABLE tbl_transaction_tag (
+    transaction_id INTEGER NOT NULL,
+    tag_id INTEGER NOT NULL,
+    PRIMARY KEY (transaction_id, tag_id),
+    FOREIGN KEY (transaction_id) REFERENCES tbl_transactions(transaction_id),
+    FOREIGN KEY (tag_id) REFERENCES tbl_tags(tag_id)
+);
+
 CREATE TABLE tbl_schedule_tag (
     schedule_id INTEGER NOT NULL,
     tag_id INTEGER NOT NULL,
@@ -124,3 +115,19 @@ CREATE TABLE tbl_schedule_tag (
     FOREIGN KEY (schedule_id) REFERENCES tbl_schedules(schedule_id),
     FOREIGN KEY (tag_id) REFERENCES tbl_tags(tag_id)
 );
+
+CREATE TABLE tbl_user_preferences (
+    preference_id INTEGER PRIMARY KEY,
+    is_light_theme INTEGER NOT NULL DEFAULT 1,
+    currency_symbol TEXT NOT NULL DEFAULT 'Brazilian Real (R$)',
+    currency_format TEXT NOT NULL DEFAULT 'dot-comma',
+    language TEXT NOT NULL DEFAULT 'en-US',
+    title_bar_style TEXT NOT NULL DEFAULT 'default'
+);
+
+CREATE INDEX idx_transactions_date ON tbl_transactions(date);
+CREATE INDEX idx_transactions_account ON tbl_transactions(account_id);
+CREATE INDEX idx_transactions_category ON tbl_transactions(category_id);
+CREATE INDEX idx_transactions_party ON tbl_transactions(party_id);
+CREATE INDEX idx_transaction_tag_tag ON tbl_transaction_tag(tag_id);
+CREATE INDEX idx_schedules_start ON tbl_schedules(start_date);
