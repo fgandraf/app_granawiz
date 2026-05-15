@@ -8,6 +8,8 @@ import infrastructure.di.ApplicationContainer
 import application.group.GroupHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import application.transaction.TransactionHandler
+import viewModel.shared.AppEvents
+import viewModel.shared.UiEvent
 import java.io.File
 
 class TransactionViewModel(
@@ -24,12 +26,16 @@ class TransactionViewModel(
 
     var transactions = MutableStateFlow(emptyList<Transaction>())
     fun getTransactions() {
-        transactions.value = transactionHandler.fetchTransactions(account = selectedAccount)
+        runCatching {
+            transactions.value = transactionHandler.fetchTransactions(account = selectedAccount)
+        }.onFailure { AppEvents.emit(UiEvent.Error(it.localizedMessage ?: "Erro desconhecido")) }
     }
 
     var groups = MutableStateFlow(emptyList<Group>())
     fun getGroups() {
-        groups.value = groupHandler.fetchGroups()
+        runCatching {
+            groups.value = groupHandler.fetchGroups()
+        }.onFailure { AppEvents.emit(UiEvent.Error(it.localizedMessage ?: "Erro desconhecido")) }
     }
 
     init {
@@ -38,18 +44,24 @@ class TransactionViewModel(
     }
 
     fun deleteTransaction(transaction: Transaction) {
-        transactionHandler.deleteTransaction(transaction)
-        getTransactions()
-        val accountTransactions = transactionHandler.fetchTransactions(account = transaction.account)
-        accountHandler.updateBalance(transaction.account.id, accountTransactions.sumOf { it.balance })
+        runCatching {
+            transactionHandler.deleteTransaction(transaction)
+            getTransactions()
+            val accountTransactions = transactionHandler.fetchTransactions(account = transaction.account)
+            accountHandler.updateBalance(transaction.account.id, accountTransactions.sumOf { it.balance })
+        }.onFailure { AppEvents.emit(UiEvent.Error(it.localizedMessage ?: "Erro desconhecido")) }
     }
 
-    fun exportToCsv(transactions: List<Transaction>, file: File) =
-        transactionHandler.exportTransactionsToCsv(transactions, file)
+    fun exportToCsv(transactions: List<Transaction>, file: File) {
+        runCatching {
+            transactionHandler.exportTransactionsToCsv(transactions, file)
+        }.onFailure { AppEvents.emit(UiEvent.Error(it.localizedMessage ?: "Erro desconhecido")) }
+    }
 
     fun updateBalance(accountId: Long, amount: Double) {
-        accountHandler.updateBalance(accountId, amount)
-        getTransactions()
+        runCatching {
+            accountHandler.updateBalance(accountId, amount)
+            getTransactions()
+        }.onFailure { AppEvents.emit(UiEvent.Error(it.localizedMessage ?: "Erro desconhecido")) }
     }
-
 }

@@ -298,5 +298,17 @@
 
     <!-- ─── Confirmation dialog ───────────────────────────────────────────── -->
     <string name="confirm_delete_input_label">Digite "%1$s"</string>
+    <string name="confirm">Confirmar</string>
+
+    <!-- ─── Account icon selector ───────────────────────────────────────── -->
+    <string name="account_icon_custom_title">Ícone personalizado</string>
+    <string name="account_icon_custom_name_hint">Digite um nome para identificar este ícone.</string>
+
+    <!-- ─── Account delete ───────────────────────────────────────────────── -->
+    <string name="delete_account_title">Excluir conta</string>
+    <string name="delete_account_confirm">Isso irá excluir permanentemente a conta %1$s → %2$s, bem como todas as transações associadas a ela.</string>
+
+    <!-- ─── Schedule row ─────────────────────────────────────────────────── -->
+    <string name="schedule_confirm_payment">Confirmar pagamento desse agendamento?</string>
 
 </resources>

@@ -21,6 +21,9 @@ import androidx.compose.ui.window.Dialog
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Fill
 import com.adamglin.phosphoricons.fill.PencilLine
+import com.felipegandra.generated.resources.Res
+import com.felipegandra.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import utils.isCustomIcon
 import utils.parseCustomIcon
 import utils.rememberAccountIconPainter
@@ -54,19 +57,19 @@ fun IconSelector(
                     .width(320.dp)
                     .background(MaterialTheme.colors.surface, RoundedCornerShape(8.dp))
             ) {
-                DialogTitleBar(title = "Ícone personalizado", onCloseRequest = dismiss)
+                DialogTitleBar(title = stringResource(Res.string.account_icon_custom_title), onCloseRequest = dismiss)
                 Divider(Modifier.background(MaterialTheme.colors.onSurface))
 
                 Column(Modifier.padding(horizontal = 20.dp, vertical = 16.dp)) {
                     TextSmall(
-                        text = "Digite um nome para identificar este ícone.",
+                        text = stringResource(Res.string.account_icon_custom_name_hint),
                         color = MaterialTheme.colors.primary.copy(alpha = 0.7f)
                     )
                     Spacer(Modifier.height(12.dp))
                     DefaultTextField(
                         value = customIconName,
                         onValueChange = { customIconName = it },
-                        label = "Nome",
+                        label = stringResource(Res.string.name),
                         placeholder = customIconSuggestion,
                     )
                 }
@@ -80,10 +83,10 @@ fun IconSelector(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    TransparentButton(modifier = Modifier.width(100.dp), text = "Cancelar", onClick = dismiss)
+                    TransparentButton(modifier = Modifier.width(100.dp), text = stringResource(Res.string.cancel), onClick = dismiss)
                     DefaultButton(
                         confirmed = customIconName.isNotBlank() || customIconSuggestion.isNotBlank(),
-                        text = "Confirmar",
+                        text = stringResource(Res.string.confirm),
                         textColor = Color.White,
                         onClick = {
                             val svgContent = pendingFile!!.readText()

@@ -176,7 +176,7 @@ fun ScheduleRow(
         var confirmMarkAsPaid by remember { mutableStateOf(false) }
         if (confirmMarkAsPaid) {
             SimpleQuestionDialog(
-                message = "Confirmar pagamento desse agendamento?",
+                message = stringResource(Res.string.schedule_confirm_payment),
                 onConfirmRequest = {
                     viewModel.markAsPaid(occurrence)
                     onSidebarReload()
@@ -218,7 +218,7 @@ fun ScheduleRow(
                 ) {
                     Icon(
                         imageVector = PhosphorIcons.Light.Check,
-                        contentDescription = "Marcar como pago",
+                        contentDescription = stringResource(Res.string.mark_as_paid),
                         tint = MaterialTheme.colors.onPrimary,
                         modifier = Modifier.size(16.dp)
                     )
@@ -275,14 +275,15 @@ fun ScheduleRow(
     }
 }
 
-// TODO: frequencyLabel is used in a non-composable context; strings cannot use stringResource here
-private fun frequencyLabel(frequency: ScheduleFrequency, interval: Int): String {
-    val base = when (frequency) {
-        ScheduleFrequency.ONCE -> "Uma única vez"
-        ScheduleFrequency.DAILY -> if (interval == 1) "Diário" else "A cada $interval dias"
-        ScheduleFrequency.WEEKLY -> if (interval == 1) "Semanal" else "A cada $interval semanas"
-        ScheduleFrequency.MONTHLY -> if (interval == 1) "Mensal" else "A cada $interval meses"
-        ScheduleFrequency.YEARLY -> if (interval == 1) "Anual" else "A cada $interval anos"
-    }
-    return base
+@Composable
+private fun frequencyLabel(frequency: ScheduleFrequency, interval: Int): String = when (frequency) {
+    ScheduleFrequency.ONCE -> stringResource(Res.string.recurrence_once)
+    ScheduleFrequency.DAILY -> if (interval == 1) stringResource(Res.string.recurrence_daily)
+                               else stringResource(Res.string.recurrence_every_n_days, interval)
+    ScheduleFrequency.WEEKLY -> if (interval == 1) stringResource(Res.string.recurrence_weekly)
+                                else stringResource(Res.string.recurrence_every_n_weeks, interval)
+    ScheduleFrequency.MONTHLY -> if (interval == 1) stringResource(Res.string.recurrence_monthly)
+                                 else stringResource(Res.string.recurrence_every_n_months, interval)
+    ScheduleFrequency.YEARLY -> if (interval == 1) stringResource(Res.string.recurrence_yearly)
+                                else stringResource(Res.string.recurrence_every_n_years, interval)
 }

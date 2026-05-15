@@ -5,6 +5,8 @@ import domain.structs.DashboardSummary
 import application.dashboard.DashboardHandler
 import infrastructure.di.ApplicationContainer
 import kotlinx.coroutines.flow.MutableStateFlow
+import viewModel.shared.AppEvents
+import viewModel.shared.UiEvent
 
 class DashboardViewModel(
     private val dashboardHandler: DashboardHandler = ApplicationContainer.dashboardHandler,
@@ -20,9 +22,11 @@ class DashboardViewModel(
     }
 
     fun reload() {
-        isLoading.value = true
-        summary.value = dashboardHandler.buildSummary(period.value)
-        isLoading.value = false
+        runCatching {
+            isLoading.value = true
+            summary.value = dashboardHandler.buildSummary(period.value)
+        }.onFailure { AppEvents.emit(UiEvent.Error(it.localizedMessage ?: "Erro desconhecido")) }
+         .also { isLoading.value = false }
     }
 
     init {

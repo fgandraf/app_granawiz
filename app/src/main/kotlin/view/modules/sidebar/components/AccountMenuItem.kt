@@ -140,10 +140,10 @@ fun DropDownAccountMenu(
             if (deleteDialog)
 
                 DialogDelete(
-                    title = "Excluir conta",
+                    title = stringResource(Res.string.delete_account_title),
                     icon = PhosphorIcons.Regular.Wallet,
                     objectName = "${account.group.name}/${account.name}",
-                    alertText = "Isso irá excluir permanentemente a conta ${account.group.name} → ${account.name}, bem como todas as transações associadas a ela.",
+                    alertText = stringResource(Res.string.delete_account_confirm, account.group.name, account.name),
                     onClickButton = {
                         viewModel.deleteAccount(account)
                         viewModel.reload()

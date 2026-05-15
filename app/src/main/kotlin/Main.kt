@@ -1,9 +1,11 @@
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,6 +29,8 @@ import view.theme.DarkColorScheme
 import view.theme.LightColorScheme
 import viewModel.SidebarViewModel
 import viewModel.UserPreferences
+import viewModel.shared.AppEvents
+import viewModel.shared.UiEvent
 import java.awt.Toolkit
 import java.awt.geom.RoundRectangle2D
 import java.util.*
@@ -156,6 +160,23 @@ fun main() = application {
 
                     var currentScreen by remember { mutableStateOf<Screen>(Screen.Dashboard) }
                     val sidebarViewModel = remember { SidebarViewModel() }
+
+                    var appError by remember { mutableStateOf<String?>(null) }
+                    LaunchedEffect(Unit) {
+                        AppEvents.events.collect { event ->
+                            if (event is UiEvent.Error) appError = event.message
+                        }
+                    }
+                    if (appError != null) {
+                        AlertDialog(
+                            onDismissRequest = { appError = null },
+                            title = { Text("Erro") },
+                            text = { Text(appError!!) },
+                            confirmButton = {
+                                TextButton(onClick = { appError = null }) { Text("OK") }
+                            }
+                        )
+                    }
 
                     Column(modifier = Modifier.fillMaxSize().clip(RoundedCornerShape(10.dp))) {
                         CustomTitleBar(

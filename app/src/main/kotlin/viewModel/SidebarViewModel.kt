@@ -6,6 +6,8 @@ import application.account.AccountHandler
 import infrastructure.di.ApplicationContainer
 import application.group.GroupHandler
 import kotlinx.coroutines.flow.MutableStateFlow
+import viewModel.shared.AppEvents
+import viewModel.shared.UiEvent
 
 class SidebarViewModel(
     private val groupHandler: GroupHandler = ApplicationContainer.groupHandler,
@@ -14,40 +16,58 @@ class SidebarViewModel(
 
     var total = MutableStateFlow(0.0)
     fun getTotal() {
-        total.value = groupHandler.fetchTotalBalance()
+        runCatching {
+            total.value = groupHandler.fetchTotalBalance()
+        }.onFailure { AppEvents.emit(UiEvent.Error(it.localizedMessage ?: "Erro desconhecido")) }
     }
 
     var groups = MutableStateFlow(emptyList<Group>())
     fun getGroups() {
-        groups.value = groupHandler.fetchGroups()
+        runCatching {
+            groups.value = groupHandler.fetchGroups()
+        }.onFailure { AppEvents.emit(UiEvent.Error(it.localizedMessage ?: "Erro desconhecido")) }
     }
 
     fun fetchGroupBalance(group: Group): Double {
-        return groupHandler.fetchGroupBalance(group)
+        return runCatching { groupHandler.fetchGroupBalance(group) }
+            .onFailure { AppEvents.emit(UiEvent.Error(it.localizedMessage ?: "Erro desconhecido")) }
+            .getOrDefault(0.0)
     }
 
     fun renameGroup(group: Group, name: String) {
-        groupHandler.renameGroup(group, name); getGroups()
+        runCatching {
+            groupHandler.renameGroup(group, name); getGroups()
+        }.onFailure { AppEvents.emit(UiEvent.Error(it.localizedMessage ?: "Erro desconhecido")) }
     }
 
     fun moveGroupPosition(group: Group, direction: Int) {
-        groupHandler.moveGroupPosition(groups.value, group, direction); getGroups()
+        runCatching {
+            groupHandler.moveGroupPosition(groups.value, group, direction); getGroups()
+        }.onFailure { AppEvents.emit(UiEvent.Error(it.localizedMessage ?: "Erro desconhecido")) }
     }
 
     fun moveAccountPosition(account: BankAccount, direction: Int) {
-        accountHandler.moveAccountPosition(groups.value, account, direction); getGroups()
+        runCatching {
+            accountHandler.moveAccountPosition(groups.value, account, direction); getGroups()
+        }.onFailure { AppEvents.emit(UiEvent.Error(it.localizedMessage ?: "Erro desconhecido")) }
     }
 
     fun deleteGroup(group: Group) {
-        groupHandler.deleteGroup(group); getGroups()
+        runCatching {
+            groupHandler.deleteGroup(group); getGroups()
+        }.onFailure { AppEvents.emit(UiEvent.Error(it.localizedMessage ?: "Erro desconhecido")) }
     }
 
     fun addNewGroup(name: String) {
-        groupHandler.addNewGroup(name); getGroups()
+        runCatching {
+            groupHandler.addNewGroup(name); getGroups()
+        }.onFailure { AppEvents.emit(UiEvent.Error(it.localizedMessage ?: "Erro desconhecido")) }
     }
 
     fun deleteAccount(account: BankAccount) {
-        accountHandler.deleteAccount(account); reload()
+        runCatching {
+            accountHandler.deleteAccount(account); reload()
+        }.onFailure { AppEvents.emit(UiEvent.Error(it.localizedMessage ?: "Erro desconhecido")) }
     }
 
     fun reload() {
@@ -57,5 +77,4 @@ class SidebarViewModel(
     init {
         reload()
     }
-
 }

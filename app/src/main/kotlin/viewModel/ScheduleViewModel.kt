@@ -11,6 +11,8 @@ import application.schedule.ScheduleHandler
 import application.schedule.usecases.ScheduleOccurrence
 import application.transaction.TransactionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
+import viewModel.shared.AppEvents
+import viewModel.shared.UiEvent
 import java.io.File
 import java.time.LocalDateTime
 
@@ -28,14 +30,18 @@ class ScheduleViewModel(
     var paidTransactions = MutableStateFlow(emptyList<Transaction>())
 
     fun getSchedules() {
-        schedules.value = scheduleHandler.fetchSchedules(account = selectedAccount)
-        paidTransactions.value = transactionHandler.fetchTransactions(account = selectedAccount)
-            .filter { it.scheduleId != null && it.originalDueDate != null }
+        runCatching {
+            schedules.value = scheduleHandler.fetchSchedules(account = selectedAccount)
+            paidTransactions.value = transactionHandler.fetchTransactions(account = selectedAccount)
+                .filter { it.scheduleId != null && it.originalDueDate != null }
+        }.onFailure { AppEvents.emit(UiEvent.Error(it.localizedMessage ?: "Erro desconhecido")) }
     }
 
     var groups = MutableStateFlow(emptyList<Group>())
     fun getGroups() {
-        groups.value = groupHandler.fetchGroups()
+        runCatching {
+            groups.value = groupHandler.fetchGroups()
+        }.onFailure { AppEvents.emit(UiEvent.Error(it.localizedMessage ?: "Erro desconhecido")) }
     }
 
     init {
@@ -44,33 +50,44 @@ class ScheduleViewModel(
     }
 
     fun deleteThisOccurrence(occurrence: ScheduleOccurrence) {
-        scheduleHandler.deleteThisOccurrence(occurrence)
-        getSchedules()
+        runCatching {
+            scheduleHandler.deleteThisOccurrence(occurrence)
+            getSchedules()
+        }.onFailure { AppEvents.emit(UiEvent.Error(it.localizedMessage ?: "Erro desconhecido")) }
     }
 
     fun deleteThisAndFuture(occurrence: ScheduleOccurrence) {
-        scheduleHandler.deleteThisAndFuture(occurrence)
-        getSchedules()
+        runCatching {
+            scheduleHandler.deleteThisAndFuture(occurrence)
+            getSchedules()
+        }.onFailure { AppEvents.emit(UiEvent.Error(it.localizedMessage ?: "Erro desconhecido")) }
     }
 
     fun markAsPaid(occurrence: ScheduleOccurrence) {
-        scheduleHandler.markAsPaid(occurrence.schedule, occurrence.dueDate, occurrence.index)
-        val accountTransactions = transactionHandler.fetchTransactions(account = occurrence.schedule.account)
-        accountHandler.updateBalance(occurrence.schedule.account.id, accountTransactions.sumOf { it.balance })
-        getSchedules()
+        runCatching {
+            scheduleHandler.markAsPaid(occurrence.schedule, occurrence.dueDate, occurrence.index)
+            val accountTransactions = transactionHandler.fetchTransactions(account = occurrence.schedule.account)
+            accountHandler.updateBalance(occurrence.schedule.account.id, accountTransactions.sumOf { it.balance })
+            getSchedules()
+        }.onFailure { AppEvents.emit(UiEvent.Error(it.localizedMessage ?: "Erro desconhecido")) }
     }
 
-    fun exportToExcel(occurrences: List<ScheduleOccurrence>, file: File) =
-        scheduleHandler.exportSchedulesToExcel(occurrences, file)
+    fun exportToExcel(occurrences: List<ScheduleOccurrence>, file: File) {
+        runCatching {
+            scheduleHandler.exportSchedulesToExcel(occurrences, file)
+        }.onFailure { AppEvents.emit(UiEvent.Error(it.localizedMessage ?: "Erro desconhecido")) }
+    }
 
     fun buildOccurrences(
         windowStart: LocalDateTime,
         windowEnd: LocalDateTime,
     ): List<ScheduleOccurrence> {
-        val paid = paidTransactions.value
-        return schedules.value.flatMap { schedule ->
-            scheduleHandler.generateOccurrences(schedule, windowStart, windowEnd, paid)
-        }.sortedBy { it.dueDate }
+        return runCatching {
+            val paid = paidTransactions.value
+            schedules.value.flatMap { schedule ->
+                scheduleHandler.generateOccurrences(schedule, windowStart, windowEnd, paid)
+            }.sortedBy { it.dueDate }
+        }.onFailure { AppEvents.emit(UiEvent.Error(it.localizedMessage ?: "Erro desconhecido")) }
+         .getOrDefault(emptyList())
     }
-
 }

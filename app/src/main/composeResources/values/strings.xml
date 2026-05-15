@@ -298,5 +298,17 @@
 
     <!-- ─── Confirmation dialog ───────────────────────────────────────────── -->
     <string name="confirm_delete_input_label">Type "%1$s"</string>
+    <string name="confirm">Confirm</string>
+
+    <!-- ─── Account icon selector ───────────────────────────────────────── -->
+    <string name="account_icon_custom_title">Custom icon</string>
+    <string name="account_icon_custom_name_hint">Enter a name to identify this icon.</string>
+
+    <!-- ─── Account delete ───────────────────────────────────────────────── -->
+    <string name="delete_account_title">Delete account</string>
+    <string name="delete_account_confirm">This will permanently delete account %1$s → %2$s and all associated transactions.</string>
+
+    <!-- ─── Schedule row ─────────────────────────────────────────────────── -->
+    <string name="schedule_confirm_payment">Confirm payment of this schedule?</string>
 
 </resources>

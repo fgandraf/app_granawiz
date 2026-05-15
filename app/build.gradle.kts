@@ -55,10 +55,19 @@ dependencies {
     // OFX parsing
     implementation("com.webcohesion.ofx4j:ofx4j:1.39")
 
+    // Testing
+    testImplementation(kotlin("test"))
+    testImplementation("org.junit.jupiter:junit-jupiter:5.10.2")
+    testImplementation("io.mockk:mockk:1.13.10")
+    testImplementation("com.h2database:h2:2.2.224")
 }
 
 tasks.withType<JavaExec> {
     jvmArgs("--enable-native-access=ALL-UNNAMED")
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }
 
 compose.resources {
