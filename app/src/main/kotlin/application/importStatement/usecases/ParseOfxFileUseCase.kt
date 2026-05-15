@@ -63,7 +63,6 @@ class ParseOfxFileUseCase {
         }
     } catch (e: Exception) {
         onLog("Erro ao ler o arquivo: ${e.message ?: "erro desconhecido"}", LogLevel.ERROR)
-        //onLog("O arquivo não parece ser um extrato OFX válido. Verifique se foi exportado corretamente pelo seu banco.", LogLevel.ERROR)
         emptyList()
     }
 }

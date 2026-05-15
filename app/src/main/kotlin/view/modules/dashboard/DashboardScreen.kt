@@ -86,7 +86,7 @@ fun DashboardScreen() {
                 .padding(horizontal = 20.dp, vertical = 10.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            //---- Linha 1: Patrimônio + Fluxo + Ritmo
+            //---- Row 1: Net Worth + Cash Flow + Pace
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 NetWorthCard(modifier = Modifier.weight(1f), snapshot = current.netWorth)
                 CashFlowCard(
@@ -97,16 +97,16 @@ fun DashboardScreen() {
                 SpendingPaceCard(modifier = Modifier.weight(1f), pace = current.spendingPace)
             }
 
-            //---- Linha 2: Categorias + Evolução
+            //---- Row 2: Categories + Evolution
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 CategoryBreakdownCard(modifier = Modifier.weight(1f), breakdown = current.categoryBreakdown)
                 MonthlyEvolutionCard(modifier = Modifier.weight(1f), data = current.monthlyEvolution)
             }
 
-            //---- Linha 3: Cartões (largura inteira)
+            //---- Row 3: Credit Cards (full width)
             CreditCardsCard(modifier = Modifier.fillMaxWidth(), snapshots = current.creditCards)
 
-            //---- Linha 4: Top beneficiários + Top despesas + Lançamentos futuros
+            //---- Row 4: Top parties + Top expenses + Upcoming
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 TopPartiesCard(modifier = Modifier.weight(1f), parties = current.topParties)
                 TopTransactionsCard(modifier = Modifier.weight(1f), transactions = current.topTransactions)

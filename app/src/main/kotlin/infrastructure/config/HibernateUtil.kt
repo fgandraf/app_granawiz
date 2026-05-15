@@ -16,7 +16,6 @@ object HibernateUtil {
     init {
         val configuration = Configuration()
 
-        // Registro das classes de entidade
         configuration.addAnnotatedClass(Group::class.java)
         configuration.addAnnotatedClass(Tag::class.java)
         configuration.addAnnotatedClass(Party::class.java)
@@ -31,7 +30,6 @@ object HibernateUtil {
         configuration.addAnnotatedClass(SavingsAccount::class.java)
         configuration.addAnnotatedClass(UserPreference::class.java)
 
-        // Propriedades do Hibernate
         val settings = Properties()
         settings["hibernate.connection.driver_class"] = "org.sqlite.JDBC"
         settings["hibernate.connection.url"] = "jdbc:sqlite:${AppConfig.dbAbsolutePath}?foreign_keys=on"

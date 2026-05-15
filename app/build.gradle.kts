@@ -30,16 +30,16 @@ dependencies {
     implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
 
-    // Driver JDBC para SQLite
-    implementation("org.xerial:sqlite-jdbc:3.48.0.0")
+    // SQLite
+    implementation("org.xerial:sqlite-jdbc:3.53.1.0")
 
     // Hibernate
-    implementation("org.hibernate.orm:hibernate-core:6.4.4.Final") // Hibernate Core
-    implementation("org.hibernate.orm:hibernate-hikaricp:6.4.4.Final") // Gerenciamento de conexões
-    implementation("org.hibernate.orm:hibernate-community-dialects:6.4.4.Final") // Community Dialects
+    implementation("org.hibernate.orm:hibernate-core:6.6.50.Final")
+    implementation("org.hibernate.orm:hibernate-hikaricp:6.6.50.Final")
+    implementation("org.hibernate.orm:hibernate-community-dialects:6.6.50.Final")
 
     // Flyway
-    implementation("org.flywaydb:flyway-core:11.1.1") // Flyway para migrações
+    implementation("org.flywaydb:flyway-core:11.1.1")
 
 
     // Logging
@@ -49,8 +49,8 @@ dependencies {
     implementation("com.adamglin:phosphor-icon:1.0.0")
 
     // Excel export
-    implementation("org.apache.poi:poi-ooxml:5.4.0")
-    implementation("org.apache.logging.log4j:log4j-to-slf4j:2.24.3")
+    implementation("org.apache.poi:poi-ooxml:5.5.1")
+    implementation("org.apache.logging.log4j:log4j-to-slf4j:2.26.0")
 
     // OFX parsing
     implementation("com.webcohesion.ofx4j:ofx4j:1.39")

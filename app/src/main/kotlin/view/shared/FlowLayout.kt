@@ -20,7 +20,6 @@ fun FlowLayout(
         measurables.forEach { measurable ->
             val placeable = measurable.measure(constraints)
             if (rowWidth + placeable.width > maxWidthPx && currentRow.isNotEmpty()) {
-                // Adiciona a linha atual na lista de linhas e começa uma nova
                 rows.add(currentRow)
                 rowHeights.add(currentRow.maxOf { it.height })
                 currentRow = mutableListOf()
@@ -30,7 +29,6 @@ fun FlowLayout(
             rowWidth += placeable.width
         }
 
-        // Adiciona a última linha se contiver elementos
         if (currentRow.isNotEmpty()) {
             rows.add(currentRow)
             rowHeights.add(currentRow.maxOf { it.height })

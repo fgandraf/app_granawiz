@@ -18,11 +18,9 @@ class CategoryRepository : ICategoryRepository {
         val criteriaQuery = criteriaBuilder.createQuery(Category::class.java)
         val root = criteriaQuery.from(Category::class.java)
 
-        // Adicionando a condição para o atributo "category_type" ser "EXPENSE"
         val predicate = criteriaBuilder.equal(root.get<CategoryType>("type"), type)
         criteriaQuery.select(root).where(predicate)
 
-        // Ordenação por "name"
         criteriaQuery.orderBy(criteriaBuilder.asc(root.get<String>("name")))
 
         val categories = session.createQuery(criteriaQuery).resultList
