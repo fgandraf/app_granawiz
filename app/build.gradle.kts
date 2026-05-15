@@ -57,6 +57,10 @@ dependencies {
 
 }
 
+tasks.withType<JavaExec> {
+    jvmArgs("--enable-native-access=ALL-UNNAMED")
+}
+
 compose.resources {
     publicResClass = true
     packageOfResClass = "com.felipegandra.generated.resources"
@@ -66,6 +70,8 @@ compose.resources {
 compose.desktop {
     application {
         mainClass = "MainKt"
+
+        jvmArgs += listOf("--enable-native-access=ALL-UNNAMED")
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)

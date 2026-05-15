@@ -1,42 +1,41 @@
 package application.userPreference
 
+import domain.contracts.IUserPreferenceRepository
 import domain.entity.UserPreference
-import application.userPreference.usecases.FetchUserPreferenceUseCase
-import application.userPreference.usecases.UpdateUserPreferenceUseCase
+import infrastructure.repository.UserPreferenceRepository
 
 class UserPreferenceHandler {
-    private val fetchUseCase = FetchUserPreferenceUseCase()
-    private val updateUseCase = UpdateUserPreferenceUseCase()
+    private val dao: IUserPreferenceRepository = UserPreferenceRepository()
 
-    fun fetchPreferences(): UserPreference = fetchUseCase.execute()
+    fun fetchPreferences(): UserPreference = dao.get()
 
     fun updateTheme(isLightTheme: Boolean) {
-        val prefs = fetchUseCase.execute()
+        val prefs = dao.get()
         prefs.isLightTheme = isLightTheme
-        updateUseCase.execute(prefs)
+        dao.update(prefs)
     }
 
     fun updateCurrencySymbol(symbol: String) {
-        val prefs = fetchUseCase.execute()
+        val prefs = dao.get()
         prefs.currencySymbol = symbol
-        updateUseCase.execute(prefs)
+        dao.update(prefs)
     }
 
     fun updateCurrencyFormat(format: String) {
-        val prefs = fetchUseCase.execute()
+        val prefs = dao.get()
         prefs.currencyFormat = format
-        updateUseCase.execute(prefs)
+        dao.update(prefs)
     }
 
     fun updateLanguage(language: String) {
-        val prefs = fetchUseCase.execute()
+        val prefs = dao.get()
         prefs.language = language
-        updateUseCase.execute(prefs)
+        dao.update(prefs)
     }
 
     fun updateTitleBarStyle(style: String) {
-        val prefs = fetchUseCase.execute()
+        val prefs = dao.get()
         prefs.titleBarStyle = style
-        updateUseCase.execute(prefs)
+        dao.update(prefs)
     }
 }

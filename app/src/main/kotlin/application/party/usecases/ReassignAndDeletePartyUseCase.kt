@@ -1,12 +1,19 @@
 package application.party.usecases
 
-import domain.contracts.IPartyRepository
 import domain.entity.Party
-import infrastructure.repository.PartyRepository
+import infrastructure.config.transactional
 
-class ReassignAndDeletePartyUseCase(private val partyRepository: IPartyRepository = PartyRepository()) {
+class ReassignAndDeletePartyUseCase {
     fun execute(from: Party, to: Party) {
-        partyRepository.reassignTransactions(from, to)
-        partyRepository.delete(from)
+        transactional { session ->
+            val managedTo = session.merge(to)
+            val managedFrom = session.merge(from)
+            session.createMutationQuery(
+                "UPDATE Transaction t SET t.party = :to WHERE t.party = :from"
+            ).setParameter("to", managedTo)
+             .setParameter("from", managedFrom)
+             .executeUpdate()
+            session.remove(managedFrom)
+        }
     }
 }

@@ -7,8 +7,6 @@ import domain.entity.Transaction
 import domain.entity.account.BankAccount
 import domain.enums.TransactionType
 import infrastructure.config.HibernateUtil
-import jakarta.persistence.criteria.Predicate
-import org.hibernate.Hibernate
 import java.time.LocalDateTime
 
 class TransactionRepository : ITransactionRepository {
@@ -18,18 +16,14 @@ class TransactionRepository : ITransactionRepository {
     override fun getAll(): List<Transaction> {
         val session = sessionFactory.openSession()
         session.beginTransaction()
-        val criteriaBuilder = session.criteriaBuilder
-        val criteriaQuery = criteriaBuilder.createQuery(Transaction::class.java)
-        val root = criteriaQuery.from(Transaction::class.java)
-        criteriaQuery.orderBy(criteriaBuilder.desc(root.get<LocalDateTime>("date")))
-        val transactions = session.createQuery(criteriaQuery).resultList
-        transactions.forEach { transaction ->
-            Hibernate.initialize(transaction.party)
-            Hibernate.initialize(transaction.account)
-            Hibernate.initialize(transaction.category)
-            Hibernate.initialize(transaction.subcategory)
-            Hibernate.initialize(transaction.tags)
-        }
+        val transactions = session.createQuery(
+            """SELECT DISTINCT t FROM Transaction t
+               LEFT JOIN FETCH t.party LEFT JOIN FETCH t.account
+               LEFT JOIN FETCH t.category LEFT JOIN FETCH t.subcategory
+               LEFT JOIN FETCH t.tags
+               ORDER BY t.date DESC""",
+            Transaction::class.java,
+        ).resultList
         session.transaction.commit()
         session.close()
         return transactions
@@ -42,26 +36,18 @@ class TransactionRepository : ITransactionRepository {
     ): List<Transaction> {
         val session = sessionFactory.openSession()
         session.beginTransaction()
-        val cb = session.criteriaBuilder
-        val cq = cb.createQuery(Transaction::class.java)
-        val root = cq.from(Transaction::class.java)
-
-        val predicates = mutableListOf<Predicate>(
-            cb.between(root.get("date"), from, to)
-        )
-        if (type != null) predicates.add(cb.equal(root.get<TransactionType>("type"), type))
-
-        cq.where(*predicates.toTypedArray())
-        cq.orderBy(cb.desc(root.get<LocalDateTime>("date")))
-
-        val transactions = session.createQuery(cq).resultList
-        transactions.forEach { transaction ->
-            Hibernate.initialize(transaction.party)
-            Hibernate.initialize(transaction.account)
-            Hibernate.initialize(transaction.category)
-            Hibernate.initialize(transaction.subcategory)
-            Hibernate.initialize(transaction.tags)
-        }
+        val typeClause = if (type != null) " AND t.type = :type" else ""
+        val query = session.createQuery(
+            """SELECT DISTINCT t FROM Transaction t
+               LEFT JOIN FETCH t.party LEFT JOIN FETCH t.account
+               LEFT JOIN FETCH t.category LEFT JOIN FETCH t.subcategory
+               LEFT JOIN FETCH t.tags
+               WHERE t.date BETWEEN :from AND :to$typeClause
+               ORDER BY t.date DESC""",
+            Transaction::class.java,
+        ).setParameter("from", from).setParameter("to", to)
+        if (type != null) query.setParameter("type", type)
+        val transactions = query.resultList
         session.transaction.commit()
         session.close()
         return transactions
@@ -70,22 +56,15 @@ class TransactionRepository : ITransactionRepository {
     override fun getAllByAccount(account: BankAccount): List<Transaction> {
         val session = sessionFactory.openSession()
         session.beginTransaction()
-        val criteriaBuilder = session.criteriaBuilder
-
-        val criteriaQuery = criteriaBuilder.createQuery(Transaction::class.java)
-
-        val root = criteriaQuery.from(Transaction::class.java)
-        criteriaQuery.where(criteriaBuilder.equal(root.get<BankAccount>("account"), account))
-        criteriaQuery.orderBy(criteriaBuilder.desc(root.get<LocalDateTime>("date")))
-
-        val transactions = session.createQuery(criteriaQuery).resultList
-        transactions.forEach { transaction ->
-            Hibernate.initialize(transaction.party)
-            Hibernate.initialize(transaction.account)
-            Hibernate.initialize(transaction.category)
-            Hibernate.initialize(transaction.subcategory)
-            Hibernate.initialize(transaction.tags)
-        }
+        val transactions = session.createQuery(
+            """SELECT DISTINCT t FROM Transaction t
+               LEFT JOIN FETCH t.party LEFT JOIN FETCH t.account
+               LEFT JOIN FETCH t.category LEFT JOIN FETCH t.subcategory
+               LEFT JOIN FETCH t.tags
+               WHERE t.account = :account
+               ORDER BY t.date DESC""",
+            Transaction::class.java,
+        ).setParameter("account", account).resultList
         session.transaction.commit()
         session.close()
         return transactions
@@ -94,18 +73,14 @@ class TransactionRepository : ITransactionRepository {
     override fun getAllByCategory(category: Category): List<Transaction> {
         val session = sessionFactory.openSession()
         session.beginTransaction()
-        val cb = session.criteriaBuilder
-        val cq = cb.createQuery(Transaction::class.java)
-        val root = cq.from(Transaction::class.java)
-        cq.where(cb.equal(root.get<Category>("category"), category))
-        val transactions = session.createQuery(cq).resultList
-        transactions.forEach { transaction ->
-            Hibernate.initialize(transaction.party)
-            Hibernate.initialize(transaction.account)
-            Hibernate.initialize(transaction.category)
-            Hibernate.initialize(transaction.subcategory)
-            Hibernate.initialize(transaction.tags)
-        }
+        val transactions = session.createQuery(
+            """SELECT DISTINCT t FROM Transaction t
+               LEFT JOIN FETCH t.party LEFT JOIN FETCH t.account
+               LEFT JOIN FETCH t.category LEFT JOIN FETCH t.subcategory
+               LEFT JOIN FETCH t.tags
+               WHERE t.category = :category""",
+            Transaction::class.java,
+        ).setParameter("category", category).resultList
         session.transaction.commit()
         session.close()
         return transactions
@@ -114,18 +89,14 @@ class TransactionRepository : ITransactionRepository {
     override fun getAllBySubcategory(subcategory: Subcategory): List<Transaction> {
         val session = sessionFactory.openSession()
         session.beginTransaction()
-        val cb = session.criteriaBuilder
-        val cq = cb.createQuery(Transaction::class.java)
-        val root = cq.from(Transaction::class.java)
-        cq.where(cb.equal(root.get<Subcategory>("subcategory"), subcategory))
-        val transactions = session.createQuery(cq).resultList
-        transactions.forEach { transaction ->
-            Hibernate.initialize(transaction.party)
-            Hibernate.initialize(transaction.account)
-            Hibernate.initialize(transaction.category)
-            Hibernate.initialize(transaction.subcategory)
-            Hibernate.initialize(transaction.tags)
-        }
+        val transactions = session.createQuery(
+            """SELECT DISTINCT t FROM Transaction t
+               LEFT JOIN FETCH t.party LEFT JOIN FETCH t.account
+               LEFT JOIN FETCH t.category LEFT JOIN FETCH t.subcategory
+               LEFT JOIN FETCH t.tags
+               WHERE t.subcategory = :subcategory""",
+            Transaction::class.java,
+        ).setParameter("subcategory", subcategory).resultList
         session.transaction.commit()
         session.close()
         return transactions
@@ -134,19 +105,15 @@ class TransactionRepository : ITransactionRepository {
     override fun findByScheduleId(scheduleId: Long): List<Transaction> {
         val session = sessionFactory.openSession()
         session.beginTransaction()
-        val cb = session.criteriaBuilder
-        val cq = cb.createQuery(Transaction::class.java)
-        val root = cq.from(Transaction::class.java)
-        cq.where(cb.equal(root.get<Long>("scheduleId"), scheduleId))
-        cq.orderBy(cb.asc(root.get<LocalDateTime>("date")))
-        val transactions = session.createQuery(cq).resultList
-        transactions.forEach { transaction ->
-            Hibernate.initialize(transaction.party)
-            Hibernate.initialize(transaction.account)
-            Hibernate.initialize(transaction.category)
-            Hibernate.initialize(transaction.subcategory)
-            Hibernate.initialize(transaction.tags)
-        }
+        val transactions = session.createQuery(
+            """SELECT DISTINCT t FROM Transaction t
+               LEFT JOIN FETCH t.party LEFT JOIN FETCH t.account
+               LEFT JOIN FETCH t.category LEFT JOIN FETCH t.subcategory
+               LEFT JOIN FETCH t.tags
+               WHERE t.scheduleId = :scheduleId
+               ORDER BY t.date ASC""",
+            Transaction::class.java,
+        ).setParameter("scheduleId", scheduleId).resultList
         session.transaction.commit()
         session.close()
         return transactions
@@ -171,10 +138,10 @@ class TransactionRepository : ITransactionRepository {
     override fun delete(transaction: Transaction) {
         val session = sessionFactory.openSession()
         session.beginTransaction()
-        session.remove(session.merge(transaction))
+        val managed = session.merge(transaction)
+        managed.tags?.clear()
+        session.remove(managed)
         session.transaction.commit()
         session.close()
     }
-
-
 }

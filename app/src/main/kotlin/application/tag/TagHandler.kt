@@ -1,22 +1,15 @@
 package application.tag
 
+import domain.contracts.ITagRepository
 import domain.entity.Tag
-import application.tag.usecases.AddTagUseCase
-import application.tag.usecases.DeleteTagUseCase
-import application.tag.usecases.FetchTagsUseCase
-import application.tag.usecases.UpdateTagUseCase
+import infrastructure.repository.TagRepository
 
 class TagHandler {
 
-    private val addTagUseCase = AddTagUseCase()
-    private val deleteTagUseCase = DeleteTagUseCase()
-    private val fetchTagsUseCase = FetchTagsUseCase()
-    private val updateTagUseCase = UpdateTagUseCase()
+    private val tagRepository: ITagRepository = TagRepository()
 
-
-    fun addTag(name: String) = addTagUseCase.execute(name)
-    fun deleteTag(tag: Tag) = deleteTagUseCase.execute(tag)
-    fun fetchTags(): List<Tag> = fetchTagsUseCase.execute()
-    fun updateTag(tag: Tag, name: String) = updateTagUseCase.execute(tag, name)
-
+    fun addTag(name: String) = tagRepository.insert(Tag(name = name))
+    fun deleteTag(tag: Tag) = tagRepository.delete(tag)
+    fun fetchTags(): List<Tag> = tagRepository.getAll()
+    fun updateTag(tag: Tag, name: String) = tagRepository.update(Tag(id = tag.id, name = name))
 }

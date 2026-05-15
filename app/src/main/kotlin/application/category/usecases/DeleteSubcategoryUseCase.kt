@@ -1,21 +1,19 @@
 package application.category.usecases
 
-import domain.contracts.ICategoryRepository
-import domain.contracts.ITransactionRepository
 import domain.entity.Subcategory
-import infrastructure.repository.CategoryRepository
-import infrastructure.repository.TransactionRepository
+import infrastructure.config.transactional
 
-class DeleteSubcategoryUseCase(
-    private val categoryRepository: ICategoryRepository = CategoryRepository(),
-    private val transactionRepository: ITransactionRepository = TransactionRepository(),
-) {
-
+class DeleteSubcategoryUseCase {
     fun execute(subcategory: Subcategory) {
-        transactionRepository.getAllBySubcategory(subcategory).forEach { transaction ->
-            transactionRepository.update(transaction.copy(subcategory = null))
+        transactional { session ->
+            session.createMutationQuery(
+                "UPDATE Transaction t SET t.subcategory = null WHERE t.subcategory = :sc"
+            ).setParameter("sc", session.getReference(Subcategory::class.java, subcategory.id))
+             .executeUpdate()
+            session.createMutationQuery(
+                "DELETE FROM Subcategory s WHERE s.id = :id"
+            ).setParameter("id", subcategory.id)
+             .executeUpdate()
         }
-        categoryRepository.deleteSubcategory(subcategory)
     }
-
 }
