@@ -78,6 +78,7 @@ fun ScheduleScreen(
     val strScheduleEditTitle = stringResource(Res.string.schedule_edit_title)
     val strScheduleNewIncome = stringResource(Res.string.schedule_new_income)
     val strScheduleNewExpense = stringResource(Res.string.schedule_new_expense)
+    val strExportDialogTitle = stringResource(Res.string.schedule_export_dialog_title)
 
     val scope = rememberCoroutineScope()
 
@@ -212,7 +213,6 @@ fun ScheduleScreen(
                                             Spacer(Modifier.height(20.dp))
                                             items.forEach { occ ->
                                                 ScheduleRow(
-                                                    viewModel = viewModel,
                                                     occurrence = occ,
                                                     overdue = occ.dueDate.isBefore(today.atStartOfDay()),
                                                     onEdit = {
@@ -227,7 +227,12 @@ fun ScheduleScreen(
                                                             name = strScheduleEditTitle
                                                         )
                                                     },
-                                                    onSidebarReload = onSidebarReload
+                                                    onMarkAsPaid = {
+                                                        viewModel.markAsPaid(occ)
+                                                        onSidebarReload()
+                                                    },
+                                                    onDeleteThisOccurrence = { viewModel.deleteThisOccurrence(occ) },
+                                                    onDeleteThisAndFuture = { viewModel.deleteThisAndFuture(occ) },
                                                 )
                                             }
                                             Spacer(Modifier.height(20.dp))
@@ -266,61 +271,43 @@ fun ScheduleScreen(
                     }
                 }
 
-                Box(modifier = Modifier.fillMaxHeight()) {
-                    VerticalScrollbar(
-                        adapter = rememberScrollbarAdapter(listState),
-                        modifier = Modifier.fillMaxHeight().align(Alignment.CenterEnd)
-                    )
-                    Row(
-                        modifier = Modifier.fillMaxHeight().width(45.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(topStart = 14.dp, bottomStart = 14.dp))
-                                .background(MaterialTheme.colors.surface)
-                                .padding(vertical = 5.dp)
-                        ) {
-                            if (schedulesState.isNotEmpty()) {
-                                FilterTransactionBar(
-                                    items = viewModel.schedules,
-                                    searchQuery = searchQuery,
-                                    filterAccount = filterAccount,
-                                    onFilterAccountChange = { filterAccount = it },
-                                    filterType = filterType,
-                                    onFilterTypeChange = { filterType = it },
-                                    filterCategoryItem = filterCategoryItem,
-                                    onFilterCategoryItemChange = { filterCategoryItem = it },
-                                    filterTag = filterTag,
-                                    onFilterTagChange = { filterTag = it },
-                                    groups = viewModel.groups,
-                                    onClearFilters = {
-                                        filterAccount = null
-                                        filterType = null
-                                        filterCategoryItem = null
-                                        filterTag = null
-                                    },
-                                    onExport = {
-                                        val dialog = FileDialog(null as Frame?, "Exportar agendamentos para Excel", FileDialog.SAVE)
-                                        dialog.file = "agendamentos_${LocalDate.now()}.xlsx"
-                                        dialog.isVisible = true
-                                        val dir = dialog.directory
-                                        val name = dialog.file
-                                        dialog.dispose()
-                                        if (dir != null && name != null) {
-                                            val safeName = if (name.endsWith(".xlsx")) name else "$name.xlsx"
-                                            val target = File(dir, safeName)
-                                            scope.launch(Dispatchers.IO) {
-                                                viewModel.exportToExcel(filtered, target)
-                                            }
-                                        }
-                                    },
-                                    exportLabel = Res.string.filter_export_to_excel
-                                )
+                FilterTransactionBar(
+                    listState = listState,
+                    visible = schedulesState.isNotEmpty(),
+                    items = viewModel.schedules,
+                    searchQuery = searchQuery,
+                    filterAccount = filterAccount,
+                    onFilterAccountChange = { filterAccount = it },
+                    filterType = filterType,
+                    onFilterTypeChange = { filterType = it },
+                    filterCategoryItem = filterCategoryItem,
+                    onFilterCategoryItemChange = { filterCategoryItem = it },
+                    filterTag = filterTag,
+                    onFilterTagChange = { filterTag = it },
+                    groups = viewModel.groups,
+                    onClearFilters = {
+                        filterAccount = null
+                        filterType = null
+                        filterCategoryItem = null
+                        filterTag = null
+                    },
+                    onExport = {
+                        val dialog = FileDialog(null as Frame?, strExportDialogTitle, FileDialog.SAVE)
+                        dialog.file = "agendamentos_${LocalDate.now()}.xlsx"
+                        dialog.isVisible = true
+                        val dir = dialog.directory
+                        val name = dialog.file
+                        dialog.dispose()
+                        if (dir != null && name != null) {
+                            val safeName = if (name.endsWith(".xlsx")) name else "$name.xlsx"
+                            val target = File(dir, safeName)
+                            scope.launch(Dispatchers.IO) {
+                                viewModel.exportToExcel(filtered, target)
                             }
                         }
-                    }
-                }
+                    },
+                    exportLabel = Res.string.filter_export_to_excel
+                )
             }
         }
 

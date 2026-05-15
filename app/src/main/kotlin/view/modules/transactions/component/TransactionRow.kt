@@ -32,15 +32,13 @@ import org.jetbrains.compose.resources.stringResource
 import utils.IconPaths
 import utils.formatNumber
 import view.shared.*
-import viewModel.TransactionViewModel
 import java.time.format.TextStyle
 import java.util.*
 
 @Composable
 fun TransactionRow(
-    viewModel: TransactionViewModel,
     transaction: Transaction,
-    onDeleted: () -> Unit = {},
+    onDelete: () -> Unit,
     onClick: () -> Unit
 ){
 
@@ -127,7 +125,7 @@ fun TransactionRow(
                     .weight(1f)
                     .padding(end = 10.dp)
             ) {
-                if (transaction.tags?.isNotEmpty()!!) {
+                if (transaction.tags?.isNotEmpty() == true) {
                     transaction.tags?.forEach { tag ->
                         Row {
                             Icon(
@@ -180,16 +178,14 @@ fun TransactionRow(
                         var showDeleteTransaction by remember { mutableStateOf(false) }
                         ClickableRow(icon = PhosphorIcons.Light.Trash, label = stringResource(Res.string.delete)) { showDeleteTransaction = true }
                         if (showDeleteTransaction) {
-                            val deleteMessage = if (transaction.scheduleId != null) {
-                                "Esta transação faz parte de um parcelamento e a mesma voltará para itens agendados.\n\nTem certeza que deseja continuar?"
-                            } else {
-                                "Tem certeza que deseja excluir essa transação?"
-                            }
+                            val deleteMessage = if (transaction.scheduleId != null)
+                                stringResource(Res.string.transaction_delete_schedule_warning)
+                            else
+                                stringResource(Res.string.transaction_delete_confirm)
                             SimpleQuestionDialog(
                                 message = deleteMessage,
                                 onConfirmRequest = {
-                                    viewModel.deleteTransaction(transaction)
-                                    onDeleted()
+                                    onDelete()
                                     showDeleteTransaction = false
                                     showEditTransaction = false
                                 },

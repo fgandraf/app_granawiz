@@ -9,7 +9,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import utils.formatCurrency
@@ -24,7 +23,6 @@ fun TotalFooter(
 ) {
 
     val corners = RoundedCornerShape(bottomEnd = 5.dp, bottomStart = 5.dp)
-    var boxWidth by remember { mutableStateOf(0) }
 
     Box(
         modifier.fillMaxWidth().offset(y = (-1).dp)
@@ -37,7 +35,6 @@ fun TotalFooter(
                 .clip(corners)
                 .border(0.5.dp, MaterialTheme.colors.onSurface, corners)
                 .background(MaterialTheme.colors.background.copy(0.6f))
-                .onGloballyPositioned { boxWidth = it.size.width }
         ) {
             Row(
                 modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),

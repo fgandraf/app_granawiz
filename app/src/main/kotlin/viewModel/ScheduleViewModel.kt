@@ -11,6 +11,8 @@ import application.schedule.ScheduleHandler
 import application.schedule.usecases.ScheduleOccurrence
 import application.transaction.TransactionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import viewModel.shared.AppEvents
 import viewModel.shared.UiEvent
 import java.io.File
@@ -26,21 +28,26 @@ class ScheduleViewModel(
 
     var selectedAccount = account
 
-    var schedules = MutableStateFlow(emptyList<Schedule>())
-    var paidTransactions = MutableStateFlow(emptyList<Transaction>())
+    private val _schedules = MutableStateFlow(emptyList<Schedule>())
+    val schedules: StateFlow<List<Schedule>> = _schedules.asStateFlow()
+
+    private val _paidTransactions = MutableStateFlow(emptyList<Transaction>())
+    val paidTransactions: StateFlow<List<Transaction>> = _paidTransactions.asStateFlow()
 
     fun getSchedules() {
         runCatching {
-            schedules.value = scheduleHandler.fetchSchedules(account = selectedAccount)
-            paidTransactions.value = transactionHandler.fetchTransactions(account = selectedAccount)
+            _schedules.value = scheduleHandler.fetchSchedules(account = selectedAccount)
+            _paidTransactions.value = transactionHandler.fetchTransactions(account = selectedAccount)
                 .filter { it.scheduleId != null && it.originalDueDate != null }
         }.onFailure { AppEvents.emit(UiEvent.Error(it.localizedMessage ?: "Erro desconhecido")) }
     }
 
-    var groups = MutableStateFlow(emptyList<Group>())
+    private val _groups = MutableStateFlow(emptyList<Group>())
+    val groups: StateFlow<List<Group>> = _groups.asStateFlow()
+
     fun getGroups() {
         runCatching {
-            groups.value = groupHandler.fetchGroups()
+            _groups.value = groupHandler.fetchGroups()
         }.onFailure { AppEvents.emit(UiEvent.Error(it.localizedMessage ?: "Erro desconhecido")) }
     }
 
@@ -83,8 +90,8 @@ class ScheduleViewModel(
         windowEnd: LocalDateTime,
     ): List<ScheduleOccurrence> {
         return runCatching {
-            val paid = paidTransactions.value
-            schedules.value.flatMap { schedule ->
+            val paid = _paidTransactions.value
+            _schedules.value.flatMap { schedule ->
                 scheduleHandler.generateOccurrences(schedule, windowStart, windowEnd, paid)
             }.sortedBy { it.dueDate }
         }.onFailure { AppEvents.emit(UiEvent.Error(it.localizedMessage ?: "Erro desconhecido")) }

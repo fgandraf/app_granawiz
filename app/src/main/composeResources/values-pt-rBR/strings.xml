@@ -98,6 +98,9 @@
     <string name="transaction_new_income">Nova receita</string>
     <string name="transaction_new_expense">Nova despesa</string>
     <string name="transaction_import_statement">Importar extrato</string>
+    <string name="transaction_export_dialog_title">Exportar transações para CSV</string>
+    <string name="transaction_delete_confirm">Tem certeza que deseja excluir essa transação?</string>
+    <string name="transaction_delete_schedule_warning">Esta transação faz parte de um parcelamento e a mesma voltará para itens agendados.\n\nTem certeza que deseja continuar?</string>
 
     <!-- ─── Filter bar ────────────────────────────────────────────────────── -->
     <string name="filter_account">Conta</string>
@@ -150,6 +153,7 @@
     <string name="schedules_group_due_today">Vencendo hoje</string>
     <string name="schedules_group_due_this_month">Vencendo este mês</string>
     <string name="schedules_group_upcoming">Lançamentos futuros</string>
+    <string name="schedule_export_dialog_title">Exportar agendamentos para Excel</string>
     <string name="schedule_edit_title">Editar agendamento</string>
     <string name="schedule_new_income">Nova receita agendada</string>
     <string name="schedule_new_expense">Nova despesa agendada</string>

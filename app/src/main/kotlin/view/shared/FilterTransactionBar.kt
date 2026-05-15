@@ -1,8 +1,12 @@
 package view.shared
 
+import androidx.compose.foundation.VerticalScrollbar
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.rememberScrollbarAdapter
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
@@ -11,6 +15,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
@@ -30,11 +35,12 @@ import domain.entity.Tag
 import domain.entity.account.BankAccount
 import domain.enums.TransactionType
 import domain.structs.FilterEntry
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 @Composable
 fun FilterTransactionBar(
+    listState: LazyListState,
+    visible: Boolean,
     items: StateFlow<List<IFilterable>>,
     searchQuery: String,
     currentAccountView: BankAccount? = null,
@@ -49,7 +55,7 @@ fun FilterTransactionBar(
     filterYear: Int? = java.time.LocalDate.now().year,
     onFilterYearChange: (Int?) -> Unit = {},
     availableYears: List<Int> = emptyList(),
-    groups: MutableStateFlow<List<Group>>,
+    groups: StateFlow<List<Group>>,
     onExport: () -> Unit = {},
     exportLabel: StringResource = Res.string.filter_export_to_csv,
     onClearFilters: () -> Unit = {},
@@ -73,49 +79,67 @@ fun FilterTransactionBar(
         }
     }
 
-    Column(
-        verticalArrangement = Arrangement.spacedBy(5.dp)
-    ) {
-
-        ClearFiltersButton(
-            hasActiveFilters = hasActiveFilters,
-            onClearFilters = onClearFilters
+    Box(modifier = Modifier.fillMaxHeight()) {
+        VerticalScrollbar(
+            adapter = rememberScrollbarAdapter(listState),
+            modifier = Modifier.fillMaxHeight().align(Alignment.CenterEnd)
         )
+        Row(
+            modifier = Modifier.fillMaxHeight().width(45.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Box(
+                modifier = Modifier
+                    .clip(RoundedCornerShape(topStart = 14.dp, bottomStart = 14.dp))
+                    .background(MaterialTheme.colors.surface)
+                    .padding(vertical = 5.dp)
+            ) {
+                if (visible) {
+                    Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
 
-        Divider(Modifier.fillMaxWidth().height(1.dp).background(MaterialTheme.colors.background))
+                        ClearFiltersButton(
+                            hasActiveFilters = hasActiveFilters,
+                            onClearFilters = onClearFilters
+                        )
 
-        YearDropDown(
-            availableYears = availableYears,
-            onFilterYearChange = onFilterYearChange
-        )
+                        Divider(Modifier.fillMaxWidth().height(1.dp).background(MaterialTheme.colors.background))
 
-        AccountDropDown(
-            currentAccountView = currentAccountView,
-            groups = groups,
-            onFilterAccountChange = onFilterAccountChange
-        )
+                        YearDropDown(
+                            availableYears = availableYears,
+                            onFilterYearChange = onFilterYearChange
+                        )
 
-        TypeDropDown(
-            onFilterTypeChange = onFilterTypeChange
-        )
+                        AccountDropDown(
+                            currentAccountView = currentAccountView,
+                            groups = groups,
+                            onFilterAccountChange = onFilterAccountChange
+                        )
 
-        CategoriesDropDown(
-            filterType = filterType,
-            onFilterCategoryItemChange = onFilterCategoryItemChange,
-            preFiltered = preFiltered
-        )
+                        TypeDropDown(
+                            onFilterTypeChange = onFilterTypeChange
+                        )
 
-        TagsDropDown(
-            preFiltered = preFiltered,
-            filterType = filterType,
-            filterCategoryItem = filterCategoryItem,
-            onFilterTagChange = onFilterTagChange
-        )
+                        CategoriesDropDown(
+                            filterType = filterType,
+                            onFilterCategoryItemChange = onFilterCategoryItemChange,
+                            preFiltered = preFiltered
+                        )
 
-        Divider(Modifier.fillMaxWidth().height(1.dp).background(MaterialTheme.colors.background))
+                        TagsDropDown(
+                            preFiltered = preFiltered,
+                            filterType = filterType,
+                            filterCategoryItem = filterCategoryItem,
+                            onFilterTagChange = onFilterTagChange
+                        )
 
-        ExportDropDown(onExport = onExport, exportLabel = exportLabel)
+                        Divider(Modifier.fillMaxWidth().height(1.dp).background(MaterialTheme.colors.background))
 
+                        ExportDropDown(onExport = onExport, exportLabel = exportLabel)
+
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -177,7 +201,7 @@ private fun YearDropDown(
 @Composable
 private fun AccountDropDown(
     currentAccountView: BankAccount? = null,
-    groups: MutableStateFlow<List<Group>>,
+    groups: StateFlow<List<Group>>,
     onFilterAccountChange: (BankAccount?) -> Unit
 ){
     if (currentAccountView != null)

@@ -1,29 +1,27 @@
 package view.modules.transactions
 
-import androidx.compose.foundation.VerticalScrollbar
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Bold
 import com.adamglin.phosphoricons.Regular
+import com.adamglin.phosphoricons.bold.ArrowLeft
 import com.adamglin.phosphoricons.bold.ListBullets
 import com.adamglin.phosphoricons.regular.*
 import com.felipegandra.generated.resources.*
-import domain.entity.Category
-import domain.entity.Subcategory
 import domain.entity.Transaction
 import domain.entity.account.BankAccount
 import domain.enums.TransactionType
@@ -34,14 +32,18 @@ import org.jetbrains.compose.resources.stringResource
 import view.modules.Screen
 import view.modules.transactionForm.TransactionForm
 import view.modules.transactions.component.*
+import view.shared.AddressView
+import view.shared.ClickableIcon
 import view.shared.FilterTransactionBar
+import view.shared.SearchField
 import view.shared.TextH2
+import view.shared.TextNormal
 import viewModel.TransactionViewModel
 import java.awt.FileDialog
 import java.awt.Frame
 import java.io.File
 import java.time.LocalDate
-import domain.entity.Tag as TagEntity
+import java.time.Month
 
 
 @Composable
@@ -78,23 +80,10 @@ fun TransactionsScreen(
                 )
             )
 
-
     var selectedTransaction by remember { mutableStateOf<Transaction?>(null) }
     var showEditTransaction by remember { mutableStateOf(false) }
     var backIcon by remember { mutableStateOf(false) }
     var showTransactionsList by remember { mutableStateOf(true) }
-
-    var searchQuery by remember { mutableStateOf("") }
-    var filterAccount by remember { mutableStateOf<BankAccount?>(null) }
-
-    var filterCategoryItem by remember { mutableStateOf<Pair<Category, Subcategory?>?>(null) }
-
-    var filterTag by remember { mutableStateOf<TagEntity?>(null) }
-
-    var filterType by remember { mutableStateOf<TransactionType?>(null) }
-
-    var filterYear by remember { mutableStateOf<Int?>(LocalDate.now().year) }
-
     var addresses by remember { mutableStateOf(emptyList<PageAddress>()) }
 
     val strTransactionEditIncome = stringResource(Res.string.transaction_edit_income)
@@ -108,42 +97,13 @@ fun TransactionsScreen(
         selectedTransaction = null
         backIcon = false
         showTransactionsList = true
-        searchQuery = ""
-        filterAccount = null
-        filterCategoryItem = null
-        filterTag = null
-        filterType = null
-        filterYear = LocalDate.now().year
+        viewModel.clearFilters()
     }
 
     val transactionsState by viewModel.transactions.collectAsState()
-    val scope = rememberCoroutineScope()
+    val filters by viewModel.filters.collectAsState()
 
-    val availableYears = remember(transactionsState) {
-        transactionsState.map { it.date.year }.distinct().sortedDescending()
-    }
-
-    val displayedTransactions = remember(transactionsState, searchQuery, filterAccount, filterCategoryItem, filterTag, filterType, filterYear) {
-        transactionsState.filter { transaction ->
-            val matchesSearch = searchQuery.isEmpty() ||
-                    transaction.party.name.contains(searchQuery, ignoreCase = true) ||
-                    transaction.description.contains(searchQuery, ignoreCase = true) ||
-                    transaction.category.name.contains(searchQuery, ignoreCase = true) ||
-                    transaction.subcategory?.name?.contains(searchQuery, ignoreCase = true) == true ||
-                    transaction.tags?.any { it.name.contains(searchQuery, ignoreCase = true) } == true ||
-                    transaction.balance.toString().contains(searchQuery, ignoreCase = true)
-            val matchesAccount = filterAccount == null || transaction.account.id == filterAccount!!.id
-            val matchesCategory = filterCategoryItem == null ||
-                    (filterCategoryItem!!.second == null && transaction.category.id == filterCategoryItem!!.first.id) ||
-                    (filterCategoryItem!!.second != null && transaction.subcategory?.id == filterCategoryItem!!.second!!.id)
-            val matchesTag = filterTag == null || transaction.tags?.any { it.id == filterTag!!.id } == true
-            val matchesType = filterType == null || transaction.type == filterType
-            val matchesYear = filterYear == null || transaction.date.year == filterYear
-            matchesSearch && matchesAccount && matchesCategory && matchesTag && matchesType && matchesYear
-        }
-    }
-
-    var transactionType by remember { mutableStateOf(selectedTransaction?.type) }
+    var transactionType by remember { mutableStateOf<TransactionType?>(null) }
 
     Column(
         modifier = Modifier
@@ -157,10 +117,9 @@ fun TransactionsScreen(
         Header(
             backIcon = backIcon,
             addresses = addresses,
-            initialAddress = initialAddress,
             showTransactionsList = showTransactionsList,
-            transactionsState = transactionsState,
-            searchQuery = searchQuery,
+            hasTransactions = transactionsState.isNotEmpty(),
+            searchQuery = filters.searchQuery,
             account = account,
             onBackClick = {
                 addresses = initialAddress
@@ -169,189 +128,56 @@ fun TransactionsScreen(
                 backIcon = false
                 showTransactionsList = true
             },
-            onSearchQueryChange = { searchQuery = it }
+            onSearchQueryChange = { viewModel.updateFilters { copy(searchQuery = it) } }
         )
 
-        // ********** BODY **********
         if (showTransactionsList) {
-            val listState = rememberLazyListState()
-            Row(modifier = Modifier.fillMaxSize()) {
-                Row(modifier = Modifier.weight(1f)) {
-                    Box(modifier = Modifier.fillMaxSize()) {
-                        if (displayedTransactions.isEmpty())
-                            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                                TextH2(text = stringResource(Res.string.transactions_empty))
-                            }
-
-                        LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
-                            val monthTransactions = displayedTransactions.groupBy { it.date.month }
-
-                            item { Spacer(modifier = Modifier.height(30.dp)) }
-                            monthTransactions.forEach { (month, transactions) ->
-
-                                item {
-                                    MonthHeader(modifier = Modifier.zIndex(1f), month = month)
-                                    Column(
-                                        modifier = Modifier
-                                            .padding(start = 80.dp, end = 30.dp)
-                                            .zIndex(2f)
-                                            .clip(RoundedCornerShape(topEnd = 0.dp, bottomStart = 0.dp))
-                                            .background(
-                                                MaterialTheme.colors.background.copy(0.6f),
-                                                RoundedCornerShape(topEnd = 0.dp, bottomStart = 0.dp)
-                                            )
-                                            .border(
-                                                0.5.dp,
-                                                MaterialTheme.colors.onSurface,
-                                                RoundedCornerShape(topEnd = 0.dp, bottomStart = 0.dp)
-                                            )
-                                    ) {
-                                        Spacer(Modifier.height(20.dp))
-                                        transactions.forEach { transaction ->
-                                            TransactionRow(
-                                                viewModel = viewModel,
-                                                transaction = transaction,
-                                                onDeleted = onSidebarReload,
-                                                onClick = {
-                                                    addresses = addresses + PageAddress(
-                                                        iconVector = PhosphorIcons.Regular.Pencil,
-                                                        iconSize = DpSize(21.dp, 18.dp),
-                                                        name = if (transaction.type == TransactionType.GAIN) strTransactionEditIncome else strTransactionEditExpense
-                                                    )
-                                                    selectedTransaction = transaction
-                                                    showEditTransaction = true
-                                                    backIcon = true
-                                                    showTransactionsList = false
-                                                }
-                                            )
-                                        }
-                                        Spacer(Modifier.height(20.dp))
-                                    }
-
-                                    val positive =
-                                        displayedTransactions.filter { it.date.month == month && it.balance >= 0 }
-                                            .sumOf { it.balance }
-                                    val negative =
-                                        displayedTransactions.filter { it.date.month == month && it.balance < 0 }
-                                            .sumOf { it.balance } * -1
-                                    TotalFooter(
-                                        modifier = Modifier.zIndex(1f),
-                                        incomeBalance = positive,
-                                        outcomeBalance = negative
-                                    )
-                                    Spacer(Modifier.height(30.dp))
-                                }
-
-                            }
-                            item { Spacer(Modifier.height(50.dp)) }
-
-                        }
-
-
-                        if (showAddButton)
-                            AddTransactionButton(
-                                onClickGain = {
-                                    transactionType = TransactionType.GAIN
-                                    showTransactionsList = false
-                                    showEditTransaction = true
-                                    addresses = addresses + PageAddress(
-                                        iconVector = PhosphorIcons.Regular.PlusSquare,
-                                        iconSize = DpSize(21.dp, 18.dp),
-                                        name = strTransactionNewIncome
-                                    )
-                                    backIcon = true
-                                },
-                                onClickExpense = {
-                                    transactionType = TransactionType.EXPENSE
-                                    showTransactionsList = false
-                                    showEditTransaction = true
-
-                                    addresses = addresses + PageAddress(
-                                        iconVector = PhosphorIcons.Regular.MinusSquare,
-                                        iconSize = DpSize(21.dp, 18.dp),
-                                        name = strTransactionNewExpense
-                                    )
-                                    backIcon = true
-                                },
-                                onClickImport = {
-                                    onScreenChange(Screen.ImportStatement(account = viewModel.selectedAccount))
-                                },
-                                onDismiss = {
-                                    selectedTransaction = null
-                                    showEditTransaction = false
-                                    showTransactionsList = true
-                                    backIcon = false
-                                }
-                            )
-                    }
-
-                }
-
-                Box(modifier = Modifier.fillMaxHeight()) {
-                    VerticalScrollbar(
-                        adapter = rememberScrollbarAdapter(listState),
-                        modifier = Modifier.fillMaxHeight().align(Alignment.CenterEnd)
+            Body(
+                showAddButton = showAddButton,
+                viewModel = viewModel,
+                account = account,
+                onTransactionClick = { transaction ->
+                    addresses = addresses + PageAddress(
+                        iconVector = PhosphorIcons.Regular.Pencil,
+                        iconSize = DpSize(21.dp, 18.dp),
+                        name = if (transaction.type == TransactionType.GAIN) strTransactionEditIncome else strTransactionEditExpense
                     )
-                    Row(
-                        modifier = Modifier.fillMaxHeight().width(45.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(topStart = 14.dp, bottomStart = 14.dp))
-                                .background(MaterialTheme.colors.surface)
-                                .padding(vertical = 5.dp)
-                        ) {
-                            if (showTransactionsList && transactionsState.isNotEmpty()) {
-                                FilterTransactionBar(
-                                    items = viewModel.transactions,
-                                    searchQuery = searchQuery,
-                                    currentAccountView = account,
-                                    filterAccount = filterAccount,
-                                    onFilterAccountChange = { filterAccount = it },
-                                    filterType = filterType,
-                                    onFilterTypeChange = { filterType = it },
-                                    filterCategoryItem = filterCategoryItem,
-                                    onFilterCategoryItemChange = { filterCategoryItem = it },
-                                    filterTag = filterTag,
-                                    onFilterTagChange = { filterTag = it },
-                                    filterYear = filterYear,
-                                    onFilterYearChange = { filterYear = it },
-                                    availableYears = availableYears,
-                                    groups = viewModel.groups,
-                                    onClearFilters = {
-                                        filterAccount = null
-                                        filterType = null
-                                        filterCategoryItem = null
-                                        filterTag = null
-                                        filterYear = LocalDate.now().year
-                                    },
-                                    onExport = {
-                                        val dialog =
-                                            FileDialog(null as Frame?, "Exportar transações para CSV", FileDialog.SAVE)
-                                        dialog.file = "transacoes_${LocalDate.now()}.csv"
-                                        dialog.isVisible = true
-                                        val dir = dialog.directory
-                                        val name = dialog.file
-                                        dialog.dispose()
-                                        if (dir != null && name != null) {
-                                            val safeName = if (name.endsWith(".csv")) name else "$name.csv"
-                                            val target = File(dir, safeName)
-                                            scope.launch(Dispatchers.IO) {
-                                                viewModel.exportToCsv(
-                                                    displayedTransactions,
-                                                    target
-                                                )
-                                            }
-                                        }
-                                    }
-                                )
-                            }
-                        }
-                    }
-                }
-
-            }
+                    selectedTransaction = transaction
+                    showEditTransaction = true
+                    backIcon = true
+                    showTransactionsList = false
+                },
+                onTransactionDeleted = onSidebarReload,
+                onAddGain = {
+                    transactionType = TransactionType.GAIN
+                    showTransactionsList = false
+                    showEditTransaction = true
+                    addresses = addresses + PageAddress(
+                        iconVector = PhosphorIcons.Regular.PlusSquare,
+                        iconSize = DpSize(21.dp, 18.dp),
+                        name = strTransactionNewIncome
+                    )
+                    backIcon = true
+                },
+                onAddExpense = {
+                    transactionType = TransactionType.EXPENSE
+                    showTransactionsList = false
+                    showEditTransaction = true
+                    addresses = addresses + PageAddress(
+                        iconVector = PhosphorIcons.Regular.MinusSquare,
+                        iconSize = DpSize(21.dp, 18.dp),
+                        name = strTransactionNewExpense
+                    )
+                    backIcon = true
+                },
+                onImport = { onScreenChange(Screen.ImportStatement(account = viewModel.selectedAccount)) },
+                onDismissAdd = {
+                    selectedTransaction = null
+                    showEditTransaction = false
+                    showTransactionsList = true
+                    backIcon = false
+                },
+            )
         }
 
         if (showEditTransaction) {
@@ -380,5 +206,191 @@ fun TransactionsScreen(
             )
         }
     }
-
 }
+
+@Composable
+private fun Header(
+    backIcon: Boolean,
+    addresses: List<PageAddress>,
+    showTransactionsList: Boolean,
+    hasTransactions: Boolean,
+    searchQuery: String,
+    account: BankAccount?,
+    onBackClick: () -> Unit,
+    onSearchQueryChange: (String) -> Unit,
+) {
+    Column(modifier = Modifier.fillMaxWidth().padding(start = 20.dp, top = 20.dp, end = 20.dp)) {
+        Row(modifier = Modifier.fillMaxWidth().height(30.dp), horizontalArrangement = Arrangement.SpaceBetween) {
+            // address row
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                ClickableIcon(
+                    enabled = backIcon,
+                    icon = PhosphorIcons.Bold.ArrowLeft,
+                    iconSize = 22.dp,
+                    boxSize = 25.dp
+                ) {
+                    onBackClick()
+                }
+                Spacer(Modifier.width(10.dp))
+                addresses.forEach {
+                    AddressView(
+                        icon = it.iconVector,
+                        iconSize = it.iconSize!!,
+                        value = it.name,
+                        rootPath = it.rootPath
+                    )
+                }
+            }
+
+            if (showTransactionsList && hasTransactions)
+                SearchField(
+                    value = searchQuery,
+                    onValueChange = { onSearchQueryChange(it) }
+                )
+        }
+
+        if (account?.description?.isNotEmpty() == true) {
+            TextNormal(
+                text = account.description,
+                align = TextAlign.Start,
+                modifier = Modifier.padding(top = 4.dp)
+            )
+        }
+    }
+}
+
+@Composable
+private fun Body(
+    showAddButton: Boolean,
+    viewModel: TransactionViewModel,
+    account: BankAccount?,
+    onTransactionClick: (Transaction) -> Unit,
+    onTransactionDeleted: () -> Unit,
+    onAddGain: () -> Unit,
+    onAddExpense: () -> Unit,
+    onImport: () -> Unit,
+    onDismissAdd: () -> Unit,
+) {
+    val listState = rememberLazyListState()
+    val scope = rememberCoroutineScope()
+    val strExportDialogTitle = stringResource(Res.string.transaction_export_dialog_title)
+    val transactionsState by viewModel.transactions.collectAsState()
+    val displayedTransactions by viewModel.displayedTransactions.collectAsState(emptyList())
+    val filters by viewModel.filters.collectAsState()
+    val availableYears by viewModel.availableYears.collectAsState(emptyList())
+
+    Row(modifier = Modifier.fillMaxSize()) {
+        Row(modifier = Modifier.weight(1f)) {
+            Box(modifier = Modifier.fillMaxSize()) {
+                if (displayedTransactions.isEmpty())
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        TextH2(text = stringResource(Res.string.transactions_empty))
+                    }
+
+                LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
+                    val monthTransactions = displayedTransactions.groupBy { it.date.month }
+                    item { Spacer(modifier = Modifier.height(30.dp)) }
+                    monthTransactions.forEach { (month, transactions) ->
+                        item {
+                            MonthSection(
+                                month = month,
+                                transactions = transactions,
+                                onTransactionClick = onTransactionClick,
+                                onTransactionDelete = { tx ->
+                                    viewModel.deleteTransaction(tx)
+                                    onTransactionDeleted()
+                                },
+                            )
+                        }
+                    }
+                    item { Spacer(Modifier.height(50.dp)) }
+                }
+
+                if (showAddButton)
+                    AddTransactionButton(
+                        onClickGain = onAddGain,
+                        onClickExpense = onAddExpense,
+                        onClickImport = onImport,
+                        onDismiss = onDismissAdd,
+                    )
+            }
+        }
+
+        FilterTransactionBar(
+            listState = listState,
+            visible = transactionsState.isNotEmpty(),
+            items = viewModel.transactions,
+            searchQuery = filters.searchQuery,
+            currentAccountView = account,
+            filterAccount = filters.account,
+            onFilterAccountChange = { viewModel.updateFilters { copy(account = it) } },
+            filterType = filters.type,
+            onFilterTypeChange = { viewModel.updateFilters { copy(type = it) } },
+            filterCategoryItem = filters.categoryItem,
+            onFilterCategoryItemChange = { viewModel.updateFilters { copy(categoryItem = it) } },
+            filterTag = filters.tag,
+            onFilterTagChange = { viewModel.updateFilters { copy(tag = it) } },
+            filterYear = filters.year,
+            onFilterYearChange = { viewModel.updateFilters { copy(year = it) } },
+            availableYears = availableYears,
+            groups = viewModel.groups,
+            onClearFilters = { viewModel.clearFilters() },
+            onExport = {
+                val dialog = FileDialog(null as Frame?, strExportDialogTitle, FileDialog.SAVE)
+                dialog.file = "transacoes_${LocalDate.now()}.csv"
+                dialog.isVisible = true
+                val dir = dialog.directory
+                val name = dialog.file
+                dialog.dispose()
+                if (dir != null && name != null) {
+                    val safeName = if (name.endsWith(".csv")) name else "$name.csv"
+                    val target = File(dir, safeName)
+                    scope.launch(Dispatchers.IO) {
+                        viewModel.exportToCsv(displayedTransactions, target)
+                    }
+                }
+            },
+        )
+    }
+}
+
+@Composable
+private fun MonthSection(
+    month: Month,
+    transactions: List<Transaction>,
+    onTransactionClick: (Transaction) -> Unit,
+    onTransactionDelete: (Transaction) -> Unit,
+) {
+    MonthHeader(modifier = Modifier.zIndex(1f), month = month)
+    Column(
+        modifier = Modifier
+            .padding(start = 80.dp, end = 30.dp)
+            .zIndex(2f)
+            .clip(RoundedCornerShape(topEnd = 0.dp, bottomStart = 0.dp))
+            .background(
+                MaterialTheme.colors.background.copy(0.6f),
+                RoundedCornerShape(topEnd = 0.dp, bottomStart = 0.dp)
+            )
+            .border(
+                0.5.dp,
+                MaterialTheme.colors.onSurface,
+                RoundedCornerShape(topEnd = 0.dp, bottomStart = 0.dp)
+            )
+    ) {
+        Spacer(Modifier.height(20.dp))
+        transactions.forEach { transaction ->
+            TransactionRow(
+                transaction = transaction,
+                onDelete = { onTransactionDelete(transaction) },
+                onClick = { onTransactionClick(transaction) }
+            )
+        }
+        Spacer(Modifier.height(20.dp))
+    }
+
+    val positive = transactions.filter { it.balance >= 0 }.sumOf { it.balance }
+    val negative = transactions.filter { it.balance < 0 }.sumOf { it.balance } * -1
+    TotalFooter(modifier = Modifier.zIndex(1f), incomeBalance = positive, outcomeBalance = negative)
+    Spacer(Modifier.height(30.dp))
+}
+

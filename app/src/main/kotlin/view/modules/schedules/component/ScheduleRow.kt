@@ -40,17 +40,17 @@ import utils.IconPaths
 import utils.formatNumber
 import utils.rememberSvgPainter
 import view.shared.*
-import viewModel.ScheduleViewModel
 import java.time.format.TextStyle
 import java.util.*
 
 @Composable
 fun ScheduleRow(
-    viewModel: ScheduleViewModel,
     occurrence: ScheduleOccurrence,
     overdue: Boolean,
     onEdit: () -> Unit,
-    onSidebarReload: () -> Unit = {},
+    onMarkAsPaid: () -> Unit,
+    onDeleteThisOccurrence: () -> Unit,
+    onDeleteThisAndFuture: () -> Unit,
 ) {
     val schedule = occurrence.schedule
     val dueDate = occurrence.dueDate
@@ -178,8 +178,7 @@ fun ScheduleRow(
             SimpleQuestionDialog(
                 message = stringResource(Res.string.schedule_confirm_payment),
                 onConfirmRequest = {
-                    viewModel.markAsPaid(occurrence)
-                    onSidebarReload()
+                    onMarkAsPaid()
                     confirmMarkAsPaid = false
                 },
                 onDismissRequest = { confirmMarkAsPaid = false },
@@ -258,12 +257,12 @@ fun ScheduleRow(
                         DeleteScheduleDialog(
                             onDismiss = { confirmDelete = false; showMenu = false },
                             onDeleteThis = {
-                                viewModel.deleteThisOccurrence(occurrence)
+                                onDeleteThisOccurrence()
                                 confirmDelete = false
                                 showMenu = false
                             },
                             onDeleteThisAndFuture = {
-                                viewModel.deleteThisAndFuture(occurrence)
+                                onDeleteThisAndFuture()
                                 confirmDelete = false
                                 showMenu = false
                             },
