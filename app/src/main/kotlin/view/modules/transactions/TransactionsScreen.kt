@@ -1,31 +1,25 @@
 package view.modules.transactions
 
-import androidx.compose.foundation.*
+import androidx.compose.foundation.VerticalScrollbar
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.PointerIcon
-import androidx.compose.ui.input.pointer.pointerHoverIcon
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Bold
-import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.Regular
-import com.adamglin.phosphoricons.bold.ArrowLeft
 import com.adamglin.phosphoricons.bold.ListBullets
-import com.adamglin.phosphoricons.light.Plus
 import com.adamglin.phosphoricons.regular.*
 import com.felipegandra.generated.resources.*
 import domain.entity.Category
@@ -39,12 +33,9 @@ import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import view.modules.Screen
 import view.modules.transactionForm.TransactionForm
-import view.modules.transactions.component.DropDownAddTransaction
-import view.modules.transactions.component.MonthHeader
-import view.modules.transactions.component.TotalFooter
-import view.modules.transactions.component.TransactionRow
-import view.shared.*
-import view.theme.ButtonPurple
+import view.modules.transactions.component.*
+import view.shared.FilterTransactionBar
+import view.shared.TextH2
 import viewModel.TransactionViewModel
 import java.awt.FileDialog
 import java.awt.Frame
@@ -163,51 +154,23 @@ fun TransactionsScreen(
             .background(MaterialTheme.colors.surface)
     ) {
 
-        // ********** HEADER **********
-        Column(modifier = Modifier.fillMaxWidth().padding(start = 20.dp, top = 20.dp, end = 20.dp)) {
-            Row(modifier = Modifier.fillMaxWidth().height(30.dp), horizontalArrangement = Arrangement.SpaceBetween) {
-                // address row
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    ClickableIcon(
-                        enabled = backIcon,
-                        icon = PhosphorIcons.Bold.ArrowLeft,
-                        iconSize = 22.dp,
-                        boxSize = 25.dp
-                    ) {
-                        addresses = initialAddress
-                        selectedTransaction = null
-                        showEditTransaction = false
-                        backIcon = false
-                        showTransactionsList = true
-                    }
-                    Spacer(Modifier.width(10.dp))
-                    addresses.forEach {
-                        AddressView(
-                            icon = it.iconVector,
-                            iconSize = it.iconSize!!,
-                            value = it.name,
-                            rootPath = it.rootPath
-                        )
-                    }
-                }
-
-                if (showTransactionsList && transactionsState.isNotEmpty())
-                    SearchField(
-                        value = searchQuery,
-                        onValueChange = { searchQuery = it }
-                    )
-            }
-
-            if (account?.description?.isNotEmpty() == true) {
-                TextNormal(
-                    text = account.description,
-                    align = TextAlign.Start,
-                    modifier = Modifier.padding(top = 4.dp)
-                )
-            }
-
-
-        }
+        Header(
+            backIcon = backIcon,
+            addresses = addresses,
+            initialAddress = initialAddress,
+            showTransactionsList = showTransactionsList,
+            transactionsState = transactionsState,
+            searchQuery = searchQuery,
+            account = account,
+            onBackClick = {
+                addresses = initialAddress
+                selectedTransaction = null
+                showEditTransaction = false
+                backIcon = false
+                showTransactionsList = true
+            },
+            onSearchQueryChange = { searchQuery = it }
+        )
 
         // ********** BODY **********
         if (showTransactionsList) {
@@ -418,50 +381,4 @@ fun TransactionsScreen(
         }
     }
 
-}
-
-
-@Composable
-fun AddTransactionButton(
-    onClickGain: () -> Unit,
-    onClickExpense: () -> Unit,
-    onClickImport: () -> Unit,
-    onDismiss: () -> Unit,
-) {
-    var showAddTransactionDropDownMenu by remember { mutableStateOf(false) }
-    Box(modifier = Modifier.fillMaxSize().padding(bottom = 50.dp, end = 5.dp)) {
-        Box(
-            modifier = Modifier
-                .size(60.dp)
-                .clip(CircleShape)
-                .background(ButtonPurple)
-                .pointerHoverIcon(PointerIcon.Hand)
-                .clickable { showAddTransactionDropDownMenu = true }
-                .align(Alignment.BottomEnd)
-        ) {
-            Icon(
-                modifier = Modifier
-                    .size(25.dp)
-                    .align(Alignment.Center),
-                imageVector = PhosphorIcons.Light.Plus,
-                contentDescription = "Add transaction",
-                tint = Color.White
-            )
-            if (showAddTransactionDropDownMenu) {
-                DropDownAddTransaction(
-                    expanded = showAddTransactionDropDownMenu,
-                    onClickGain = onClickGain,
-                    onClickExpense = onClickExpense,
-                    onClickImport = {
-                        showAddTransactionDropDownMenu = false
-                        onClickImport()
-                    },
-                    onDismissRequest = {
-                        onDismiss()
-                        showAddTransactionDropDownMenu = false
-                    }
-                )
-            }
-        }
-    }
 }
