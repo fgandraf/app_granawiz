@@ -26,6 +26,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.input.key.*
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.input.pointer.pointerInput
@@ -57,14 +58,12 @@ private sealed class CategoryItem {
     data class Sub(val subcategory: Subcategory) : CategoryItem()
 }
 
-// label shown in the dropdown list
 private val CategoryItem.dropdownLabel: String
     get() = when (this) {
         is CategoryItem.Parent -> category.name
         is CategoryItem.Sub -> subcategory.name
     }
 
-// text placed in the field when the item is selected
 private val CategoryItem.selectedText: String
     get() = when (this) {
         is CategoryItem.Parent -> category.name
@@ -93,7 +92,6 @@ fun SearchableCategoryField(
     val primaryColor = MaterialTheme.colors.primary
     val secondaryColor = MaterialTheme.colors.secondary
     val surfaceColor = MaterialTheme.colors.surface
-    val density = LocalDensity.current
 
     val focusRequester = remember { FocusRequester() }
     var text by remember { mutableStateOf(value) }
@@ -252,94 +250,114 @@ fun SearchableCategoryField(
             }
         }
 
-        val transitionState = remember { MutableTransitionState(false) }
-        transitionState.targetState = expanded
+        CategoryDropdownPopup(
+            expanded = expanded,
+            fieldSize = fieldSize,
+            filtered = filtered,
+            selectedIndex = selectedIndex,
+            surfaceColor = surfaceColor,
+            primaryColor = primaryColor,
+            onSelect = { item ->
+                selectItem(item, onCategorySelected) { display -> text = display }
+                expanded = false
+                selectedIndex = -1
+            },
+            onDismiss = { expanded = false }
+        )
+    }
+}
 
-        if (transitionState.currentState || transitionState.targetState) {
-            val popupWidth = with(density) { fieldSize.width.toDp() }.coerceAtLeast(160.dp)
-            val offsetY = with(density) { 35.dp.roundToPx() }
+@Composable
+private fun CategoryDropdownPopup(
+    expanded: Boolean,
+    fieldSize: IntSize,
+    filtered: List<CategoryItem>,
+    selectedIndex: Int,
+    surfaceColor: Color,
+    primaryColor: Color,
+    onSelect: (CategoryItem) -> Unit,
+    onDismiss: () -> Unit,
+) {
+    val density = LocalDensity.current
+    val transitionState = remember { MutableTransitionState(false) }
+    transitionState.targetState = expanded
 
-            Popup(
-                alignment = Alignment.TopStart,
-                offset = IntOffset(x = 0, y = offsetY),
-                onDismissRequest = { expanded = false },
-                properties = PopupProperties(focusable = false, dismissOnClickOutside = false),
+    if (!transitionState.currentState && !transitionState.targetState) return
+
+    val popupWidth = with(density) { fieldSize.width.toDp() }.coerceAtLeast(160.dp)
+    val offsetY = with(density) { 35.dp.roundToPx() }
+
+    Popup(
+        alignment = Alignment.TopStart,
+        offset = IntOffset(x = 0, y = offsetY),
+        onDismissRequest = onDismiss,
+        properties = PopupProperties(focusable = false, dismissOnClickOutside = false),
+    ) {
+        AnimatedVisibility(
+            visibleState = transitionState,
+            enter = fadeIn(tween(150)),
+            exit = fadeOut(tween(150)),
+        ) {
+            Column(
+                modifier = Modifier
+                    .width(popupWidth)
+                    .shadow(6.dp, RoundedCornerShape(4.dp))
+                    .background(surfaceColor, RoundedCornerShape(4.dp))
+                    .border(0.5.dp, primaryColor.copy(alpha = 0.15f), RoundedCornerShape(4.dp))
             ) {
-                AnimatedVisibility(
-                    visibleState = transitionState,
-                    enter = fadeIn(tween(150)),
-                    exit = fadeOut(tween(150)),
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .width(popupWidth)
-                            .shadow(6.dp, RoundedCornerShape(4.dp))
-                            .background(surfaceColor, RoundedCornerShape(4.dp))
-                            .border(0.5.dp, primaryColor.copy(alpha = 0.15f), RoundedCornerShape(4.dp))
-                    ) {
-                        if (filtered.isEmpty()) {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 12.dp, vertical = 8.dp)
-                            ) {
-                                TextNormal(
-                                    text = stringResource(Res.string.search_no_results),
-                                    color = primaryColor.copy(alpha = 0.5f)
-                                )
-                            }
-                        } else {
-                            val scrollState = rememberScrollState()
-                            Box(modifier = Modifier.heightIn(max = 240.dp)) {
-                                Column(modifier = Modifier.verticalScroll(scrollState)) {
-                                    filtered.forEachIndexed { index, item ->
-                                        val isSub = item is CategoryItem.Sub
-                                        Row(
-                                            modifier = Modifier
-                                                .fillMaxWidth()
-                                                .background(
-                                                    if (index == selectedIndex) primaryColor.copy(alpha = 0.08f)
-                                                    else surfaceColor
-                                                )
-                                                .pointerHoverIcon(PointerIcon.Hand)
-                                                .clickable {
-                                                    selectItem(item, onCategorySelected) { display -> text = display }
-                                                    expanded = false
-                                                    selectedIndex = -1
-                                                }
-                                                .padding(
-                                                    start = if (isSub) 35.dp else 12.dp,
-                                                    end = 12.dp,
-                                                    top = 8.dp,
-                                                    bottom = 8.dp
-                                                ),
-                                            verticalAlignment = Alignment.CenterVertically,
-                                            horizontalArrangement = Arrangement.spacedBy(6.dp)
-                                        ) {
-                                            if (!isSub && item.iconPath.isNotBlank()) {
-                                                Icon(
-                                                    painter = rememberSvgPainter(IconPaths.CATEGORY_PACK + item.iconPath),
-                                                    contentDescription = null,
-                                                    tint = primaryColor,
-                                                    modifier = Modifier.size(14.dp)
-                                                )
-                                            }
-                                            TextNormal(
-                                                text = item.dropdownLabel,
-                                                color = if (isSub) primaryColor.copy(alpha = 0.75f) else primaryColor
-                                            )
-                                        }
-                                        if (index < filtered.lastIndex) {
-                                            Divider(color = primaryColor.copy(alpha = 0.08f))
-                                        }
+                if (filtered.isEmpty()) {
+                    Box(modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 8.dp)) {
+                        TextNormal(
+                            text = stringResource(Res.string.search_no_results),
+                            color = primaryColor.copy(alpha = 0.5f)
+                        )
+                    }
+                } else {
+                    val scrollState = rememberScrollState()
+                    Box(modifier = Modifier.heightIn(max = 240.dp)) {
+                        Column(modifier = Modifier.verticalScroll(scrollState)) {
+                            filtered.forEachIndexed { index, item ->
+                                val isSub = item is CategoryItem.Sub
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .background(
+                                            if (index == selectedIndex) primaryColor.copy(alpha = 0.08f)
+                                            else surfaceColor
+                                        )
+                                        .pointerHoverIcon(PointerIcon.Hand)
+                                        .clickable { onSelect(item) }
+                                        .padding(
+                                            start = if (isSub) 35.dp else 12.dp,
+                                            end = 12.dp,
+                                            top = 8.dp,
+                                            bottom = 8.dp
+                                        ),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                                ) {
+                                    if (!isSub && item.iconPath.isNotBlank()) {
+                                        Icon(
+                                            painter = rememberSvgPainter(IconPaths.CATEGORY_PACK + item.iconPath),
+                                            contentDescription = null,
+                                            tint = primaryColor,
+                                            modifier = Modifier.size(14.dp)
+                                        )
                                     }
+                                    TextNormal(
+                                        text = item.dropdownLabel,
+                                        color = if (isSub) primaryColor.copy(alpha = 0.75f) else primaryColor
+                                    )
                                 }
-                                VerticalScrollbar(
-                                    adapter = rememberScrollbarAdapter(scrollState),
-                                    modifier = Modifier.align(Alignment.CenterEnd)
-                                )
+                                if (index < filtered.lastIndex) {
+                                    Divider(color = primaryColor.copy(alpha = 0.08f))
+                                }
                             }
                         }
+                        VerticalScrollbar(
+                            adapter = rememberScrollbarAdapter(scrollState),
+                            modifier = Modifier.align(Alignment.CenterEnd)
+                        )
                     }
                 }
             }

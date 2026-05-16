@@ -22,6 +22,7 @@ import com.adamglin.phosphoricons.light.CaretDown
 import com.felipegandra.generated.resources.Res
 import com.felipegandra.generated.resources.*
 import domain.enums.ScheduleFrequency
+import java.time.LocalDateTime
 import org.jetbrains.compose.resources.stringResource
 import view.shared.DateTimePicker
 import view.shared.FocusableBox
@@ -34,7 +35,6 @@ enum class TerminationMode { NEVER, INSTALLMENTS, END_DATE }
 
 @Composable
 fun RecurrenceSection(viewModel: TransactionFormViewModel) {
-
     val frequency = viewModel.frequency
     val intervalLabel = when (frequency) {
         ScheduleFrequency.ONCE -> ""
@@ -45,7 +45,6 @@ fun RecurrenceSection(viewModel: TransactionFormViewModel) {
     }
 
     Column(modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp)) {
-
         FrequencyDropdown(
             modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp),
             value = frequency,
@@ -60,110 +59,121 @@ fun RecurrenceSection(viewModel: TransactionFormViewModel) {
             }
         )
 
-
         if (frequency != ScheduleFrequency.ONCE) {
-            Column {
-                TextSmall(text = stringResource(Res.string.recurrence_every), modifier = Modifier.padding(bottom = 5.dp))
-                Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(bottom = 20.dp)) {
-                    IntStepper(
-                        value = viewModel.interval,
-                        min = 1,
-                        max = 365,
-                        onChange = { viewModel.interval = it }
-                    )
-                    TextNormal(
-                        text = intervalLabel,
-                        modifier = Modifier.padding(start = 10.dp)
-                    )
-                }
-            }
+            IntervalControl(
+                interval = viewModel.interval,
+                intervalLabel = intervalLabel,
+                onIntervalChange = { viewModel.interval = it }
+            )
         }
 
-
         if (frequency == ScheduleFrequency.MONTHLY) {
-            Column(modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp)) {
-                TextSmall(text = stringResource(Res.string.recurrence_month_day), modifier = Modifier.padding(bottom = 5.dp))
-                Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(bottom = 20.dp)) {
-                    val current = viewModel.dayOfMonth ?: viewModel.startDate.dayOfMonth
-                    IntStepper(
-                        value = current,
-                        min = 1,
-                        max = 31,
-                        onChange = { viewModel.dayOfMonth = it }
-                    )
-                    TextSmall(
-                        modifier = Modifier.padding(start = 10.dp),
-                        text = stringResource(Res.string.recurrence_month_day_hint)
-                    )
-                }
-            }
+            MonthDayControl(
+                dayOfMonth = viewModel.dayOfMonth ?: viewModel.startDate.dayOfMonth,
+                onDayChange = { viewModel.dayOfMonth = it }
+            )
         }
 
         if (frequency == ScheduleFrequency.ONCE) return@Column
 
-        var mode by remember {
-            mutableStateOf(
-                when {
-                    viewModel.installments != null -> TerminationMode.INSTALLMENTS
-                    viewModel.endDate != null -> TerminationMode.END_DATE
-                    else -> TerminationMode.NEVER
-                }
-            )
-        }
+        TerminationOptions(
+            installments = viewModel.installments,
+            endDate = viewModel.endDate,
+            startDate = viewModel.startDate,
+            onClear = { viewModel.installments = null; viewModel.endDate = null },
+            onInstallmentsChange = { viewModel.installments = it; viewModel.endDate = null },
+            onEndDateChange = { viewModel.endDate = it; viewModel.installments = null }
+        )
+    }
+}
 
-        TextSmall(text = stringResource(Res.string.recurrence_ends_on), modifier = Modifier.padding(bottom = 5.dp))
-        Row(modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp), verticalAlignment = Alignment.CenterVertically, ) {
-            TerminationRadio(
-                label = stringResource(Res.string.recurrence_ends_never),
-                selected = mode == TerminationMode.NEVER,
-                onClick = {
-                    mode = TerminationMode.NEVER
-                    viewModel.installments = null
-                    viewModel.endDate = null
-                }
-            )
-            Spacer(Modifier.width(15.dp))
-            TerminationRadio(
-                label = stringResource(Res.string.recurrence_ends_after),
-                selected = mode == TerminationMode.INSTALLMENTS,
-                onClick = {
-                    mode = TerminationMode.INSTALLMENTS
-                    if (viewModel.installments == null) viewModel.installments = 12
-                    viewModel.endDate = null
-                }
-            )
-            if (mode == TerminationMode.INSTALLMENTS) {
-                Spacer(Modifier.width(8.dp))
-                IntStepper(
-                    value = viewModel.installments ?: 12,
-                    min = 1,
-                    max = 999,
-                    onChange = { viewModel.installments = it }
-                )
-                TextNormal(
-                    text = stringResource(Res.string.recurrence_installments_suffix),
-                    modifier = Modifier.padding(start = 8.dp)
-                )
+@Composable
+private fun IntervalControl(interval: Int, intervalLabel: String, onIntervalChange: (Int) -> Unit) {
+    Column {
+        TextSmall(text = stringResource(Res.string.recurrence_every), modifier = Modifier.padding(bottom = 5.dp))
+        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(bottom = 20.dp)) {
+            IntStepper(value = interval, min = 1, max = 365, onChange = onIntervalChange)
+            TextNormal(text = intervalLabel, modifier = Modifier.padding(start = 10.dp))
+        }
+    }
+}
+
+@Composable
+private fun MonthDayControl(dayOfMonth: Int, onDayChange: (Int) -> Unit) {
+    Column(modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp)) {
+        TextSmall(text = stringResource(Res.string.recurrence_month_day), modifier = Modifier.padding(bottom = 5.dp))
+        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(bottom = 20.dp)) {
+            IntStepper(value = dayOfMonth, min = 1, max = 31, onChange = onDayChange)
+            TextSmall(modifier = Modifier.padding(start = 10.dp), text = stringResource(Res.string.recurrence_month_day_hint))
+        }
+    }
+}
+
+@Composable
+private fun TerminationOptions(
+    installments: Int?,
+    endDate: LocalDateTime?,
+    startDate: LocalDateTime,
+    onClear: () -> Unit,
+    onInstallmentsChange: (Int) -> Unit,
+    onEndDateChange: (LocalDateTime) -> Unit,
+) {
+    var mode by remember {
+        mutableStateOf(
+            when {
+                installments != null -> TerminationMode.INSTALLMENTS
+                endDate != null -> TerminationMode.END_DATE
+                else -> TerminationMode.NEVER
             }
-            Spacer(Modifier.width(15.dp))
-            TerminationRadio(
-                label = stringResource(Res.string.recurrence_ends_on_date),
-                selected = mode == TerminationMode.END_DATE,
-                onClick = {
-                    mode = TerminationMode.END_DATE
-                    if (viewModel.endDate == null) viewModel.endDate = viewModel.startDate.plusYears(1)
-                    viewModel.installments = null
-                }
+        )
+    }
+
+    TextSmall(text = stringResource(Res.string.recurrence_ends_on), modifier = Modifier.padding(bottom = 5.dp))
+    Row(modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp), verticalAlignment = Alignment.CenterVertically) {
+        TerminationRadio(
+            label = stringResource(Res.string.recurrence_ends_never),
+            selected = mode == TerminationMode.NEVER,
+            onClick = { mode = TerminationMode.NEVER; onClear() }
+        )
+        Spacer(Modifier.width(15.dp))
+        TerminationRadio(
+            label = stringResource(Res.string.recurrence_ends_after),
+            selected = mode == TerminationMode.INSTALLMENTS,
+            onClick = {
+                mode = TerminationMode.INSTALLMENTS
+                onInstallmentsChange(installments ?: 12)
+            }
+        )
+        if (mode == TerminationMode.INSTALLMENTS) {
+            Spacer(Modifier.width(8.dp))
+            IntStepper(
+                value = installments ?: 12,
+                min = 1,
+                max = 999,
+                onChange = onInstallmentsChange
+            )
+            TextNormal(
+                text = stringResource(Res.string.recurrence_installments_suffix),
+                modifier = Modifier.padding(start = 8.dp)
             )
         }
-        if (mode == TerminationMode.END_DATE) {
-            Row(modifier = Modifier.fillMaxWidth().padding(top = 8.dp)) {
-                DateTimePicker(
-                    modifier = Modifier.fillMaxWidth(0.5f),
-                    value = viewModel.endDate ?: viewModel.startDate.plusYears(1),
-                    selectedDateTime = { viewModel.endDate = it }
-                )
+        Spacer(Modifier.width(15.dp))
+        TerminationRadio(
+            label = stringResource(Res.string.recurrence_ends_on_date),
+            selected = mode == TerminationMode.END_DATE,
+            onClick = {
+                mode = TerminationMode.END_DATE
+                onEndDateChange(endDate ?: startDate.plusYears(1))
             }
+        )
+    }
+    if (mode == TerminationMode.END_DATE) {
+        Row(modifier = Modifier.fillMaxWidth().padding(top = 8.dp)) {
+            DateTimePicker(
+                modifier = Modifier.fillMaxWidth(0.5f),
+                value = endDate ?: startDate.plusYears(1),
+                selectedDateTime = onEndDateChange
+            )
         }
     }
 }
@@ -222,12 +232,7 @@ private fun FrequencyDropdown(
 }
 
 @Composable
-private fun IntStepper(
-    value: Int,
-    min: Int,
-    max: Int,
-    onChange: (Int) -> Unit,
-) {
+private fun IntStepper(value: Int, min: Int, max: Int, onChange: (Int) -> Unit) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         StepperButton(label = "−", onClick = { if (value > min) onChange(value - 1) })
         Box(
@@ -257,11 +262,7 @@ private fun StepperButton(label: String, onClick: () -> Unit) {
 }
 
 @Composable
-private fun TerminationRadio(
-    label: String,
-    selected: Boolean,
-    onClick: () -> Unit,
-) {
+private fun TerminationRadio(label: String, selected: Boolean, onClick: () -> Unit) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.pointerHoverIcon(PointerIcon.Hand).clickable { onClick() }
