@@ -20,16 +20,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
-import com.adamglin.phosphoricons.Bold
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.Regular
-import com.adamglin.phosphoricons.bold.ArrowLeft
 import com.adamglin.phosphoricons.light.Tag
 import com.adamglin.phosphoricons.regular.Tag
 import com.felipegandra.generated.resources.Res
 import com.felipegandra.generated.resources.delete_tag_confirm
 import com.felipegandra.generated.resources.delete_tag_title
 import com.felipegandra.generated.resources.nav_tags
+import domain.structs.PageAddress
 import org.jetbrains.compose.resources.stringResource
 import view.shared.*
 import viewModel.TagViewModel
@@ -52,25 +51,16 @@ fun TagsScreen(
     ) {
 
         //===== HEADER
-        Column {
-            Row(Modifier.fillMaxWidth().padding(20.dp), verticalAlignment = Alignment.CenterVertically) {
-                ClickableIcon(
-                    enabled = false,
-                    icon = PhosphorIcons.Bold.ArrowLeft,
-                    iconSize = 22.dp,
-                    boxSize = 25.dp
-                ) { }
-                Spacer(Modifier.width(10.dp))
-                Row {
-                    AddressView(
-                        icon = PhosphorIcons.Regular.Tag,
-                        iconSize = DpSize(21.dp, 18.dp),
-                        value = stringResource(Res.string.nav_tags),
-                        rootPath = true
-                    )
-                }
-            }
-        }
+        DefaultScreenHeader(
+            addresses = listOf(
+                PageAddress(
+                    iconVector = PhosphorIcons.Regular.Tag,
+                    iconSize = DpSize(21.dp, 18.dp),
+                    name = stringResource(Res.string.nav_tags),
+                    rootPath = true
+                )
+            )
+        )
 
         //===== BODY
         val corner = 10.dp

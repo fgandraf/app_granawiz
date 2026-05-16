@@ -15,10 +15,8 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.adamglin.PhosphorIcons
-import com.adamglin.phosphoricons.Bold
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.Regular
-import com.adamglin.phosphoricons.bold.ArrowLeft
 import com.adamglin.phosphoricons.light.MinusSquare
 import com.adamglin.phosphoricons.light.PlusSquare
 import com.adamglin.phosphoricons.regular.Calendar
@@ -81,19 +79,18 @@ fun ScheduleScreen(
             .clip(RoundedCornerShape(15.dp))
             .background(MaterialTheme.colors.surface)
     ) {
-        Header(
-            backIcon = backIcon,
+        DefaultScreenHeader(
             addresses = addresses,
-            showSchedulesList = !showForm,
-            hasSchedules = schedulesState.isNotEmpty(),
-            searchQuery = filters.searchQuery,
+            backEnabled = backIcon,
             onBackClick = {
                 addresses = initialAddress
                 selectedSchedule = null
                 showForm = false
                 backIcon = false
             },
-            onSearchQueryChange = { viewModel.updateFilters { copy(searchQuery = it) } }
+            trailingContent = if (!showForm && schedulesState.isNotEmpty()) {
+                { SearchField(value = filters.searchQuery, onValueChange = { viewModel.updateFilters { copy(searchQuery = it) } }) }
+            } else null
         )
 
         if (!showForm) {
@@ -155,46 +152,6 @@ fun ScheduleScreen(
                     if (saved) viewModel.getSchedules()
                 }
             )
-        }
-    }
-}
-
-@Composable
-private fun Header(
-    backIcon: Boolean,
-    addresses: List<PageAddress>,
-    showSchedulesList: Boolean,
-    hasSchedules: Boolean,
-    searchQuery: String,
-    onBackClick: () -> Unit,
-    onSearchQueryChange: (String) -> Unit,
-) {
-    Column(modifier = Modifier.fillMaxWidth().padding(start = 20.dp, top = 20.dp, end = 20.dp)) {
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                ClickableIcon(
-                    enabled = backIcon,
-                    icon = PhosphorIcons.Bold.ArrowLeft,
-                    iconSize = 22.dp,
-                    boxSize = 25.dp
-                ) {
-                    onBackClick()
-                }
-                Spacer(Modifier.width(10.dp))
-                addresses.forEach {
-                    AddressView(
-                        icon = it.iconVector,
-                        iconSize = it.iconSize!!,
-                        value = it.name,
-                        rootPath = it.rootPath
-                    )
-                }
-            }
-            if (showSchedulesList && hasSchedules)
-                SearchField(
-                    value = searchQuery,
-                    onValueChange = { onSearchQueryChange(it) }
-                )
         }
     }
 }

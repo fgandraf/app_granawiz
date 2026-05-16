@@ -11,14 +11,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Bold
 import com.adamglin.phosphoricons.Regular
-import com.adamglin.phosphoricons.bold.ArrowLeft
 import com.adamglin.phosphoricons.bold.ListBullets
 import com.adamglin.phosphoricons.regular.*
 import com.felipegandra.generated.resources.*
@@ -32,13 +30,11 @@ import org.jetbrains.compose.resources.stringResource
 import view.modules.Screen
 import view.modules.transactionForm.TransactionForm
 import view.modules.transactions.component.*
-import view.shared.AddressView
 import view.shared.CircleButton
-import view.shared.ClickableIcon
+import view.shared.DefaultScreenHeader
 import view.shared.FilterTransactionBar
 import view.shared.SearchField
 import view.shared.TextH2
-import view.shared.TextNormal
 import viewModel.TransactionViewModel
 import java.awt.FileDialog
 import java.awt.Frame
@@ -115,13 +111,9 @@ fun TransactionsScreen(
             .background(MaterialTheme.colors.surface)
     ) {
 
-        Header(
-            backIcon = backIcon,
+        DefaultScreenHeader(
             addresses = addresses,
-            showTransactionsList = showTransactionsList,
-            hasTransactions = transactionsState.isNotEmpty(),
-            searchQuery = filters.searchQuery,
-            account = account,
+            backEnabled = backIcon,
             onBackClick = {
                 addresses = initialAddress
                 selectedTransaction = null
@@ -129,7 +121,10 @@ fun TransactionsScreen(
                 backIcon = false
                 showTransactionsList = true
             },
-            onSearchQueryChange = { viewModel.updateFilters { copy(searchQuery = it) } }
+            subtitle = account?.description?.takeIf { it.isNotEmpty() },
+            trailingContent = if (showTransactionsList && transactionsState.isNotEmpty()) {
+                { SearchField(value = filters.searchQuery, onValueChange = { viewModel.updateFilters { copy(searchQuery = it) } }) }
+            } else null
         )
 
         if (showTransactionsList) {
@@ -204,57 +199,6 @@ fun TransactionsScreen(
                         onSidebarReload()
                     }
                 }
-            )
-        }
-    }
-}
-
-@Composable
-private fun Header(
-    backIcon: Boolean,
-    addresses: List<PageAddress>,
-    showTransactionsList: Boolean,
-    hasTransactions: Boolean,
-    searchQuery: String,
-    account: BankAccount?,
-    onBackClick: () -> Unit,
-    onSearchQueryChange: (String) -> Unit,
-) {
-    Column(modifier = Modifier.fillMaxWidth().padding(start = 20.dp, top = 20.dp, end = 20.dp)) {
-        Row(modifier = Modifier.fillMaxWidth().height(30.dp), horizontalArrangement = Arrangement.SpaceBetween) {
-            // address row
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                ClickableIcon(
-                    enabled = backIcon,
-                    icon = PhosphorIcons.Bold.ArrowLeft,
-                    iconSize = 22.dp,
-                    boxSize = 25.dp
-                ) {
-                    onBackClick()
-                }
-                Spacer(Modifier.width(10.dp))
-                addresses.forEach {
-                    AddressView(
-                        icon = it.iconVector,
-                        iconSize = it.iconSize!!,
-                        value = it.name,
-                        rootPath = it.rootPath
-                    )
-                }
-            }
-
-            if (showTransactionsList && hasTransactions)
-                SearchField(
-                    value = searchQuery,
-                    onValueChange = { onSearchQueryChange(it) }
-                )
-        }
-
-        if (account?.description?.isNotEmpty() == true) {
-            TextNormal(
-                text = account.description,
-                align = TextAlign.Start,
-                modifier = Modifier.padding(top = 4.dp)
             )
         }
     }

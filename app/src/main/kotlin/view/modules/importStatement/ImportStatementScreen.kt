@@ -13,20 +13,18 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
-import com.adamglin.phosphoricons.Bold
 import com.adamglin.phosphoricons.Regular
-import com.adamglin.phosphoricons.bold.ArrowLeft
 import com.adamglin.phosphoricons.regular.Folders
 import com.adamglin.phosphoricons.regular.Receipt
 import com.adamglin.phosphoricons.regular.Wallet
 import com.felipegandra.generated.resources.Res
 import com.felipegandra.generated.resources.*
-import org.jetbrains.compose.resources.stringResource
 import domain.entity.account.BankAccount
+import domain.structs.PageAddress
+import org.jetbrains.compose.resources.stringResource
 import view.modules.Screen
 import view.modules.importStatement.components.*
-import view.shared.AddressView
-import view.shared.ClickableIcon
+import view.shared.DefaultScreenHeader
 import viewModel.ImportStatementViewModel
 
 @Composable
@@ -51,39 +49,17 @@ fun ImportStatementScreen(
     ) {
 
         //===== HEADER
-        Column {
-            Row(Modifier.fillMaxWidth().padding(20.dp), verticalAlignment = Alignment.CenterVertically) {
-                ClickableIcon(
-                    enabled = true,
-                    icon = PhosphorIcons.Bold.ArrowLeft,
-                    iconSize = 22.dp,
-                    boxSize = 25.dp
-                ) {
-                    onScreenChange(Screen.Transactions(account = account, showAddButton = true))
-                }
-                Spacer(Modifier.width(10.dp))
+        DefaultScreenHeader(
+            addresses = buildList {
                 if (account != null) {
-                    AddressView(
-                        icon = PhosphorIcons.Regular.Folders,
-                        iconSize = DpSize(21.dp, 18.dp),
-                        value = account.group.name,
-                        rootPath = true
-                    )
-                    AddressView(
-                        icon = PhosphorIcons.Regular.Wallet,
-                        iconSize = DpSize(21.dp, 18.dp),
-                        value = account.name,
-                        rootPath = false
-                    )
+                    add(PageAddress(iconVector = PhosphorIcons.Regular.Folders, iconSize = DpSize(21.dp, 18.dp), name = account.group.name, rootPath = true))
+                    add(PageAddress(iconVector = PhosphorIcons.Regular.Wallet, iconSize = DpSize(21.dp, 18.dp), name = account.name))
                 }
-                AddressView(
-                    icon = PhosphorIcons.Regular.Receipt,
-                    iconSize = DpSize(21.dp, 18.dp),
-                    value = stringResource(Res.string.import_title),
-                    rootPath = account == null
-                )
-            }
-        }
+                add(PageAddress(iconVector = PhosphorIcons.Regular.Receipt, iconSize = DpSize(21.dp, 18.dp), name = stringResource(Res.string.import_title), rootPath = account == null))
+            },
+            backEnabled = true,
+            onBackClick = { onScreenChange(Screen.Transactions(account = account, showAddButton = true)) }
+        )
 
         //===== BODY
         val corner = 10.dp

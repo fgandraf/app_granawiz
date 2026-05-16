@@ -17,17 +17,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
-import com.adamglin.phosphoricons.Bold
 import com.adamglin.phosphoricons.Regular
-import com.adamglin.phosphoricons.bold.ArrowLeft
 import com.adamglin.phosphoricons.regular.SquaresFour
 import com.felipegandra.generated.resources.Res
 import com.felipegandra.generated.resources.loading
 import com.felipegandra.generated.resources.nav_dashboard
+import domain.structs.PageAddress
 import org.jetbrains.compose.resources.stringResource
 import view.modules.dashboard.component.*
-import view.shared.AddressView
-import view.shared.ClickableIcon
+import view.shared.DefaultScreenHeader
 import view.shared.TextH2
 import viewModel.DashboardViewModel
 
@@ -47,28 +45,17 @@ fun DashboardScreen() {
             .background(MaterialTheme.colors.surface)
     ) {
         //===== HEADER
-        Row(
-            modifier = Modifier.fillMaxWidth().padding(20.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
-        ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                ClickableIcon(
-                    enabled = false,
-                    icon = PhosphorIcons.Bold.ArrowLeft,
-                    iconSize = 22.dp,
-                    boxSize = 25.dp,
-                ) { }
-                Spacer(Modifier.width(10.dp))
-                AddressView(
-                    icon = PhosphorIcons.Regular.SquaresFour,
+        DefaultScreenHeader(
+            addresses = listOf(
+                PageAddress(
+                    iconVector = PhosphorIcons.Regular.SquaresFour,
                     iconSize = DpSize(21.dp, 18.dp),
-                    value = stringResource(Res.string.nav_dashboard),
+                    name = stringResource(Res.string.nav_dashboard),
                     rootPath = true,
                 )
-            }
-            PeriodSelector(current = period, onSelect = { viewModel.selectPeriod(it) })
-        }
+            ),
+            trailingContent = { PeriodSelector(current = period, onSelect = { viewModel.selectPeriod(it) }) }
+        )
 
         //===== BODY
         val current = summary
