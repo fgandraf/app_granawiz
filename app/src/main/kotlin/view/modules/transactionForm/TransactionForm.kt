@@ -28,8 +28,10 @@ import com.adamglin.phosphoricons.light.CaretDown
 import com.adamglin.phosphoricons.light.Check
 import domain.entity.Category
 import domain.entity.Schedule
+import domain.entity.Tag
 import domain.entity.Transaction
 import domain.entity.account.BankAccount
+import domain.entity.Party
 import domain.enums.CategoryType
 import domain.enums.PartyType
 import domain.enums.TransactionType
@@ -76,35 +78,28 @@ fun TransactionForm(
         }
     }
 
-    val tags = scheduleFormViewModel.tags.collectAsState()
-    val party = scheduleFormViewModel.party.collectAsState()
-    val category = scheduleFormViewModel.category.collectAsState()
-    val subcategory = scheduleFormViewModel.subCategory
-    val accountState = scheduleFormViewModel.account
+    val party by scheduleFormViewModel.party.collectAsState()
+    val category by scheduleFormViewModel.category.collectAsState()
+    val tags by scheduleFormViewModel.tags.collectAsState()
 
     val saveButtonActive by remember {
         derivedStateOf {
-            party.value != null && category.value != null && scheduleFormViewModel.account.id != 0L
+            party != null && category != null && scheduleFormViewModel.account.id != 0L
         }
     }
 
-    val incomeGreen = MaterialTheme.colors.onPrimary
-    val expenseRed = MaterialTheme.colors.onError
-
-    val typeColor = derivedStateOf {
-        when (scheduleFormViewModel.type) {
-            TransactionType.EXPENSE -> expenseRed
-            TransactionType.GAIN -> incomeGreen
-            else -> Color.Gray
-        }
+    val typeColor = when (scheduleFormViewModel.type) {
+        TransactionType.EXPENSE -> MaterialTheme.colors.onError
+        TransactionType.GAIN -> MaterialTheme.colors.onPrimary
+        else -> Color.Gray
     }
 
     val isTransactionEdit = transaction != null
 
     Box(modifier = Modifier.fillMaxSize()) {
-
         var showSide by remember { mutableStateOf(false) }
         var sideType by remember { mutableStateOf("") }
+
         val targetSize by derivedStateOf {
             when (sideType) {
                 "tags" -> 850.dp
@@ -121,7 +116,6 @@ fun TransactionForm(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.width(dialogWidth).align(Alignment.TopCenter).padding(top = 100.dp)
         ) {
-
             Row(
                 modifier = Modifier
                     .width(550.dp)
@@ -136,7 +130,6 @@ fun TransactionForm(
                         RoundedCornerShape(10.dp)
                     )
             ) {
-
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -144,207 +137,37 @@ fun TransactionForm(
                         .verticalScroll(rememberScrollState())
                         .padding(horizontal = 30.dp, vertical = 40.dp)
                 ) {
-
-                    //==== HEADER (type label + account)
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.End,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        if (lockAccount) {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(5.dp)
-                            ) {
-                                if (accountState.id != 0L) {
-                                    Icon(
-                                        painter = rememberSvgPainter(IconPaths.BANK_LOGOS + accountState.icon),
-                                        contentDescription = null,
-                                        tint = MaterialTheme.colors.primary,
-                                        modifier = Modifier.size(20.dp),
-                                    )
-                                    Text(
-                                        text = accountState.name,
-                                        fontSize = 12.sp,
-                                        color = MaterialTheme.colors.primary,
-                                        fontWeight = FontWeight.Normal,
-                                        lineHeight = 0.sp,
-                                        fontFamily = DefaultFont
-                                    )
-                                }
-                            }
-                        } else {
-                            AccountSelector(
-                                currentAccount = accountState,
-                                allAccounts = allAccounts,
-                                onSelect = { scheduleFormViewModel.account = it }
-                            )
-                        }
-                    }
-
-                    Divider(Modifier.padding(top = 5.dp, bottom = 30.dp).background(typeColor.value))
-
-                    //---start date + balance
-                    Row(modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp)) {
-                        DateTimePicker(
-                            modifier = Modifier.weight(1f),
-                            value = scheduleFormViewModel.startDate,
-                            selectedDateTime = { scheduleFormViewModel.startDate = it }
-                        )
-
-                        val balance by remember { derivedStateOf { formatNumber(abs(scheduleFormViewModel.balance)) } }
-                        val balancePlaceholder by remember { derivedStateOf {
-                            when (UserPreferences.currencyFormat) {
-                                "comma-dot" -> "0,000.00"
-                                "plain-dot" -> "0.00"
-                                else -> "0.000,00"
-                            }
-                        }}
-                        DefaultTextField(
-                            modifier = Modifier.weight(1f).padding(start = 10.dp),
-                            value = balance,
-                            label = stringResource(Res.string.form_field_amount),
-                            textAlign = TextAlign.Right,
-                            placeholder = balancePlaceholder
-                        ) { input ->
-                            var filtered = input.filter { c -> c.isDigit() || c == ',' || c == '.' }
-                            if (filtered.isEmpty() || filtered == ".") filtered = "0.00"
-                            scheduleFormViewModel.updateBalance(filtered)
-                        }
-                    }
-
-                    //---party
-                    DropDownTextField(
-                        modifier = Modifier.padding(bottom = 20.dp),
-                        value = party.value?.name ?: "",
-                        label = if (scheduleFormViewModel.type == TransactionType.GAIN) stringResource(Res.string.form_field_payer) else stringResource(Res.string.form_field_receiver),
-                        placeholder = stringResource(Res.string.name),
-                        onClick = {
-                            if (showSide && sideType == "parties") showSide = false
-                            else if (showSide) sideType = "parties"
-                            else {
-                                sideType = "parties"; showSide = true
-                            }
-                        }
+                    Header(
+                        lockAccount = lockAccount,
+                        accountState = scheduleFormViewModel.account,
+                        allAccounts = allAccounts,
+                        typeColor = typeColor,
+                        onAccountSelect = { scheduleFormViewModel.account = it }
                     )
 
-                    //---description
-                    DefaultTextField(
-                        modifier = Modifier.padding(bottom = 20.dp),
-                        value = scheduleFormViewModel.description,
-                        label = stringResource(Res.string.form_field_description),
-                        boxSize = 80.dp,
-                        placeholder = stringResource(Res.string.additional_info)
-                    ) { scheduleFormViewModel.description = it }
-
-                    //---category
-                    DropDownTextField(
-                        modifier = Modifier.padding(bottom = 20.dp),
-                        icon = category.value?.icon,
-                        value = if (category.value?.name.isNullOrEmpty()) "" else category.value!!.name + if (subcategory?.name.isNullOrEmpty()) "" else " → ${subcategory.name}",
-                        label = stringResource(Res.string.form_field_category),
-                        placeholder = stringResource(Res.string.form_placeholder_select_category),
-                        onClick = {
-                            if (showSide && sideType == "categories") showSide = false
-                            else if (showSide) sideType = "categories"
-                            else {
-                                sideType = "categories"; showSide = true
-                            }
+                    FormFields(
+                        viewModel = scheduleFormViewModel,
+                        party = party,
+                        category = category,
+                        tags = tags,
+                        isTransactionEdit = isTransactionEdit,
+                        schedule = schedule,
+                        onToggleSide = { type ->
+                            if (showSide && sideType == type) showSide = false
+                            else if (showSide) sideType = type
+                            else { sideType = type; showSide = true }
                         }
                     )
-
-                    //---tags
-                    TagListView(
-                        label = stringResource(Res.string.form_field_tags),
-                        placeholder = stringResource(Res.string.form_placeholder_tags),
-                        tags = tags.value,
-                        onClickAdd = {
-                            if (showSide && sideType == "tags") showSide = false
-                            else if (showSide) sideType = "tags"
-                            else {
-                                sideType = "tags"; showSide = true
-                            }
-                        }
-                    )
-
-
-                    if (!isTransactionEdit) {
-                        Spacer(Modifier.height(20.dp))
-                        Divider(color = MaterialTheme.colors.onSurface)
-                        Spacer(Modifier.height(20.dp))
-
-                        RecurrenceSetView(
-                            label = stringResource(Res.string.form_field_recurrence),
-                            summary = buildRecurrenceSummary(
-                                frequency = scheduleFormViewModel.frequency,
-                                interval = scheduleFormViewModel.interval,
-                                installments = scheduleFormViewModel.installments,
-                                endDate = scheduleFormViewModel.endDate,
-                            ),
-                            onClickEdit = {
-                                if (showSide && sideType == "recurr") showSide = false
-                                else if (showSide) sideType = "recurr"
-                                else {
-                                    sideType = "recurr"; showSide = true
-                                }
-                            }
-                        )
-
-                        if (schedule != null && schedule.installments != null) {
-                            Spacer(Modifier.height(20.dp))
-                            Divider(color = MaterialTheme.colors.onSurface)
-                            Spacer(Modifier.height(20.dp))
-                            InstallmentView(installment = scheduleFormViewModel.installment)
-                        }
-                    } else {
-                        if (scheduleFormViewModel.scheduleId != null) {
-                            Spacer(Modifier.height(20.dp))
-                            Divider()
-                            Spacer(Modifier.height(20.dp))
-                            InstallmentView(installment = scheduleFormViewModel.installment)
-                        }
-                    }
                 }
             }
 
-
-            // SIDE PANEL
-            AnimatedVisibility(visible = showSide, enter = fadeIn(tween(800)), exit = fadeOut(tween(800))) {
-                Row(modifier = Modifier.height(450.dp).offset(x = (-1).dp).zIndex(1f)) {
-                    when (sideType) {
-                        "categories" ->
-                            CategoriesPicker(
-                                category = scheduleFormViewModel.category.value ?: Category(),
-                                subcategory = scheduleFormViewModel.subCategory,
-                                type = if (scheduleFormViewModel.type == TransactionType.GAIN) CategoryType.INCOME else CategoryType.EXPENSE,
-                                onCategoryClick = { cat, sub ->
-                                    scheduleFormViewModel.category.value = cat
-                                    scheduleFormViewModel.subCategory = sub
-                                }
-                            )
-
-                        "parties" ->
-                            PartiesPicker(
-                                partyType = if (scheduleFormViewModel.type == TransactionType.GAIN) PartyType.PAYER else PartyType.RECEIVER,
-                                party = party.value,
-                                onPartyClick = { scheduleFormViewModel.party.value = it }
-                            )
-
-                        "recurr" ->
-                            RecurrencePicker(viewModel = scheduleFormViewModel)
-
-                        else ->
-                            TagsPicker(
-                                selected = tags.value,
-                                onTagClick = { scheduleFormViewModel.tags.value = it.toList() }
-                            )
-                    }
-                }
-            }
+            SidePanel(
+                visible = showSide,
+                sideType = sideType,
+                viewModel = scheduleFormViewModel,
+            )
         }
 
-
-        //==== SAVE BUTTON
         Button(
             enabled = saveButtonActive,
             colors = ButtonDefaults.buttonColors(
@@ -370,6 +193,197 @@ fun TransactionForm(
     }
 }
 
+@Composable
+private fun Header(
+    lockAccount: Boolean,
+    accountState: BankAccount,
+    allAccounts: List<BankAccount>,
+    typeColor: Color,
+    onAccountSelect: (BankAccount) -> Unit,
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.End,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        if (lockAccount) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(5.dp)
+            ) {
+                if (accountState.id != 0L) {
+                    Icon(
+                        painter = rememberSvgPainter(IconPaths.BANK_LOGOS + accountState.icon),
+                        contentDescription = null,
+                        tint = MaterialTheme.colors.primary,
+                        modifier = Modifier.size(20.dp),
+                    )
+                    Text(
+                        text = accountState.name,
+                        fontSize = 12.sp,
+                        color = MaterialTheme.colors.primary,
+                        fontWeight = FontWeight.Normal,
+                        lineHeight = 0.sp,
+                        fontFamily = DefaultFont
+                    )
+                }
+            }
+        } else {
+            AccountSelector(
+                currentAccount = accountState,
+                allAccounts = allAccounts,
+                onSelect = onAccountSelect
+            )
+        }
+    }
+    Divider(Modifier.padding(top = 5.dp, bottom = 30.dp).background(typeColor))
+}
+
+@Composable
+private fun FormFields(
+    viewModel: TransactionFormViewModel,
+    party: Party?,
+    category: Category?,
+    tags: List<Tag>,
+    isTransactionEdit: Boolean,
+    schedule: Schedule?,
+    onToggleSide: (String) -> Unit,
+) {
+    val subcategory = viewModel.subCategory
+
+    Row(modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp)) {
+        DateTimePicker(
+            modifier = Modifier.weight(1f),
+            value = viewModel.startDate,
+            selectedDateTime = { viewModel.startDate = it }
+        )
+
+        val balance by remember { derivedStateOf { formatNumber(abs(viewModel.balance)) } }
+        val balancePlaceholder by remember {
+            derivedStateOf {
+                when (UserPreferences.currencyFormat) {
+                    "comma-dot" -> "0,000.00"
+                    "plain-dot" -> "0.00"
+                    else -> "0.000,00"
+                }
+            }
+        }
+        DefaultTextField(
+            modifier = Modifier.weight(1f).padding(start = 10.dp),
+            value = balance,
+            label = stringResource(Res.string.form_field_amount),
+            textAlign = TextAlign.Right,
+            placeholder = balancePlaceholder
+        ) { input ->
+            var filtered = input.filter { c -> c.isDigit() || c == ',' || c == '.' }
+            if (filtered.isEmpty() || filtered == ".") filtered = "0.00"
+            viewModel.updateBalance(filtered)
+        }
+    }
+
+    DropDownTextField(
+        modifier = Modifier.padding(bottom = 20.dp),
+        value = party?.name ?: "",
+        label = if (viewModel.type == TransactionType.GAIN) stringResource(Res.string.form_field_payer) else stringResource(Res.string.form_field_receiver),
+        placeholder = stringResource(Res.string.name),
+        onClick = { onToggleSide("parties") }
+    )
+
+    DefaultTextField(
+        modifier = Modifier.padding(bottom = 20.dp),
+        value = viewModel.description,
+        label = stringResource(Res.string.form_field_description),
+        boxSize = 80.dp,
+        placeholder = stringResource(Res.string.additional_info)
+    ) { viewModel.description = it }
+
+    DropDownTextField(
+        modifier = Modifier.padding(bottom = 20.dp),
+        icon = category?.icon,
+        value = if (category?.name.isNullOrEmpty()) "" else category.name + if (subcategory?.name.isNullOrEmpty()) "" else " → ${subcategory.name}",
+        label = stringResource(Res.string.form_field_category),
+        placeholder = stringResource(Res.string.form_placeholder_select_category),
+        onClick = { onToggleSide("categories") }
+    )
+
+    TagListView(
+        label = stringResource(Res.string.form_field_tags),
+        placeholder = stringResource(Res.string.form_placeholder_tags),
+        tags = tags,
+        onClickAdd = { onToggleSide("tags") }
+    )
+
+    if (!isTransactionEdit) {
+        Spacer(Modifier.height(20.dp))
+        Divider(color = MaterialTheme.colors.onSurface)
+        Spacer(Modifier.height(20.dp))
+
+        RecurrenceSetView(
+            label = stringResource(Res.string.form_field_recurrence),
+            summary = buildRecurrenceSummary(
+                frequency = viewModel.frequency,
+                interval = viewModel.interval,
+                installments = viewModel.installments,
+                endDate = viewModel.endDate,
+            ),
+            onClickEdit = { onToggleSide("recurr") }
+        )
+
+        if (schedule != null && schedule.installments != null) {
+            Spacer(Modifier.height(20.dp))
+            Divider(color = MaterialTheme.colors.onSurface)
+            Spacer(Modifier.height(20.dp))
+            InstallmentView(installment = viewModel.installment)
+        }
+    } else {
+        if (viewModel.scheduleId != null) {
+            Spacer(Modifier.height(20.dp))
+            Divider()
+            Spacer(Modifier.height(20.dp))
+            InstallmentView(installment = viewModel.installment)
+        }
+    }
+}
+
+@Composable
+private fun SidePanel(
+    visible: Boolean,
+    sideType: String,
+    viewModel: TransactionFormViewModel,
+) {
+    AnimatedVisibility(visible = visible, enter = fadeIn(tween(800)), exit = fadeOut(tween(800))) {
+        Row(modifier = Modifier.height(450.dp).offset(x = (-1).dp).zIndex(1f)) {
+            when (sideType) {
+                "categories" ->
+                    CategoriesPicker(
+                        category = viewModel.category.value ?: Category(),
+                        subcategory = viewModel.subCategory,
+                        type = if (viewModel.type == TransactionType.GAIN) CategoryType.INCOME else CategoryType.EXPENSE,
+                        onCategoryClick = { cat, sub ->
+                            viewModel.category.value = cat
+                            viewModel.subCategory = sub
+                        }
+                    )
+
+                "parties" ->
+                    PartiesPicker(
+                        partyType = if (viewModel.type == TransactionType.GAIN) PartyType.PAYER else PartyType.RECEIVER,
+                        party = viewModel.party.value,
+                        onPartyClick = { viewModel.party.value = it }
+                    )
+
+                "recurr" ->
+                    RecurrencePicker(viewModel = viewModel)
+
+                else ->
+                    TagsPicker(
+                        selected = viewModel.tags.value,
+                        onTagClick = { viewModel.tags.value = it.toList() }
+                    )
+            }
+        }
+    }
+}
 
 @Composable
 private fun AccountSelector(
@@ -384,7 +398,7 @@ private fun AccountSelector(
         Row(
             modifier = Modifier
                 .height(28.dp)
-                .clip(androidx.compose.foundation.shape.RoundedCornerShape(6.dp))
+                .clip(RoundedCornerShape(6.dp))
                 .pointerHoverIcon(PointerIcon.Hand)
                 .clickable { expanded = true }
                 .padding(horizontal = 8.dp),
