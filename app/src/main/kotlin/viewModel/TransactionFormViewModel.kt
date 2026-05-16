@@ -11,6 +11,8 @@ import domain.entity.account.BankAccount
 import domain.enums.ScheduleFrequency
 import domain.enums.TransactionType
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import java.time.LocalDateTime
 import kotlin.math.abs
 
@@ -21,11 +23,23 @@ class TransactionFormViewModel(
 
     var id by mutableStateOf(0L)
     var transactionId by mutableStateOf(0L)
-    var party: MutableStateFlow<Party?> = MutableStateFlow(null)
+
+    private val _party = MutableStateFlow<Party?>(null)
+    val party: StateFlow<Party?> = _party.asStateFlow()
+    fun setParty(party: Party?) { _party.value = party }
+
     var account by mutableStateOf(BankAccount())
-    var category: MutableStateFlow<Category?> = MutableStateFlow(null)
+
+    private val _category = MutableStateFlow<Category?>(null)
+    val category: StateFlow<Category?> = _category.asStateFlow()
+    fun setCategory(category: Category?) { _category.value = category }
+
     var subCategory by mutableStateOf<Subcategory?>(null)
-    var tags = MutableStateFlow(listOf<Tag>())
+
+    private val _tags = MutableStateFlow(listOf<Tag>())
+    val tags: StateFlow<List<Tag>> = _tags.asStateFlow()
+    fun setTags(tags: List<Tag>) { _tags.value = tags }
+
     var startDate by mutableStateOf(LocalDateTime.now())
     var description by mutableStateOf("")
     var balance by mutableStateOf(0.0)
@@ -43,11 +57,11 @@ class TransactionFormViewModel(
     fun loadFromSchedule(schedule: Schedule) {
         id = schedule.id
         transactionId = 0L
-        party.value = schedule.party
+        _party.value = schedule.party
         account = schedule.account
-        category.value = if (schedule.category.id != 0L) schedule.category else null
+        _category.value = if (schedule.category.id != 0L) schedule.category else null
         subCategory = schedule.subcategory
-        tags.value = schedule.tags ?: listOf()
+        _tags.value = schedule.tags ?: listOf()
         startDate = schedule.startDate
         description = schedule.description
         balance = schedule.balance
@@ -64,11 +78,11 @@ class TransactionFormViewModel(
     fun loadFromTransaction(transaction: Transaction) {
         transactionId = transaction.id
         id = 0L
-        party.value = transaction.party
+        _party.value = transaction.party
         account = transaction.account
-        category.value = if (transaction.category.id != 0L) transaction.category else null
+        _category.value = if (transaction.category.id != 0L) transaction.category else null
         subCategory = transaction.subcategory
-        tags.value = transaction.tags ?: listOf()
+        _tags.value = transaction.tags ?: listOf()
         startDate = transaction.date
         description = transaction.description
         balance = transaction.balance
@@ -86,11 +100,11 @@ class TransactionFormViewModel(
     fun clear() {
         id = 0L
         transactionId = 0L
-        party.value = null
+        _party.value = null
         account = BankAccount()
-        category.value = null
+        _category.value = null
         subCategory = null
-        tags.value = listOf()
+        _tags.value = listOf()
         startDate = LocalDateTime.now()
         description = ""
         balance = 0.0
@@ -118,11 +132,11 @@ class TransactionFormViewModel(
             transactionHandler.saveTransaction(
                 Transaction(
                     id = transactionId,
-                    party = party.value!!,
+                    party = _party.value!!,
                     account = account,
-                    category = category.value!!,
+                    category = _category.value!!,
                     subcategory = subCategory,
-                    tags = tags.value.toMutableList(),
+                    tags = _tags.value.toMutableList(),
                     date = startDate,
                     description = description,
                     balance = balance,
@@ -136,11 +150,11 @@ class TransactionFormViewModel(
             scheduleHandler.saveSchedule(
                 Schedule(
                     id = id,
-                    party = party.value!!,
+                    party = _party.value!!,
                     account = account,
-                    category = category.value!!,
+                    category = _category.value!!,
                     subcategory = subCategory,
-                    tags = tags.value.toMutableList(),
+                    tags = _tags.value.toMutableList(),
                     startDate = startDate,
                     description = description,
                     balance = balance,

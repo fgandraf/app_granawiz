@@ -7,6 +7,8 @@ import domain.enums.PartyType
 import application.party.PartyHandler
 import infrastructure.di.ApplicationContainer
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import viewModel.shared.AppEvents
 import viewModel.shared.UiEvent
 
@@ -17,22 +19,30 @@ class PartyViewModel(type: PartyType, private val partyHandler: PartyHandler = A
         partyHandler.clearError()
     }
 
-    var selectedParty = MutableStateFlow<Party?>(null)
+    private val _selectedParty = MutableStateFlow<Party?>(null)
+    val selectedParty: StateFlow<Party?> = _selectedParty.asStateFlow()
+    fun selectParty(party: Party?) { _selectedParty.value = party }
 
-    var selectedName = MutableStateFlow<PartyName?>(null)
-    val selectedType = MutableStateFlow(type)
+    private val _selectedName = MutableStateFlow<PartyName?>(null)
+    val selectedName: StateFlow<PartyName?> = _selectedName.asStateFlow()
+    fun selectName(name: PartyName?) { _selectedName.value = name }
 
-    var parties = MutableStateFlow(emptyList<Party>())
+    private val _selectedType = MutableStateFlow(type)
+    val selectedType: StateFlow<PartyType> = _selectedType.asStateFlow()
+
+    private val _parties = MutableStateFlow(emptyList<Party>())
+    val parties: StateFlow<List<Party>> = _parties.asStateFlow()
     fun getParties() {
         runCatching {
-            parties.value = partyHandler.fetchParties(selectedType.value)
+            _parties.value = partyHandler.fetchParties(_selectedType.value)
         }.onFailure { AppEvents.emit(UiEvent.Error(it.localizedMessage ?: "Erro desconhecido")) }
     }
 
-    var partyNames = MutableStateFlow(emptyList<PartyName>())
+    private val _partyNames = MutableStateFlow(emptyList<PartyName>())
+    val partyNames: StateFlow<List<PartyName>> = _partyNames.asStateFlow()
     fun getNames() {
         runCatching {
-            partyNames.value = partyHandler.fetchNames(selectedParty.value)
+            _partyNames.value = partyHandler.fetchNames(_selectedParty.value)
         }.onFailure { AppEvents.emit(UiEvent.Error(it.localizedMessage ?: "Erro desconhecido")) }
     }
 
@@ -67,9 +77,9 @@ class PartyViewModel(type: PartyType, private val partyHandler: PartyHandler = A
 
     fun addParty(name: String): Boolean {
         return runCatching {
-            val newParty = partyHandler.addParty(name, selectedType.value) ?: return@runCatching false
+            val newParty = partyHandler.addParty(name, _selectedType.value) ?: return@runCatching false
             getParties()
-            selectedParty.value = newParty
+            _selectedParty.value = newParty
             true
         }.onFailure { AppEvents.emit(UiEvent.Error(it.localizedMessage ?: "Erro desconhecido")) }
          .getOrDefault(false)
@@ -79,7 +89,7 @@ class PartyViewModel(type: PartyType, private val partyHandler: PartyHandler = A
         return runCatching {
             val updatedParty = partyHandler.updateParty(party, name) ?: return@runCatching false
             getParties()
-            selectedParty.value = updatedParty
+            _selectedParty.value = updatedParty
             true
         }.onFailure { AppEvents.emit(UiEvent.Error(it.localizedMessage ?: "Erro desconhecido")) }
          .getOrDefault(false)
@@ -87,9 +97,9 @@ class PartyViewModel(type: PartyType, private val partyHandler: PartyHandler = A
 
     fun addName(name: String): Boolean {
         return runCatching {
-            val newPartyName = partyHandler.addName(name, selectedParty.value!!) ?: return@runCatching false
+            val newPartyName = partyHandler.addName(name, _selectedParty.value!!) ?: return@runCatching false
             getParties(); getNames()
-            selectedName.value = newPartyName
+            _selectedName.value = newPartyName
             true
         }.onFailure { AppEvents.emit(UiEvent.Error(it.localizedMessage ?: "Erro desconhecido")) }
          .getOrDefault(false)
@@ -99,7 +109,7 @@ class PartyViewModel(type: PartyType, private val partyHandler: PartyHandler = A
         return runCatching {
             val updatedPartyName = partyHandler.updateName(partyName, name) ?: return@runCatching false
             getParties(); getNames()
-            selectedName.value = updatedPartyName
+            _selectedName.value = updatedPartyName
             true
         }.onFailure { AppEvents.emit(UiEvent.Error(it.localizedMessage ?: "Erro desconhecido")) }
          .getOrDefault(false)

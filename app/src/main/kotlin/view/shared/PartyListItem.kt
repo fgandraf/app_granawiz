@@ -46,7 +46,7 @@ fun PartyListItem(
             }
         },
         onContentClick = {
-            viewModel.selectedParty.value = item
+            viewModel.selectParty(item)
             viewModel.getNames()
             onClick(item)
         },

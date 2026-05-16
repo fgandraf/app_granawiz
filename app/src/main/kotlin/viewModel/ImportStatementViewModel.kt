@@ -10,6 +10,8 @@ import domain.entity.account.BankAccount
 import domain.structs.ParsedEntry
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.withContext
 import java.io.File
 
@@ -23,92 +25,106 @@ class ImportStatementViewModel(
     var selectedFile by mutableStateOf<File?>(null)
     var account by mutableStateOf<BankAccount?>(null)
 
-    val parsedEntries = MutableStateFlow<List<ParsedEntry>>(emptyList())
-    val parseLog = MutableStateFlow<List<WizardLogLine>>(emptyList())
-    val isParsing = MutableStateFlow(false)
-    val parseFailed = MutableStateFlow(false)
+    private val _parsedEntries = MutableStateFlow<List<ParsedEntry>>(emptyList())
+    val parsedEntries: StateFlow<List<ParsedEntry>> = _parsedEntries.asStateFlow()
 
-    val importLog = MutableStateFlow<List<WizardLogLine>>(emptyList())
-    val isImporting = MutableStateFlow(false)
-    val importDone = MutableStateFlow(false)
-    val importFailed = MutableStateFlow(false)
+    private val _parseLog = MutableStateFlow<List<WizardLogLine>>(emptyList())
+    val parseLog: StateFlow<List<WizardLogLine>> = _parseLog.asStateFlow()
+
+    private val _isParsing = MutableStateFlow(false)
+    val isParsing: StateFlow<Boolean> = _isParsing.asStateFlow()
+
+    private val _parseFailed = MutableStateFlow(false)
+    val parseFailed: StateFlow<Boolean> = _parseFailed.asStateFlow()
+
+    private val _importLog = MutableStateFlow<List<WizardLogLine>>(emptyList())
+    val importLog: StateFlow<List<WizardLogLine>> = _importLog.asStateFlow()
+
+    private val _isImporting = MutableStateFlow(false)
+    val isImporting: StateFlow<Boolean> = _isImporting.asStateFlow()
+
+    private val _importDone = MutableStateFlow(false)
+    val importDone: StateFlow<Boolean> = _importDone.asStateFlow()
+
+    private val _importFailed = MutableStateFlow(false)
+    val importFailed: StateFlow<Boolean> = _importFailed.asStateFlow()
 
     private var hasParsedFor: Pair<File, BankAccount>? = null
 
     suspend fun parseSelectedFile() {
         val file = selectedFile ?: return
         val acct = account ?: return
-        if (hasParsedFor == (file to acct) && parsedEntries.value.isNotEmpty()) return
-        isParsing.value = true
-        parseFailed.value = false
-        parseLog.value = emptyList()
+        if (hasParsedFor == (file to acct) && _parsedEntries.value.isNotEmpty()) return
+        _isParsing.value = true
+        _parseFailed.value = false
+        _parseLog.value = emptyList()
         val result = withContext(Dispatchers.IO) {
             runCatching {
                 importHandler.parseAndResolve(file, acct) { msg, lvl ->
-                    parseLog.value = parseLog.value + WizardLogLine(lvl, msg)
+                    _parseLog.value = _parseLog.value + WizardLogLine(lvl, msg)
                 }
             }
         }
         result.onSuccess { entries ->
-            parsedEntries.value = entries
+            _parsedEntries.value = entries
             hasParsedFor = file to acct
-            if (entries.isEmpty()) parseFailed.value = true
+            if (entries.isEmpty()) _parseFailed.value = true
         }.onFailure { e ->
-            parseLog.value = parseLog.value +
+            _parseLog.value = _parseLog.value +
                 WizardLogLine(LogLevel.ERROR, "Falha: ${e.message ?: "erro desconhecido"}")
-            parseFailed.value = true
+            _parseFailed.value = true
         }
-        isParsing.value = false
+        _isParsing.value = false
     }
 
     suspend fun executeImport() {
         val acct = account ?: run {
-            importLog.value = listOf(WizardLogLine(LogLevel.ERROR, "Conta não selecionada."))
-            importFailed.value = true
+            _importLog.value = listOf(WizardLogLine(LogLevel.ERROR, "Conta não selecionada."))
+            _importFailed.value = true
             return
         }
-        isImporting.value = true
-        importLog.value = emptyList()
-        importFailed.value = false
-        importDone.value = false
+        _isImporting.value = true
+        _importLog.value = emptyList()
+        _importFailed.value = false
+        _importDone.value = false
         val result = withContext(Dispatchers.IO) {
             runCatching {
-                importHandler.executeImport(parsedEntries.value, acct) { msg, lvl ->
-                    importLog.value = importLog.value + WizardLogLine(lvl, msg)
+                importHandler.executeImport(_parsedEntries.value, acct) { msg, lvl ->
+                    _importLog.value = _importLog.value + WizardLogLine(lvl, msg)
                 }
             }
         }
         result.onSuccess {
-            importDone.value = true
+            _importDone.value = true
         }.onFailure { e ->
-            importLog.value = importLog.value +
+            _importLog.value = _importLog.value +
                 WizardLogLine(LogLevel.ERROR, "Erro inesperado: ${e.message ?: "erro desconhecido"}")
-            importFailed.value = true
+            _importFailed.value = true
         }
-        isImporting.value = false
+        _isImporting.value = false
     }
 
     fun updateEntry(rowId: String, updater: (ParsedEntry) -> ParsedEntry) {
-        parsedEntries.value = parsedEntries.value.map {
+        _parsedEntries.value = _parsedEntries.value.map {
             if (it.rowId == rowId) updater(it) else it
         }
     }
 
     fun removeEntry(rowId: String) {
-        parsedEntries.value = parsedEntries.value.filter { it.rowId != rowId }
+        _parsedEntries.value = _parsedEntries.value.filter { it.rowId != rowId }
     }
 
     fun clearAll() {
         currentStep = 0
         selectedFile = null
-        parsedEntries.value = emptyList()
-        parseLog.value = emptyList()
-        isParsing.value = false
-        parseFailed.value = false
-        importLog.value = emptyList()
-        isImporting.value = false
-        importDone.value = false
-        importFailed.value = false
+        _parsedEntries.value = emptyList()
+        _parseLog.value = emptyList()
+        _isParsing.value = false
+        _parseFailed.value = false
+        _importLog.value = emptyList()
+        _isImporting.value = false
+        _importDone.value = false
+        _importFailed.value = false
         hasParsedFor = null
         account = null
     }

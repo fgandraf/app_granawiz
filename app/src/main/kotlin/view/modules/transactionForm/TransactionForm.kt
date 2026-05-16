@@ -360,7 +360,7 @@ private fun SidePanel(
                         subcategory = viewModel.subCategory,
                         type = if (viewModel.type == TransactionType.GAIN) CategoryType.INCOME else CategoryType.EXPENSE,
                         onCategoryClick = { cat, sub ->
-                            viewModel.category.value = cat
+                            viewModel.setCategory(cat)
                             viewModel.subCategory = sub
                         }
                     )
@@ -369,7 +369,7 @@ private fun SidePanel(
                     PartiesPicker(
                         partyType = if (viewModel.type == TransactionType.GAIN) PartyType.PAYER else PartyType.RECEIVER,
                         party = viewModel.party.value,
-                        onPartyClick = { viewModel.party.value = it }
+                        onPartyClick = { viewModel.setParty(it) }
                     )
 
                 "recurr" ->
@@ -378,7 +378,7 @@ private fun SidePanel(
                 else ->
                     TagsPicker(
                         selected = viewModel.tags.value,
-                        onTagClick = { viewModel.tags.value = it.toList() }
+                        onTagClick = { viewModel.setTags(it.toList()) }
                     )
             }
         }

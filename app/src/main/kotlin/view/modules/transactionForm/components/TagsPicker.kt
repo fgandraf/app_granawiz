@@ -35,7 +35,7 @@ fun TagsPicker(
 ) {
 
     viewModel.getTags()
-    viewModel.selectedTags.value = selected
+    viewModel.setSelectedTags(selected)
 
     val tags = viewModel.tags.collectAsState()
 

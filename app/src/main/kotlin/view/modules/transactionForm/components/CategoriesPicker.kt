@@ -41,9 +41,9 @@ fun CategoriesPicker(
     onCategoryClick: (Category, Subcategory?) -> Unit,
 ) {
 
-    viewModel.selectedCategory.value = category
-    viewModel.selectedSubcategory.value = subcategory
-    viewModel.selectedType.value = if (category.id == 0L) type!! else category.type
+    viewModel.selectCategory(category)
+    viewModel.selectSubcategory(subcategory)
+    viewModel.selectType(if (category.id == 0L) type!! else category.type)
 
     viewModel.getCategories(viewModel.selectedType.value)
     viewModel.getSubcategories(category)
@@ -130,8 +130,8 @@ fun AddCategoryItem(
         onUpdateConfirmation = { viewModel.updateCategory(category = item, name = it) },
         onSelectIcon = { viewModel.updateCategory(category = item, icon = it) },
         onContentClick = {
-            viewModel.selectedCategory.value = item
-            viewModel.selectedSubcategory.value = null
+            viewModel.selectCategory(item)
+            viewModel.selectSubcategory(null)
             viewModel.getSubcategories(item)
             onClick(item)
         },
@@ -182,7 +182,7 @@ fun AddSubcategoryItem(
         deleteDialogIsVisible = deleteDialogIsVisible,
         onUpdateConfirmation = { viewModel.updateSubcategory(item, it) },
         onContentClick = {
-            viewModel.selectedSubcategory.value = item
+            viewModel.selectSubcategory(item)
             onClick(item)
         },
         deleteDialog = {

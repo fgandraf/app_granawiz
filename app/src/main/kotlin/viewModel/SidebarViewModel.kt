@@ -6,6 +6,8 @@ import application.account.AccountHandler
 import infrastructure.di.ApplicationContainer
 import application.group.GroupHandler
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import viewModel.shared.AppEvents
 import viewModel.shared.UiEvent
 
@@ -14,17 +16,19 @@ class SidebarViewModel(
     private val accountHandler: AccountHandler = ApplicationContainer.accountHandler,
 ) {
 
-    var total = MutableStateFlow(0.0)
+    private val _total = MutableStateFlow(0.0)
+    val total: StateFlow<Double> = _total.asStateFlow()
     fun getTotal() {
         runCatching {
-            total.value = groupHandler.fetchTotalBalance()
+            _total.value = groupHandler.fetchTotalBalance()
         }.onFailure { AppEvents.emit(UiEvent.Error(it.localizedMessage ?: "Erro desconhecido")) }
     }
 
-    var groups = MutableStateFlow(emptyList<Group>())
+    private val _groups = MutableStateFlow(emptyList<Group>())
+    val groups: StateFlow<List<Group>> = _groups.asStateFlow()
     fun getGroups() {
         runCatching {
-            groups.value = groupHandler.fetchGroups()
+            _groups.value = groupHandler.fetchGroups()
         }.onFailure { AppEvents.emit(UiEvent.Error(it.localizedMessage ?: "Erro desconhecido")) }
     }
 
@@ -42,13 +46,13 @@ class SidebarViewModel(
 
     fun moveGroupPosition(group: Group, direction: Int) {
         runCatching {
-            groupHandler.moveGroupPosition(groups.value, group, direction); getGroups()
+            groupHandler.moveGroupPosition(_groups.value, group, direction); getGroups()
         }.onFailure { AppEvents.emit(UiEvent.Error(it.localizedMessage ?: "Erro desconhecido")) }
     }
 
     fun moveAccountPosition(account: BankAccount, direction: Int) {
         runCatching {
-            accountHandler.moveAccountPosition(groups.value, account, direction); getGroups()
+            accountHandler.moveAccountPosition(_groups.value, account, direction); getGroups()
         }.onFailure { AppEvents.emit(UiEvent.Error(it.localizedMessage ?: "Erro desconhecido")) }
     }
 

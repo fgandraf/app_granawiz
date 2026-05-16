@@ -36,8 +36,8 @@ fun PartiesPicker(
     partyName: PartyName? = null,
     onPartyClick: (Party) -> Unit,
 ) {
-    viewModel.selectedParty.value = party
-    viewModel.selectedName.value = partyName
+    viewModel.selectParty(party)
+    viewModel.selectName(partyName)
     viewModel.getParties()
     viewModel.getNames()
 

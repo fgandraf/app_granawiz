@@ -90,7 +90,7 @@ fun CategoriesScreen(
                     var activeType by remember { mutableStateOf<CategoryType?>(null) }
                     LaunchedEffect(activeType) {
                         activeType?.let { type ->
-                            viewModel.selectedType.value = type
+                            viewModel.selectType(type)
                             viewModel.getCategories(type)
                             addCategoryButton = true
                             addSubcategoryButton = false
@@ -161,7 +161,7 @@ fun CategoriesScreen(
                                         onContentClick = {
                                             activeCategory = category
                                             viewModel.getSubcategories(category)
-                                            viewModel.selectedCategory.value = category
+                                            viewModel.selectCategory(category)
                                             addSubcategoryButton = true
                                             Unit
                                         },
