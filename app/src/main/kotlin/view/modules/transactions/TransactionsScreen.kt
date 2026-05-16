@@ -33,6 +33,7 @@ import view.modules.Screen
 import view.modules.transactionForm.TransactionForm
 import view.modules.transactions.component.*
 import view.shared.AddressView
+import view.shared.CircleButton
 import view.shared.ClickableIcon
 import view.shared.FilterTransactionBar
 import view.shared.SearchField
@@ -273,6 +274,7 @@ private fun Body(
 ) {
     val listState = rememberLazyListState()
     val scope = rememberCoroutineScope()
+    var showAddDropDown by remember { mutableStateOf(false) }
     val strExportDialogTitle = stringResource(Res.string.transaction_export_dialog_title)
     val transactionsState by viewModel.transactions.collectAsState()
     val displayedTransactions by viewModel.displayedTransactions.collectAsState(emptyList())
@@ -307,12 +309,23 @@ private fun Body(
                 }
 
                 if (showAddButton)
-                    AddTransactionButton(
-                        onClickGain = onAddGain,
-                        onClickExpense = onAddExpense,
-                        onClickImport = onImport,
-                        onDismiss = onDismissAdd,
-                    )
+                    CircleButton(onClick = { showAddDropDown = true }) {
+                        if (showAddDropDown) {
+                            DropDownAddTransaction(
+                                expanded = showAddDropDown,
+                                onClickGain = onAddGain,
+                                onClickExpense = onAddExpense,
+                                onClickImport = {
+                                    showAddDropDown = false
+                                    onImport()
+                                },
+                                onDismissRequest = {
+                                    onDismissAdd()
+                                    showAddDropDown = false
+                                }
+                            )
+                        }
+                    }
             }
         }
 

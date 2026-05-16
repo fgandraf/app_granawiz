@@ -1,11 +1,15 @@
-package view.modules.schedules.component
+package view.shared
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -19,11 +23,10 @@ import com.adamglin.phosphoricons.light.Plus
 import view.theme.ButtonPurple
 
 @Composable
-fun AddScheduleButton(
-    onClickGain: () -> Unit,
-    onClickExpense: () -> Unit,
+fun CircleButton(
+    onClick: () -> Unit,
+    content: @Composable BoxScope.() -> Unit = {}
 ) {
-    var showDropdown by remember { mutableStateOf(false) }
     Box(modifier = Modifier.fillMaxSize().padding(bottom = 50.dp, end = 5.dp)) {
         Box(
             modifier = Modifier
@@ -31,23 +34,18 @@ fun AddScheduleButton(
                 .clip(CircleShape)
                 .background(ButtonPurple)
                 .pointerHoverIcon(PointerIcon.Hand)
-                .clickable { showDropdown = true }
+                .clickable { onClick() }
                 .align(Alignment.BottomEnd)
         ) {
             Icon(
-                modifier = Modifier.size(25.dp).align(Alignment.Center),
+                modifier = Modifier
+                    .size(25.dp)
+                    .align(Alignment.Center),
                 imageVector = PhosphorIcons.Light.Plus,
-                contentDescription = "Add schedule",
+                contentDescription = null,
                 tint = Color.White
             )
-            if (showDropdown) {
-                DropDownAddSchedule(
-                    expanded = showDropdown,
-                    onClickGain = { showDropdown = false; onClickGain() },
-                    onClickExpense = { showDropdown = false; onClickExpense() },
-                    onDismissRequest = { showDropdown = false }
-                )
-            }
+            content()
         }
     }
 }

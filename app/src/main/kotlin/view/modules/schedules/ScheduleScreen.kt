@@ -31,7 +31,7 @@ import domain.structs.PageAddress
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
-import view.modules.schedules.component.AddScheduleButton
+import view.modules.schedules.component.DropDownAddSchedule
 import view.modules.schedules.component.ScheduleGroupHeader
 import view.modules.schedules.component.ScheduleRow
 import view.modules.transactionForm.TransactionForm
@@ -210,6 +210,7 @@ private fun Body(
     val listState = rememberLazyListState()
     val scope = rememberCoroutineScope()
     val strExportDialogTitle = stringResource(Res.string.schedule_export_dialog_title)
+    var showAddDropDown by remember { mutableStateOf(false) }
 
     val schedulesState by viewModel.schedules.collectAsState()
     val paidTransactionsState by viewModel.paidTransactions.collectAsState()
@@ -283,10 +284,16 @@ private fun Body(
                     }
                 }
 
-                AddScheduleButton(
-                    onClickGain = onAddGain,
-                    onClickExpense = onAddExpense,
-                )
+                CircleButton(onClick = { showAddDropDown = true }) {
+                    if (showAddDropDown) {
+                        DropDownAddSchedule(
+                            expanded = showAddDropDown,
+                            onClickGain = { showAddDropDown = false; onAddGain() },
+                            onClickExpense = { showAddDropDown = false; onAddExpense() },
+                            onDismissRequest = { showAddDropDown = false }
+                        )
+                    }
+                }
             }
         }
 
