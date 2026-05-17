@@ -169,7 +169,7 @@
     <string name="import_step_conciliation">Reconciliation</string>
     <string name="import_step_import_label">Import</string>
     <string name="import_step1_title">Select the statement file</string>
-    <string name="import_step1_instruction">Choose an .ofx file exported from your bank. The system will process the file and suggest categories for each transaction based on your existing categories and reconcile with already registered payers or receivers.</string>
+    <string name="import_step1_instruction">Choose an .ofx or .csv file exported from your bank. The system will process the file and suggest categories for each transaction based on your existing categories and reconcile with already registered payers or receivers.</string>
     <string name="import_target_account">Target account:</string>
     <string name="import_account_not_selected">No account selected</string>
     <string name="import_step2_title">Analyzing file</string>

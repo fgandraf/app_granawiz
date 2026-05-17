@@ -169,7 +169,7 @@
     <string name="import_step_conciliation">Conciliação</string>
     <string name="import_step_import_label">Importação</string>
     <string name="import_step1_title">Selecione o arquivo de extrato</string>
-    <string name="import_step1_instruction">Escolha um arquivo .ofx exportado do seu banco. O sistema irá processar o arquivo e sugerir categorias para cada transação com base nas suas categorias existentes e conciliar com os pagadores ou beneficiários já cadastrados.</string>
+    <string name="import_step1_instruction">Escolha um arquivo .ofx ou .csv exportado do seu banco. O sistema irá processar o arquivo e sugerir categorias para cada transação com base nas suas categorias existentes e conciliar com os pagadores ou beneficiários já cadastrados.</string>
     <string name="import_target_account">Conta destino:</string>
     <string name="import_account_not_selected">Conta não selecionada</string>
     <string name="import_step2_title">Analisando arquivo</string>
