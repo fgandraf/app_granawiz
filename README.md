@@ -90,11 +90,11 @@ app/src/main/kotlin/
 
 ### Pre-built binaries
 
-| Platform      | Download |
-|---------------|---|
-| MacOS         | [GranaWiz.dmg](https://drive.google.com/file) |
-| Windows       | [GranaWiz.msi](https://drive.google.com/file) |
-| Linux (arm64) | [GranaWiz.deb](https://drive.google.com/file) |
+| Platform      | Download                                                      |
+|---------------|---------------------------------------------------------------|
+| MacOS         | [Installation for MacOS](https://drive.google.com/file/d/1osgjYAwXLGd67yKmff2TWDWeJg6zlklX/view?usp=sharing)       |
+| Windows       | [Installation for Windows](https://drive.google.com/file/d/1nf7TyHFz4Na4Jl1qb1LKFHnl3yITIh5d/view?usp=sharing)     |
+| Linux (arm64) | [Installation for Linux (deb)](https://drive.google.com/file/d/1QqkMetpWelPuop4VnVy0B_uDTlGVzD0s/view?usp=sharing) |
 
 > **Windows:** if you see "Windows protected your PC", click *More info → Run anyway*.
 > If no shortcut is created, the executable is at `C:\Program Files\GranaWiz\GranaWiz.exe`.
