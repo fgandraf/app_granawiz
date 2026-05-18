@@ -105,6 +105,8 @@ class BuildDashboardSummaryUseCaseTest {
         val (from, to) = DashboardPeriod.ThisMonth.range(today)
         every { txRepo.getByDateRange(from, to) } returns emptyList()
 
+        useCase.execute(DashboardPeriod.ThisMonth, today)
+
         verify { spendingPaceUc.execute(today, any()) }
     }
 
