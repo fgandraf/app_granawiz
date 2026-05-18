@@ -1,3 +1,4 @@
+import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
@@ -78,6 +79,9 @@ compose.resources {
 compose.desktop {
     application {
         mainClass = "MainKt"
+        javaHome = javaToolchains.launcherFor {
+            languageVersion = JavaLanguageVersion.of(25)
+        }.get().metadata.installationPath.asFile.absolutePath
 
         jvmArgs += listOf("--enable-native-access=ALL-UNNAMED")
 
@@ -99,6 +103,7 @@ compose.desktop {
             }
 
             macOS {
+                bundleID = "com.felipegandra.granawiz"
                 iconFile.set(project.file("src/main/resources/assets/images/icon.icns"))
             }
 
@@ -124,5 +129,17 @@ compose.desktop {
                 "java.management"
             )
         }
+    }
+}
+
+if (org.gradle.internal.os.OperatingSystem.current().isMacOsX) {
+    val resignAppAdHoc by tasks.registering(Exec::class) {
+        dependsOn("createDistributable")
+        val appDir = layout.buildDirectory.dir("compose/binaries/main/app/GranaWiz.app")
+        onlyIf { appDir.get().asFile.exists() }
+        commandLine("codesign", "--force", "--deep", "--sign", "-", appDir.get().asFile.absolutePath)
+    }
+    tasks.matching { it.name == "packageDmg" }.configureEach {
+        dependsOn(resignAppAdHoc)
     }
 }

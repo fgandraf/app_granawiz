@@ -92,7 +92,7 @@ app/src/main/kotlin/
 
 | Platform      | Download                                                      |
 |---------------|---------------------------------------------------------------|
-| MacOS         | [Installation for MacOS](https://drive.google.com/file/d/1C-sKy7Rky6-XgjiqPCP4YdGvn3tH2IfD/view?usp=sharing)       |
+| MacOS         | [Installation for MacOS](https://drive.google.com/file/d/1osgjYAwXLGd67yKmff2TWDWeJg6zlklX/view?usp=sharing)       |
 | Windows       | [Installation for Windows](https://drive.google.com/file/d/1nf7TyHFz4Na4Jl1qb1LKFHnl3yITIh5d/view?usp=sharing)     |
 | Linux (arm64) | [Installation for Linux (deb)](https://drive.google.com/file/d/1QqkMetpWelPuop4VnVy0B_uDTlGVzD0s/view?usp=sharing) |
 
