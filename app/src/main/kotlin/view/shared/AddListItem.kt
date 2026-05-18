@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.text.TextStyle
@@ -61,6 +62,9 @@ fun AddListItem(
                         value = value.value,
                         onValueChange = { value.value = it },
                         singleLine = true,
+                        cursorBrush = SolidColor(
+                            if (UserPreferences.isLightTheme) TextChangeLight else TextChangeDark
+                        ),
                         textStyle = TextStyle(
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Medium,

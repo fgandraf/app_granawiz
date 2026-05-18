@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
@@ -106,6 +107,12 @@ fun ListItem(
                     value = value,
                     onValueChange = { value = it },
                     singleLine = true,
+                    cursorBrush = SolidColor(
+                        if (valueChanged && UserPreferences.isLightTheme) TextChangeLight
+                        else if (valueChanged && !UserPreferences.isLightTheme) TextChangeDark
+                        else if (isActive) MaterialTheme.colors.secondary
+                        else MaterialTheme.colors.primary
+                    ),
                     textStyle = TextStyle(
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Medium,
