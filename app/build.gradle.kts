@@ -85,18 +85,45 @@ compose.desktop {
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "GranaWiz"
-            description = "GranaWiz — Personal finance management"
             packageVersion = appVersion
-            modules("java.base", "java.sql", "java.naming")
+            description = "GranaWiz — Personal finance management"
+            copyright = "© 2026 Felipe Ferreira Gandra"
+
+            windows {
+                console = false
+                menu = true
+                menuGroup = "Granawiz"
+                shortcut = true
+                perUserInstall = true
+                upgradeUuid = "750021da-dce4-4670-aa77-24f3401d97a8"
+                iconFile.set(project.file("src/main/resources/assets/images/icon.ico"))
+            }
+
             macOS {
                 iconFile.set(project.file("src/main/resources/assets/images/icon.icns"))
             }
-            windows{
-                iconFile.set(project.file("src/main/resources/assets/images/icon.ico"))
-            }
+
             linux {
+                menuGroup = "Granawiz"
                 iconFile.set(project.file("src/main/resources/assets/images/icon.png"))
             }
+
+            appResourcesRootDir.set(project.layout.projectDirectory.dir("installer-resources"))
+
+            modules(
+                "java.base",
+                "java.naming",
+                "java.instrument",
+                "java.net.http",
+                "java.xml.crypto",
+                "jdk.unsupported",
+                "java.sql",
+                "java.xml",
+                "java.desktop",
+                "java.logging",
+                "jdk.localedata",
+                "java.management"
+            )
         }
     }
 }
