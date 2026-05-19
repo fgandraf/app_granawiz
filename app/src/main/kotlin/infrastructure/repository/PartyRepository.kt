@@ -57,6 +57,24 @@ class PartyRepository : IPartyRepository {
         return party
     }
 
+    override fun getPartyByNameAndType(name: String, type: PartyType): Party? {
+        val session = sessionFactory.openSession()
+        session.beginTransaction()
+        val cb = session.criteriaBuilder
+        val cq = cb.createQuery(Party::class.java)
+        val root = cq.from(Party::class.java)
+        cq.where(
+            cb.and(
+                cb.equal(root.get<String>("name"), name),
+                cb.equal(root.get<PartyType>("type"), type)
+            )
+        )
+        val party = session.createQuery(cq).resultList.firstOrNull()
+        session.transaction.commit()
+        session.close()
+        return party
+    }
+
 
     override fun hasTransactions(party: Party): Boolean {
         val session = sessionFactory.openSession()

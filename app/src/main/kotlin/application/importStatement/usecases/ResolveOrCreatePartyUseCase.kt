@@ -10,15 +10,16 @@ class ResolveOrCreatePartyUseCase(
     private val resolveParty: ResolvePartyByNameUseCase,
 ) {
     fun execute(entry: ParsedEntry): Party {
-        entry.party?.let { return it }
+        val expectedType = if (entry.type == TransactionType.GAIN) PartyType.PAYER else PartyType.RECEIVER
+
+        entry.party?.let { if (it.type == expectedType) return it }
 
         val name = entry.customPartyName?.takeIf { it.isNotBlank() }
             ?: entry.rawCounterpartyName.trim()
 
-        resolveParty.execute(name)?.let { return it }
+        resolveParty.execute(name, expectedType)?.let { return it }
 
-        val type = if (entry.type == TransactionType.GAIN) PartyType.PAYER else PartyType.RECEIVER
-        val newParty = Party(name = name, type = type)
+        val newParty = Party(name = name, type = expectedType)
         partyRepository.insert(newParty)
         return newParty
     }

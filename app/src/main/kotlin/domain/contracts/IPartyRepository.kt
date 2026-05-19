@@ -12,6 +12,8 @@ interface IPartyRepository {
 
     fun getPartyByName(name: String): Party?
 
+    fun getPartyByNameAndType(name: String, type: PartyType): Party?
+
     fun hasTransactions(party: Party): Boolean
 
     fun reassignTransactions(from: Party, to: Party)
