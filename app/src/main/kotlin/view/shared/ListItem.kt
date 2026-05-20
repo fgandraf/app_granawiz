@@ -13,7 +13,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onPreviewKeyEvent
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.text.TextStyle
@@ -106,6 +112,21 @@ fun ListItem(
                     value = value,
                     onValueChange = { value = it },
                     singleLine = true,
+                    modifier = Modifier.onPreviewKeyEvent { event ->
+                        if (event.type != KeyEventType.KeyDown) return@onPreviewKeyEvent false
+                        if (!valueChanged) return@onPreviewKeyEvent false
+                        when (event.key) {
+                            Key.Escape -> { value = label; true }
+                            Key.Enter -> { onUpdateConfirmation(value); true }
+                            else -> false
+                        }
+                    },
+                    cursorBrush = SolidColor(
+                        if (valueChanged && UserPreferences.isLightTheme) TextChangeLight
+                        else if (valueChanged && !UserPreferences.isLightTheme) TextChangeDark
+                        else if (isActive) MaterialTheme.colors.secondary
+                        else MaterialTheme.colors.primary
+                    ),
                     textStyle = TextStyle(
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Medium,

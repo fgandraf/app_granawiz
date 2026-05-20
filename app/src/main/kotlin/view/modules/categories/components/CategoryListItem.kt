@@ -13,6 +13,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onPreviewKeyEvent
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import utils.rememberSvgPainter
@@ -103,6 +108,15 @@ fun CategoryListItem(
                     value = value,
                     onValueChange = { value = it },
                     singleLine = true,
+                    modifier = Modifier.onPreviewKeyEvent { event ->
+                        if (event.type != KeyEventType.KeyDown) return@onPreviewKeyEvent false
+                        if (!valueChanged) return@onPreviewKeyEvent false
+                        when (event.key) {
+                            Key.Escape -> { value = label; true }
+                            Key.Enter -> { onUpdateConfirmation(value); true }
+                            else -> false
+                        }
+                    },
                     textStyle = TextStyle(
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Medium,

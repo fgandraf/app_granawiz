@@ -153,7 +153,7 @@ private fun Header() {
             )
         )
         Spacer(Modifier.height(2.dp))
-        TextSmall(text = stringResource(Res.string.settings_app_version), italic = true)
+        TextSmall(text = BuildConfig.APP_VERSION, italic = true)
     }
 }
 

@@ -138,7 +138,7 @@ Contributions are welcome! To propose a fix or a new feature:
 1. Fork the repository
 2. Create a descriptive branch: `git checkout -b feat/your-feature-name`
 3. Commit with a clear message: `git commit -m "feat: describe your change"`
-4. Open a Pull Request explaining the problem and your solution
+4. Open a Pull Request to branch `develop` explaining the problem and your solution
 
 Please keep the existing code style and add tests for any new behavior.
 

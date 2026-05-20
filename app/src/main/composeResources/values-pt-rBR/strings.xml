@@ -195,7 +195,6 @@
     <!-- ─── Settings ─────────────────────────────────────────────────────── -->
     <string name="settings_title">Configurações</string>
     <string name="settings_app_name">GranaWiz</string>
-    <string name="settings_app_version">0.0.1-Beta</string>
     <string name="settings_section_appearance">APARÊNCIA</string>
     <string name="settings_theme_label">Tema</string>
     <string name="settings_theme_dark">Modo Escuro</string>

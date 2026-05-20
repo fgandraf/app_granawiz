@@ -92,8 +92,8 @@ fun CategoriesScreen(
                         activeType?.let { type ->
                             viewModel.selectType(type)
                             viewModel.getCategories(type)
-                            addCategoryButton = true
                             addSubcategoryButton = false
+                            addCategoryButton = true
                         }
                     }
 
@@ -136,8 +136,6 @@ fun CategoriesScreen(
                             val listState = rememberLazyListState()
                             var activeCategory by remember { mutableStateOf(Category()) }
 
-
-
                             LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
 
                                 items(categories, key = { it.id }) { category ->
@@ -163,7 +161,6 @@ fun CategoriesScreen(
                                             viewModel.getSubcategories(category)
                                             viewModel.selectCategory(category)
                                             addSubcategoryButton = true
-                                            Unit
                                         },
                                         deleteDialog = {
                                             DialogDelete(
@@ -187,13 +184,19 @@ fun CategoriesScreen(
                                             isVisible = isVisible,
                                             value = value,
                                             confirmationClick = {
+                                                val name = value.value
+                                                val type = viewModel.selectedType.value
                                                 viewModel.addCategory(
-                                                    Category(
-                                                        type = viewModel.selectedType.value,
-                                                        name = value.value,
-                                                        icon = "question-mark.svg"
-                                                    )
+                                                    Category(type = type, name = name, icon = "question-mark.svg")
                                                 )
+                                                viewModel.categories.value
+                                                    .find { it.name == name && it.type == type }
+                                                    ?.let { saved ->
+                                                        activeCategory = saved
+                                                        viewModel.selectCategory(saved)
+                                                        viewModel.getSubcategories(saved)
+                                                        addSubcategoryButton = true
+                                                    }
                                             },
                                         )
                                     }

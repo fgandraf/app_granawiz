@@ -14,8 +14,30 @@ val appVersionSuffix = (project.findProperty("granawiz.versionSuffix") as? Strin
 group = "com.felipegandra"
 version = "$appVersion$appVersionSuffix"
 
+val generateBuildConfig by tasks.registering {
+    val outputDir = layout.buildDirectory.dir("generated/buildconfig/kotlin")
+    inputs.property("version", "$appVersion$appVersionSuffix")
+    outputs.dir(outputDir)
+    doLast {
+        val dir = outputDir.get().asFile
+        dir.mkdirs()
+        File(dir, "BuildConfig.kt").writeText(
+            "object BuildConfig {\n    const val APP_VERSION = \"$appVersion$appVersionSuffix\"\n}\n"
+        )
+    }
+}
+
 kotlin {
     jvmToolchain(25)
+    sourceSets {
+        main {
+            kotlin.srcDir(layout.buildDirectory.dir("generated/buildconfig/kotlin"))
+        }
+    }
+}
+
+tasks.named("compileKotlin") {
+    dependsOn(generateBuildConfig)
 }
 
 repositories {
