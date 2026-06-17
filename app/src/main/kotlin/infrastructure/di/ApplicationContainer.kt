@@ -53,6 +53,7 @@ import application.transaction.TransactionHandler
 import application.transaction.usecases.ExportTransactionsToCsvUseCase
 import application.transaction.usecases.FetchTransactionsUseCase
 import application.transaction.usecases.SaveTransactionUseCase
+import application.transaction.usecases.SaveTransferUseCase
 import application.userPreference.UserPreferenceHandler
 import domain.contracts.IAccountRepository
 import domain.contracts.ICategoryRepository
@@ -121,6 +122,7 @@ object ApplicationContainer {
     val transactionHandler = TransactionHandler(
         transactionRepository = transactionRepository,
         saveTransactionUseCase = SaveTransactionUseCase(transactionRepository),
+        saveTransferUseCase = SaveTransferUseCase(categoryRepository, partyRepository, transactionRepository, accountRepository),
         fetchTransactionsUseCase = FetchTransactionsUseCase(transactionRepository),
         exportTransactionsToCsvUseCase = ExportTransactionsToCsvUseCase(),
     )

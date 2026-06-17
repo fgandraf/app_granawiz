@@ -13,7 +13,7 @@ class FetchTopTransactionsUseCase(private val transactionRepository: ITransactio
         type: TransactionType = TransactionType.EXPENSE,
         limit: Int = 3,
     ): List<Transaction> {
-        return transactionRepository.getByDateRange(from, to, type)
+        return transactionRepository.getByDateRange(from, to, type, excludeTransfers = true)
             .sortedByDescending { kotlin.math.abs(it.balance) }
             .take(limit)
     }

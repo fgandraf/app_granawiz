@@ -33,16 +33,18 @@ class TransactionRepository : ITransactionRepository {
         from: LocalDateTime,
         to: LocalDateTime,
         type: TransactionType?,
+        excludeTransfers: Boolean,
     ): List<Transaction> {
         val session = sessionFactory.openSession()
         session.beginTransaction()
         val typeClause = if (type != null) " AND t.type = :type" else ""
+        val transferClause = if (excludeTransfers) " AND t.isTransfer = false" else ""
         val query = session.createQuery(
             """SELECT DISTINCT t FROM Transaction t
                LEFT JOIN FETCH t.party LEFT JOIN FETCH t.account
                LEFT JOIN FETCH t.category LEFT JOIN FETCH t.subcategory
                LEFT JOIN FETCH t.tags
-               WHERE t.date BETWEEN :from AND :to$typeClause
+               WHERE t.date BETWEEN :from AND :to$typeClause$transferClause
                ORDER BY t.date DESC""",
             Transaction::class.java,
         ).setParameter("from", from).setParameter("to", to)

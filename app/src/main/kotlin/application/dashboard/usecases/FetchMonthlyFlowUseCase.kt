@@ -32,7 +32,7 @@ class FetchMonthlyFlowUseCase(private val transactionRepository: ITransactionRep
         val startYm = endYm.minusMonths((count - 1).toLong())
 
         val queryFrom = startYm.atDay(1).atStartOfDay()
-        val transactions = transactionRepository.getByDateRange(queryFrom, to)
+        val transactions = transactionRepository.getByDateRange(queryFrom, to, excludeTransfers = true)
             .filter { it.type == TransactionType.GAIN || it.type == TransactionType.EXPENSE }
         val grouped = transactions.groupBy { YearMonth.from(it.date) }
 
@@ -50,7 +50,7 @@ class FetchMonthlyFlowUseCase(private val transactionRepository: ITransactionRep
     private fun byYear(from: LocalDateTime, to: LocalDateTime): List<MonthlyFlow> {
         val startYear = from.year
         val endYear = to.year
-        val transactions = transactionRepository.getByDateRange(from, to)
+        val transactions = transactionRepository.getByDateRange(from, to, excludeTransfers = true)
             .filter { it.type == TransactionType.GAIN || it.type == TransactionType.EXPENSE }
         val grouped = transactions.groupBy { it.date.year }
 

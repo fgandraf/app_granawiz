@@ -29,12 +29,11 @@ import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import view.modules.Screen
 import view.modules.transactionForm.TransactionForm
-import view.modules.transactions.component.*
-import view.shared.CircleButton
-import view.shared.DefaultScreenHeader
-import view.shared.FilterTransactionBar
-import view.shared.SearchField
-import view.shared.TextH2
+import view.modules.transactions.component.DropDownAddTransaction
+import view.modules.transactions.component.MonthHeader
+import view.modules.transactions.component.TotalFooter
+import view.modules.transactions.component.TransactionRow
+import view.shared.*
 import viewModel.TransactionViewModel
 import java.awt.FileDialog
 import java.awt.Frame
@@ -82,11 +81,14 @@ fun TransactionsScreen(
     var backIcon by remember { mutableStateOf(false) }
     var showTransactionsList by remember { mutableStateOf(true) }
     var addresses by remember { mutableStateOf(emptyList<PageAddress>()) }
+    var transactionType by remember { mutableStateOf<TransactionType?>(null) }
+    var isTransfer by remember { mutableStateOf(false) }
 
     val strTransactionEditIncome = stringResource(Res.string.transaction_edit_income)
     val strTransactionEditExpense = stringResource(Res.string.transaction_edit_expense)
     val strTransactionNewIncome = stringResource(Res.string.transaction_new_income)
     val strTransactionNewExpense = stringResource(Res.string.transaction_new_expense)
+    val strTransactionNewTransfer = stringResource(Res.string.transaction_new_transfer)
 
     LaunchedEffect(account) {
         addresses = initialAddress
@@ -94,13 +96,14 @@ fun TransactionsScreen(
         selectedTransaction = null
         backIcon = false
         showTransactionsList = true
+        isTransfer = false
         viewModel.clearFilters()
     }
 
     val transactionsState by viewModel.transactions.collectAsState()
     val filters by viewModel.filters.collectAsState()
-
-    var transactionType by remember { mutableStateOf<TransactionType?>(null) }
+    val groups by viewModel.groups.collectAsState()
+    val allAccounts = remember(groups) { groups.flatMap { it.accounts } }
 
     Column(
         modifier = Modifier
@@ -146,6 +149,7 @@ fun TransactionsScreen(
                 onTransactionDeleted = onSidebarReload,
                 onAddGain = {
                     transactionType = TransactionType.GAIN
+                    isTransfer = false
                     showTransactionsList = false
                     showEditTransaction = true
                     addresses = addresses + PageAddress(
@@ -157,6 +161,7 @@ fun TransactionsScreen(
                 },
                 onAddExpense = {
                     transactionType = TransactionType.EXPENSE
+                    isTransfer = false
                     showTransactionsList = false
                     showEditTransaction = true
                     addresses = addresses + PageAddress(
@@ -166,11 +171,24 @@ fun TransactionsScreen(
                     )
                     backIcon = true
                 },
+                onAddTransfer = {
+                    transactionType = null
+                    isTransfer = true
+                    showTransactionsList = false
+                    showEditTransaction = true
+                    addresses = addresses + PageAddress(
+                        iconVector = PhosphorIcons.Regular.Swap,
+                        iconSize = DpSize(21.dp, 18.dp),
+                        name = strTransactionNewTransfer
+                    )
+                    backIcon = true
+                },
                 onImport = { onScreenChange(Screen.ImportStatement(account = viewModel.selectedAccount)) },
                 onDismissAdd = {
                     selectedTransaction = null
                     showEditTransaction = false
                     showTransactionsList = true
+                    isTransfer = false
                     backIcon = false
                 },
             )
@@ -184,10 +202,13 @@ fun TransactionsScreen(
                 transactionType = transactionType,
                 initialAccount = viewModel.selectedAccount,
                 lockAccount = true,
+                isTransfer = isTransfer,
+                allAccounts = allAccounts,
                 onDismiss = { saved ->
                     backIcon = false
                     showEditTransaction = false
                     showTransactionsList = true
+                    isTransfer = false
                     addresses = initialAddress
                     selectedTransaction = null
                     if (saved) {
@@ -213,6 +234,7 @@ private fun Body(
     onTransactionDeleted: () -> Unit,
     onAddGain: () -> Unit,
     onAddExpense: () -> Unit,
+    onAddTransfer: () -> Unit,
     onImport: () -> Unit,
     onDismissAdd: () -> Unit,
 ) {
@@ -234,9 +256,15 @@ private fun Body(
                     }
 
                 LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
-                    val monthTransactions = displayedTransactions.groupBy { it.date.month }
+                    val currentMonth = LocalDate.now().month
+                    val monthTransactions = displayedTransactions
+                        .groupBy { it.date.month }
+                        .mapValues { (_, txs) -> txs.sortedByDescending { it.date } }
+                    val sortedMonths = monthTransactions.keys
+                        .sortedWith(compareByDescending<Month> { it == currentMonth }.thenByDescending { it.value })
                     item { Spacer(modifier = Modifier.height(30.dp)) }
-                    monthTransactions.forEach { (month, transactions) ->
+                    sortedMonths.forEach { month ->
+                        val transactions = monthTransactions[month] ?: return@forEach
                         item {
                             MonthSection(
                                 month = month,
@@ -259,6 +287,10 @@ private fun Body(
                                 expanded = showAddDropDown,
                                 onClickGain = onAddGain,
                                 onClickExpense = onAddExpense,
+                                onClickTransfer = {
+                                    showAddDropDown = false
+                                    onAddTransfer()
+                                },
                                 onClickImport = {
                                     showAddDropDown = false
                                     onImport()

@@ -18,12 +18,12 @@ class FetchSpendingPaceUseCase(private val transactionRepository: ITransactionRe
 
         val mtdStart = currentYm.atDay(1).atStartOfDay()
         val mtdEnd = today.atTime(LocalTime.MAX)
-        val monthTotal = transactionRepository.getByDateRange(mtdStart, mtdEnd, TransactionType.EXPENSE)
+        val monthTotal = transactionRepository.getByDateRange(mtdStart, mtdEnd, TransactionType.EXPENSE, excludeTransfers = true)
             .sumOf { kotlin.math.abs(it.balance) }
 
         val baselineStart = currentYm.minusMonths(baselineMonths.toLong()).atDay(1).atStartOfDay()
         val baselineEnd = currentYm.minusMonths(1).atEndOfMonth().atTime(LocalTime.MAX)
-        val baselineTxs = transactionRepository.getByDateRange(baselineStart, baselineEnd, TransactionType.EXPENSE)
+        val baselineTxs = transactionRepository.getByDateRange(baselineStart, baselineEnd, TransactionType.EXPENSE, excludeTransfers = true)
 
         if (baselineTxs.isEmpty()) return null
 

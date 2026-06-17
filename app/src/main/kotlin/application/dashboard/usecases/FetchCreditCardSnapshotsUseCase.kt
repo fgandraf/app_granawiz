@@ -31,6 +31,7 @@ class FetchCreditCardSnapshotsUseCase(
                 from = cycleStart.atStartOfDay(),
                 to = cycleEnd.atTime(LocalTime.MAX),
                 type = TransactionType.EXPENSE,
+                excludeTransfers = true,
             )
             .filter { it.account.id == card.id }
             .sumOf { kotlin.math.abs(it.balance) }

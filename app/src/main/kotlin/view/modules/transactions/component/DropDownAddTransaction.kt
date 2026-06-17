@@ -15,6 +15,7 @@ import com.adamglin.phosphoricons.Fill
 import com.adamglin.phosphoricons.Regular
 import com.adamglin.phosphoricons.fill.Circle
 import com.adamglin.phosphoricons.regular.Receipt
+import com.adamglin.phosphoricons.regular.Swap
 import com.felipegandra.generated.resources.Res
 import com.felipegandra.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
@@ -26,6 +27,7 @@ fun DropDownAddTransaction(
     onDismissRequest: () -> Unit,
     onClickGain: () -> Unit,
     onClickExpense: () -> Unit,
+    onClickTransfer: () -> Unit,
     onClickImport: () -> Unit,
 ) {
     Box(Modifier.fillMaxSize()) {
@@ -48,6 +50,14 @@ fun DropDownAddTransaction(
                 label = stringResource(Res.string.transaction_new_expense)
             )
             { onClickExpense() }
+
+            ClickableRow(
+                icon = PhosphorIcons.Regular.Swap,
+                iconColor = MaterialTheme.colors.primary,
+                iconSize = androidx.compose.ui.unit.DpSize(14.dp, 14.dp),
+                label = stringResource(Res.string.transaction_new_transfer)
+            )
+            { onClickTransfer() }
 
             Divider(
                 modifier = Modifier

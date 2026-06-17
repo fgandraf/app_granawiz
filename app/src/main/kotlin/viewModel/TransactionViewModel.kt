@@ -93,7 +93,7 @@ class TransactionViewModel(
 
     init {
         getTransactions()
-        if (account == null) getGroups()
+        getGroups()
     }
 
     fun deleteTransaction(transaction: Transaction) {
