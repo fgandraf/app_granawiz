@@ -92,6 +92,8 @@ CREATE TABLE tbl_transactions (
     schedule_id INTEGER,
     original_due_date DATETIME,
     installment TEXT DEFAULT '1/1',
+    is_transfer INTEGER NOT NULL DEFAULT 0,
+    is_flagged INTEGER NOT NULL DEFAULT 0,
 
     FOREIGN KEY (party_id) REFERENCES tbl_parties(party_id),
     FOREIGN KEY (account_id) REFERENCES tbl_bank_accounts(account_id),

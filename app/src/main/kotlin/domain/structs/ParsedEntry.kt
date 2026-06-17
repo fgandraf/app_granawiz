@@ -23,5 +23,6 @@ data class ParsedEntry(
     val customCategoryText: String? = null,
     val customTagsText: String? = null,
     val installment: String = "1/1",
+    val originalDueDate: LocalDateTime? = null,
     val isPossibleDuplicate: Boolean = false,
 )

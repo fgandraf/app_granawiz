@@ -60,6 +60,7 @@ fun TextMedium(
 fun TextSmall(
     modifier: Modifier = Modifier,
     color: Color? = MaterialTheme.colors.primary,
+    weight: FontWeight? = FontWeight.Medium,
     text: String,
     align: TextAlign = TextAlign.Start,
     italic: Boolean = false,
@@ -69,7 +70,7 @@ fun TextSmall(
         text = text,
         fontSize = 10.sp,
         color = color!!,
-        fontWeight = FontWeight.Medium,
+        fontWeight = weight,
         lineHeight = 10.sp,
         fontFamily = DefaultFont,
         textAlign = align,

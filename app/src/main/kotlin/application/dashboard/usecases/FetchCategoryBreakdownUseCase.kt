@@ -14,7 +14,7 @@ class FetchCategoryBreakdownUseCase(private val transactionRepository: ITransact
         limit: Int = 6,
     ): List<CategoryBreakdown> {
 
-        val transactions = transactionRepository.getByDateRange(from, to, type)
+        val transactions = transactionRepository.getByDateRange(from, to, type, excludeTransfers = true)
         if (transactions.isEmpty()) return emptyList()
 
         val total = transactions.sumOf { kotlin.math.abs(it.balance) }.takeIf { it > 0.0 } ?: return emptyList()

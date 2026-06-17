@@ -17,7 +17,7 @@ interface ITransactionRepository {
 
     fun getAllBySubcategory(subcategory: Subcategory): List<Transaction>
 
-    fun getByDateRange(from: LocalDateTime, to: LocalDateTime, type: TransactionType? = null): List<Transaction>
+    fun getByDateRange(from: LocalDateTime, to: LocalDateTime, type: TransactionType? = null, excludeTransfers: Boolean = false): List<Transaction>
 
     fun findByScheduleId(scheduleId: Long): List<Transaction>
 

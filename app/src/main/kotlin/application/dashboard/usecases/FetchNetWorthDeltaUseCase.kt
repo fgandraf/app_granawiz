@@ -18,7 +18,7 @@ class FetchNetWorthDeltaUseCase(
 
         val monthStart = YearMonth.from(today).atDay(1).atStartOfDay()
         val monthEnd = today.atTime(LocalTime.MAX)
-        val monthTxs = transactionRepository.getByDateRange(monthStart, monthEnd)
+        val monthTxs = transactionRepository.getByDateRange(monthStart, monthEnd, excludeTransfers = true)
         val monthDelta = monthTxs.sumOf {
             when (it.type) {
                 TransactionType.GAIN -> kotlin.math.abs(it.balance)

@@ -44,6 +44,7 @@ class ImportTransactionsUseCase(
                     balance = entry.balance,
                     type = entry.type,
                     installment = entry.installment,
+                    originalDueDate = entry.originalDueDate,
                 )
                 transactionHandler.saveTransaction(txn)
                 imported++

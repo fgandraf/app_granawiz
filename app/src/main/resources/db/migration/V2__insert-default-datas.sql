@@ -22,6 +22,9 @@ INSERT INTO tbl_categories VALUES (18, 'EXPENSE', 'Estorno', 'currency-circle-do
 INSERT INTO tbl_categories VALUES (19, 'EXPENSE', 'Serviço', 'call-bell.svg');
 INSERT INTO tbl_categories VALUES (20, 'EXPENSE', 'Custo', 'pi.svg');
 INSERT INTO tbl_categories VALUES (21, 'EXPENSE', 'Web', 'devices.svg');
+INSERT INTO tbl_categories VALUES (22, 'EXPENSE', 'Transferência', 'approximate-equals.svg');
+INSERT INTO tbl_categories VALUES (23, 'INCOME', 'Transferência', 'approximate-equals.svg');
+
 INSERT INTO tbl_categories VALUES (12, 'INCOME', 'Salário', 'money.svg');
 INSERT INTO tbl_categories VALUES (13, 'INCOME', 'Prestação de Serviço', 'call-bell.svg');
 INSERT INTO tbl_categories VALUES (14, 'INCOME', 'Rendimento', 'chart-line-up.svg');

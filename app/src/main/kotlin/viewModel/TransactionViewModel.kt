@@ -68,7 +68,10 @@ class TransactionViewModel(
     }
 
     val availableYears: Flow<List<Int>> = _transactions.map { list ->
-        list.map { it.date.year }.distinct().sortedDescending()
+        list.map { tx ->
+            if (tx.scheduleId == null && tx.originalDueDate != null) tx.originalDueDate!!.year
+            else tx.date.year
+        }.distinct().sortedDescending()
     }
 
     val displayedTransactions: Flow<List<Transaction>> = combine(_transactions, _filters) { list, f ->
@@ -86,14 +89,16 @@ class TransactionViewModel(
                     (f.categoryItem.second != null && transaction.subcategory?.id == f.categoryItem.second!!.id)
             val matchesTag = f.tag == null || transaction.tags?.any { it.id == f.tag.id } == true
             val matchesType = f.type == null || transaction.type == f.type
-            val matchesYear = f.year == null || transaction.date.year == f.year
+            val billingYear = if (transaction.scheduleId == null && transaction.originalDueDate != null)
+                transaction.originalDueDate!!.year else transaction.date.year
+            val matchesYear = f.year == null || billingYear == f.year
             matchesSearch && matchesAccount && matchesCategory && matchesTag && matchesType && matchesYear
         }
     }
 
     init {
         getTransactions()
-        if (account == null) getGroups()
+        getGroups()
     }
 
     fun deleteTransaction(transaction: Transaction) {
@@ -102,6 +107,13 @@ class TransactionViewModel(
             getTransactions()
             val accountTransactions = transactionHandler.fetchTransactions(account = transaction.account)
             accountHandler.updateBalance(transaction.account.id, accountTransactions.sumOf { it.balance })
+        }.onFailure { AppEvents.emit(UiEvent.Error(it.localizedMessage ?: "Erro desconhecido")) }
+    }
+
+    fun flagTransaction(transaction: Transaction) {
+        runCatching {
+            transactionHandler.flagTransaction(transaction)
+            getTransactions()
         }.onFailure { AppEvents.emit(UiEvent.Error(it.localizedMessage ?: "Erro desconhecido")) }
     }
 

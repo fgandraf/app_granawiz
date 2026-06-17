@@ -7,6 +7,7 @@
     <string name="save">Salvar</string>
     <string name="edit">Editar</string>
     <string name="delete">Excluir</string>
+    <string name="flag">Sinalizar</string>
     <string name="add">Adicionar</string>
     <string name="close">Fechar</string>
     <string name="next">Próximo</string>
@@ -93,11 +94,15 @@
 
     <!-- ─── Transactions ─────────────────────────────────────────────────── -->
     <string name="transactions_empty">Nenhuma transação encontrada.</string>
+    <string name="transactions_installment_group">Parcelamento</string>
     <string name="transaction_edit_income">Editar receita</string>
     <string name="transaction_edit_expense">Editar despesa</string>
     <string name="transaction_new_income">Nova receita</string>
     <string name="transaction_new_expense">Nova despesa</string>
+    <string name="transaction_new_transfer">Nova transferência</string>
     <string name="transaction_import_statement">Importar extrato</string>
+    <string name="form_field_destination_account">Conta de destino</string>
+    <string name="transfer_default_description">Transferência entre contas</string>
     <string name="transaction_export_dialog_title">Exportar transações para CSV</string>
     <string name="transaction_delete_confirm">Tem certeza que deseja excluir essa transação?</string>
     <string name="transaction_delete_schedule_warning">Esta transação faz parte de um parcelamento e a mesma voltará para itens agendados.\n\nTem certeza que deseja continuar?</string>

@@ -22,7 +22,7 @@ class BuildDashboardSummaryUseCase(
     fun execute(period: DashboardPeriod, today: LocalDate = LocalDate.now()): DashboardSummary {
         val (from, to) = period.range(today)
 
-        val periodTxs = transactionRepository.getByDateRange(from, to)
+        val periodTxs = transactionRepository.getByDateRange(from, to, excludeTransfers = true)
         val income = periodTxs.filter { it.type == TransactionType.GAIN }.sumOf { kotlin.math.abs(it.balance) }
         val expense = periodTxs.filter { it.type == TransactionType.EXPENSE }.sumOf { kotlin.math.abs(it.balance) }
         val cashFlow = CashFlow(income, expense)

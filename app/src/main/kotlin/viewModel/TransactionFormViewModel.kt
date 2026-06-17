@@ -29,6 +29,8 @@ class TransactionFormViewModel(
     fun setParty(party: Party?) { _party.value = party }
 
     var account by mutableStateOf(BankAccount())
+    var destinationAccount by mutableStateOf(BankAccount())
+    var isTransfer by mutableStateOf(false)
 
     private val _category = MutableStateFlow<Category?>(null)
     val category: StateFlow<Category?> = _category.asStateFlow()
@@ -102,6 +104,8 @@ class TransactionFormViewModel(
         transactionId = 0L
         _party.value = null
         account = BankAccount()
+        destinationAccount = BankAccount()
+        isTransfer = false
         _category.value = null
         subCategory = null
         _tags.value = listOf()
@@ -128,7 +132,15 @@ class TransactionFormViewModel(
     }
 
     fun save() {
-        if (transactionId != 0L) {
+        if (isTransfer) {
+            transactionHandler.saveTransfer(
+                source = account,
+                destination = destinationAccount,
+                amount = abs(balance),
+                date = startDate,
+                description = description,
+            )
+        } else if (transactionId != 0L) {
             transactionHandler.saveTransaction(
                 Transaction(
                     id = transactionId,

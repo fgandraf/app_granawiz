@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.text.font.FontWeight
@@ -59,8 +60,11 @@ fun TransactionForm(
     transactionType: TransactionType? = null,
     initialAccount: BankAccount? = null,
     lockAccount: Boolean = false,
+    isTransfer: Boolean = false,
     onDismiss: (Boolean) -> Unit,
 ) {
+    val transferDefaultDescription = stringResource(Res.string.transfer_default_description)
+
     LaunchedEffect(schedule, transaction, occurrenceIndex) {
         when {
             schedule != null -> {
@@ -72,8 +76,14 @@ fun TransactionForm(
             transaction != null -> scheduleFormViewModel.loadFromTransaction(transaction)
             else -> {
                 scheduleFormViewModel.clear()
-                scheduleFormViewModel.type = transactionType!!
-                if (initialAccount != null) scheduleFormViewModel.account = initialAccount
+                if (isTransfer) {
+                    scheduleFormViewModel.isTransfer = true
+                    scheduleFormViewModel.description = transferDefaultDescription
+                    if (initialAccount != null) scheduleFormViewModel.account = initialAccount
+                } else {
+                    scheduleFormViewModel.type = transactionType!!
+                    if (initialAccount != null) scheduleFormViewModel.account = initialAccount
+                }
             }
         }
     }
@@ -84,13 +94,21 @@ fun TransactionForm(
 
     val saveButtonActive by remember {
         derivedStateOf {
-            party != null && category != null && scheduleFormViewModel.account.id != 0L
+            if (scheduleFormViewModel.isTransfer) {
+                scheduleFormViewModel.account.id != 0L &&
+                scheduleFormViewModel.destinationAccount.id != 0L &&
+                scheduleFormViewModel.account.id != scheduleFormViewModel.destinationAccount.id &&
+                abs(scheduleFormViewModel.balance) > 0
+            } else {
+                party != null && category != null && scheduleFormViewModel.account.id != 0L
+            }
         }
     }
 
-    val typeColor = when (scheduleFormViewModel.type) {
-        TransactionType.EXPENSE -> MaterialTheme.colors.onError
-        TransactionType.GAIN -> MaterialTheme.colors.onPrimary
+    val typeColor = when {
+        scheduleFormViewModel.isTransfer -> MaterialTheme.colors.primary
+        scheduleFormViewModel.type == TransactionType.EXPENSE -> MaterialTheme.colors.onError
+        scheduleFormViewModel.type == TransactionType.GAIN -> MaterialTheme.colors.onPrimary
         else -> Color.Gray
     }
 
@@ -142,7 +160,10 @@ fun TransactionForm(
                         accountState = scheduleFormViewModel.account,
                         allAccounts = allAccounts,
                         typeColor = typeColor,
-                        onAccountSelect = { scheduleFormViewModel.account = it }
+                        onAccountSelect = { scheduleFormViewModel.account = it },
+                        isTransfer = scheduleFormViewModel.isTransfer,
+                        destinationAccount = scheduleFormViewModel.destinationAccount,
+                        onDestinationAccountSelect = { scheduleFormViewModel.destinationAccount = it },
                     )
 
                     FormFields(
@@ -156,7 +177,8 @@ fun TransactionForm(
                             if (showSide && sideType == type) showSide = false
                             else if (showSide) sideType = type
                             else { sideType = type; showSide = true }
-                        }
+                        },
+                        isTransfer = scheduleFormViewModel.isTransfer,
                     )
                 }
             }
@@ -200,13 +222,50 @@ private fun Header(
     allAccounts: List<BankAccount>,
     typeColor: Color,
     onAccountSelect: (BankAccount) -> Unit,
+    isTransfer: Boolean = false,
+    destinationAccount: BankAccount = BankAccount(),
+    onDestinationAccountSelect: (BankAccount) -> Unit = {},
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.End,
+        horizontalArrangement = if (isTransfer) Arrangement.SpaceBetween else Arrangement.End,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        if (lockAccount) {
+        if (isTransfer) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(5.dp)
+            ) {
+                if (accountState.id != 0L) {
+                    Icon(
+                        painter = rememberSvgPainter(IconPaths.BANK_LOGOS + accountState.icon),
+                        contentDescription = null,
+                        tint = MaterialTheme.colors.primary,
+                        modifier = Modifier.size(20.dp),
+                    )
+                    Text(
+                        text = accountState.name,
+                        fontSize = 12.sp,
+                        color = MaterialTheme.colors.primary,
+                        fontWeight = FontWeight.Normal,
+                        lineHeight = 0.sp,
+                        fontFamily = DefaultFont
+                    )
+                }
+            }
+            Icon(
+                imageVector = PhosphorIcons.Light.CaretDown,
+                contentDescription = null,
+                tint = MaterialTheme.colors.secondary,
+                modifier = Modifier.size(16.dp).graphicsLayer(rotationZ = -90f)
+            )
+            AccountSelector(
+                currentAccount = destinationAccount,
+                allAccounts = allAccounts.filter { it.id != accountState.id },
+                onSelect = onDestinationAccountSelect,
+                placeholder = stringResource(Res.string.form_field_destination_account),
+            )
+        } else if (lockAccount) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(5.dp)
@@ -248,6 +307,7 @@ private fun FormFields(
     isTransactionEdit: Boolean,
     schedule: Schedule?,
     onToggleSide: (String) -> Unit,
+    isTransfer: Boolean = false,
 ) {
     val subcategory = viewModel.subCategory
 
@@ -281,13 +341,15 @@ private fun FormFields(
         }
     }
 
-    DropDownTextField(
-        modifier = Modifier.padding(bottom = 20.dp),
-        value = party?.name ?: "",
-        label = if (viewModel.type == TransactionType.GAIN) stringResource(Res.string.form_field_payer) else stringResource(Res.string.form_field_receiver),
-        placeholder = stringResource(Res.string.name),
-        onClick = { onToggleSide("parties") }
-    )
+    if (!isTransfer) {
+        DropDownTextField(
+            modifier = Modifier.padding(bottom = 20.dp),
+            value = party?.name ?: "",
+            label = if (viewModel.type == TransactionType.GAIN) stringResource(Res.string.form_field_payer) else stringResource(Res.string.form_field_receiver),
+            placeholder = stringResource(Res.string.name),
+            onClick = { onToggleSide("parties") }
+        )
+    }
 
     DefaultTextField(
         modifier = Modifier.padding(bottom = 20.dp),
@@ -297,50 +359,52 @@ private fun FormFields(
         placeholder = stringResource(Res.string.additional_info)
     ) { viewModel.description = it }
 
-    DropDownTextField(
-        modifier = Modifier.padding(bottom = 20.dp),
-        icon = category?.icon,
-        value = if (category?.name.isNullOrEmpty()) "" else category.name + if (subcategory?.name.isNullOrEmpty()) "" else " → ${subcategory.name}",
-        label = stringResource(Res.string.form_field_category),
-        placeholder = stringResource(Res.string.form_placeholder_select_category),
-        onClick = { onToggleSide("categories") }
-    )
-
-    TagListView(
-        label = stringResource(Res.string.form_field_tags),
-        placeholder = stringResource(Res.string.form_placeholder_tags),
-        tags = tags,
-        onClickAdd = { onToggleSide("tags") }
-    )
-
-    if (!isTransactionEdit) {
-        Spacer(Modifier.height(20.dp))
-        Divider(color = MaterialTheme.colors.onSurface)
-        Spacer(Modifier.height(20.dp))
-
-        RecurrenceSetView(
-            label = stringResource(Res.string.form_field_recurrence),
-            summary = buildRecurrenceSummary(
-                frequency = viewModel.frequency,
-                interval = viewModel.interval,
-                installments = viewModel.installments,
-                endDate = viewModel.endDate,
-            ),
-            onClickEdit = { onToggleSide("recurr") }
+    if (!isTransfer) {
+        DropDownTextField(
+            modifier = Modifier.padding(bottom = 20.dp),
+            icon = category?.icon,
+            value = if (category?.name.isNullOrEmpty()) "" else category.name + if (subcategory?.name.isNullOrEmpty()) "" else " → ${subcategory.name}",
+            label = stringResource(Res.string.form_field_category),
+            placeholder = stringResource(Res.string.form_placeholder_select_category),
+            onClick = { onToggleSide("categories") }
         )
 
-        if (schedule != null && schedule.installments != null) {
+        TagListView(
+            label = stringResource(Res.string.form_field_tags),
+            placeholder = stringResource(Res.string.form_placeholder_tags),
+            tags = tags,
+            onClickAdd = { onToggleSide("tags") }
+        )
+
+        if (!isTransactionEdit) {
             Spacer(Modifier.height(20.dp))
             Divider(color = MaterialTheme.colors.onSurface)
             Spacer(Modifier.height(20.dp))
-            InstallmentView(installment = viewModel.installment)
-        }
-    } else {
-        if (viewModel.scheduleId != null) {
-            Spacer(Modifier.height(20.dp))
-            Divider()
-            Spacer(Modifier.height(20.dp))
-            InstallmentView(installment = viewModel.installment)
+
+            RecurrenceSetView(
+                label = stringResource(Res.string.form_field_recurrence),
+                summary = buildRecurrenceSummary(
+                    frequency = viewModel.frequency,
+                    interval = viewModel.interval,
+                    installments = viewModel.installments,
+                    endDate = viewModel.endDate,
+                ),
+                onClickEdit = { onToggleSide("recurr") }
+            )
+
+            if (schedule != null && schedule.installments != null) {
+                Spacer(Modifier.height(20.dp))
+                Divider(color = MaterialTheme.colors.onSurface)
+                Spacer(Modifier.height(20.dp))
+                InstallmentView(installment = viewModel.installment)
+            }
+        } else {
+            if (viewModel.scheduleId != null) {
+                Spacer(Modifier.height(20.dp))
+                Divider()
+                Spacer(Modifier.height(20.dp))
+                InstallmentView(installment = viewModel.installment)
+            }
         }
     }
 }
@@ -390,9 +454,10 @@ private fun AccountSelector(
     currentAccount: BankAccount,
     allAccounts: List<BankAccount>,
     onSelect: (BankAccount) -> Unit,
+    placeholder: String = stringResource(Res.string.form_placeholder_select_account),
 ) {
     var expanded by remember { mutableStateOf(false) }
-    val label = if (currentAccount.id == 0L) stringResource(Res.string.form_placeholder_select_account) else currentAccount.name
+    val label = if (currentAccount.id == 0L) placeholder else currentAccount.name
 
     Box {
         Row(
