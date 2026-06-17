@@ -5,16 +5,21 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import view.theme.DefaultFont
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.Regular
@@ -50,16 +55,47 @@ fun DateTimePicker(
 
     Column(modifier = modifier) {
         var expanded by remember { mutableStateOf(false) }
+        val formatter = remember { DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm") }
+
+        var selectedDate by remember { mutableStateOf(value.toLocalDate()) }
+        var currentMonth by remember { mutableStateOf(YearMonth.from(selectedDate)) }
+        var hours by remember { mutableStateOf(value.hour) }
+        var minutes by remember { mutableStateOf(value.minute) }
+        var textInput by remember { mutableStateOf(value.format(formatter)) }
+
+        val inputTextStyle = androidx.compose.ui.text.TextStyle(
+            fontSize = 12.sp,
+            fontWeight = FontWeight.Normal,
+            fontFamily = DefaultFont,
+            color = MaterialTheme.colors.primary,
+        )
 
         val effectiveShowBorder = if (borderOnActive) expanded else showBorder
 
         if (showLabel) TextSmall(modifier = Modifier.padding(bottom = 5.dp), text = stringResource(Res.string.form_field_date_time))
 
-        ExposedDropdownMenuBox(expanded = expanded, onExpandedChange = { expanded = true }) {
+        ExposedDropdownMenuBox(expanded = expanded, onExpandedChange = { expanded = it }) {
 
             FocusableBox(showBorder = effectiveShowBorder) {
                 Row(Modifier.fillMaxWidth(), Arrangement.SpaceBetween, Alignment.CenterVertically) {
-                    TextNormal(text = value.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")))
+                    BasicTextField(
+                        value = textInput,
+                        onValueChange = { newText ->
+                            textInput = newText
+                            runCatching { LocalDateTime.parse(newText, formatter) }
+                                .onSuccess { parsed ->
+                                    selectedDate = parsed.toLocalDate()
+                                    currentMonth = YearMonth.from(parsed.toLocalDate())
+                                    hours = parsed.hour
+                                    minutes = parsed.minute
+                                    selectedDateTime(parsed)
+                                }
+                        },
+                        singleLine = true,
+                        textStyle = inputTextStyle,
+                        cursorBrush = SolidColor(MaterialTheme.colors.primary),
+                        modifier = Modifier.weight(1f),
+                    )
                     Icon(
                         imageVector = PhosphorIcons.Light.Calendar,
                         contentDescription = "Icon",
@@ -79,8 +115,6 @@ fun DateTimePicker(
                     modifier = Modifier.padding(horizontal = 10.dp).padding(top = 10.dp, bottom = 5.dp)
                 ) {
                     // DATE PICKER
-                    var selectedDate by remember { mutableStateOf(value.toLocalDate()) }
-                    var currentMonth by remember { mutableStateOf(YearMonth.from(selectedDate)) }
                     val weeks = remember(currentMonth) { generateWeeks(currentMonth) }
 
                     Column {
@@ -140,12 +174,9 @@ fun DateTimePicker(
                                                 )
                                                 .clickable {
                                                     selectedDate = date
-                                                    selectedDateTime(
-                                                        LocalDateTime.of(
-                                                            selectedDate,
-                                                            value.toLocalTime()
-                                                        )
-                                                    )
+                                                    val newDateTime = LocalDateTime.of(date, LocalTime.of(hours, minutes))
+                                                    textInput = newDateTime.format(formatter)
+                                                    selectedDateTime(newDateTime)
                                                 },
                                             contentAlignment = Alignment.Center
                                         ) {
@@ -156,7 +187,6 @@ fun DateTimePicker(
                                         }
                                     } else
                                         Spacer(modifier = Modifier.weight(1f).aspectRatio(1f))
-
                                 }
                             }
                         }
@@ -164,32 +194,35 @@ fun DateTimePicker(
                     }
 
                     // TIME PICKER
-                    var selectedTime by remember { mutableStateOf(value.toLocalTime()) }
-                    var hours by remember { mutableStateOf(selectedTime.hour) }
-                    var minutes by remember { mutableStateOf(selectedTime.minute) }
                     Column(modifier = Modifier.fillMaxWidth().padding(vertical = 5.dp)) {
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.Center,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            // Hour selector UP
                             NumberPicker(
                                 value = hours,
                                 range = 0..23,
-                                onValueChange = { hours = it },
+                                onValueChange = { newHours ->
+                                    hours = newHours
+                                    val newDateTime = LocalDateTime.of(selectedDate, LocalTime.of(newHours, minutes))
+                                    textInput = newDateTime.format(formatter)
+                                    selectedDateTime(newDateTime)
+                                },
                             )
                             TextNormal(modifier = Modifier.padding(horizontal = 5.dp), text = ":")
-                            // Minute selector
                             NumberPicker(
                                 value = minutes,
                                 range = 0..59,
-                                onValueChange = { minutes = it },
+                                onValueChange = { newMinutes ->
+                                    minutes = newMinutes
+                                    val newDateTime = LocalDateTime.of(selectedDate, LocalTime.of(hours, newMinutes))
+                                    textInput = newDateTime.format(formatter)
+                                    selectedDateTime(newDateTime)
+                                },
                             )
                         }
                     }
-                    selectedTime = LocalTime.of(hours, minutes)
-                    selectedDateTime(LocalDateTime.of(selectedDate, selectedTime))
                 }
             }
         }
