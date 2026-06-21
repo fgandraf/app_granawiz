@@ -1,17 +1,17 @@
 package application.importStatement.usecases
 
-import application.account.AccountHandler
 import application.importStatement.LogLevel
 import application.transaction.TransactionHandler
 import domain.entity.Transaction
 import domain.entity.account.BankAccount
+import domain.entity.account.CreditCardAccount
 import domain.structs.ParsedEntry
+import utils.computeBillingYearMonth
 import utils.toBrMoney
 import java.time.format.DateTimeFormatter
 
 class ImportTransactionsUseCase(
     private val transactionHandler: TransactionHandler,
-    private val accountHandler: AccountHandler,
     private val resolveOrCreateParty: ResolveOrCreatePartyUseCase,
     private val resolveOrCreateCategory: ResolveOrCreateCategoryUseCase,
     private val resolveOrCreateTags: ResolveOrCreateTagsUseCase,
@@ -33,6 +33,10 @@ class ImportTransactionsUseCase(
                 val party = resolveOrCreateParty.execute(entry)
                 val cat = resolveOrCreateCategory.execute(entry)
                 val tags = resolveOrCreateTags.execute(entry)
+                val creditCard = account as? CreditCardAccount
+                val billingYearMonth = creditCard?.let {
+                    computeBillingYearMonth(entry.date, entry.originalDueDate, null, it.closingDay).toString()
+                }
                 val txn = Transaction(
                     party = party,
                     account = account,
@@ -45,6 +49,7 @@ class ImportTransactionsUseCase(
                     type = entry.type,
                     installment = entry.installment,
                     originalDueDate = entry.originalDueDate,
+                    billingYearMonth = billingYearMonth,
                 )
                 transactionHandler.saveTransaction(txn)
                 imported++
@@ -56,11 +61,6 @@ class ImportTransactionsUseCase(
                 failed++
                 onLog("$label Falha: ${entry.rawCounterpartyName} (${e.message})", LogLevel.ERROR)
             }
-        }
-
-        if (imported > 0) {
-            val newBalance = transactionHandler.fetchTransactions(account).sumOf { it.balance }
-            accountHandler.updateBalance(account.id, newBalance)
         }
 
         return Report(imported, failed)

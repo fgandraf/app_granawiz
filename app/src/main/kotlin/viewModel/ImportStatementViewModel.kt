@@ -1,6 +1,8 @@
 package viewModel
 
+import application.account.AccountHandler
 import application.importStatement.ImportHandler
+import application.transaction.TransactionHandler
 import infrastructure.di.ApplicationContainer
 import application.importStatement.LogLevel
 import androidx.compose.runtime.getValue
@@ -19,6 +21,8 @@ data class WizardLogLine(val level: LogLevel, val text: String)
 
 class ImportStatementViewModel(
     private val importHandler: ImportHandler = ApplicationContainer.importHandler,
+    private val transactionHandler: TransactionHandler = ApplicationContainer.transactionHandler,
+    private val accountHandler: AccountHandler = ApplicationContainer.accountHandler,
 ) {
 
     var currentStep by mutableStateOf(0)
@@ -94,7 +98,13 @@ class ImportStatementViewModel(
                 }
             }
         }
-        result.onSuccess {
+        result.onSuccess { report ->
+            if (report.imported > 0) {
+                withContext(Dispatchers.IO) {
+                    val newBalance = transactionHandler.fetchTransactions(acct).sumOf { it.balance }
+                    accountHandler.updateBalance(acct.id, newBalance)
+                }
+            }
             _importDone.value = true
         }.onFailure { e ->
             _importLog.value = _importLog.value +

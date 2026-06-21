@@ -89,8 +89,13 @@ class TransactionViewModel(
                     (f.categoryItem.second != null && transaction.subcategory?.id == f.categoryItem.second!!.id)
             val matchesTag = f.tag == null || transaction.tags?.any { it.id == f.tag.id } == true
             val matchesType = f.type == null || transaction.type == f.type
-            val billingYear = if (transaction.scheduleId == null && transaction.originalDueDate != null)
-                transaction.originalDueDate!!.year else transaction.date.year
+            val billingYear = when {
+                transaction.billingYearMonth != null ->
+                    transaction.billingYearMonth!!.substringBefore('-').toInt()
+                transaction.scheduleId == null && transaction.originalDueDate != null ->
+                    transaction.originalDueDate!!.year
+                else -> transaction.date.year
+            }
             val matchesYear = f.year == null || billingYear == f.year
             matchesSearch && matchesAccount && matchesCategory && matchesTag && matchesType && matchesYear
         }

@@ -149,7 +149,6 @@ object ApplicationContainer {
         checkDuplicates = CheckDuplicatesUseCase(transactionRepository),
         importTransactions = ImportTransactionsUseCase(
             transactionHandler = transactionHandler,
-            accountHandler = accountHandler,
             resolveOrCreateParty = ResolveOrCreatePartyUseCase(partyRepository, resolvePartyByName),
             resolveOrCreateCategory = ResolveOrCreateCategoryUseCase(categoryHandler),
             resolveOrCreateTags = ResolveOrCreateTagsUseCase(tagRepository),

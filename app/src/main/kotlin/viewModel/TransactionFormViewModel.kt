@@ -8,8 +8,10 @@ import infrastructure.di.ApplicationContainer
 import application.transaction.TransactionHandler
 import domain.entity.*
 import domain.entity.account.BankAccount
+import domain.entity.account.CreditCardAccount
 import domain.enums.ScheduleFrequency
 import domain.enums.TransactionType
+import utils.computeBillingYearMonth
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -141,6 +143,10 @@ class TransactionFormViewModel(
                 description = description,
             )
         } else if (transactionId != 0L) {
+            val creditCard = account as? CreditCardAccount
+            val billingYearMonth = creditCard?.let {
+                computeBillingYearMonth(startDate, originalDueDate, scheduleId, it.closingDay).toString()
+            }
             transactionHandler.saveTransaction(
                 Transaction(
                     id = transactionId,
@@ -156,6 +162,7 @@ class TransactionFormViewModel(
                     scheduleId = scheduleId,
                     originalDueDate = originalDueDate,
                     installment = installment,
+                    billingYearMonth = billingYearMonth,
                 )
             )
         } else {
