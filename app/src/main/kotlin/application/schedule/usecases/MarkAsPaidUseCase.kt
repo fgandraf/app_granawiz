@@ -3,6 +3,8 @@ package application.schedule.usecases
 import domain.contracts.ITransactionRepository
 import domain.entity.Schedule
 import domain.entity.Transaction
+import domain.entity.account.CreditCardAccount
+import utils.computeBillingYearMonth
 import java.time.LocalDateTime
 
 class MarkAsPaidUseCase(private val transactionRepository: ITransactionRepository) {
@@ -17,6 +19,10 @@ class MarkAsPaidUseCase(private val transactionRepository: ITransactionRepositor
             "$currentInstallment/$totalInstallments"
         }
 
+        val creditCard = schedule.account as? CreditCardAccount
+        val billingYearMonth = creditCard?.let {
+            computeBillingYearMonth(dueDate, dueDate, schedule.id, it.closingDay).toString()
+        }
         val transaction = Transaction(
             id = 0,
             party = schedule.party,
@@ -31,6 +37,7 @@ class MarkAsPaidUseCase(private val transactionRepository: ITransactionRepositor
             scheduleId = schedule.id,
             originalDueDate = dueDate,
             installment = installment,
+            billingYearMonth = billingYearMonth,
         )
         transactionRepository.insert(transaction)
     }
