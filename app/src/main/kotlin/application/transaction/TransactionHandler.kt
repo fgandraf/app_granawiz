@@ -22,6 +22,7 @@ class TransactionHandler(
     fun saveTransfer(source: BankAccount, destination: BankAccount, amount: Double, date: LocalDateTime, description: String) =
         saveTransferUseCase.execute(source, destination, amount, date, description)
     fun deleteTransaction(transaction: Transaction) = transactionRepository.delete(transaction)
+    fun flagTransaction(transaction: Transaction) = saveTransactionUseCase.execute(transaction.copy(isFlagged = !transaction.isFlagged))
     fun fetchTransactions(account: BankAccount? = null) = fetchTransactionsUseCase.execute(account)
     fun exportTransactionsToCsv(transactions: List<Transaction>, file: File) =
         exportTransactionsToCsvUseCase.execute(transactions, file)

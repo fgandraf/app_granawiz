@@ -57,6 +57,8 @@ class Transaction(
 
     @Column(name = "is_transfer", columnDefinition = "INTEGER") val isTransfer: Boolean = false,
 
+    @Column(name = "is_flagged", columnDefinition = "INTEGER") val isFlagged: Boolean = false,
+
     ) : IFilterable {
 
     override fun toFilterEntry() = FilterEntry(
@@ -69,7 +71,7 @@ class Transaction(
         type = type,
     )
 
-    constructor() : this(0, Party(), BankAccount(), Category(), null, null, LocalDateTime.now(), "", 0.0, TransactionType.NEUTRAL, null, null, "1/1", false)
+    constructor() : this(0, Party(), BankAccount(), Category(), null, null, LocalDateTime.now(), "", 0.0, TransactionType.NEUTRAL, null, null, "1/1", false, false)
 
     fun copy(
         id: Long = this.id,
@@ -86,8 +88,9 @@ class Transaction(
         originalDueDate: LocalDateTime? = this.originalDueDate,
         installment: String = this.installment,
         isTransfer: Boolean = this.isTransfer,
+        isFlagged: Boolean = this.isFlagged,
     ): Transaction {
-        return Transaction(id, party, account, category, subcategory, tags, date, description, balance, type, scheduleId, originalDueDate, installment, isTransfer)
+        return Transaction(id, party, account, category, subcategory, tags, date, description, balance, type, scheduleId, originalDueDate, installment, isTransfer, isFlagged)
     }
 
 

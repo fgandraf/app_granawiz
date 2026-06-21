@@ -1,0 +1,1 @@
+ALTER TABLE tbl_transactions ADD COLUMN is_flagged INTEGER NOT NULL DEFAULT 0;

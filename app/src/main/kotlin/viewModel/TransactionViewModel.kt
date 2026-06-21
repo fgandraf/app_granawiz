@@ -105,6 +105,13 @@ class TransactionViewModel(
         }.onFailure { AppEvents.emit(UiEvent.Error(it.localizedMessage ?: "Erro desconhecido")) }
     }
 
+    fun flagTransaction(transaction: Transaction) {
+        runCatching {
+            transactionHandler.flagTransaction(transaction)
+            getTransactions()
+        }.onFailure { AppEvents.emit(UiEvent.Error(it.localizedMessage ?: "Erro desconhecido")) }
+    }
+
     fun exportToCsv(transactions: List<Transaction>, file: File) {
         runCatching {
             transactionHandler.exportTransactionsToCsv(transactions, file)

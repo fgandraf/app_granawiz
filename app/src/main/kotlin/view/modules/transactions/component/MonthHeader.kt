@@ -16,13 +16,13 @@ import com.felipegandra.generated.resources.Res
 import com.felipegandra.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 import view.shared.TextH1
-import java.time.LocalDate
 import java.time.Month
+import java.time.YearMonth
 
 @Composable
 fun MonthHeader(
     modifier: Modifier = Modifier,
-    month: Month,
+    yearMonth: YearMonth,
 ) {
     val monthNames = mapOf(
         Month.JANUARY to stringResource(Res.string.month_january),
@@ -39,8 +39,13 @@ fun MonthHeader(
         Month.DECEMBER to stringResource(Res.string.month_december),
     )
 
-    val formatedMonth = monthNames[month] ?: stringResource(Res.string.month_unknown)
-    val monthTitle = if (month != LocalDate.now().month) formatedMonth else stringResource(Res.string.month_current)
+    val now = YearMonth.now()
+    val monthName = monthNames[yearMonth.month] ?: stringResource(Res.string.month_unknown)
+    val monthTitle = when {
+        yearMonth == now -> stringResource(Res.string.month_current)
+        yearMonth.year != now.year -> "$monthName ${yearMonth.year}"
+        else -> monthName
+    }
     val corners = RoundedCornerShape(topStart = 5.dp, topEnd = 5.dp)
 
     Box(

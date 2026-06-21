@@ -22,6 +22,7 @@ import com.adamglin.phosphoricons.regular.*
 import com.felipegandra.generated.resources.*
 import domain.entity.Transaction
 import domain.entity.account.BankAccount
+import domain.entity.account.CreditCardAccount
 import domain.enums.TransactionType
 import domain.structs.PageAddress
 import kotlinx.coroutines.Dispatchers
@@ -39,7 +40,7 @@ import java.awt.FileDialog
 import java.awt.Frame
 import java.io.File
 import java.time.LocalDate
-import java.time.Month
+import java.time.YearMonth
 
 
 @Composable
@@ -256,24 +257,34 @@ private fun Body(
                     }
 
                 LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
-                    val currentMonth = LocalDate.now().month
+                    val currentYearMonth = YearMonth.now()
+                    val creditCard = account as? CreditCardAccount
                     val monthTransactions = displayedTransactions
-                        .groupBy { it.date.month }
+                        .groupBy { tx ->
+                            if (creditCard != null) {
+                                val txYearMonth = YearMonth.from(tx.date)
+                                if (tx.date.dayOfMonth < creditCard.closingDay) txYearMonth.plusMonths(1)
+                                else txYearMonth.plusMonths(2)
+                            } else {
+                                YearMonth.from(tx.date)
+                            }
+                        }
                         .mapValues { (_, txs) -> txs.sortedByDescending { it.date } }
                     val sortedMonths = monthTransactions.keys
-                        .sortedWith(compareByDescending<Month> { it == currentMonth }.thenByDescending { it.value })
+                        .sortedWith(compareByDescending<YearMonth> { it == currentYearMonth }.thenByDescending { it })
                     item { Spacer(modifier = Modifier.height(30.dp)) }
-                    sortedMonths.forEach { month ->
-                        val transactions = monthTransactions[month] ?: return@forEach
+                    sortedMonths.forEach { yearMonth ->
+                        val transactions = monthTransactions[yearMonth] ?: return@forEach
                         item {
                             MonthSection(
-                                month = month,
+                                yearMonth = yearMonth,
                                 transactions = transactions,
                                 onTransactionClick = onTransactionClick,
                                 onTransactionDelete = { tx ->
                                     viewModel.deleteTransaction(tx)
                                     onTransactionDeleted()
                                 },
+                                onTransactionFlag = { tx -> viewModel.flagTransaction(tx) },
                             )
                         }
                     }
@@ -345,12 +356,13 @@ private fun Body(
 
 @Composable
 private fun MonthSection(
-    month: Month,
+    yearMonth: YearMonth,
     transactions: List<Transaction>,
     onTransactionClick: (Transaction) -> Unit,
     onTransactionDelete: (Transaction) -> Unit,
+    onTransactionFlag: (Transaction) -> Unit,
 ) {
-    MonthHeader(modifier = Modifier.zIndex(1f), month = month)
+    MonthHeader(modifier = Modifier.zIndex(1f), yearMonth = yearMonth)
     Column(
         modifier = Modifier
             .padding(start = 80.dp, end = 30.dp)
@@ -371,6 +383,7 @@ private fun MonthSection(
             TransactionRow(
                 transaction = transaction,
                 onDelete = { onTransactionDelete(transaction) },
+                onFlag = { onTransactionFlag(transaction) },
                 onClick = { onTransactionClick(transaction) }
             )
         }

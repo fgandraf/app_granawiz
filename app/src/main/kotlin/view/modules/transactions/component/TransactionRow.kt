@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
 import com.adamglin.phosphoricons.light.DotsThree
+import com.adamglin.phosphoricons.light.Flag
 import com.adamglin.phosphoricons.light.Pen
 import com.adamglin.phosphoricons.light.Tag
 import com.adamglin.phosphoricons.light.Trash
@@ -39,8 +40,10 @@ import java.util.*
 fun TransactionRow(
     transaction: Transaction,
     onDelete: () -> Unit,
+    onFlag: () -> Unit,
     onClick: () -> Unit
 ){
+    val flaggedBackground = if (transaction.isFlagged) Color(0xFFFFF176).copy(alpha = 0.35f) else Color.Transparent
 
     Column {
         Row(
@@ -49,6 +52,7 @@ fun TransactionRow(
                 .fillMaxWidth()
                 .height(45.dp)
                 .clip(RoundedCornerShape(0.dp))
+                .background(flaggedBackground)
                 .pointerHoverIcon(PointerIcon.Hand)
                 .clickable { onClick() }
         ) {
@@ -174,6 +178,11 @@ fun TransactionRow(
                         var showForm by remember { mutableStateOf(false) }
                         ClickableRow(icon = PhosphorIcons.Light.Pen, label = stringResource(Res.string.edit)) { showForm = true }
                         if (showForm) onClick()
+
+                        ClickableRow(icon = PhosphorIcons.Light.Flag, label = stringResource(Res.string.flag)) {
+                            onFlag()
+                            showEditTransaction = false
+                        }
 
                         var showDeleteTransaction by remember { mutableStateOf(false) }
                         ClickableRow(icon = PhosphorIcons.Light.Trash, label = stringResource(Res.string.delete)) { showDeleteTransaction = true }

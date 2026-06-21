@@ -57,11 +57,11 @@ fun DateTimePicker(
         var expanded by remember { mutableStateOf(false) }
         val formatter = remember { DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm") }
 
-        var selectedDate by remember { mutableStateOf(value.toLocalDate()) }
-        var currentMonth by remember { mutableStateOf(YearMonth.from(selectedDate)) }
-        var hours by remember { mutableStateOf(value.hour) }
-        var minutes by remember { mutableStateOf(value.minute) }
-        var textInput by remember { mutableStateOf(value.format(formatter)) }
+        var selectedDate by remember(value) { mutableStateOf(value.toLocalDate()) }
+        var currentMonth by remember(value) { mutableStateOf(YearMonth.from(value.toLocalDate())) }
+        var hours by remember(value) { mutableStateOf(value.hour) }
+        var minutes by remember(value) { mutableStateOf(value.minute) }
+        var textInput by remember(value) { mutableStateOf(value.format(formatter)) }
 
         val inputTextStyle = androidx.compose.ui.text.TextStyle(
             fontSize = 12.sp,
