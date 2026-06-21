@@ -85,6 +85,8 @@ object ApplicationContainer {
 
     val accountHandler = AccountHandler(
         accountRepository = accountRepository,
+        transactionRepository = transactionRepository,
+        scheduleRepository = scheduleRepository,
         moveAccountPosition = MoveAccountPositionUseCase(accountRepository),
         updateAccountBalance = UpdateAccountBalanceUseCase(accountRepository),
         saveAccount = SaveAccountUseCase(accountRepository),
