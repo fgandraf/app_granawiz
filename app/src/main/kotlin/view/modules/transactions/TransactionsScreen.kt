@@ -6,11 +6,13 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
@@ -369,6 +371,9 @@ private fun MonthSection(
     onTransactionDelete: (Transaction) -> Unit,
     onTransactionFlag: (Transaction) -> Unit,
 ) {
+    val regular = transactions.filter { it.installment == "1/1" }
+    val installments = transactions.filter { it.installment != "1/1" }
+
     MonthHeader(modifier = Modifier.zIndex(1f), yearMonth = yearMonth)
     Column(
         modifier = Modifier
@@ -386,13 +391,30 @@ private fun MonthSection(
             )
     ) {
         Spacer(Modifier.height(20.dp))
-        transactions.forEach { transaction ->
+        regular.forEach { transaction ->
             TransactionRow(
                 transaction = transaction,
                 onDelete = { onTransactionDelete(transaction) },
                 onFlag = { onTransactionFlag(transaction) },
                 onClick = { onTransactionClick(transaction) }
             )
+        }
+        if (installments.isNotEmpty()) {
+            if (regular.isNotEmpty()) Divider(color = MaterialTheme.colors.onSurface)
+            TextSmall(
+                text = stringResource(Res.string.transactions_installment_group),
+                weight = FontWeight.Bold,
+                color = MaterialTheme.colors.primary,
+                modifier = Modifier.padding(start = 10.dp, top = 8.dp, bottom = 4.dp)
+            )
+            installments.forEach { transaction ->
+                TransactionRow(
+                    transaction = transaction,
+                    onDelete = { onTransactionDelete(transaction) },
+                    onFlag = { onTransactionFlag(transaction) },
+                    onClick = { onTransactionClick(transaction) }
+                )
+            }
         }
         Spacer(Modifier.height(20.dp))
     }

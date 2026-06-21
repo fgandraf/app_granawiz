@@ -94,6 +94,7 @@
 
     <!-- ─── Transactions ─────────────────────────────────────────────────── -->
     <string name="transactions_empty">Nenhuma transação encontrada.</string>
+    <string name="transactions_installment_group">Parcelamento</string>
     <string name="transaction_edit_income">Editar receita</string>
     <string name="transaction_edit_expense">Editar despesa</string>
     <string name="transaction_new_income">Nova receita</string>
