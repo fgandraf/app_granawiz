@@ -43,7 +43,7 @@ class FetchNetWorthDeltaUseCaseTest {
         group.accounts.add(account(1000.0))
         group.accounts.add(account(500.0))
         every { groupRepo.getAll() } returns listOf(group)
-        every { txRepo.getByDateRange(any(), any()) } returns emptyList()
+        every { txRepo.getByDateRange(any(), any(), any(), any()) } returns emptyList()
 
         val result = useCase.execute(today)
 
@@ -55,7 +55,7 @@ class FetchNetWorthDeltaUseCaseTest {
         val group = Group(id = 1, name = "G", position = 1)
         group.accounts.add(account(1200.0))
         every { groupRepo.getAll() } returns listOf(group)
-        every { txRepo.getByDateRange(any(), any()) } returns listOf(
+        every { txRepo.getByDateRange(any(), any(), any(), any()) } returns listOf(
             tx(500.0, TransactionType.GAIN),
             tx(-300.0, TransactionType.EXPENSE),
         )
@@ -70,7 +70,7 @@ class FetchNetWorthDeltaUseCaseTest {
         val group = Group(id = 1, name = "G", position = 1)
         group.accounts.add(account(1000.0))
         every { groupRepo.getAll() } returns listOf(group)
-        every { txRepo.getByDateRange(any(), any()) } returns listOf(
+        every { txRepo.getByDateRange(any(), any(), any(), any()) } returns listOf(
             tx(100.0, TransactionType.NEUTRAL),
         )
 
@@ -84,7 +84,7 @@ class FetchNetWorthDeltaUseCaseTest {
         val group = Group(id = 1, name = "G", position = 1)
         group.accounts.add(account(1200.0))
         every { groupRepo.getAll() } returns listOf(group)
-        every { txRepo.getByDateRange(any(), any()) } returns listOf(
+        every { txRepo.getByDateRange(any(), any(), any(), any()) } returns listOf(
             tx(200.0, TransactionType.GAIN),
         )
 
@@ -99,7 +99,7 @@ class FetchNetWorthDeltaUseCaseTest {
         val group = Group(id = 1, name = "G", position = 1)
         group.accounts.add(account(100.0))
         every { groupRepo.getAll() } returns listOf(group)
-        every { txRepo.getByDateRange(any(), any()) } returns listOf(
+        every { txRepo.getByDateRange(any(), any(), any(), any()) } returns listOf(
             tx(100.0, TransactionType.GAIN),
         )
 

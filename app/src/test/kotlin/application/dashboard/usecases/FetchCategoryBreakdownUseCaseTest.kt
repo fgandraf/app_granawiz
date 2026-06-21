@@ -34,7 +34,7 @@ class FetchCategoryBreakdownUseCaseTest {
 
     @Test
     fun `empty transactions returns empty list`() {
-        every { repo.getByDateRange(from, to, TransactionType.EXPENSE) } returns emptyList()
+        every { repo.getByDateRange(from, to, TransactionType.EXPENSE, true) } returns emptyList()
         val result = useCase.execute(from, to)
         assertTrue(result.isEmpty())
     }
@@ -43,7 +43,7 @@ class FetchCategoryBreakdownUseCaseTest {
     fun `groups by category and calculates percentage`() {
         val food = cat(1, "Food")
         val transport = cat(2, "Transport")
-        every { repo.getByDateRange(from, to, TransactionType.EXPENSE) } returns listOf(
+        every { repo.getByDateRange(from, to, TransactionType.EXPENSE, true) } returns listOf(
             tx(food, -80.0), tx(food, -20.0), tx(transport, -100.0)
         )
 
@@ -58,7 +58,7 @@ class FetchCategoryBreakdownUseCaseTest {
     fun `results are sorted by amount descending`() {
         val food = cat(1, "Food")
         val transport = cat(2, "Transport")
-        every { repo.getByDateRange(from, to, TransactionType.EXPENSE) } returns listOf(
+        every { repo.getByDateRange(from, to, TransactionType.EXPENSE, true) } returns listOf(
             tx(food, -50.0), tx(transport, -200.0)
         )
 
@@ -71,7 +71,7 @@ class FetchCategoryBreakdownUseCaseTest {
     @Test
     fun `categories beyond limit are merged into Outros bucket`() {
         val cats = (1..8).map { cat(it.toLong(), "Cat$it") }
-        every { repo.getByDateRange(from, to, TransactionType.EXPENSE) } returns
+        every { repo.getByDateRange(from, to, TransactionType.EXPENSE, true) } returns
             cats.map { tx(it, -100.0) }
 
         val result = useCase.execute(from, to, limit = 6)
@@ -84,7 +84,7 @@ class FetchCategoryBreakdownUseCaseTest {
     @Test
     fun `number of categories within limit returns all`() {
         val cats = (1..4).map { cat(it.toLong(), "Cat$it") }
-        every { repo.getByDateRange(from, to, TransactionType.EXPENSE) } returns
+        every { repo.getByDateRange(from, to, TransactionType.EXPENSE, true) } returns
             cats.map { tx(it, -100.0) }
 
         val result = useCase.execute(from, to, limit = 6)

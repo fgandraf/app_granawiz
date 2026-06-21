@@ -45,7 +45,7 @@ class FetchCreditCardSnapshotsUseCaseTest {
         val g = Group(id = 1, name = "G", position = 1)
         g.accounts.add(BankAccount()) // regular checking, not credit card
         every { groupRepo.getAll() } returns listOf(g)
-        every { txRepo.getByDateRange(any(), any(), any()) } returns emptyList()
+        every { txRepo.getByDateRange(any(), any(), any(), any()) } returns emptyList()
 
         val result = useCase.execute(LocalDate.of(2024, 3, 15))
 
@@ -58,7 +58,7 @@ class FetchCreditCardSnapshotsUseCaseTest {
         val c2 = card(id = 2L, closingDay = 15, dueDay = 25)
         group.accounts.addAll(listOf(c1, c2))
         every { groupRepo.getAll() } returns listOf(group)
-        every { txRepo.getByDateRange(any(), any(), any()) } returns emptyList()
+        every { txRepo.getByDateRange(any(), any(), any(), any()) } returns emptyList()
 
         val result = useCase.execute(LocalDate.of(2024, 3, 15))
 
@@ -74,7 +74,7 @@ class FetchCreditCardSnapshotsUseCaseTest {
 
         val txDate = LocalDateTime.of(2024, 3, 10, 10, 0)
         val txWithCard = expense(c.id, 300.0, txDate)
-        every { txRepo.getByDateRange(any(), any(), TransactionType.EXPENSE) } returns listOf(txWithCard)
+        every { txRepo.getByDateRange(any(), any(), TransactionType.EXPENSE, true) } returns listOf(txWithCard)
 
         val result = useCase.execute(LocalDate.of(2024, 3, 15))
 
@@ -89,7 +89,7 @@ class FetchCreditCardSnapshotsUseCaseTest {
         val g = Group(id = 1, name = "G", position = 1)
         g.accounts.add(c)
         every { groupRepo.getAll() } returns listOf(g)
-        every { txRepo.getByDateRange(any(), any(), TransactionType.EXPENSE) } returns emptyList()
+        every { txRepo.getByDateRange(any(), any(), TransactionType.EXPENSE, true) } returns emptyList()
 
         val result = useCase.execute(LocalDate.of(2024, 3, 15))
 
@@ -103,7 +103,7 @@ class FetchCreditCardSnapshotsUseCaseTest {
         val g = Group(id = 1, name = "G", position = 1)
         g.accounts.add(c)
         every { groupRepo.getAll() } returns listOf(g)
-        every { txRepo.getByDateRange(any(), any(), TransactionType.EXPENSE) } returns emptyList()
+        every { txRepo.getByDateRange(any(), any(), TransactionType.EXPENSE, true) } returns emptyList()
 
         val result = useCase.execute(LocalDate.of(2024, 3, 15))
 

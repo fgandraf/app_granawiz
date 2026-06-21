@@ -90,6 +90,9 @@ tasks.withType<JavaExec> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    testLogging {
+        events("passed", "skipped", "failed")
+    }
 }
 
 compose.resources {

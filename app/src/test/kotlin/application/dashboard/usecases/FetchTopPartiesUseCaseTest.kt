@@ -32,7 +32,7 @@ class FetchTopPartiesUseCaseTest {
     fun `groups transactions by party and sums absolute balances`() {
         val alice = Party(id = 1L, name = "Alice", type = PartyType.RECEIVER)
         val bob = Party(id = 2L, name = "Bob", type = PartyType.RECEIVER)
-        every { repo.getByDateRange(from, to, TransactionType.EXPENSE) } returns listOf(
+        every { repo.getByDateRange(from, to, TransactionType.EXPENSE, true) } returns listOf(
             tx(alice, -100.0), tx(alice, -50.0), tx(bob, -200.0)
         )
 
@@ -48,7 +48,7 @@ class FetchTopPartiesUseCaseTest {
     @Test
     fun `respects limit parameter`() {
         val parties = (1..5).map { Party(id = it.toLong(), name = "P$it", type = PartyType.RECEIVER) }
-        every { repo.getByDateRange(from, to, TransactionType.EXPENSE) } returns
+        every { repo.getByDateRange(from, to, TransactionType.EXPENSE, true) } returns
             parties.map { tx(it, -100.0) }
 
         val result = useCase.execute(from, to, limit = 2)
@@ -58,7 +58,7 @@ class FetchTopPartiesUseCaseTest {
 
     @Test
     fun `empty transactions returns empty list`() {
-        every { repo.getByDateRange(from, to, TransactionType.EXPENSE) } returns emptyList()
+        every { repo.getByDateRange(from, to, TransactionType.EXPENSE, true) } returns emptyList()
         val result = useCase.execute(from, to)
         assertTrue(result.isEmpty())
     }
@@ -66,7 +66,7 @@ class FetchTopPartiesUseCaseTest {
     @Test
     fun `transaction count is correct per party`() {
         val alice = Party(id = 1L, name = "Alice", type = PartyType.RECEIVER)
-        every { repo.getByDateRange(from, to, TransactionType.EXPENSE) } returns listOf(
+        every { repo.getByDateRange(from, to, TransactionType.EXPENSE, true) } returns listOf(
             tx(alice, -100.0), tx(alice, -50.0), tx(alice, -30.0)
         )
 

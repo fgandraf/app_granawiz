@@ -29,7 +29,7 @@ class FetchMonthlyFlowUseCaseTest {
     fun `monthly granularity returns one bucket per month in range`() {
         val from = LocalDateTime.of(2024, 1, 1, 0, 0)
         val to = LocalDateTime.of(2024, 3, 31, 23, 59)
-        every { repo.getByDateRange(any(), any()) } returns emptyList()
+        every { repo.getByDateRange(any(), any(), any(), any()) } returns emptyList()
 
         val result = useCase.execute(from, to)
 
@@ -41,7 +41,7 @@ class FetchMonthlyFlowUseCaseTest {
         val from = LocalDateTime.of(2024, 1, 1, 0, 0)
         val to = LocalDateTime.of(2024, 1, 31, 23, 59)
         val janDate = LocalDateTime.of(2024, 1, 15, 10, 0)
-        every { repo.getByDateRange(any(), any()) } returns listOf(
+        every { repo.getByDateRange(any(), any(), any(), any()) } returns listOf(
             tx(janDate, 500.0, TransactionType.GAIN),
             tx(janDate, -200.0, TransactionType.EXPENSE),
         )
@@ -57,7 +57,7 @@ class FetchMonthlyFlowUseCaseTest {
     fun `yearly granularity groups by year`() {
         val from = LocalDateTime.of(2022, 1, 1, 0, 0)
         val to = LocalDateTime.of(2024, 12, 31, 23, 59)
-        every { repo.getByDateRange(any(), any()) } returns emptyList()
+        every { repo.getByDateRange(any(), any(), any(), any()) } returns emptyList()
 
         val result = useCase.execute(from, to, granularity = FetchMonthlyFlowUseCase.Granularity.YEAR)
 
@@ -70,7 +70,7 @@ class FetchMonthlyFlowUseCaseTest {
     fun `maxBuckets limits number of monthly buckets`() {
         val from = LocalDateTime.of(2020, 1, 1, 0, 0)
         val to = LocalDateTime.of(2024, 12, 31, 23, 59)
-        every { repo.getByDateRange(any(), any()) } returns emptyList()
+        every { repo.getByDateRange(any(), any(), any(), any()) } returns emptyList()
 
         val result = useCase.execute(from, to, maxBuckets = 6)
 
@@ -82,7 +82,7 @@ class FetchMonthlyFlowUseCaseTest {
         val from = LocalDateTime.of(2024, 1, 1, 0, 0)
         val to = LocalDateTime.of(2024, 1, 31, 23, 59)
         val janDate = LocalDateTime.of(2024, 1, 15, 10, 0)
-        every { repo.getByDateRange(any(), any()) } returns listOf(
+        every { repo.getByDateRange(any(), any(), any(), any()) } returns listOf(
             tx(janDate, 300.0, TransactionType.NEUTRAL),
         )
 

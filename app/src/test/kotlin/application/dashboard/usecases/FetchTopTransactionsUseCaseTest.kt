@@ -30,7 +30,7 @@ class FetchTopTransactionsUseCaseTest {
 
     @Test
     fun `returns transactions sorted by absolute balance descending`() {
-        every { repo.getByDateRange(from, to, TransactionType.EXPENSE) } returns listOf(
+        every { repo.getByDateRange(from, to, TransactionType.EXPENSE, true) } returns listOf(
             tx(-50.0), tx(-200.0), tx(-10.0)
         )
 
@@ -43,7 +43,7 @@ class FetchTopTransactionsUseCaseTest {
 
     @Test
     fun `respects limit parameter`() {
-        every { repo.getByDateRange(from, to, TransactionType.EXPENSE) } returns
+        every { repo.getByDateRange(from, to, TransactionType.EXPENSE, true) } returns
             (1..10).map { tx(-it * 10.0) }
 
         val result = useCase.execute(from, to, limit = 3)
@@ -53,7 +53,7 @@ class FetchTopTransactionsUseCaseTest {
 
     @Test
     fun `empty list returns empty`() {
-        every { repo.getByDateRange(from, to, TransactionType.EXPENSE) } returns emptyList()
+        every { repo.getByDateRange(from, to, TransactionType.EXPENSE, true) } returns emptyList()
         val result = useCase.execute(from, to)
         assertTrue(result.isEmpty())
     }

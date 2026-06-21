@@ -60,7 +60,7 @@ class BuildDashboardSummaryUseCaseTest {
     fun `cash flow income and expense are correctly computed from period transactions`() {
         setupDefaults()
         val (from, to) = DashboardPeriod.ThisMonth.range(today)
-        every { txRepo.getByDateRange(from, to) } returns listOf(
+        every { txRepo.getByDateRange(from, to, null, true) } returns listOf(
             tx(500.0, TransactionType.GAIN),
             tx(-200.0, TransactionType.EXPENSE),
             tx(-50.0, TransactionType.EXPENSE),
@@ -76,7 +76,7 @@ class BuildDashboardSummaryUseCaseTest {
     fun `savings rate is income minus expense over income`() {
         setupDefaults()
         val (from, to) = DashboardPeriod.ThisMonth.range(today)
-        every { txRepo.getByDateRange(from, to) } returns listOf(
+        every { txRepo.getByDateRange(from, to, null, true) } returns listOf(
             tx(1000.0, TransactionType.GAIN),
             tx(-400.0, TransactionType.EXPENSE),
         )
@@ -90,7 +90,7 @@ class BuildDashboardSummaryUseCaseTest {
     fun `savings rate is zero when no income`() {
         setupDefaults()
         val (from, to) = DashboardPeriod.ThisMonth.range(today)
-        every { txRepo.getByDateRange(from, to) } returns listOf(
+        every { txRepo.getByDateRange(from, to, null, true) } returns listOf(
             tx(-300.0, TransactionType.EXPENSE),
         )
 
@@ -103,7 +103,7 @@ class BuildDashboardSummaryUseCaseTest {
     fun `spending pace is included only for ThisMonth period`() {
         setupDefaults()
         val (from, to) = DashboardPeriod.ThisMonth.range(today)
-        every { txRepo.getByDateRange(from, to) } returns emptyList()
+        every { txRepo.getByDateRange(from, to, null, true) } returns emptyList()
 
         useCase.execute(DashboardPeriod.ThisMonth, today)
 
@@ -114,7 +114,7 @@ class BuildDashboardSummaryUseCaseTest {
     fun `spending pace is null for non-ThisMonth periods`() {
         setupDefaults()
         val (from, to) = DashboardPeriod.LastMonth.range(today)
-        every { txRepo.getByDateRange(from, to) } returns emptyList()
+        every { txRepo.getByDateRange(from, to, null, true) } returns emptyList()
 
         val summary = useCase.execute(DashboardPeriod.LastMonth, today)
 
@@ -125,7 +125,7 @@ class BuildDashboardSummaryUseCaseTest {
     fun `Last3Years period uses YEAR granularity for monthly evolution`() {
         setupDefaults()
         val (from, to) = DashboardPeriod.Last3Years.range(today)
-        every { txRepo.getByDateRange(from, to) } returns emptyList()
+        every { txRepo.getByDateRange(from, to, null, true) } returns emptyList()
 
         useCase.execute(DashboardPeriod.Last3Years, today)
 

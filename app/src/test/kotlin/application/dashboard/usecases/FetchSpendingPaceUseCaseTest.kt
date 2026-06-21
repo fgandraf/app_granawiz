@@ -29,7 +29,7 @@ class FetchSpendingPaceUseCaseTest {
 
     @Test
     fun `returns null when no baseline transactions exist`() {
-        every { repo.getByDateRange(any(), any(), TransactionType.EXPENSE) } returns emptyList()
+        every { repo.getByDateRange(any(), any(), TransactionType.EXPENSE, true) } returns emptyList()
         val result = useCase.execute(today, baselineMonths = 3)
         assertNull(result)
     }
@@ -39,7 +39,7 @@ class FetchSpendingPaceUseCaseTest {
         val mtdDate = LocalDateTime.of(2024, 3, 10, 10, 0)
         val baselineDate = LocalDateTime.of(2024, 2, 10, 10, 0)
 
-        every { repo.getByDateRange(any(), any(), TransactionType.EXPENSE) } answers {
+        every { repo.getByDateRange(any(), any(), TransactionType.EXPENSE, true) } answers {
             val from = firstArg<LocalDateTime>()
             if (from.year == 2024 && from.month.value == 3) {
                 listOf(expense(mtdDate, 200.0))
@@ -58,7 +58,7 @@ class FetchSpendingPaceUseCaseTest {
         val mtdDate = LocalDateTime.of(2024, 3, 10, 10, 0)
         val baselineDate = LocalDateTime.of(2024, 2, 10, 10, 0)
 
-        every { repo.getByDateRange(any(), any(), TransactionType.EXPENSE) } answers {
+        every { repo.getByDateRange(any(), any(), TransactionType.EXPENSE, true) } answers {
             val from = firstArg<LocalDateTime>()
             if (from.year == 2024 && from.month.value == 3) {
                 listOf(expense(mtdDate, 300.0))
@@ -78,7 +78,7 @@ class FetchSpendingPaceUseCaseTest {
         val mtdDate = LocalDateTime.of(2024, 3, 10, 10, 0)
         val baselineDate = LocalDateTime.of(2024, 2, 10, 10, 0)
 
-        every { repo.getByDateRange(any(), any(), TransactionType.EXPENSE) } answers {
+        every { repo.getByDateRange(any(), any(), TransactionType.EXPENSE, true) } answers {
             val from = firstArg<LocalDateTime>()
             if (from.year == 2024 && from.month.value == 3) {
                 listOf(expense(mtdDate, 100.0))
