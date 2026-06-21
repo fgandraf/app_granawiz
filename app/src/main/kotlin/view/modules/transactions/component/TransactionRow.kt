@@ -88,7 +88,8 @@ fun TransactionRow(
                 )
                 val day = transaction.date.dayOfMonth
                 val month = transaction.date.month.getDisplayName(TextStyle.FULL, Locale.of("pt", "BR"))
-                TextSmall(text = "$day $month")
+                val installmentSuffix = if (transaction.installment != "1/1") " · ${transaction.installment}" else ""
+                TextSmall(text = "$day $month$installmentSuffix")
             }
 
 

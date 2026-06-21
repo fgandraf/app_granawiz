@@ -262,9 +262,16 @@ private fun Body(
                     val monthTransactions = displayedTransactions
                         .groupBy { tx ->
                             if (creditCard != null) {
-                                val txYearMonth = YearMonth.from(tx.date)
-                                if (tx.date.dayOfMonth < creditCard.closingDay) txYearMonth.plusMonths(1)
-                                else txYearMonth.plusMonths(2)
+                                // CSV-imported: originalDueDate IS the billing payment date → use month directly
+                                // Schedule-based: apply closingDay calculation to originalDueDate ?? date
+                                if (tx.scheduleId == null && tx.originalDueDate != null) {
+                                    YearMonth.from(tx.originalDueDate)
+                                } else {
+                                    val effectiveDate = tx.originalDueDate ?: tx.date
+                                    val txYearMonth = YearMonth.from(effectiveDate)
+                                    if (effectiveDate.dayOfMonth < creditCard.closingDay) txYearMonth.plusMonths(1)
+                                    else txYearMonth.plusMonths(2)
+                                }
                             } else {
                                 YearMonth.from(tx.date)
                             }
