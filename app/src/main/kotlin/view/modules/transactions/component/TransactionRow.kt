@@ -16,22 +16,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
-import utils.rememberSvgPainter
 import androidx.compose.ui.unit.dp
 import com.adamglin.PhosphorIcons
 import com.adamglin.phosphoricons.Light
-import com.adamglin.phosphoricons.light.DotsThree
-import com.adamglin.phosphoricons.light.Flag
-import com.adamglin.phosphoricons.light.Pen
-import com.adamglin.phosphoricons.light.Tag
-import com.adamglin.phosphoricons.light.Trash
+import com.adamglin.phosphoricons.light.*
+import com.felipegandra.generated.resources.*
 import domain.entity.Transaction
 import domain.enums.TransactionType
-import com.felipegandra.generated.resources.Res
-import com.felipegandra.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 import utils.IconPaths
 import utils.formatNumber
+import utils.rememberSvgPainter
 import view.shared.*
 import java.time.format.TextStyle
 import java.util.*
@@ -69,7 +64,7 @@ fun TransactionRow(
                     modifier = Modifier
                         .clip(CircleShape)
                         .background(if (transaction.type == TransactionType.GAIN) gainColor else if (transaction.type == TransactionType.EXPENSE) MaterialTheme.colors.onError else MaterialTheme.colors.primaryVariant)
-                        .size(10.dp)
+                        .size(12.dp)
                 )
             }
 
@@ -165,7 +160,7 @@ fun TransactionRow(
             var showEditTransaction by remember { mutableStateOf(false) }
             Row(Modifier.fillMaxHeight().padding(end = 20.dp), Arrangement.End, Alignment.CenterVertically) {
                 ClickableIcon(
-                    icon = PhosphorIcons.Light.DotsThree,
+                    icon = PhosphorIcons.Light.DotsThreeVertical,
                     shape = RoundedCornerShape(6.dp),
                     onClick = { showEditTransaction = true },
                 )
