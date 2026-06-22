@@ -393,8 +393,10 @@ private fun MonthSection(
             )
         }
         if (installments.isNotEmpty()) {
-            Spacer(Modifier.height(20.dp))
-            if (regular.isNotEmpty()) Divider(color = MaterialTheme.colors.onSurface)
+            if (regular.isNotEmpty()) {
+                Spacer(Modifier.height(20.dp))
+                Divider(color = MaterialTheme.colors.onSurface)
+            }
             TextSmall(
                 text = stringResource(Res.string.transactions_installment_group),
                 weight = FontWeight.Bold,
