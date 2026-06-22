@@ -16,6 +16,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Light
+import com.adamglin.phosphoricons.light.Download
+import com.adamglin.phosphoricons.light.Export
 import com.felipegandra.generated.resources.Res
 import com.felipegandra.generated.resources.*
 import kotlinx.coroutines.Dispatchers
@@ -98,51 +102,62 @@ fun Body(
 
             // PARTIES
             Column(modifier = Modifier.weight(1f).fillMaxHeight().padding(35.dp)) {
-                SearchField(
-                    modifier = Modifier.fillMaxWidth(),
-                    value = filterText,
-                    onValueChange = { filterText = it }
-                )
-                Spacer(Modifier.height(8.dp))
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    DefaultButton(
-                        text = stringResource(Res.string.`import`),
-                        onClick = {
-                            val dialog = FileDialog(null as Frame?, strImportDialogTitle, FileDialog.LOAD)
-                            dialog.filenameFilter = java.io.FilenameFilter { _, name -> name.lowercase().endsWith(".csv") }
-                            dialog.isVisible = true
-                            val dir = dialog.directory
-                            val name = dialog.file
-                            dialog.dispose()
-                            if (dir != null && name != null) {
-                                scope.launch(Dispatchers.IO) {
-                                    importReport = viewModel.importFromCsv(File(dir, name))
+                    SearchField(
+                        modifier = Modifier.weight(1f),
+                        value = filterText,
+                        onValueChange = { filterText = it }
+                    )
+                    TooltipBox(label = stringResource(Res.string.`import`)) {
+                        ClickableIcon(
+                            icon = PhosphorIcons.Light.Download,
+                            iconSize = 20.dp,
+                            boxSize = 28.dp,
+                            onClick = {
+                                val dialog = FileDialog(null as Frame?, strImportDialogTitle, FileDialog.LOAD)
+                                dialog.filenameFilter = java.io.FilenameFilter { _, name -> name.lowercase().endsWith(".csv") }
+                                dialog.isVisible = true
+                                val dir = dialog.directory
+                                val name = dialog.file
+                                dialog.dispose()
+                                if (dir != null && name != null) {
+                                    scope.launch(Dispatchers.IO) {
+                                        importReport = viewModel.importFromCsv(File(dir, name))
+                                    }
                                 }
                             }
-                        }
-                    )
-                    DefaultButton(
-                        text = stringResource(Res.string.export),
-                        onClick = {
-                            val dialog = FileDialog(null as Frame?, strExportDialogTitle, FileDialog.SAVE)
-                            dialog.file = defaultExportFileName
-                            dialog.isVisible = true
-                            val dir = dialog.directory
-                            val name = dialog.file
-                            dialog.dispose()
-                            if (dir != null && name != null) {
-                                val safeName = if (name.endsWith(".csv")) name else "$name.csv"
-                                scope.launch(Dispatchers.IO) {
-                                    viewModel.exportToCsv(parties, File(dir, safeName))
+                        )
+                    }
+                    TooltipBox(label = stringResource(Res.string.export)) {
+                        ClickableIcon(
+                            icon = PhosphorIcons.Light.Export,
+                            iconSize = 20.dp,
+                            boxSize = 28.dp,
+                            onClick = {
+                                val dialog = FileDialog(null as Frame?, strExportDialogTitle, FileDialog.SAVE)
+                                dialog.file = defaultExportFileName
+                                dialog.isVisible = true
+                                val dir = dialog.directory
+                                val name = dialog.file
+                                dialog.dispose()
+                                if (dir != null && name != null) {
+                                    val safeName = if (name.endsWith(".csv")) name else "$name.csv"
+                                    scope.launch(Dispatchers.IO) {
+                                        viewModel.exportToCsv(parties, File(dir, safeName))
+                                    }
                                 }
                             }
-                        }
-                    )
+                        )
+                    }
                 }
-                Spacer(Modifier.height(2.dp))
+                Spacer(Modifier.height(10.dp))
+                Divider(Modifier.fillMaxWidth().height(1.dp).background(MaterialTheme.colors.onSurface))
+                Spacer(Modifier.height(10.dp))
+
                 Box(modifier = Modifier.weight(1f).fillMaxWidth()) {
                     val listState = rememberLazyListState()
                     LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
