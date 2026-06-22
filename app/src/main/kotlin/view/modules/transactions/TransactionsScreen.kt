@@ -393,6 +393,7 @@ private fun MonthSection(
             )
         }
         if (installments.isNotEmpty()) {
+            Spacer(Modifier.height(20.dp))
             if (regular.isNotEmpty()) Divider(color = MaterialTheme.colors.onSurface)
             TextSmall(
                 text = stringResource(Res.string.transactions_installment_group),
@@ -400,6 +401,7 @@ private fun MonthSection(
                 color = MaterialTheme.colors.primary,
                 modifier = Modifier.padding(start = 10.dp, top = 8.dp, bottom = 4.dp)
             )
+            Spacer(Modifier.height(10.dp))
             installments.forEach { transaction ->
                 TransactionRow(
                     transaction = transaction,
