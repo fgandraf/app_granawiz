@@ -151,6 +151,10 @@
     <string name="delete_party_no_other_parties">Este %1$s possui transações vinculadas, mas não há outro %1$s cadastrado para transferi-las.</string>
     <string name="delete_party_reassign_label">Transferir transações para:</string>
     <string name="delete_party_reassign_button">Mover e excluir</string>
+    <string name="party_export_dialog_title">Exportar cadastros para CSV</string>
+    <string name="party_import_dialog_title">Importar cadastros de CSV</string>
+    <string name="party_import_result_title">Importação concluída</string>
+    <string name="party_import_result_message">%1$d importados, %2$d ignorados (já existiam), %3$d erros</string>
 
     <!-- ─── Schedules ─────────────────────────────────────────────────────── -->
     <string name="schedules_empty">Nenhum agendamento encontrado.</string>

@@ -1,6 +1,7 @@
 package viewModel
 
 import androidx.compose.runtime.derivedStateOf
+import application.party.usecases.ImportPartiesFromCsvUseCase
 import domain.entity.Party
 import domain.entity.PartyName
 import domain.enums.PartyType
@@ -11,6 +12,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import viewModel.shared.AppEvents
 import viewModel.shared.UiEvent
+import java.io.File
 
 class PartyViewModel(type: PartyType, private val partyHandler: PartyHandler = ApplicationContainer.partyHandler) {
 
@@ -113,5 +115,20 @@ class PartyViewModel(type: PartyType, private val partyHandler: PartyHandler = A
             true
         }.onFailure { AppEvents.emit(UiEvent.Error(it.localizedMessage ?: "Erro desconhecido")) }
          .getOrDefault(false)
+    }
+
+    fun exportToCsv(parties: List<Party>, file: File) {
+        runCatching {
+            partyHandler.exportToCsv(parties, file)
+        }.onFailure { AppEvents.emit(UiEvent.Error(it.localizedMessage ?: "Erro desconhecido")) }
+    }
+
+    fun importFromCsv(file: File): ImportPartiesFromCsvUseCase.Report? {
+        return runCatching {
+            val report = partyHandler.importFromCsv(file, _selectedType.value)
+            getParties()
+            report
+        }.onFailure { AppEvents.emit(UiEvent.Error(it.localizedMessage ?: "Erro desconhecido")) }
+         .getOrNull()
     }
 }

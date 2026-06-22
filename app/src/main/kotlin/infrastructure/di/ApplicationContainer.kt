@@ -37,7 +37,9 @@ import application.party.PartyHandler
 import application.party.usecases.AddNameUseCase
 import application.party.usecases.AddPartyUseCase
 import application.party.usecases.DeletePartyUseCase
+import application.party.usecases.ExportPartiesToCsvUseCase
 import application.party.usecases.FetchNamesUseCase
+import application.party.usecases.ImportPartiesFromCsvUseCase
 import application.party.usecases.ReassignAndDeletePartyUseCase
 import application.party.usecases.UpdateNameUseCase
 import application.party.usecases.UpdatePartyUseCase
@@ -117,6 +119,8 @@ object ApplicationContainer {
         addNameUseCase = AddNameUseCase(partyRepository),
         updateNameUseCase = UpdateNameUseCase(partyRepository),
         fetchNamesUseCase = FetchNamesUseCase(partyRepository),
+        exportPartiesToCsvUseCase = ExportPartiesToCsvUseCase(),
+        importPartiesFromCsvUseCase = ImportPartiesFromCsvUseCase(partyRepository),
     )
 
     val tagHandler = TagHandler(tagRepository)

@@ -10,10 +10,13 @@ import domain.enums.PartyType
 import application.party.usecases.AddNameUseCase
 import application.party.usecases.AddPartyUseCase
 import application.party.usecases.DeletePartyUseCase
+import application.party.usecases.ExportPartiesToCsvUseCase
 import application.party.usecases.FetchNamesUseCase
+import application.party.usecases.ImportPartiesFromCsvUseCase
 import application.party.usecases.ReassignAndDeletePartyUseCase
 import application.party.usecases.UpdateNameUseCase
 import application.party.usecases.UpdatePartyUseCase
+import java.io.File
 
 class PartyHandler(
     private val partyRepository: IPartyRepository,
@@ -24,6 +27,8 @@ class PartyHandler(
     private val addNameUseCase: AddNameUseCase,
     private val updateNameUseCase: UpdateNameUseCase,
     private val fetchNamesUseCase: FetchNamesUseCase,
+    private val exportPartiesToCsvUseCase: ExportPartiesToCsvUseCase = ExportPartiesToCsvUseCase(),
+    private val importPartiesFromCsvUseCase: ImportPartiesFromCsvUseCase,
 ) {
 
     var errorMessage: String? by mutableStateOf(null); private set
@@ -63,4 +68,10 @@ class PartyHandler(
         errorMessage = response.first
         return response.second
     }
+
+    fun exportToCsv(parties: List<Party>, file: File) =
+        exportPartiesToCsvUseCase.execute(parties, file)
+
+    fun importFromCsv(file: File, type: PartyType): ImportPartiesFromCsvUseCase.Report =
+        importPartiesFromCsvUseCase.execute(file, type)
 }
