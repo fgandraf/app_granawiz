@@ -151,6 +151,10 @@
     <string name="delete_party_no_other_parties">This %1$s has linked transactions but there are no other %1$s registered to transfer them to.</string>
     <string name="delete_party_reassign_label">Transfer transactions to:</string>
     <string name="delete_party_reassign_button">Move and delete</string>
+    <string name="party_export_dialog_title">Export parties to CSV</string>
+    <string name="party_import_dialog_title">Import parties from CSV</string>
+    <string name="party_import_result_title">Import completed</string>
+    <string name="party_import_result_message">%1$d imported, %2$d skipped (already existed), %3$d errors</string>
 
     <!-- ─── Schedules ─────────────────────────────────────────────────────── -->
     <string name="schedules_empty">No schedules found.</string>
