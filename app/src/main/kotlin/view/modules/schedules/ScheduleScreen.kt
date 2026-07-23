@@ -30,16 +30,20 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import view.modules.schedules.component.DropDownAddSchedule
+import view.modules.schedules.component.ScheduleCard
 import view.modules.schedules.component.ScheduleGroupHeader
-import view.modules.schedules.component.ScheduleRow
 import view.modules.transactionForm.TransactionForm
 import view.shared.*
+import view.theme.RedWarning
+import view.theme.YellowWarning
 import viewModel.ScheduleViewModel
 import java.awt.FileDialog
 import java.awt.Frame
 import java.io.File
+import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.LocalTime
+import java.time.temporal.TemporalAdjusters
 
 
 @Composable
@@ -57,7 +61,7 @@ fun ScheduleScreen(
     )
 
     var selectedSchedule by remember { mutableStateOf<Schedule?>(null) }
-    var selectedOccurrenceIndex by remember { mutableStateOf(0) }
+    var selectedOccurrenceIndex by remember { mutableStateOf<Int?>(null) }
     var showForm by remember { mutableStateOf(false) }
     var addresses by remember { mutableStateOf(initialAddress) }
     var backIcon by remember { mutableStateOf(false) }
@@ -108,6 +112,18 @@ fun ScheduleScreen(
                         name = strScheduleEditTitle
                     )
                 },
+                onEditSeries = { schedule ->
+                    selectedSchedule = schedule
+                    selectedOccurrenceIndex = null
+                    showForm = true
+                    newType = null
+                    backIcon = true
+                    addresses = initialAddress + PageAddress(
+                        iconVector = PhosphorIcons.Regular.Pencil,
+                        iconSize = DpSize(21.dp, 18.dp),
+                        name = strScheduleEditTitle
+                    )
+                },
                 onSidebarReload = onSidebarReload,
                 onAddGain = {
                     newType = TransactionType.GAIN
@@ -138,14 +154,14 @@ fun ScheduleScreen(
             TransactionForm(
                 allAccounts = groupsState.flatMap { it.accounts },
                 schedule = selectedSchedule,
-                occurrenceIndex = if (selectedSchedule != null) selectedOccurrenceIndex else null,
+                occurrenceIndex = selectedOccurrenceIndex,
                 transactionType = newType,
                 initialAccount = filters.account,
                 lockAccount = false,
                 onDismiss = { saved ->
                     showForm = false
                     selectedSchedule = null
-                    selectedOccurrenceIndex = 0
+                    selectedOccurrenceIndex = null
                     newType = null
                     backIcon = false
                     addresses = initialAddress
@@ -160,6 +176,7 @@ fun ScheduleScreen(
 private fun Body(
     viewModel: ScheduleViewModel,
     onScheduleEdit: (ScheduleOccurrence) -> Unit,
+    onEditSeries: (Schedule) -> Unit,
     onSidebarReload: () -> Unit,
     onAddGain: () -> Unit,
     onAddExpense: () -> Unit,
@@ -200,15 +217,19 @@ private fun Body(
         }
     }
 
-    val startOfToday = today.atStartOfDay()
-    val endOfToday = today.atTime(LocalTime.MAX)
     val endOfMonth = today.withDayOfMonth(today.lengthOfMonth()).atTime(LocalTime.MAX)
 
+    // Group the pending occurrences by series (one card per schedule), then bucket each
+    // series by the due date of its next pending installment.
+    val series = remember(filtered) {
+        filtered.groupBy { it.schedule.id }
+            .map { (_, occs) -> ScheduleSeries(occs.first().schedule, occs.sortedBy { it.dueDate }) }
+            .sortedBy { it.nextDue }
+    }
+
     val groups = listOf(
-        stringResource(Res.string.schedules_group_overdue) to filtered.filter { it.dueDate.isBefore(startOfToday) },
-        stringResource(Res.string.schedules_group_due_today) to filtered.filter { !it.dueDate.isBefore(startOfToday) && !it.dueDate.isAfter(endOfToday) },
-        stringResource(Res.string.schedules_group_due_this_month) to filtered.filter { it.dueDate.isAfter(endOfToday) && !it.dueDate.isAfter(endOfMonth) },
-        stringResource(Res.string.schedules_group_upcoming) to filtered.filter { it.dueDate.isAfter(endOfMonth) },
+        stringResource(Res.string.schedules_group_due_this_month) to series.filter { !it.nextDue.isAfter(endOfMonth) },
+        stringResource(Res.string.schedules_group_upcoming) to series.filter { it.nextDue.isAfter(endOfMonth) },
     ).filter { it.second.isNotEmpty() }
 
     Row(modifier = Modifier.fillMaxSize()) {
@@ -228,12 +249,13 @@ private fun Body(
                                     items = items,
                                     today = today,
                                     onScheduleEdit = onScheduleEdit,
+                                    onEditSeries = onEditSeries,
                                     onMarkAsPaid = { occ ->
                                         viewModel.markAsPaid(occ)
                                         onSidebarReload()
                                     },
-                                    onDeleteThisOccurrence = { occ -> viewModel.deleteThisOccurrence(occ) },
-                                    onDeleteThisAndFuture = { occ -> viewModel.deleteThisAndFuture(occ) },
+                                    onDeleteOccurrence = { occ -> viewModel.deleteThisOccurrence(occ) },
+                                    onDeleteSeries = { schedule -> viewModel.deleteSeries(schedule) },
                                 )
                             }
                         }
@@ -289,44 +311,56 @@ private fun Body(
     }
 }
 
+private data class ScheduleSeries(
+    val schedule: Schedule,
+    val occurrences: List<ScheduleOccurrence>,
+) {
+    val nextDue get() = occurrences.first().dueDate
+}
+
 @Composable
 private fun GroupSection(
     title: String,
-    items: List<ScheduleOccurrence>,
+    items: List<ScheduleSeries>,
     today: LocalDate,
     onScheduleEdit: (ScheduleOccurrence) -> Unit,
+    onEditSeries: (Schedule) -> Unit,
     onMarkAsPaid: (ScheduleOccurrence) -> Unit,
-    onDeleteThisOccurrence: (ScheduleOccurrence) -> Unit,
-    onDeleteThisAndFuture: (ScheduleOccurrence) -> Unit,
+    onDeleteOccurrence: (ScheduleOccurrence) -> Unit,
+    onDeleteSeries: (Schedule) -> Unit,
 ) {
+    val startOfToday = today.atStartOfDay()
+    // End of the current week — Sunday is the first day, so the week runs through Saturday
+    val endOfWeek = today.with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY)).plusDays(1).atStartOfDay()
+
     ScheduleGroupHeader(modifier = Modifier.zIndex(1f), title = title)
-    Column(
+    @OptIn(ExperimentalLayoutApi::class)
+    FlowRow(
         modifier = Modifier
-            .padding(start = 80.dp, end = 30.dp)
-            .zIndex(2f)
-            .clip(RoundedCornerShape(topEnd = 0.dp, bottomStart = 0.dp))
-            .background(
-                MaterialTheme.colors.background.copy(0.6f),
-                RoundedCornerShape(topEnd = 0.dp, bottomStart = 0.dp)
-            )
-            .border(
-                0.5.dp,
-                MaterialTheme.colors.onSurface,
-                RoundedCornerShape(topEnd = 0.dp, bottomStart = 0.dp)
-            )
+            .padding(start = 100.dp, end = 50.dp, top = 12.dp, bottom = 8.dp)
+            .zIndex(2f),
+        horizontalArrangement = Arrangement.spacedBy(20.dp),
+        verticalArrangement = Arrangement.spacedBy(20.dp),
     ) {
-        Spacer(Modifier.height(20.dp))
-        items.forEach { occ ->
-            ScheduleRow(
-                occurrence = occ,
-                overdue = occ.dueDate.isBefore(today.atStartOfDay()),
-                onEdit = { onScheduleEdit(occ) },
-                onMarkAsPaid = { onMarkAsPaid(occ) },
-                onDeleteThisOccurrence = { onDeleteThisOccurrence(occ) },
-                onDeleteThisAndFuture = { onDeleteThisAndFuture(occ) },
+        items.forEach { s ->
+            val overdue = s.nextDue.isBefore(startOfToday)
+            val highlightColor = when {
+                overdue -> RedWarning
+                s.nextDue.isBefore(endOfWeek) -> YellowWarning
+                else -> null
+            }
+            ScheduleCard(
+                modifier = Modifier.width(340.dp),
+                schedule = s.schedule,
+                occurrences = s.occurrences,
+                highlightColor = highlightColor,
+                onEdit = onScheduleEdit,
+                onEditSeries = onEditSeries,
+                onMarkAsPaid = onMarkAsPaid,
+                onDeleteOccurrence = onDeleteOccurrence,
+                onDeleteSeries = onDeleteSeries,
             )
         }
-        Spacer(Modifier.height(20.dp))
     }
-    Spacer(Modifier.height(30.dp))
+    Spacer(Modifier.height(50.dp))
 }

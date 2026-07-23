@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import view.theme.Afacade
@@ -23,13 +24,14 @@ fun TextNormal(
     lineHeight: TextUnit? = 12.sp,
     fontStyle: FontStyle? = FontStyle.Normal,
     fontSize: TextUnit = 12.sp,
+    fontWeight: FontWeight = FontWeight.Normal,
 ) {
     Text(
         modifier = modifier,
         text = text,
         fontSize = fontSize,
         color = color!!,
-        fontWeight = FontWeight.Normal,
+        fontWeight = fontWeight,
         lineHeight = lineHeight!!,
         fontFamily = DefaultFont,
         textAlign = align,
@@ -125,6 +127,8 @@ fun TextH3(
     color: Color? = MaterialTheme.colors.primary,
     align: TextAlign = TextAlign.Start,
     fontWeight: FontWeight? = FontWeight.Medium,
+    maxLines: Int = Int.MAX_VALUE,
+    overflow: TextOverflow = TextOverflow.Clip,
 ) {
     Text(
         modifier = modifier,
@@ -134,7 +138,9 @@ fun TextH3(
         fontWeight = fontWeight,
         lineHeight = 14.sp,
         fontFamily = Afacade,
-        textAlign = align
+        textAlign = align,
+        maxLines = maxLines,
+        overflow = overflow,
     )
 }
 

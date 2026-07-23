@@ -170,6 +170,12 @@
     <string name="schedule_delete_title">How do you want to delete this schedule?</string>
     <string name="schedule_delete_only_this">Delete only this</string>
     <string name="schedule_delete_this_and_future">Delete this and all future ones</string>
+    <string name="schedule_installments_count">%1$d of %2$d installments</string>
+    <string name="schedule_recurring">Recurring</string>
+    <string name="schedule_pending_installments">Pending installments</string>
+    <string name="schedule_delete_series">Delete series</string>
+    <string name="schedule_delete_series_warning">This will delete the entire series and all its pending installments.\n\nAre you sure?</string>
+    <string name="schedule_delete_installment_warning">This will remove only this installment from the series.\n\nAre you sure?</string>
 
     <!-- ─── Import statement wizard ──────────────────────────────────────── -->
     <string name="import_title">Import statement</string>

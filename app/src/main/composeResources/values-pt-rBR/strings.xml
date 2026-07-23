@@ -170,6 +170,12 @@
     <string name="schedule_delete_title">Como deseja excluir este agendamento?</string>
     <string name="schedule_delete_only_this">Excluir somente este</string>
     <string name="schedule_delete_this_and_future">Excluir este e todos os futuros</string>
+    <string name="schedule_installments_count">%1$d de %2$d parcelas</string>
+    <string name="schedule_recurring">Recorrente</string>
+    <string name="schedule_pending_installments">Parcelas pendentes</string>
+    <string name="schedule_delete_series">Excluir série</string>
+    <string name="schedule_delete_series_warning">Isso excluirá toda a série e todas as suas parcelas pendentes.\n\nTem certeza?</string>
+    <string name="schedule_delete_installment_warning">Isso removerá apenas esta parcela da série.\n\nTem certeza?</string>
 
     <!-- ─── Import statement wizard ──────────────────────────────────────── -->
     <string name="import_title">Importar extrato</string>

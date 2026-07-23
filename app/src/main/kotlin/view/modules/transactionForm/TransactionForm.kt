@@ -173,6 +173,7 @@ fun TransactionForm(
                         tags = tags,
                         isTransactionEdit = isTransactionEdit,
                         schedule = schedule,
+                        occurrenceIndex = occurrenceIndex,
                         onToggleSide = { type ->
                             if (showSide && sideType == type) showSide = false
                             else if (showSide) sideType = type
@@ -306,6 +307,7 @@ private fun FormFields(
     tags: List<Tag>,
     isTransactionEdit: Boolean,
     schedule: Schedule?,
+    occurrenceIndex: Int?,
     onToggleSide: (String) -> Unit,
     isTransfer: Boolean = false,
 ) {
@@ -392,7 +394,7 @@ private fun FormFields(
                 onClickEdit = { onToggleSide("recurr") }
             )
 
-            if (schedule != null && schedule.installments != null) {
+            if (schedule != null && schedule.installments != null && occurrenceIndex != null) {
                 Spacer(Modifier.height(20.dp))
                 Divider(color = MaterialTheme.colors.onSurface)
                 Spacer(Modifier.height(20.dp))

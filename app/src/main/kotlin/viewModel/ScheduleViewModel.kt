@@ -94,6 +94,13 @@ class ScheduleViewModel(
         }.onFailure { AppEvents.emit(UiEvent.Error(it.localizedMessage ?: "Erro desconhecido")) }
     }
 
+    fun deleteSeries(schedule: Schedule) {
+        runCatching {
+            scheduleHandler.deleteSeries(schedule)
+            getSchedules()
+        }.onFailure { AppEvents.emit(UiEvent.Error(it.localizedMessage ?: "Erro desconhecido")) }
+    }
+
     fun markAsPaid(occurrence: ScheduleOccurrence) {
         runCatching {
             scheduleHandler.markAsPaid(occurrence.schedule, occurrence.dueDate, occurrence.index)
